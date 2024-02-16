@@ -10,6 +10,7 @@ import SubCommentUpload from "../subCommentUpload";
 import ColorThief from "colorthief";
 import CommentUpload from "../commentUpload";
 import { useEffect } from "react";
+import { comment } from "postcss";
 
 function Generalform({ admin, username }) {
   const [loading, setLoading] = useState(true);
@@ -24,8 +25,8 @@ function Generalform({ admin, username }) {
   const [msg, setMsg] = useState(null);
   const [title, setTitle] = useState("");
   const [likes, setLikes] = useState([]);
+  const [subComments, setSubComments] = useState([]);
   const [content, setContent] = useState("");
-  const [comment, setComment] = useState("");
   const [files, setFiles] = useState([]);
   const [likestatuses, setLikestatuses] = useState([]);
   const [postAnonymous, setPostAnonymous] = useState(false);
@@ -37,14 +38,8 @@ function Generalform({ admin, username }) {
   const [commentOpen, setCommentOpen] = useState([].map(() => false));
   const [titleWords, setTitleWords] = useState(0);
   const [contentWords, setContentWords] = useState(0);
-  const [commentWords, setCommentWords] = useState(0);
-  const [commentFiles, setCommentFiles] = useState([]);
-  const [anonymous, setAnonymous] = useState(false);
-  const [commentUploadLoad, setCommentUploadLoad] = useState(false);
-  const [commentDisplay, setCommentDisplay] = useState(false);
-  const [temp, setTemp] = useState(false);
   const [comments, setComments] = useState([]);
-  const [commentNumber, setCommentNumber] = useState([]);
+  // const [commentNumber, setCommentNumber] = useState([]);
   // The commentDisplay function is for showing the comment post button and the picturen upload button. If the content is focused, or in other words, the user is writing or editing the comment, it shows, else, we need to make space for showing other comments.
   const [addCommentDisplay, setAddCommentDisplay] = useState([]);
   let newArray;
@@ -91,9 +86,11 @@ function Generalform({ admin, username }) {
         },
       });
       const newArray = [...comments];
+      const temp = [...subComments];
       newArray[index] = response.data.comments;
+      temp[index] = response.data.subComments;
       setComments(newArray);
-      console.log(newArray);
+      setSubComments(temp);
     } catch (error) {
       console.log(error);
     }
@@ -119,7 +116,6 @@ function Generalform({ admin, username }) {
     const image = new Image();
     image.crossOrigin = "Anonymous";
     image.src = `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${img.filename}`;
-    console.log(image.src);
 
     image.onload = async function () {
       const colors = await colorThief.getPalette(image, 2);
@@ -201,7 +197,6 @@ function Generalform({ admin, username }) {
       alert("Title cannot be more than 20 words");
       return;
     } else if (content.split(" ").filter((word) => word).length > 1000) {
-      console.log(content.split(" ").length);
       alert("Content cannot be more than 1000 words");
       return;
     }
@@ -403,9 +398,6 @@ function Generalform({ admin, username }) {
     const ind = addCommentDisplay.includes(commentId);
     if (ind) {
       setAddCommentDisplay(addCommentDisplay.filter((id) => id !== commentId));
-      setComment("");
-      setCommentFiles([]);
-      setAnonymous(false);
     } else {
       setAddCommentDisplay([...addCommentDisplay, commentId]);
     }
@@ -415,6 +407,45 @@ function Generalform({ admin, username }) {
     getPosts();
     fetchLikes();
   }, []);
+
+  const loadImage = (src, maxTries = 3) => {
+    return new Promise((resolve, reject) => {
+      let tries = 0;
+      const img = new Image();
+
+      img.onload = resolve;
+      img.onerror = () => {
+        tries++;
+        if (tries < maxTries) {
+          img.src = src;
+        } else {
+          reject(new Error(`Failed to load image after ${maxTries} attempts`));
+        }
+      };
+
+      img.src = src;
+    });
+  };
+
+  useEffect(() => {
+    const loadImages = async () => {
+      try {
+        await Promise.all(
+          posts.map((post) =>
+            post.pictureUrl.map((image) =>
+              loadImage(
+                `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`,
+              ),
+            ),
+          ),
+        );
+      } catch (error) {
+        console.log("One or more images failed to load", error);
+      }
+    };
+
+    loadImages();
+  }, [posts]);
 
   return (
     <>
@@ -837,177 +868,185 @@ function Generalform({ admin, username }) {
                             }}
                           />
                           {comments[postIndex].map((com, index) => (
-                            <div key={com._id} style={{ padding: "8px" }}>
-                              <h2 style={{ fontWeight: "700" }}>
-                                {com.username}
-                              </h2>
-                              <h2 style={{}}>{com.content}</h2>
-                              <div style={{ display: "flex" }}>
-                                <h2 style={{}}>{com.postingtime}</h2>
-                                <button
-                                  onClick={() => handleSubComment(com._id)}
-                                  style={{
-                                    display: "flex",
-                                    left: "17vw",
-                                    position: "relative",
-                                  }}
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 32 32"
-                                    width={30}
-                                    height={30}
-                                  >
-                                    <path
-                                      fill="#374151"
-                                      strokeWidth={0.5}
-                                      d="M25.784 21.017A10.992 10.992 0 0 0 27 16c0-6.065-4.935-11-11-11S5 9.935 5 16s4.935 11 11 11c1.742 0 3.468-.419 5.018-1.215l4.74 1.185a.996.996 0 0 0 .949-.263 1 1 0 0 0 .263-.95l-1.186-4.74zm-2.033.11.874 3.498-3.498-.875a1.006 1.006 0 0 0-.731.098A8.99 8.99 0 0 1 16 25c-4.963 0-9-4.038-9-9s4.037-9 9-9 9 4.038 9 9a8.997 8.997 0 0 1-1.151 4.395.995.995 0 0 0-.098.732z"
-                                    ></path>
-                                  </svg>
-                                  <p
+                            <>
+                              <div key={com._id} style={{ padding: "8px" }}>
+                                <h2 style={{ fontWeight: "700" }}>
+                                  {com.username}
+                                </h2>
+                                <h2 style={{}}>{com.content}</h2>
+                                <div style={{ display: "flex" }}>
+                                  <h2 style={{}}>{com.postingtime}</h2>
+                                  <button
+                                    onClick={() => handleSubComment(com._id)}
                                     style={{
+                                      display: "flex",
+                                      left: "17vw",
                                       position: "relative",
-                                      marginTop: "0.5vh",
                                     }}
                                   >
-                                    Reply
-                                  </p>
-                                </button>
-                                <div
-                                  style={{
-                                    position: "relative",
-                                    left: "18vw",
-                                    top: "0.3vh",
-                                  }}
-                                  className="likeContainer"
-                                >
-                                  {likes.map((like, likeIndex) => (
-                                    <>
-                                      {like.postId === com._id &&
-                                        !(
-                                          likeloads ||
-                                          com._id === commentLikeLoad
-                                        ) && (
-                                          <section
-                                            style={{ display: "flex" }}
-                                            key={like.postId}
-                                          >
-                                            <form
-                                              onSubmit={(e) =>
-                                                sendCommentLike(
-                                                  "comment",
-                                                  com._id,
-                                                  e,
-                                                )
-                                              }
-                                              disabled={
-                                                likeloads ||
-                                                com._id === commentLikeLoad
-                                              }
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 32 32"
+                                      width={30}
+                                      height={30}
+                                    >
+                                      <path
+                                        fill="#374151"
+                                        strokeWidth={0.5}
+                                        d="M25.784 21.017A10.992 10.992 0 0 0 27 16c0-6.065-4.935-11-11-11S5 9.935 5 16s4.935 11 11 11c1.742 0 3.468-.419 5.018-1.215l4.74 1.185a.996.996 0 0 0 .949-.263 1 1 0 0 0 .263-.95l-1.186-4.74zm-2.033.11.874 3.498-3.498-.875a1.006 1.006 0 0 0-.731.098A8.99 8.99 0 0 1 16 25c-4.963 0-9-4.038-9-9s4.037-9 9-9 9 4.038 9 9a8.997 8.997 0 0 1-1.151 4.395.995.995 0 0 0-.098.732z"
+                                      ></path>
+                                    </svg>
+                                    <p
+                                      style={{
+                                        position: "relative",
+                                        marginTop: "0.5vh",
+                                      }}
+                                    >
+                                      Reply
+                                    </p>
+                                  </button>
+                                  <div
+                                    style={{
+                                      position: "relative",
+                                      left: "18vw",
+                                      top: "0.3vh",
+                                    }}
+                                    className="likeContainer"
+                                  >
+                                    {likes.map((like, likeIndex) => (
+                                      <>
+                                        {like.postId === com._id &&
+                                          !(
+                                            likeloads ||
+                                            com._id === commentLikeLoad
+                                          ) && (
+                                            <section
+                                              style={{ display: "flex" }}
+                                              key={like.postId}
                                             >
-                                              <input
-                                                type="hidden"
-                                                name="id"
-                                                id="id"
-                                                value={com._id}
-                                              />
-                                              <button
-                                                className="likeBtn"
-                                                type="submit"
-                                                id={`like${com._id}`}
+                                              <form
+                                                onSubmit={(e) =>
+                                                  sendCommentLike(
+                                                    "comment",
+                                                    com._id,
+                                                    e,
+                                                  )
+                                                }
+                                                disabled={
+                                                  likeloads ||
+                                                  com._id === commentLikeLoad
+                                                }
                                               >
-                                                {(() => {
-                                                  const likestatus =
-                                                    likestatuses.find(
-                                                      (likestatus) =>
-                                                        likestatus.postId ===
-                                                          com._id &&
-                                                        likestatus.username ===
-                                                          username,
+                                                <input
+                                                  type="hidden"
+                                                  name="id"
+                                                  id="id"
+                                                  value={com._id}
+                                                />
+                                                <button
+                                                  className="likeBtn"
+                                                  type="submit"
+                                                  id={`like${com._id}`}
+                                                >
+                                                  {(() => {
+                                                    const likestatus =
+                                                      likestatuses.find(
+                                                        (likestatus) =>
+                                                          likestatus.postId ===
+                                                            com._id &&
+                                                          likestatus.username ===
+                                                            username,
+                                                      );
+                                                    return likestatus &&
+                                                      likestatus.status ? (
+                                                      <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="red"
+                                                        width={30}
+                                                        height={30}
+                                                        className="heart"
+                                                        viewBox="0 0 512 512"
+                                                      >
+                                                        <path d="M256 448a32 32 0 01-18-5.57c-78.59-53.35-112.62-89.93-131.39-112.8-40-48.75-59.15-98.8-58.61-153C48.63 114.52 98.46 64 159.08 64c44.08 0 74.61 24.83 92.39 45.51a6 6 0 009.06 0C278.31 88.81 308.84 64 352.92 64c60.62 0 110.45 50.52 111.08 112.64.54 54.21-18.63 104.26-58.61 153-18.77 22.87-52.8 59.45-131.39 112.8a32 32 0 01-18 5.56z" />
+                                                      </svg>
+                                                    ) : (
+                                                      <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width={30}
+                                                        className="heart"
+                                                        height={30}
+                                                        viewBox="0 0 512 512"
+                                                      >
+                                                        <path
+                                                          d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z"
+                                                          fill="none"
+                                                          stroke="black"
+                                                          strokeLinecap="round"
+                                                          strokeLinejoin="round"
+                                                          strokeWidth={20}
+                                                        />
+                                                      </svg>
                                                     );
-                                                  return likestatus &&
-                                                    likestatus.status ? (
-                                                    <svg
-                                                      xmlns="http://www.w3.org/2000/svg"
-                                                      fill="red"
-                                                      width={30}
-                                                      height={30}
-                                                      className="heart"
-                                                      viewBox="0 0 512 512"
-                                                    >
-                                                      <path d="M256 448a32 32 0 01-18-5.57c-78.59-53.35-112.62-89.93-131.39-112.8-40-48.75-59.15-98.8-58.61-153C48.63 114.52 98.46 64 159.08 64c44.08 0 74.61 24.83 92.39 45.51a6 6 0 009.06 0C278.31 88.81 308.84 64 352.92 64c60.62 0 110.45 50.52 111.08 112.64.54 54.21-18.63 104.26-58.61 153-18.77 22.87-52.8 59.45-131.39 112.8a32 32 0 01-18 5.56z" />
-                                                    </svg>
-                                                  ) : (
-                                                    <svg
-                                                      xmlns="http://www.w3.org/2000/svg"
-                                                      width={30}
-                                                      className="heart"
-                                                      height={30}
-                                                      viewBox="0 0 512 512"
-                                                    >
-                                                      <path
-                                                        d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z"
-                                                        fill="none"
-                                                        stroke="black"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={20}
-                                                      />
-                                                    </svg>
-                                                  );
-                                                })()}
-                                              </button>
-                                            </form>
-                                            <p
-                                              style={{
-                                                fontSize: "1.5rem",
-                                                bottom: "0.4vh",
-                                                position: "relative",
-                                              }}
-                                            >
-                                              {like.number}
-                                            </p>
-                                          </section>
-                                        )}
+                                                  })()}
+                                                </button>
+                                              </form>
+                                              <p
+                                                style={{
+                                                  fontSize: "1.5rem",
+                                                  bottom: "0.4vh",
+                                                  position: "relative",
+                                                }}
+                                              >
+                                                {like.number}
+                                              </p>
+                                            </section>
+                                          )}
 
-                                      {like.postId === com._id &&
-                                        (likeloads ||
-                                          com._id === commentLikeLoad) && (
-                                          <div
-                                            className="likeLoad"
-                                            key={com._id}
-                                          >
-                                            <svg
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              fill="red"
-                                              width={30}
-                                              height={30}
-                                              className="loadHeart"
-                                              viewBox="0 0 512 512"
+                                        {like.postId === com._id &&
+                                          (likeloads ||
+                                            com._id === commentLikeLoad) && (
+                                            <div
+                                              className="likeLoad"
+                                              key={com._id}
                                             >
-                                              <path d="M256 448a32 32 0 01-18-5.57c-78.59-53.35-112.62-89.93-131.39-112.8-40-48.75-59.15-98.8-58.61-153C48.63 114.52 98.46 64 159.08 64c44.08 0 74.61 24.83 92.39 45.51a6 6 0 009.06 0C278.31 88.81 308.84 64 352.92 64c60.62 0 110.45 50.52 111.08 112.64.54 54.21-18.63 104.26-58.61 153-18.77 22.87-52.8 59.45-131.39 112.8a32 32 0 01-18 5.56z" />
-                                            </svg>
-                                          </div>
-                                        )}
-                                    </>
-                                  ))}
+                                              <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="red"
+                                                width={30}
+                                                height={30}
+                                                className="loadHeart"
+                                                viewBox="0 0 512 512"
+                                              >
+                                                <path d="M256 448a32 32 0 01-18-5.57c-78.59-53.35-112.62-89.93-131.39-112.8-40-48.75-59.15-98.8-58.61-153C48.63 114.52 98.46 64 159.08 64c44.08 0 74.61 24.83 92.39 45.51a6 6 0 009.06 0C278.31 88.81 308.84 64 352.92 64c60.62 0 110.45 50.52 111.08 112.64.54 54.21-18.63 104.26-58.61 153-18.77 22.87-52.8 59.45-131.39 112.8a32 32 0 01-18 5.56z" />
+                                              </svg>
+                                            </div>
+                                          )}
+                                      </>
+                                    ))}
+                                  </div>
                                 </div>
+                                {addCommentDisplay.includes(com._id) && (
+                                  <SubCommentUpload
+                                    fetchLikes={fetchLikes}
+                                    postIndex={postIndex}
+                                    postId={post._id}
+                                    username={username}
+                                    commentId={com._id}
+                                    commentOpen={addCommentDisplay.includes(
+                                      com._id,
+                                    )}
+                                    getComments={getComments}
+                                  />
+                                )}
                               </div>
-                              {addCommentDisplay.includes(com._id) && (
-                                <SubCommentUpload
-                                  fetchLikes={fetchLikes}
-                                  postIndex={postIndex}
-                                  postId={post._id}
-                                  username={username}
-                                  commentId={com._id}
-                                  commentOpen={addCommentDisplay.includes(
-                                    com._id,
-                                  )}
-                                  getComments={getComments}
-                                />
-                              )}
-                            </div>
-                          ))}
+                              {console.log(comments)}
+                                  {subComments[postIndex] && subComments[postIndex].filter(subComment => subComment.postId === com._id).map((subComment, index) => (
+                                    <div key={subComment._id} style={{ padding: "8px" }}>
+                                      hi
+                                    </div>
+                                  ))}
+                                </>
+                              ))}
                         </div>
                       )}
                     </>
