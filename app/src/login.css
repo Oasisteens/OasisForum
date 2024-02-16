@@ -1,0 +1,241 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+  margin: 0;
+  padding: 0;
+}
+body.loginbd {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+
+  background: linear-gradient(45deg, purple, #ff416c, #ff4b2b);
+  background-size: 400% 400%;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(150px);
+  backdrop-filter: blur(300px);
+  animation: gradient 10s ease infinite;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.form-box {
+  position: relative;
+  width: 28rem;
+  height: 32rem;
+  background-color: rgba(190, 190, 190, 0.29);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+h2.LogTitle {
+  font-size: 2em;
+  color: #fff;
+  text-align: center;
+}
+.inputbox {
+  position: relative;
+  margin: 30px 0;
+  width: 310px;
+  border-bottom: 2px solid #fff;
+}
+.inputbox label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 1em;
+  pointer-events: none;
+  transition: 0.5s;
+}
+input:focus ~ label,
+input:valid ~ label {
+  top: -5px;
+}
+.inputbox input {
+  width: 100%;
+  height: 50px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  padding: 0 35px 0 5px;
+  color: #fff;
+}
+.inputbox ion-icon {
+  position: absolute;
+  right: 8px;
+  color: #fff;
+  font-size: 1.2em;
+  top: 20px;
+}
+.forget {
+  margin: -15px 0 15px;
+  font-size: 0.9em;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.forget label input {
+  margin-right: 3px;
+}
+.forget label a {
+  color: #fff;
+  text-decoration: none;
+}
+.forget label a:hover {
+  text-decoration: underline;
+}
+.reg1 {
+  width: 100%;
+  height: 40px;
+  border-radius: 40px;
+  background: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login {
+  font-size: 0.9em;
+  color: #fff;
+  text-align: center;
+  margin: 25px 0 10px;
+}
+.register p a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+}
+.register p a:hover {
+  text-decoration: underline;
+}
+.logerror {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 2px solid transparent;
+  padding: 0.5rem;
+  background-color: #af325c;
+  border-radius: 10px;
+}
+
+.regww:hover {
+  text-decoration: underline;
+}
+
+@keyframes animateT {
+  0% {
+    transform: rotate(0deg) scale(0.01);
+    border-bottom-color: white;
+  }
+  100% {
+    transform: rotate(960deg) scale(1);
+    border-bottom-color: rgba(155, 155, 155, 0.032);
+  }
+}
+@keyframes animate {
+  0% {
+    transform: rotate(0deg) scale(1);
+    background-color: white;
+  }
+  100% {
+    transform: rotate(960deg) scale(35);
+    background-color: rgba(155, 155, 155, 0.032);
+  }
+}
+@keyframes animate1 {
+  0% {
+    transform: rotate(0deg) scale(1);
+    background-color: white;
+  }
+  100% {
+    transform: rotate(700deg) scale(25);
+    background-color: rgba(154, 154, 154, 0.032);
+  }
+}
+
+div.box1 {
+  z-index: 999;
+  height: 5px;
+  top: 20vh;
+  left: 10vw;
+  width: 5px;
+  aspect-ratio: 1/1;
+  position: fixed;
+  animation: animate 6s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+div.box2 {
+  z-index: 999;
+  height: 5px;
+  bottom: 10vh;
+  left: 20vw;
+  width: 5px;
+  aspect-ratio: 1/1;
+  position: fixed;
+  animation: animate1 6s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+div.box3 {
+  z-index: 999;
+  height: 5px;
+  top: 15vh;
+  right: 15vw;
+  width: 5px;
+  aspect-ratio: 1/1;
+  position: fixed;
+  animation: animate1 6s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+div.box4 {
+  z-index: 999;
+  height: 5px;
+  bottom: 20vh;
+  right: 20vw;
+  width: 5px;
+  aspect-ratio: 1/1;
+  position: fixed;
+  animation: animate 6s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+div.box5 {
+  width: 0;
+  top: 40vh;
+  left: 20vw;
+  position: fixed;
+  z-index: 999;
+  height: 0;
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
+  border-bottom: 100px solid white;
+  animation: animateT 6s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+div.box6 {
+  width: 0;
+  top: 40vh;
+  right: 20vw;
+  position: fixed;
+  z-index: 999;
+  height: 0;
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
+  border-bottom: 100px solid white;
+  animation: animateT 6s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}

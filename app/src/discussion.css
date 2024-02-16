@@ -1,0 +1,58 @@
+:root {
+  --blue-color: #2594f3;
+  --purple-color: #ed2de2;
+  --width: 100vw;
+}
+
+top.discussionTopBar {
+  text-align: center;
+  background-color: var(--blue-color);
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  top: 0;
+  left: 0;
+  text-align: center;
+  height: 8vh;
+  width: var(--width);
+}
+
+h1.discussion {
+  top: 1.7vh;
+  left: 50%;
+  color: white;
+  transform: translateX(-50%);
+  font-size: 1.4rem;
+  position: absolute;
+  font-weight: 550;
+}
+
+button.menuBtn {
+  top: 1.5vh;
+  color: white;
+  left: 4vw;
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+button.menuBtn:hover {
+  color: rgb(183, 183, 183);
+}
+
+.toIntro {
+  position: relative;
+  display: flex;
+  top: 0.4vh;
+  left: 1vw;
+  color: white;
+  font-size: 1.2rem;
+}
+span.intro {
+  position: relative;
+  top: 1.7vh;
+}
+
+div.nav {
+  position: relative;
+  margin-top: 8vh;
+}

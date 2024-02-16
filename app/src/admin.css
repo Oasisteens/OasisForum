@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body,
+h1,
+p {
+  overflow-x: hidden;
+}
+#userTable {
+  border: black solid 1px;
+  border-collapse: collapse;
+}
+td {
+  border: black solid 1px;
+  text-align: center;
+}
+th {
+  border: black solid 1px;
+}
+
+#POSTtABLE {
+  border: black solid 1px;
+  border-collapse: collapse;
+}
+
+#topbar {
+  display: inline-block;
+  display: flex;
+}
+button.admin {
+  background-color: #506d4e;
+  color: white;
+  border: solid white;
+  padding: 6px;
+  position: relative;
+  top: 7px;
+  border-radius: 30px;
+}
+a {
+  text-decoration: none;
+  color: #506d4e;
+  font-size: 1.5em;
+  padding: 0.2em;
+  border: 2px solid #178185;
+  border-radius: 10px;
+  background-color: bisque;
+}
+li {
+  list-style: none;
+}

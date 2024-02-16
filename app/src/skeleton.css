@@ -1,0 +1,50 @@
+.skeleton {
+  background-color: rgb(199, 199, 199);
+  margin: 0.75rem 0;
+  border-radius: 0.25rem;
+}
+
+.skeleton.title {
+  height: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.skeleton.text {
+  height: 0.75rem;
+  margin-left: 1.25rem;
+}
+
+.skeleton.width-70 {
+  width: 70%;
+}
+.skeleton.width-user {
+  width: 30%;
+}
+.skeleton.width-pic {
+  width: 35%;
+  height: 11rem;
+}
+.skeleton.width-delete {
+  width: 16%;
+}
+
+.skeleton.width-40 {
+  width: 40%;
+}
+
+.skeleton.profile-circle {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+/* animation */
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
