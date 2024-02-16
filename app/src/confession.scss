@@ -1,0 +1,210 @@
+$particles: 60;
+$width: 500;
+$height: 400;
+
+// Create the explosion...
+$box-shadow: ();
+$box-shadow2: ();
+@for $i from 0 through $particles {
+  $box-shadow:
+    $box-shadow,
+    random($width)-$width /
+      2 +
+      px
+      random($height)-$height /
+      1.2 +
+      px
+      hsl(random(360), 100, 50);
+  $box-shadow2:
+    $box-shadow2,
+    0 0 #fff;
+}
+@mixin keyframes($animationName) {
+  @-webkit-keyframes #{$animationName} {
+    @content;
+  }
+
+  @-moz-keyframes #{$animationName} {
+    @content;
+  }
+
+  @-o-keyframes #{$animationName} {
+    @content;
+  }
+
+  @-ms-keyframes #{$animationName} {
+    @content;
+  }
+
+  @keyframes #{$animationName} {
+    @content;
+  }
+}
+
+@mixin animation-delay($settings) {
+  -moz-animation-delay: $settings;
+  -webkit-animation-delay: $settings;
+  -o-animation-delay: $settings;
+  -ms-animation-delay: $settings;
+  animation-delay: $settings;
+}
+
+@mixin animation-duration($settings) {
+  -moz-animation-duration: $settings;
+  -webkit-animation-duration: $settings;
+  -o-animation-duration: $settings;
+  -ms-animation-duration: $settings;
+  animation-duration: $settings;
+}
+
+@mixin animation($settings) {
+  -moz-animation: $settings;
+  -webkit-animation: $settings;
+  -o-animation: $settings;
+  -ms-animation: $settings;
+  animation: $settings;
+}
+
+@mixin transform($settings) {
+  transform: $settings;
+  -moz-transform: $settings;
+  -webkit-transform: $settings;
+  -o-transform: $settings;
+  -ms-transform: $settings;
+}
+
+body.loveBg {
+  margin: 0;
+  padding: 0;
+  color: white;
+  background: #003366;
+  overflow: hidden;
+}
+
+.pyro > .before,
+.pyro > .after {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  display: flex;
+  border-radius: 50%;
+  box-shadow: $box-shadow2;
+  @include animation(
+    (
+      1s bang ease-out 5 backwards,
+      1s gravity ease-in 5 backwards,
+      5s position linear 5 backwards
+    )
+  );
+  animation-iteration-count: 5; // Add this line
+}
+
+.pyro > .after {
+  @include animation-delay((2s, 2s, 2s));
+  @include animation-duration((3s, 3s, 15s));
+  animation-iteration-count: 5; // Add this line
+}
+
+@include keyframes(bang) {
+  to {
+    box-shadow: $box-shadow;
+  }
+}
+
+@include keyframes(gravity) {
+  to {
+    @include transform(translateY(200px));
+    opacity: 0;
+  }
+}
+
+@include keyframes(position) {
+  0%,
+  19.9% {
+    margin-top: 10%;
+    margin-left: 40%;
+  }
+  20%,
+  39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+  40%,
+  59.9% {
+    margin-top: 20%;
+    margin-left: 70%;
+  }
+  60%,
+  79.9% {
+    margin-top: 30%;
+    margin-left: 20%;
+  }
+  80%,
+  99.9% {
+    margin-top: 30%;
+    margin-left: 80%;
+  }
+}
+
+button.openFormBtn {
+  background-color: white;
+  font-weight: 500;
+  color: black;
+  border: 1px solid transparent;
+  border-radius: 30px;
+  padding: 0.3rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  top: 8vh;
+  right: 10vw;
+  position: absolute;
+}
+button.openFormBtn:hover {
+  background-color: #a4a4a4;
+}
+div.loveSentence {
+  font-style: italic;
+  color: rgb(255, 255, 255);
+  position: fixed;
+  font-size: 0.8rem;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+div.loveOne {
+  color: black;
+  position: relative;
+  background-color: white;
+  width: 15vw;
+  border: 1px solid transparent;
+  border-radius: 25px;
+  padding: 1rem;
+  margin: 1rem;
+}
+div.formContainer {
+  position: absolute;
+  background-color: white;
+  padding: 1rem;
+  width: 15vw;
+  border: 1px solid transparent;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  display: flex;
+  color: black;
+  left: 50vw;
+  top: 20vh;
+}
+div.loveBody {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+div.lvNickname {
+  text-align: right;
+}
+.IPT {
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 0.5rem;
+}

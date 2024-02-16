@@ -1,0 +1,213 @@
+:root {
+  --width: 100vw;
+}
+
+h1.h11 {
+  font-size: 2rem;
+  position: relative;
+  font-weight: 600;
+}
+body.dash,
+h1,
+p {
+  margin: 0;
+  padding: 0;
+}
+body.dash {
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  background-color: #f2f4f5;
+}
+li {
+  list-style: none;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+ul li {
+  display: inline-block;
+  margin-right: 10px;
+}
+p {
+  text-align: left;
+}
+
+.index {
+  display: flex;
+  align-items: center;
+}
+
+a.title {
+  font-size: 2rem;
+  position: relative;
+  left: 2rem;
+  top: 0.7rem;
+  font-weight: 600;
+  font-weight: 550;
+  text-decoration: none;
+}
+.profile {
+  position: relative;
+  left: 70rem;
+  bottom: 0;
+}
+section.secd {
+  position: relative;
+  overflow-y: scroll;
+  background-color: #f2f4f5;
+  overflow-x: hidden;
+  padding: 2rem;
+  color: #374151;
+  font-size: 1.2rem;
+  height: 100vh;
+  width: var(--width);
+}
+section.secd::-webkit-scrollbar {
+  width: 10px;
+  background-color: transparent;
+}
+
+/* This is the handle (or thumb) */
+section.secd::-webkit-scrollbar-thumb {
+  background-color: rgb(166, 166, 166);
+  border-radius: 10px;
+}
+
+/* This is the handle on hover */
+section.secd::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(56, 239, 208);
+}
+h1.dashh1 {
+  top: 1.7vh;
+  left: 50%;
+  color: white;
+  transform: translateX(-50%);
+  font-size: 1.4rem;
+  position: absolute;
+  font-weight: 550;
+}
+div.comments {
+  padding: 3rem;
+  text-align: left;
+}
+div.posts {
+  padding: 3rem;
+}
+div.likes {
+  padding: 3rem;
+}
+div.like {
+  padding: 3rem;
+}
+h2.dashh2 {
+  position: relative;
+  left: 4vw;
+}
+div.dashpost {
+  display: flex;
+}
+div.myPost {
+  border: #e5e7eb solid 1px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  color: #22a0ce;
+  padding: 0.5rem;
+  width: 10vw;
+}
+div.myPosts {
+  display: flex;
+  gap: 6.5vw;
+}
+.item-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.item-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    opacity 500ms,
+    transform 500ms;
+}
+
+.item-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.item-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition:
+    opacity 500ms,
+    transform 500ms;
+}
+div.postBtns {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  left: 1vw;
+}
+button.postBtns {
+  top: 2.5vw;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  left: 1vw;
+}
+p.dashp {
+  position: relative;
+  left: 4vw;
+}
+.postsvgs {
+  height: 40px !important;
+  width: 40px !important;
+}
+@media screen and (max-width: 1600px) {
+}
+top.dash {
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  top: 0;
+  left: 0;
+  text-align: center;
+  background-color: #133153;
+  height: 8vh;
+  width: var(--width);
+}
+button.menuBtn {
+  top: 1.5vh;
+  color: white;
+  left: 4vw;
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+button.menuBtn:hover {
+  color: rgb(183, 183, 183);
+}
+
+.toIntro {
+  position: relative;
+  display: flex;
+  top: 0.4vh;
+  left: 1vw;
+  color: white;
+  font-size: 1.2rem;
+}
+span.intro {
+  position: relative;
+  top: 1.7vh;
+}
+
+div.nav {
+  position: relative;
+  margin-top: auto;
+}

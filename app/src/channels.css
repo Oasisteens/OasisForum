@@ -1,0 +1,613 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --black-color: #374151;
+  --main-color: #1976d2;
+  --sub-color: #1a699e;
+  --sec-color: #2c9aff;
+  --1-color: #f2f4f5;
+  --2-color: #f2f4f5;
+  --3-color: #f2f4f5;
+  --border-color: #ebeced;
+}
+
+html {
+  width: 100%;
+}
+h1 {
+  font-size: 1rem;
+  position: relative;
+  left: 1rem;
+  color: aliceblue;
+}
+
+body {
+  margin: 0;
+
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: relative;
+  padding: 0;
+  background: linear-gradient(var(--1-color), var(--2-color), var(--3-color));
+  background-size: 100% 100%;
+  background-attachment: fixed;
+}
+
+a.titleg {
+  font-size: 1.3rem;
+  position: relative;
+  top: 0.3vh;
+  left: 2.5vw;
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+}
+
+#topBar {
+  padding: 1rem 0; /* Adjust the padding */
+  width: 100%;
+  height: 8vh;
+  background-color: var(--main-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+#inputBoxGeneral {
+  position: absolute;
+  top: 28vh;
+  left: 50vw;
+  width: 36vw;
+  background-color: white;
+  padding: 3rem;
+  border-radius: 20px;
+}
+
+.postsG {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  border: #e5e7eb solid 1px;
+  padding-left: 1.2rem;
+  padding: 1rem;
+  width: 40vw;
+  margin: 1rem;
+  margin-bottom: 3vh;
+  border-radius: 26px;
+  background-color: white;
+  color: var(--black-color);
+  opacity: 1;
+  position: relative;
+  left: 1.7rem;
+}
+
+#spacing {
+  height: 10vh;
+}
+
+.adp {
+  display: flex;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  border: #e5e7eb solid 1px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: none;
+  left: 50vw;
+  top: 8vh;
+  border-radius: 12px;
+  padding: 0.7rem;
+  color: var(--black-color);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+#GaddPostBtn:hover {
+  background-color: #ccc;
+}
+
+.postLikes {
+  color: var(--black-color);
+  font-weight: 500;
+  font-size: 28px;
+  position: relative;
+  left: 600px;
+  bottom: 152px;
+}
+.heart {
+  color: red;
+}
+#backButton {
+  color: var(--black-color);
+  position: relative;
+  font-size: 20px;
+  top: 4vh;
+  left: 40px;
+  border: 2px solid transparent;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition:
+    border-color 0.3s,
+    background-color 0.3s,
+    color 0.3s;
+}
+#backButton:hover {
+  background-color: #79bcf246;
+  border-color: var(--main-color);
+  color: black;
+}
+
+#backButton:active {
+  animation: click-effect 0.3s ease-in-out;
+}
+
+button.refreshBtn {
+  color: var(--black-color);
+  position: relative;
+  font-size: 20px;
+  top: 4vh;
+  left: 25vw;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 5px 10px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  transition:
+    border-color 0.3s,
+    background-color 0.3s,
+    color 0.3s;
+}
+button.refreshBtn:hover {
+  background-color: #79bcf246;
+  border-color: var(--main-color);
+  color: black;
+}
+
+button.refreshBtn:active {
+  animation: click-effect 0.3s ease-in-out;
+}
+
+@keyframes click-effect {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.heart-button {
+  display: inline-block;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  position: relative;
+  font-size: 40px;
+  left: 550px;
+  bottom: 70px;
+  color: red;
+}
+
+.heart-button ion-icon {
+  color: red;
+  font-size: 40px;
+}
+#inputBox {
+  width: 28vw;
+  padding: 3rem;
+  height: 62vh;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  border: #e5e7eb solid 1px;
+  border-radius: 5px;
+  background-color: white;
+  position: absolute;
+}
+#closeForm:hover {
+  fill: var(--sub-color);
+  transition: 0.3s;
+}
+
+#postForm {
+  margin-top: 20px;
+}
+
+label.picUpload {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+textarea {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  resize: vertical;
+}
+
+.Btn {
+  background-color: var(--sub-color);
+  position: relative;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+br {
+  line-height: 12px;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 4.2vw;
+  bottom: 5.5vh;
+  right: -2vw;
+  height: 4.2vh;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 1.6rem;
+  width: 1.6rem;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: var(--main-color);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--main-color);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.posta {
+  position: relative;
+  white-space: nowrap;
+  top: 0.2vh;
+  left: 4.7vw;
+  font-weight: 550;
+  font-size: 1.2rem;
+  display: inline-block;
+}
+div.switchForm {
+  position: relative;
+  left: 20vw;
+  top: 1vh;
+}
+div.preview-images > img {
+  width: 30%;
+}
+
+.col-sm-8mt-3 {
+  padding: 20px;
+  width: 800px;
+}
+
+img {
+  max-width: 16em;
+}
+.imageContainer {
+  display: inline-block;
+}
+.skeleton {
+  background-color: white;
+  padding: 1rem;
+}
+.borderClass {
+  border: white solid 2px;
+  padding-left: 1.2rem;
+  padding: 1rem;
+  width: 40vw;
+  margin: 1rem;
+  margin-bottom: 3rem;
+  border-radius: 26px;
+  background-color: white;
+  color: var(--black-color);
+  opacity: 1;
+  position: relative;
+  left: 1.7rem;
+}
+#title {
+  border: 1px solid rgb(148, 148, 148);
+  border-radius: 2px;
+  padding: 6px 12px;
+  min-height: 34px;
+  width: 60%;
+  overflow: auto;
+  resize: none;
+  outline: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: gray; /* default color, replace with the actual color when title is not empty */
+}
+#title.empty {
+  color: gray; /* color when title is empty */
+}
+#title:focus {
+  border-color: var(--black-color);
+}
+#content {
+  border: 1px solid rgb(148, 148, 148);
+  border-radius: 2px;
+  padding: 6px 12px;
+  min-height: 34px;
+  width: 100%;
+  overflow: auto;
+  resize: none;
+  outline: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: gray; /* default color, replace with the actual color when content is not empty */
+}
+
+#content.empty {
+  color: gray; /* color when content is empty */
+}
+
+#content:focus {
+  border-color: var(--black-color);
+}
+
+#comment , #subComment {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 0.5px solid gray;
+  min-height: 34px;
+  padding: 10px 10px;
+  width: 100%;
+  overflow: auto;
+  resize: none;
+  outline: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: gray; /* default color, replace with the actual color when comment is not empty */
+}
+
+#comment.empty , #subComment.empty {
+  color: gray; /* color when comment is empty */
+}
+button.postBtn {
+  border: 1px solid transparent;
+  border-radius: 25px;
+  padding: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: var(--sec-color);
+}
+button.postBtn:hover {
+  transition: 0.3s;
+  background-color: var(--sub-color);
+}
+
+button.closeForm {
+  color: white;
+  position: relative;
+  left: 2vw;
+  border: 1px solid transparent;
+  border-radius: 25px;
+  padding: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: var(--sec-color);
+}
+button.closeForm:hover {
+  transition: 0.3s;
+  background-color: var(--sub-color);
+}
+
+.ld {
+  color: white;
+}
+
+.ldd {
+  text-align: center;
+  color: white;
+}
+
+div.load {
+  display: flex;
+  justify-content: center;
+}
+button.deleteBtn {
+  border: 1px solid transparent;
+  border-radius: 25px;
+  padding: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  color: white;
+  position: relative;
+  background-color: var(--sec-color);
+  transition: 0.3s;
+}
+button.deleteBtn:hover {
+  transition: 0.3s;
+  background-color: var(--sub-color);
+}
+div.contents {
+  white-space: pre-wrap;
+}
+div.imgs {
+  display: flex;
+  flex-wrap: wrap;
+}
+.Images {
+  width: 12.25vw;
+  height: 24vh;
+  object-fit: cover;
+  margin: 0.2rem;
+}
+.Image {
+  min-width: 20vw;
+  max-width: 40vw;
+}
+.above {
+  position: fixed; /* Fixed positioning makes the element positioned relative to the browser window */
+  top: 50%; /* Position it at the middle of the page vertically */
+  left: 50%; /* Position it at the middle of the page horizontally */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* This shifts the element back by half of its width and height */
+  max-width: 100%;
+  max-height: 100%;
+  z-index: 9999; /* High value to ensure it's above all other elements */
+}
+#closePreview {
+  position: fixed;
+  top: 20vh;
+  left: 70vw;
+  z-index: 9999;
+}
+div.blocks {
+  position: fixed;
+  z-index: 7000;
+  background-color: rgba(300, 300, 300, 0.2);
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+button.likeBtn {
+  position: relative;
+}
+p.postlike {
+  position: relative;
+  left: 0.7vw;
+  font-weight: 500;
+  font-size: 2rem;
+}
+div.likeContainer {
+  position: relative;
+  width: 9vw;
+  left: 30vw;
+  height: 8vh;
+  display: flex;
+}
+svg.loadHeart {
+  position: relative;
+  animation: scaling 1s infinite ease-in-out;
+}
+@keyframes scaling {
+  0% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}
+h3.ptitle {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+/* Hide the default file input */
+#input-files {
+  display: none;
+}
+
+/* Style the label */
+label[for="input-files"] {
+  padding: 10px;
+  position: relative;
+  background-color: #2196f3;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Change the label style on hover */
+label[for="input-files"]:hover {
+  background-color: #0d8aee;
+}
+
+div.formBottom {
+  position: relative;
+  top: 6vh;
+}
+
+div.commentForm {
+  position: relative;
+  padding: 1px;
+}
+
+button.postCommentBtn {
+  padding: 10px;
+  font-weight: 600;
+  position: relative;
+  background-color: #ec3da0;
+  color: white;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+}
+
+button.postCommentBtn:hover {
+  background-color: #da3492;
+}
+
+div.commentSection {
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+}

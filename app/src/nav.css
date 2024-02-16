@@ -1,0 +1,63 @@
+.navContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 92vh;
+  background-color: white;
+  border-right: 1.5px solid #fff;
+  color: #374151;
+  width: 130px !important;
+  justify-content: left;
+}
+div.navDblock {
+  position: relative;
+  top: 5vh;
+  text-align: center;
+  height: 20vh;
+}
+.icon {
+  display: inline-block;
+  position: relative;
+  font-weight: 50;
+  transition: transform 0.2s ease-in-out;
+}
+.lift {
+  transform: translateY(-15px);
+  transition: transform 0.2s ease-in-out;
+}
+.channels {
+  display: flex;
+  align-items: center;
+}
+.channel {
+  text-decoration: none;
+  position: relative;
+  transition: color 0.5s;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.channel:hover {
+  text-decoration: none;
+  color: rgb(15, 185, 185);
+}
+
+.channel:active {
+  animation: click-effect 0.3s ease-in-out;
+}
+
+@keyframes click-effect {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+li.nav {
+  list-style: none;
+}
