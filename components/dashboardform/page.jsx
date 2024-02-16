@@ -109,7 +109,7 @@ export default function Dashboardform({ username }) {
 
   useEffect(() => {
     getPosts();
-  }, [getPosts]);
+  }, []);
 
   const handleNav = () => {
     setNavVisible(!navVisible);
