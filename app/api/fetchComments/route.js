@@ -2,14 +2,17 @@ import Comment from "@/models/comment";
 import Post from "@/models/post";
 import DBconnect from "@/libs/mongodb";
 import { NextResponse } from "next/server";
+import { comment } from "postcss";
 
 export async function GET(req) {
   try {
     await DBconnect();
     const postId = req.nextUrl.searchParams.get("postId");
     const comments = (await Comment.find({ postId: postId })).reverse();
+    const commentIds = comments.map(comment => comment._id);
+    const subComments = await Comment.find({ postId: { $in: commentIds } });
     return NextResponse.json(
-      { comments, message: "Successfully fetched comments" },
+      { comments, subComments, message: "Successfully fetched comments" },
       { status: 200 },
     );
   } catch (error) {

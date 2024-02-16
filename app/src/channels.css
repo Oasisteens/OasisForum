@@ -405,7 +405,8 @@ img {
   border-color: var(--black-color);
 }
 
-#comment , #subComment {
+#comment,
+#subComment {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border: 0.5px solid gray;
@@ -420,7 +421,8 @@ img {
   color: gray; /* default color, replace with the actual color when comment is not empty */
 }
 
-#comment.empty , #subComment.empty {
+#comment.empty,
+#subComment.empty {
   color: gray; /* color when comment is empty */
 }
 button.postBtn {
