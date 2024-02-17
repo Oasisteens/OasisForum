@@ -81,19 +81,30 @@ function Generalform({ admin, username }) {
     }
   };
 
-  const getComments = async (id) => {
-    try {
-      const response = await axios.get("/api/fetchComments", {
-        params: {
-          postId: id,
-        },
-      });
+const getComments = async (id) => {
+  try {
+    const response = await axios.get("/api/fetchComments", {
+      params: {
+        postId: id,
+      },
+    });
+
+    if (response.data.comments.length < comments.length) {
+      setComments(response.data.comments);
+    } else {
       // Filter out the comments that are already in the comments array
       const uniqueNewComments = response.data.comments.filter(
         (newComment) =>
           !comments.some((comment) => comment._id === newComment._id),
       );
 
+      // Add the unique new comments to the comments array
+      setComments([...comments, ...uniqueNewComments]);
+    }
+
+    if (response.data.subComments.length < subComments.length) {
+      setSubComments(response.data.subComments);
+    } else {
       // Filter out the subcomments that are already in the subComments array
       const uniqueNewSubComments = response.data.subComments.filter(
         (newSubComment) =>
@@ -102,15 +113,30 @@ function Generalform({ admin, username }) {
           ),
       );
 
-      // Add the unique new comments to the comments array
-      setComments([...comments, ...uniqueNewComments]);
-
       // Add the unique new subcomments to the subComments array
       setSubComments([...subComments, ...uniqueNewSubComments]);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+  const deleteComment = async (e) => {
+    e.preventDefault();
+    const commentId = e.target.commentId.value;
+    const postId = e.target.postId.value;
+    try {
+      const res = await axios.delete("/api/fetchComments", {
+        data: {
+          commentId,
+        },
+      });
+      await getComments(postId);
     } catch (error) {
       console.log(error);
     }
   };
+
   // for future use to get number of comments
   // const getCommentNumber = async (index, id) => {
   //   try{
@@ -773,9 +799,37 @@ function Generalform({ admin, username }) {
                               .map((com, index) => (
                                 <>
                                   <div key={com._id} style={{ padding: "8px" }}>
-                                    <h2 style={{ fontWeight: "700" }}>
-                                      {com.username}
-                                    </h2>
+                                    <div style={{ display: "flex" }}>
+                                      <h2 style={{ fontWeight: "700" }}>
+                                        {com.username}
+                                      </h2>
+                                      {admin && (
+                                        <form onSubmit={deleteComment}>
+                                          <input type="hidden" name="commentId" value={com._id} />
+                                          <input type="hidden" name="postId" value={post._id} />
+                                          <button
+                                            type="submit"
+                                            className="deleteBtn"
+                                            style={{position: "absolute", right: "2.5vw", scale: "0.8" }}
+                                          >
+                                            <span>Admin Delete</span>
+                                          </button>
+                                        </form>
+                                      )}
+                                      {(!admin && com.username === username) && (
+                                        <form onSubmit={deleteComment}>
+                                          <input type="hidden" name="commentId" value={com._id} />
+                                          <input type="hidden" name="postId" value={post._id} />
+                                          <button
+                                            type="submit"
+                                            className="deleteBtn"
+                                            style={{position: "absolute", right: "2.5vw", scale: "0.8" }}
+                                          >
+                                            <span>Delete</span>
+                                          </button>
+                                        </form>
+                                      )}
+                                    </div>
                                     <div
                                       style={{
                                         whiteSpace: "pre-wrap",

@@ -39,3 +39,23 @@ export async function POST(req) {
     );
   }
 }
+
+export async function DELETE(req) {
+  try {
+    await DBconnect();
+    const { commentId } = await req.json();
+    await Promise.all([
+      Comment.findByIdAndDelete(commentId),
+      Comment.deleteMany({ postId: commentId }),
+    ]);
+    return NextResponse.json(
+      { message: "Successfully deleted comment" },
+      { status: 200 },
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: error, message: "Internal Server Error" },
+      { status: 500 },
+    );
+  }
+}
