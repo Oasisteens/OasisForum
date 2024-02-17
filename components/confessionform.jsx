@@ -101,12 +101,25 @@ export default function Confessionform({ username }) {
                 onChange={(e) => setNickname(e.target.value)}
               />
               <textarea
+                required
                 name="content"
                 className="IPT"
                 placeholder="Your confession?"
-                required
+                rows={1}
+                onInput={(e) => {
+                  const value = e.target.value;
+                  // setTitleWords(value.split(" ").filter((word) => word).length);
+                  setContent(value); // Update title state
+                  e.target.style.height = e.target.scrollHeight + "px";
+                }}
+                onFocus={(e) => {
+                  e.target.style.color = "black";
+                  e.target.style.height = e.target.scrollHeight + "px";
+                }}
+                onBlur={(e) => {
+                  e.target.style.color = "gray";
+                }}
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
               />
               <input
                 type="checkbox"

@@ -2,11 +2,13 @@
 import "@/app/src/channels.css";
 import React from "react";
 import axios from "axios";
+import "@/app/i18n"
 import Skeleton from "../skeletons/Skeleton";
 import LikeButton from "../likeButton";
 import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { Picker } from "emoji-mart";
+import { useTranslation } from 'react-i18next';
 import SubCommentUpload from "../subCommentUpload";
 import ColorThief from "colorthief";
 import CommentUpload from "../commentUpload";
@@ -46,6 +48,7 @@ function Generalform({ admin, username }) {
   // The commentDisplay function is for showing the comment post button and the picturen upload button. If the content is focused, or in other words, the user is writing or editing the comment, it shows, else, we need to make space for showing other comments.
   const [addCommentDisplay, setAddCommentDisplay] = useState([]);
   let newArray;
+  const { t } = useTranslation();
 
   const getPosts = async () => {
     try {
@@ -81,47 +84,49 @@ function Generalform({ admin, username }) {
     }
   };
 
-const getComments = async (id) => {
-  try {
-    const response = await axios.get("/api/fetchComments", {
-      params: {
-        postId: id,
-      },
-    });
+  const getComments = async (id) => {
+    try {
+      const response = await axios.get("/api/fetchComments", {
+        params: {
+          postId: id,
+        },
+      });
 
-    if (response.data.comments.length < comments.length) {
-      setComments(response.data.comments);
-    } else {
-      // Create a Set of comment IDs for faster lookup
-      const commentIds = new Set(comments.map(comment => comment._id));
+      if (response.data.comments.length < comments.length) {
+        setComments(response.data.comments);
+      } else {
+        // Create a Set of comment IDs for faster lookup
+        const commentIds = new Set(comments.map((comment) => comment._id));
 
-      // Filter out the comments that are already in the comments array
-      const uniqueNewComments = response.data.comments.filter(
-        (newComment) => !commentIds.has(newComment._id),
-      );
+        // Filter out the comments that are already in the comments array
+        const uniqueNewComments = response.data.comments.filter(
+          (newComment) => !commentIds.has(newComment._id),
+        );
 
-      // Add the unique new comments to the comments array
-      setComments([...comments, ...uniqueNewComments]);
+        // Add the unique new comments to the comments array
+        setComments([...comments, ...uniqueNewComments]);
+      }
+
+      if (response.data.subComments.length < subComments.length) {
+        setSubComments(response.data.subComments);
+      } else {
+        // Create a Set of subcomment IDs for faster lookup
+        const subCommentIds = new Set(
+          subComments.map((subComment) => subComment._id),
+        );
+
+        // Filter out the subcomments that are already in the subComments array
+        const uniqueNewSubComments = response.data.subComments.filter(
+          (newSubComment) => !subCommentIds.has(newSubComment._id),
+        );
+
+        // Add the unique new subcomments to the subComments array
+        setSubComments([...subComments, ...uniqueNewSubComments]);
+      }
+    } catch (error) {
+      console.log(error);
     }
-
-    if (response.data.subComments.length < subComments.length) {
-      setSubComments(response.data.subComments);
-    } else {
-      // Create a Set of subcomment IDs for faster lookup
-      const subCommentIds = new Set(subComments.map(subComment => subComment._id));
-
-      // Filter out the subcomments that are already in the subComments array
-      const uniqueNewSubComments = response.data.subComments.filter(
-        (newSubComment) => !subCommentIds.has(newSubComment._id),
-      );
-
-      // Add the unique new subcomments to the subComments array
-      setSubComments([...subComments, ...uniqueNewSubComments]);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+  };
 
   const deleteComment = async (e) => {
     e.preventDefault();
@@ -439,23 +444,24 @@ const getComments = async (id) => {
 
   return (
     <>
-      <title>General</title>
+      <title>{t('General')}</title>
       <div id="topBar">
         <a href="intro" className="titleg">
-          General
+        {t('General')}
         </a>
       </div>
       <br />
       <br />
       <a href="dashboard" id="backButton">
-        Back to Dashboard
+        {t('Back to Dashboard')}
       </a>
       <button className="refreshBtn" onClick={handleRefresh}>
-        Refresh
+        {t('Refresh')}
       </button>
       <button className="adp" id="GaddPostBtn" onClick={handleAddPostClick}>
-        <span>Write a post</span>
+        <span>{t('Write a post')}</span>
       </button>
+      {console.log(navigator.language || navigator.languages[0])}
       {!inputBoxHidden && (
         <div id="inputBoxGeneral">
           <form
@@ -470,7 +476,7 @@ const getComments = async (id) => {
               id="title"
               name="title"
               rows={1}
-              placeholder="Enter title (20 words max)"
+              placeholder={t('Enter title (20 words max)')}
               onInput={(e) => {
                 const value = e.target.value;
                 setTitleWords(value.split(" ").filter((word) => word).length);
@@ -507,7 +513,7 @@ const getComments = async (id) => {
               id="content"
               name="content"
               rows={1}
-              placeholder="Write sth..."
+              placeholder={t('Write sth...')}
               onInput={(e) => {
                 const value = e.target.value;
                 setContentWords(value.split(" ").filter((word) => word).length);
@@ -540,7 +546,7 @@ const getComments = async (id) => {
             <br />
             <br />
             <label htmlFor="input-files" className="picUpload">
-              Pictures:
+              {t('Pictures')}
               <input
                 type="file"
                 id="input-files"
@@ -586,7 +592,7 @@ const getComments = async (id) => {
                   />
                   <span className="slider round">
                     <h6 className="posta">
-                      Anon?
+                      {t('Anon')}
                       <p />
                     </h6>
                   </span>
@@ -754,7 +760,7 @@ const getComments = async (id) => {
                       ></path>
                     </svg>
                     <p style={{ position: "relative", marginBottom: "0.5vh" }}>
-                      Comments
+                      {t('Comments')}
                     </p>
                   </button>
                   {commentOpen.includes(post._id) && (
@@ -784,7 +790,7 @@ const getComments = async (id) => {
                                 marginLeft: "0.25vw",
                               }}
                             >
-                              Comments
+                              {t('Comments')}
                             </p>
                           </div>
                           <hr
@@ -807,25 +813,49 @@ const getComments = async (id) => {
                                       </h2>
                                       {admin && (
                                         <form onSubmit={deleteComment}>
-                                          <input type="hidden" name="commentId" value={com._id} />
-                                          <input type="hidden" name="postId" value={post._id} />
+                                          <input
+                                            type="hidden"
+                                            name="commentId"
+                                            value={com._id}
+                                          />
+                                          <input
+                                            type="hidden"
+                                            name="postId"
+                                            value={post._id}
+                                          />
                                           <button
                                             type="submit"
                                             className="deleteBtn"
-                                            style={{position: "absolute", right: "2.5vw", scale: "0.8" }}
+                                            style={{
+                                              position: "absolute",
+                                              right: "2.5vw",
+                                              scale: "0.8",
+                                            }}
                                           >
                                             <span>Admin Delete</span>
                                           </button>
                                         </form>
                                       )}
-                                      {(!admin && com.username === username) && (
+                                      {!admin && com.username === username && (
                                         <form onSubmit={deleteComment}>
-                                          <input type="hidden" name="commentId" value={com._id} />
-                                          <input type="hidden" name="postId" value={post._id} />
+                                          <input
+                                            type="hidden"
+                                            name="commentId"
+                                            value={com._id}
+                                          />
+                                          <input
+                                            type="hidden"
+                                            name="postId"
+                                            value={post._id}
+                                          />
                                           <button
                                             type="submit"
                                             className="deleteBtn"
-                                            style={{position: "absolute", right: "2.5vw", scale: "0.8" }}
+                                            style={{
+                                              position: "absolute",
+                                              right: "2.5vw",
+                                              scale: "0.8",
+                                            }}
                                           >
                                             <span>Delete</span>
                                           </button>
