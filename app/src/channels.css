@@ -410,11 +410,11 @@ img {
   min-height: 34px;
   padding: 10px 10px;
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
   resize: none;
   outline: none;
   white-space: pre-wrap;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   color: gray; /* default color, replace with the actual color when comment is not empty */
 }
 
