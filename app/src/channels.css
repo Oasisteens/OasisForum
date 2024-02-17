@@ -368,13 +368,12 @@ img {
   border: 1px solid rgb(148, 148, 148);
   border-radius: 2px;
   padding: 6px 12px;
-  min-height: 34px;
   width: 60%;
-  overflow: auto;
+  overflow: hidden;
   resize: none;
   outline: none;
   white-space: pre-wrap;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   color: gray; /* default color, replace with the actual color when title is not empty */
 }
 #title.empty {
@@ -387,16 +386,14 @@ img {
   border: 1px solid rgb(148, 148, 148);
   border-radius: 2px;
   padding: 6px 12px;
-  min-height: 34px;
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
   resize: none;
   outline: none;
   white-space: pre-wrap;
-  word-wrap: break-word;
-  color: gray; /* default color, replace with the actual color when content is not empty */
+  overflow-wrap: break-word;
+  color: gray; /* default color, replace with the actual color when title is not empty */
 }
-
 #content.empty {
   color: gray; /* color when content is empty */
 }
@@ -484,6 +481,7 @@ button.deleteBtn:hover {
 }
 div.contents {
   white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
 div.imgs {
   display: flex;
@@ -557,8 +555,10 @@ svg.loadHeart {
     transform: scale(1.2);
   }
 }
-h3.ptitle {
+div.ptitle {
   font-weight: 600;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
   font-size: 1.5rem;
 }
 /* Hide the default file input */

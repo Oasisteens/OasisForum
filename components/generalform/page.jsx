@@ -38,6 +38,8 @@ function Generalform({ admin, username }) {
   const [commentOpen, setCommentOpen] = useState([].map(() => false));
   const [titleWords, setTitleWords] = useState(0);
   const [contentWords, setContentWords] = useState(0);
+  const [titlerows, setTitleRows] = useState(1);
+  const [contentrows, setContentRows] = useState(1); 
   const [comments, setComments] = useState([]);
   // const [commentNumber, setCommentNumber] = useState([]);
   // The commentDisplay function is for showing the comment post button and the picturen upload button. If the content is focused, or in other words, the user is writing or editing the comment, it shows, else, we need to make space for showing other comments.
@@ -475,37 +477,36 @@ function Generalform({ admin, username }) {
             id="postForm"
             encType="multipart/form-data"
           >
-            <div
-              contentEditable
+            <textarea
               required
               id="title"
               name="title"
+              rows={1}
+              placeholder="Enter title (20 words max)"
               onInput={(e) => {
-                const value = e.target.textContent;
+                const value = e.target.value;
                 setTitleWords(value.split(" ").filter((word) => word).length);
+                setTitle(value); // Update title state
+                e.target.style.height = "40px";
+                e.target.style.height = e.target.scrollHeight + "px";
               }}
               onFocus={(e) => {
-                if (e.target.textContent === "Enter title (20 words max)") {
-                  e.target.textContent = "";
-                  e.target.style.color = "black";
-                }
+                e.target.style.color = "black";
+                e.target.style.height = "40px";
+                e.target.style.height = e.target.scrollHeight + "px";
               }}
               onBlur={(e) => {
-                if (e.target.textContent === "") {
-                  e.target.textContent = "Enter title (20 words max)";
-                  e.target.style.color = "gray";
-                }
+                e.target.style.color = "gray";
               }}
-            >
-              {title === "" ? "Enter title (20 words max)" : title}
-            </div>
+              value={title}
+            />
             <div style={{ position: "relative" }}>
               <span
                 style={{
                   position: "absolute",
                   fontSize: "0.85rem",
                   right: "12vw",
-                  bottom: "0vh",
+                  bottom: "0.6vh",
                 }}
               >
                 {titleWords}
@@ -513,37 +514,36 @@ function Generalform({ admin, username }) {
             </div>
             <br />
             <br />
-            <div
-              contentEditable
+            <textarea
               required
               id="content"
               name="content"
+              rows={1}
+              placeholder="Write sth..."
               onInput={(e) => {
-                const value = e.target.textContent;
+                const value = e.target.value;
                 setContentWords(value.split(" ").filter((word) => word).length);
+                setContent(value); // Update title state
+                e.target.style.height = "40px";
+                e.target.style.height = e.target.scrollHeight + "px";
               }}
               onFocus={(e) => {
-                if (e.target.textContent === "Write sth...") {
-                  e.target.textContent = "";
-                  e.target.style.color = "black";
-                }
+                e.target.style.color = "black";
+                e.target.style.height = "40px";
+                e.target.style.height = e.target.scrollHeight + "px";
               }}
               onBlur={(e) => {
-                if (e.target.textContent === "") {
-                  e.target.textContent = "Write sth...";
-                  e.target.style.color = "gray";
-                }
+                e.target.style.color = "gray";
               }}
-            >
-              {content === "" ? "Write sth..." : content}
-            </div>
+              value={content}
+            />
             <div style={{ position: "relative" }}>
               <span
                 style={{
                   position: "absolute",
                   fontSize: "0.85rem",
                   right: "0.5vw",
-                  bottom: "0vh",
+                  bottom: "0.5vh",
                 }}
               >
                 {contentWords}
@@ -636,7 +636,7 @@ function Generalform({ admin, username }) {
               ))
             : posts.map((post, postIndex) => (
                 <div className="postsG" key={post._id}>
-                  <h3 className="ptitle">{post.title}</h3>
+                  <div className="ptitle">{post.title}</div>
                   <br />
                   <div className="contents">{post.content}</div>
                   <br />
@@ -1040,13 +1040,22 @@ function Generalform({ admin, username }) {
                                 )}
                               </div>
                               {console.log(comments)}
-                                  {subComments[postIndex] && subComments[postIndex].filter(subComment => subComment.postId === com._id).map((subComment, index) => (
-                                    <div key={subComment._id} style={{ padding: "8px" }}>
+                              {subComments[postIndex] &&
+                                subComments[postIndex]
+                                  .filter(
+                                    (subComment) =>
+                                      subComment.postId === com._id,
+                                  )
+                                  .map((subComment, index) => (
+                                    <div
+                                      key={subComment._id}
+                                      style={{ padding: "8px" }}
+                                    >
                                       hi
                                     </div>
                                   ))}
-                                </>
-                              ))}
+                            </>
+                          ))}
                         </div>
                       )}
                     </>
