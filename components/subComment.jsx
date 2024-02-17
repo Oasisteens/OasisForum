@@ -25,7 +25,8 @@ const subComment = ({
       </div>
       <div style={{ display: "flex" }}>
         <h2 style={{}}>{subComment.postingtime}</h2>
-        <button
+        {/* Reply subComments function (haven't finished) */}
+        {/* <button
           onClick={() => handleSubComment(subComment._id)}
           style={{
             display: "flex",
@@ -53,7 +54,7 @@ const subComment = ({
           >
             Reply
           </p>
-        </button>
+        </button> */}
         <div
           style={{
             position: "relative",
