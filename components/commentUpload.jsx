@@ -2,6 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import { TailSpin } from "react-loader-spinner";
 import { useRef } from "react";
 import axios from "axios";
@@ -21,24 +22,24 @@ const commentUpload = ({
   const [temp, setTemp] = useState(false);
   const [anonymous, setAnonymous] = useState(false);
   const commentRef = useRef(null);
+  const {t} = useTranslation();
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
 
     if (username === undefined && username === null) {
-      alert("You must login to post");
+      alert(t("You must login to post"));
       return;
     }
 
     if (
       comment === null ||
-      comment === undefined ||
-      comment === "Comment on this post..."
+      comment === undefined
     ) {
-      alert("Comment cannot be empty");
+      alert(t("Comment cannot be empty"));
       return;
     } else if (comment.split(" ").filter((word) => word).length > 500) {
-      alert("Comment cannot be more than 500 words");
+      alert(t("Comment cannot be more than 500 words"));
       return;
     }
 
@@ -111,7 +112,7 @@ const commentUpload = ({
           id="comment"
           name="comment"
           rows={1}
-          placeholder="Comment on this post..."
+          placeholder={t("Comment on this post...")}
           style={{
             borderBottomLeftRadius: !(commentDisplay || temp) ? "5px" : "0",
             borderBottomRightRadius: !(commentDisplay || temp) ? "5px" : "0",

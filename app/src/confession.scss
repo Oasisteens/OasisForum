@@ -186,13 +186,14 @@ div.formContainer {
   position: absolute;
   background-color: white;
   padding: 1rem;
-  width: 15vw;
+  width: 17vw;
+  height: auto;
   border: 1px solid transparent;
   border-radius: 25px;
   font-size: 1.2rem;
   display: flex;
   color: black;
-  left: 50vw;
+  right: 7vw;
   top: 20vh;
 }
 div.loveBody {
@@ -205,6 +206,22 @@ div.lvNickname {
 }
 .IPT {
   border: 1px solid black;
+  padding: 6px 12px;
   border-radius: 5px;
-  margin: 0.5rem;
+  margin: 6px 6px;
+  width: 100%;
+  height: 41px;
+  overflow: hidden;
+  resize: none;
+  outline: none;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  color: gray; /* default color, replace with the actual color when title is not empty */
+}
+.IPT.empty {
+  color: gray; /* color when title is empty */
+}
+div.lvContent {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
