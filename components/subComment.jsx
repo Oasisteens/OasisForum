@@ -1,14 +1,19 @@
-'use client'
+"use client";
 import React from "react";
 import { useState } from "react";
 import LikeButton from "./likeButton";
 
-const subComment = ({
-    subComment,
-
-}) => {
+const subComment = ({ 
+    likes,
+    likeloads,
+    likestatuses,
+    setLikestatuses,
+    setLikes,
+    username,
+    subComment
+ }) => {
   return (
-    <div key={subComment._id} style={{ padding: "8px" }}>
+    <div style={{ padding: "8px", position: "relative", left: "2vw" }}>
       <h2 style={{ fontWeight: "700" }}>{subComment.username}</h2>
       <div
         style={{
@@ -24,7 +29,7 @@ const subComment = ({
           onClick={() => handleSubComment(subComment._id)}
           style={{
             display: "flex",
-            left: "15vw",
+            left: "13vw",
             position: "relative",
           }}
         >
@@ -52,7 +57,7 @@ const subComment = ({
         <div
           style={{
             position: "relative",
-            left: "16vw",
+            left: "14vw",
             top: "0.3vh",
             display: "flex",
           }}
@@ -76,7 +81,7 @@ const subComment = ({
           ))}
         </div>
       </div>
-      {addCommentDisplay.includes(subComment._id) && (
+      {/* {addCommentDisplay.includes(subComment._id) && (
         <SubCommentUpload
           fetchLikes={fetchLikes}
           postId={post._id}
@@ -85,7 +90,7 @@ const subComment = ({
           commentOpen={addCommentDisplay.includes(subComment._id)}
           getComments={getComments}
         />
-      )}
+      )} */}
     </div>
   );
 };

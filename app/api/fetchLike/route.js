@@ -21,14 +21,12 @@ export async function GET(req) {
 
 export async function POST(req) {
   await DBconnect();
-  const { postId, sendUsername, status, category, updatedAt } = await req.json();
-  const like = await Like.findOne({ postId : postId }, 'updatedAt');
+  const { postId, sendUsername, status, category, updatedAt } =
+    await req.json();
+  const like = await Like.findOne({ postId: postId }, "updatedAt");
   const likeJson = like.toJSON();
   if (updatedAt !== likeJson.updatedAt.toISOString()) {
-    return NextResponse.json(
-      { message: "Conflicting Error" },
-      { status: 409 },
-    );
+    return NextResponse.json({ message: "Conflicting Error" }, { status: 409 });
   }
 
   await Promise.all([
@@ -47,7 +45,7 @@ export async function POST(req) {
           { postId: postId },
           { $inc: { number: -1 }, $set: { updatedAt: Date.now() } },
           { new: true },
-        )
+        ),
   ]);
   const [likestatuses, likes] = await Promise.all([
     Likestatus.find(),
