@@ -92,10 +92,12 @@ const getComments = async (id) => {
     if (response.data.comments.length < comments.length) {
       setComments(response.data.comments);
     } else {
+      // Create a Set of comment IDs for faster lookup
+      const commentIds = new Set(comments.map(comment => comment._id));
+
       // Filter out the comments that are already in the comments array
       const uniqueNewComments = response.data.comments.filter(
-        (newComment) =>
-          !comments.some((comment) => comment._id === newComment._id),
+        (newComment) => !commentIds.has(newComment._id),
       );
 
       // Add the unique new comments to the comments array
@@ -105,12 +107,12 @@ const getComments = async (id) => {
     if (response.data.subComments.length < subComments.length) {
       setSubComments(response.data.subComments);
     } else {
+      // Create a Set of subcomment IDs for faster lookup
+      const subCommentIds = new Set(subComments.map(subComment => subComment._id));
+
       // Filter out the subcomments that are already in the subComments array
       const uniqueNewSubComments = response.data.subComments.filter(
-        (newSubComment) =>
-          !subComments.some(
-            (subComment) => subComment._id === newSubComment._id,
-          ),
+        (newSubComment) => !subCommentIds.has(newSubComment._id),
       );
 
       // Add the unique new subcomments to the subComments array
