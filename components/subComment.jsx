@@ -3,15 +3,15 @@ import React from "react";
 import { useState } from "react";
 import LikeButton from "./likeButton";
 
-const subComment = ({ 
-    likes,
-    likeloads,
-    likestatuses,
-    setLikestatuses,
-    setLikes,
-    username,
-    subComment
- }) => {
+const subComment = ({
+  likes,
+  likeloads,
+  likestatuses,
+  setLikestatuses,
+  setLikes,
+  username,
+  subComment,
+}) => {
   return (
     <div style={{ padding: "8px", position: "relative", left: "2vw" }}>
       <h2 style={{ fontWeight: "700" }}>{subComment.username}</h2>
