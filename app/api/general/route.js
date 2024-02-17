@@ -30,6 +30,8 @@ export async function DELETE(req) {
     Likestatus.deleteMany({ postId: id }),
     // Delete the comments and subcomments
     Comment.deleteMany({ postId: { $in: commentIds } }),
+    Like.deleteMany({ postId: { $in: commentIds } }),
+    Likestatus.deleteMany({ postId: { $in: commentIds } }),
   ]);
 
   return NextResponse.json(

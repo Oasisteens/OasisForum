@@ -1,5 +1,4 @@
 import Like from "@/models/like";
-import Post from "@/models/post";
 import Likestatus from "@/models/likestatus";
 import DBconnect from "@/libs/mongodb";
 import { NextResponse } from "next/server";
@@ -22,24 +21,33 @@ export async function GET(req) {
 
 export async function POST(req) {
   await DBconnect();
-  const { postId, sendUsername, status, category } = await req.json();
+  const { postId, sendUsername, status, category, updatedAt } = await req.json();
+  const like = await Like.findOne({ postId : postId }, 'updatedAt');
+  const likeJson = like.toJSON();
+  if (updatedAt !== likeJson.updatedAt.toISOString()) {
+    return NextResponse.json(
+      { message: "Conflicting Error" },
+      { status: 409 },
+    );
+  }
+
   await Promise.all([
-    status
-      ? Like.findOneAndUpdate(
-          { postId: postId },
-          { $inc: { number: 1 } },
-          { new: true },
-        )
-      : Like.findOneAndUpdate(
-          { postId: postId },
-          { $inc: { number: -1 } },
-          { new: true },
-        ),
     Likestatus.findOneAndUpdate(
       { postId: postId, username: sendUsername, category },
       { $set: { status: status } },
       { upsert: true, new: true },
     ),
+    status
+      ? Like.findOneAndUpdate(
+          { postId: postId },
+          { $inc: { number: 1 }, $set: { updatedAt: Date.now() } },
+          { new: true },
+        )
+      : Like.findOneAndUpdate(
+          { postId: postId },
+          { $inc: { number: -1 }, $set: { updatedAt: Date.now() } },
+          { new: true },
+        )
   ]);
   const [likestatuses, likes] = await Promise.all([
     Likestatus.find(),

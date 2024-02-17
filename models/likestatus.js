@@ -11,6 +11,7 @@ const likestatusSchema = new Schema({
   },
   status: {
     type: Boolean,
+    default: false,
   },
   category: {
     type: String,

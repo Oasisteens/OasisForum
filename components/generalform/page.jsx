@@ -10,6 +10,7 @@ import { Picker } from "emoji-mart";
 import SubCommentUpload from "../subCommentUpload";
 import ColorThief from "colorthief";
 import CommentUpload from "../commentUpload";
+import SubComment from "../subComment";
 import { useEffect } from "react";
 
 function Generalform({ admin, username }) {
@@ -333,29 +334,6 @@ function Generalform({ admin, username }) {
         },
       });
       await getPosts();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const sendCommentLike = async (category, id, e) => {
-    e.preventDefault();
-    try {
-      setCommentLikeLoad(id);
-      const postId = e.target.id.value;
-      const likestatus = likestatuses?.find(
-        (likestatus) => likestatus.postId === postId,
-      );
-      const currentStatus = likestatus?.status ?? false;
-      const res = await axios.post("/api/fetchLike", {
-        postId,
-        sendUsername: username,
-        status: !currentStatus,
-        category,
-      });
-      setLikestatuses(res.data.likestatuses);
-      setLikes(res.data.likes);
-      setCommentLikeLoad(null);
     } catch (error) {
       console.log(error);
     }
@@ -878,20 +856,17 @@ function Generalform({ admin, username }) {
                                       />
                                     )}
                                   </div>
-                                  {subComments &&
+                                  {/* {subComments &&
                                     subComments
                                       .filter(
                                         (subComment) =>
                                           subComment.postId === com._id,
                                       )
                                       .map((subComment, index) => (
-                                        <div
-                                          key={subComment._id}
-                                          style={{ padding: "8px" }}
-                                        >
-                                          hi
-                                        </div>
-                                      ))}
+                                        <SubComment
+                                          subComment={subComment}
+                                        />
+                                      ))} */}
                                 </>
                               ))}
                         </div>
