@@ -3,11 +3,11 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { TailSpin } from "react-loader-spinner";
+import { useRef } from "react";
 import axios from "axios";
 
 const commentUpload = ({
   getComments,
-  postIndex,
   commentOpen,
   postId,
   username,
@@ -20,10 +20,10 @@ const commentUpload = ({
   const [commentUploadLoad, setCommentUploadLoad] = useState(false);
   const [temp, setTemp] = useState(false);
   const [anonymous, setAnonymous] = useState(false);
+  const commentRef = useRef(null);
 
-  const handleCommentSubmit = async (index, e) => {
+  const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    setCommentWords(0);
 
     if (username === undefined && username === null) {
       alert("You must login to post");
@@ -66,14 +66,18 @@ const commentUpload = ({
         },
       );
       if (res.status === 201) {
-        await getComments(index, e.target.id.value);
+        await getComments(e.target.id.value);
         setCommentUploadLoad(false);
         setCommentDisplay(false);
         setTemp(false);
         setComment("");
+        setCommentWords(0);
         document.getElementById("comment").style.color = "gray";
         setCommentFiles([]);
         setAnonymous(false);
+        if (commentRef.current) {
+          commentRef.current.style.height = "40px";
+        }
       }
       fetchLikes();
     } catch (error) {
@@ -83,7 +87,7 @@ const commentUpload = ({
   };
 
   useEffect(() => {
-    const ind = commentOpen[postIndex] === true;
+    const ind = commentOpen.includes(postId);
     if (ind) {
       setCommentDisplay(false);
       setTemp(false);
@@ -91,54 +95,54 @@ const commentUpload = ({
       setCommentFiles([]);
       setAnonymous(false);
     }
-  }, [commentOpen[postIndex]]);
+  }, [commentOpen]);
   return (
     <div className="commentForm">
       <form
         onSubmit={(e) => {
-          handleCommentSubmit(postIndex, e);
+          handleCommentSubmit(e);
         }}
         encType="multipart/form-data"
       >
         <input type="hidden" name="id" id="id" value={postId} />
-        <div
-          contentEditable
+        <textarea
+          ref={commentRef}
           required
           id="comment"
           name="comment"
+          rows={1}
+          placeholder="Comment on this post..."
           style={{
             borderBottomLeftRadius: !(commentDisplay || temp) ? "5px" : "0",
             borderBottomRightRadius: !(commentDisplay || temp) ? "5px" : "0",
             borderBottom: commentDisplay || temp ? "none" : "",
           }}
           onInput={(e) => {
-            const value = e.target.textContent;
+            const value = e.target.value;
             setCommentWords(value.split(" ").filter((word) => word).length);
+            setComment(value); // Update title state
+            e.target.style.height = "40px";
+            e.target.style.height = e.target.scrollHeight + "px";
           }}
           onFocus={(e) => {
-            if (e.target.textContent === "Comment on this post...") {
-              e.target.textContent = "";
-              e.target.style.color = "black";
-            }
+            e.target.style.color = "black";
+            e.target.style.height = "40px";
+            e.target.style.height = e.target.scrollHeight + "px";
             setCommentDisplay(true);
           }}
           onBlur={(e) => {
-            if (e.target.textContent === "") {
-              e.target.textContent = "Comment on this post...";
-              e.target.style.color = "gray";
-            }
+            e.target.style.color = "gray";
             setCommentDisplay(false);
           }}
-        >
-          {comment === "" ? "Comment on this post..." : comment}
-        </div>
+          value={comment}
+        />
         <div style={{ position: "relative" }}>
           <span
             style={{
               position: "absolute",
               fontSize: "0.85rem",
               right: "0.7vw",
-              bottom: "0vh",
+              bottom: "0.7vh",
             }}
           >
             {commentWords}
@@ -148,6 +152,7 @@ const commentUpload = ({
         {/* <hr width="97%" style={{margin: "0 auto", marginBottom: "1vh"}}/> */}
         {(commentDisplay || temp) && (
           <div
+            style={{ position: "relative", top: "-1vh" }}
             tabIndex={0}
             onMouseDown={() => setTemp(true)}
             onBlur={() => setTemp(false)}

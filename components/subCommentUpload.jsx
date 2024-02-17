@@ -6,7 +6,6 @@ import { TailSpin } from "react-loader-spinner";
 import axios from "axios";
 
 const subCommentUpload = ({
-  postIndex,
   getComments,
   commentOpen,
   commentId,
@@ -67,7 +66,7 @@ const subCommentUpload = ({
         },
       );
       if (res.status === 201) {
-        await getComments(postIndex, postId);
+        await getComments(postId);
         setCommentUploadLoad(false);
         setCommentDisplay(false);
         setTemp(false);
