@@ -126,7 +126,7 @@ export default function Dashboardform({ username }) {
         <Link href="intro" className="toIntro">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="ionicon"
+            className="ionicon"
             width={50}
             height={50}
             viewBox="0 0 512 512"

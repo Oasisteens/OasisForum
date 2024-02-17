@@ -714,7 +714,7 @@ function Generalform({ admin, username }) {
                       <LikeButton
                         key={like._id}
                         category="post"
-                        postId = {post._id}
+                        postId={post._id}
                         likeloads={likeloads}
                         like={like}
                         likestatuses={likestatuses}
@@ -722,6 +722,9 @@ function Generalform({ admin, username }) {
                         setLikestatuses={setLikestatuses}
                         setLikes={setLikes}
                         size={50}
+                        vershift="0.5vw"
+                        shift="0.2vw"
+                        height="76px"
                       />
                     ))}
                   </div>
@@ -810,7 +813,7 @@ function Generalform({ admin, username }) {
                                         }
                                         style={{
                                           display: "flex",
-                                          left: "17vw",
+                                          left: "15vw",
                                           position: "relative",
                                         }}
                                       >
@@ -838,26 +841,27 @@ function Generalform({ admin, username }) {
                                       <div
                                         style={{
                                           position: "relative",
-                                          left: "18vw",
+                                          left: "16vw",
                                           top: "0.3vh",
                                           display: "flex",
                                         }}
                                       >
-                                        {likes.map((like) => (
+                                        {likes.map((like, likeIndex) => (
                                           <LikeButton
-                                          key={like._id}
-                                          category="comment"
-                                          postId = {com._id}
-                                          likeloads={likeloads}
-                                          like={like}
-                                          likestatuses={likestatuses}
-                                          username={username}
-                                          setLikestatuses={setLikestatuses}
-                                          setLikes={setLikes}
-                                          size={30}
-                                          fontsize="1.2rem"
-                                          shift="1vw"
-                                        />
+                                            key={like._id + likeIndex}
+                                            category="comment"
+                                            postId={com._id}
+                                            likeloads={likeloads}
+                                            like={like}
+                                            likestatuses={likestatuses}
+                                            username={username}
+                                            setLikestatuses={setLikestatuses}
+                                            setLikes={setLikes}
+                                            size={30}
+                                            fontsize="1.2rem"
+                                            shift="1px"
+                                            height="37px"
+                                          />
                                         ))}
                                       </div>
                                     </div>
