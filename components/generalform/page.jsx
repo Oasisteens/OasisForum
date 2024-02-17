@@ -134,7 +134,7 @@ function Generalform({ admin, username }) {
     image.src = `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${img.filename}`;
 
     image.onload = async function () {
-      const colors = await colorThief.getPalette(image, 2);
+      const colors = await colorThief.getPalette(image, 3);
       const rgbColors = colors.map((color) => `rgb(${color.join(", ")})`);
       document.documentElement.style.setProperty("--1-color", rgbColors[0]);
       document.documentElement.style.setProperty("--2-color", rgbColors[1]);
@@ -158,7 +158,8 @@ function Generalform({ admin, username }) {
     image.src = `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${img.filename}`;
 
     image.onload = async function () {
-      const colors = await colorThief.getPalette(image, 2);
+      const colors = await colorThief.getPalette(image, 3);
+      console.log(colors);
       const rgbColors = colors.map((color) => `rgb(${color.join(", ")})`);
       document.documentElement.style.setProperty("--1-color", rgbColors[0]);
       document.documentElement.style.setProperty("--2-color", rgbColors[1]);
@@ -856,7 +857,7 @@ function Generalform({ admin, username }) {
                                       />
                                     )}
                                   </div>
-                                  {/* {subComments &&
+                                  {subComments &&
                                     subComments
                                       .filter(
                                         (subComment) =>
@@ -864,9 +865,16 @@ function Generalform({ admin, username }) {
                                       )
                                       .map((subComment, index) => (
                                         <SubComment
+                                          key={subComment._id}
+                                          likes={likes}
+                                          likeloads={likeloads}
+                                          likestatuses={likestatuses}
+                                          setLikestatuses={setLikestatuses}
+                                          setLikes={setLikes}
+                                          username={username}
                                           subComment={subComment}
                                         />
-                                      ))} */}
+                                      ))}
                                 </>
                               ))}
                         </div>

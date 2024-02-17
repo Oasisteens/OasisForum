@@ -33,7 +33,7 @@ const likeButton = ({
         sendUsername: username,
         status: !currentStatus,
         category,
-        updatedAt: like.updatedAt
+        updatedAt: like.updatedAt,
       });
       setLikestatuses(res.data.likestatuses);
       setLikes(res.data.likes);
