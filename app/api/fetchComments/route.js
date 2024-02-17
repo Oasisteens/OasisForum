@@ -9,7 +9,7 @@ export async function GET(req) {
     await DBconnect();
     const postId = req.nextUrl.searchParams.get("postId");
     const comments = (await Comment.find({ postId: postId })).reverse();
-    const commentIds = comments.map(comment => comment._id);
+    const commentIds = comments.map((comment) => comment._id);
     const subComments = await Comment.find({ postId: { $in: commentIds } });
     return NextResponse.json(
       { comments, subComments, message: "Successfully fetched comments" },
