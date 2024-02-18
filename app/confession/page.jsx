@@ -1,11 +1,16 @@
+'use client'
+import { redirect } from "next/navigation";
 import Confessionform from "../../components/confessionform";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route.js";
+import { useSession } from "next-auth/react";
 
-export default async function Home() {
-  const session = await getServerSession(authOptions);
+export default function Home() {
+  const session = useSession();
 
-  if (session) {
-    return <Confessionform username={session?.user?.name} />;
+  if(session.status === 'unauthenticated') {
+    redirect("/login");
+  }
+
+  if (session.status === 'authenticated') {
+    return <Confessionform username={session.data.user.name} />;
   }
 }
