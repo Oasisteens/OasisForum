@@ -2,6 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { TailSpin } from "react-loader-spinner";
 import axios from "axios";
 
@@ -20,25 +21,22 @@ const subCommentUpload = ({
   const [commentUploadLoad, setCommentUploadLoad] = useState(false);
   const [temp, setTemp] = useState(false);
   const [anonymous, setAnonymous] = useState(false);
+  const { t } = useTranslation();
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     setCommentWords(0);
 
     if (username === undefined && username === null) {
-      alert("You must login to post");
+      alert(t("You must login to post"));
       return;
     }
 
-    if (
-      comment === null ||
-      comment === undefined ||
-      comment === "Comment on this..."
-    ) {
-      alert("Comment cannot be empty");
+    if (comment === null || comment === undefined) {
+      alert(t("Comment cannot be empty"));
       return;
     } else if (comment.split(" ").filter((word) => word).length > 500) {
-      alert("Comment cannot be more than 500 words");
+      alert(t("Comment cannot be more than 500 words"));
       return;
     }
 
@@ -100,44 +98,43 @@ const subCommentUpload = ({
         encType="multipart/form-data"
       >
         <input type="hidden" name="id" id="id" value={commentId} />
-        <div
-          contentEditable
+        <textarea
           required
-          id="subComment"
-          name="subComment"
+          id="comment"
+          name="comment"
+          rows={1}
+          placeholder={t("Comment on this...")}
           style={{
             borderBottomLeftRadius: !(commentDisplay || temp) ? "5px" : "0",
             borderBottomRightRadius: !(commentDisplay || temp) ? "5px" : "0",
             borderBottom: commentDisplay || temp ? "none" : "",
           }}
           onInput={(e) => {
-            const value = e.target.textContent;
+            const value = e.target.value;
             setCommentWords(value.split(" ").filter((word) => word).length);
+            setComment(value); // Update title state
+            e.target.style.height = "40px";
+            e.target.style.height = e.target.scrollHeight + "px";
           }}
           onFocus={(e) => {
-            if (e.target.textContent === "Comment on this...") {
-              e.target.textContent = "";
-              e.target.style.color = "black";
-            }
+            e.target.style.color = "black";
+            e.target.style.height = "40px";
+            e.target.style.height = e.target.scrollHeight + "px";
             setCommentDisplay(true);
           }}
           onBlur={(e) => {
-            if (e.target.textContent === "") {
-              e.target.textContent = "Comment on this...";
-              e.target.style.color = "gray";
-            }
+            e.target.style.color = "gray";
             setCommentDisplay(false);
           }}
-        >
-          {comment === "" ? "Comment on this..." : comment}
-        </div>
+          value={comment}
+        />
         <div style={{ position: "relative" }}>
           <span
             style={{
               position: "absolute",
               fontSize: "0.85rem",
               right: "0.7vw",
-              bottom: "0vh",
+              bottom: "0.7vh",
             }}
           >
             {commentWords}
@@ -147,6 +144,7 @@ const subCommentUpload = ({
         {/* <hr width="97%" style={{margin: "0 auto", marginBottom: "1vh"}}/> */}
         {(commentDisplay || temp) && (
           <div
+            style={{ position: "relative", top: "-1vh" }}
             tabIndex={0}
             onMouseDown={() => setTemp(true)}
             onBlur={() => setTemp(false)}
@@ -161,7 +159,7 @@ const subCommentUpload = ({
                 fontWeight: "600",
               }}
             >
-              Pictures
+              {t("Pictures")}
               <input
                 type="file"
                 id="input-files"
@@ -181,15 +179,12 @@ const subCommentUpload = ({
                 cursor: "pointer",
               }}
             >
-              {anonymous ? "Anonymous" : "Not Anonymous"}
+              {anonymous ? t("Anonymous") : t("Not Anonymous")}
             </div>
             <button
               type="submit"
               className="postCommentBtn"
               disabled={commentUploadLoad}
-              onClick={() => {
-                setComment(document.getElementById("subComment").textContent);
-              }}
             >
               {commentUploadLoad ? (
                 <div className="load">
@@ -203,7 +198,7 @@ const subCommentUpload = ({
                   <span className="ld">Loading...</span>
                 </div>
               ) : (
-                <p className="ldd">Post</p>
+                <p className="ldd">{t("Post")}</p>
               )}
             </button>
           </div>

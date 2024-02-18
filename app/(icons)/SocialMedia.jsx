@@ -2,10 +2,13 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "../src/socialMedia.css";
+import "@/app/i18n";
+import { useTranslation } from "react-i18next";
+import "../src/socialMedia.css";
 library.add(fab);
 
 const SocialMedia = () => {
+  const { t } = useTranslation();
   return (
     <footer>
       <div className="sm">
@@ -40,7 +43,7 @@ const SocialMedia = () => {
       </div>
       <br />
       <hr />
-      <p>© 2023 Oasis. All rights reserved.</p>
+      <p>{t('For better future')}</p>
     </footer>
   );
 };
