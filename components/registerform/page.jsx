@@ -21,6 +21,16 @@ const Registerform = () => {
   const [error, setError] = useState("");
   const [load, setLoad] = useState(true);
   const { t } = useTranslation();
+  const { i18n } = useTranslation();
+  useEffect(() => {
+    if(!localStorage.getItem("language")){
+      localStorage.setItem("language", navigator.language.substring(0, 2));
+    }
+    const selectedLanguage = localStorage.getItem("language");
+    if (selectedLanguage) {
+      i18n.changeLanguage(selectedLanguage);
+    }
+  }, [i18n]);
 
   useEffect(() => {
     window.onload = function () {};
@@ -50,7 +60,7 @@ const Registerform = () => {
   };
   return (
     <>
-      <title>{t('Register')}</title>
+      <title>{t("Register")}</title>
       <section className="Reg">
         <div class="wave"></div>
         <div class="wave"></div>
@@ -58,7 +68,7 @@ const Registerform = () => {
         <div className="form-boxR">
           <div className="form-value">
             <form onSubmit={handleSubmit}>
-              <h2 className="regU">{t('Register')}</h2>
+              <h2 className="regU">{t("Register")}</h2>
               <div className="inputboxR">
                 <IonIcon icon={mailOutline} />
                 <input
@@ -67,7 +77,7 @@ const Registerform = () => {
                   required
                   disabled={load}
                 />
-                <label htmlFor="username">{t('Username')}:</label>
+                <label htmlFor="username">{t("Username")}:</label>
               </div>
               <div className="inputboxR">
                 <IonIcon icon={lockClosedOutline} />
@@ -77,7 +87,7 @@ const Registerform = () => {
                   required
                   disabled={load}
                 />
-                <label htmlFor="password">{t('Password')}:</label>
+                <label htmlFor="password">{t("Password")}:</label>
               </div>
               {/* <div className="inputbox">
                 <IonIcon icon={diamondOutline} />
@@ -98,24 +108,26 @@ const Registerform = () => {
                       width={40}
                       style={{ marginRight: "5px" }}
                     />
-                    <span>{t('Loading')}...</span>
+                    <span>{t("Loading")}...</span>
                   </>
                 )}
-                {load && <span>{t('Loading')}...</span>}
-                {!loading && !load && t('Register')}
+                {load && <span>{t("Loading")}...</span>}
+                {!loading && !load && t("Register")}
               </button>
               <div className="register">
-                {error && <p className="error">{t('Username has been registered')}</p>}
+                {error && (
+                  <p className="error">{t("Username has been registered")}</p>
+                )}
                 {!error && (
                   <p>
-                    {t('Already have an account?')}{" "}
+                    {t("Already have an account?")}{" "}
                     <Link href="/login" style={{ color: "black" }}>
-                      {t('Login')}
+                      {t("Login")}
                     </Link>
                   </p>
                 )}
                 <br />
-                <p>{t('For better future')}</p>
+                <p>{t("For better future")}</p>
               </div>
             </form>
           </div>

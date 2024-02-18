@@ -43,7 +43,7 @@ const SocialMedia = () => {
       </div>
       <br />
       <hr />
-      <p>{t('For better future')}</p>
+      <p>{t("For better future")}</p>
     </footer>
   );
 };
