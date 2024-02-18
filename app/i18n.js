@@ -64,6 +64,13 @@ i18n
                     "We'd love to hear from you": "我们很乐意听从你的意见",
                     "Whether you are curious about the latest discussions or looking to join a specific topic, our forum website has got you covered.": "无论你是对最新的讨论感到好奇，还是想加入特定的话题，我们的论坛网站都能满足你的需求。",
                     "Admin": "管理员",
+                    "Password": "密码",
+                    "Username": "用户名",
+                    "Loading": "加载中",
+                    "Do not have an account?": "没有账号？",
+                    "Username has been registered": "用户名已被注册",
+                    "Already have an account?": "已有账号？",
+                    "Invalid username or password": "用户名或密码错误",
                 },
             },
             // Add more languages here

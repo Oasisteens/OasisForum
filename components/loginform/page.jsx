@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IonIcon } from "@ionic/react";
 import { TailSpin } from "react-loader-spinner";
+import "@/app/i18n";
+import { useTranslation } from "react-i18next";
 import { mailOutline, lockClosedOutline } from "ionicons/icons";
-import styles from "@/app/src/login.css";
+import "@/app/src/login.css";
 import { signIn } from "next-auth/react";
 
 const LoginForm = () => {
@@ -17,6 +19,7 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false); // Added loading state
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const {t} = useTranslation();
 
   useEffect(() => {
     window.onload = function () {};
@@ -33,7 +36,7 @@ const LoginForm = () => {
         redirect: false,
       });
       if (res.error) {
-        setErrorMessage("Invalid username or password");
+        setErrorMessage(t('Invalid username or password'));
         setTimeout(() => {
           setErrorMessage(null);
         }, 3000);
@@ -52,7 +55,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <title>Login</title>
+      <title>{t('Login')}</title>
       <body className="loginbd">
         <div className="box1" />
         <div className="box2" />
@@ -68,7 +71,7 @@ const LoginForm = () => {
         <div className="form-box">
           <div className="form-value">
             <form onSubmit={handleSubmit} id="loginForm">
-              <h2 className="LogTitle">Login</h2>
+              <h2 className="LogTitle">{t('Login')}</h2>
               <div className="inputbox">
                 <IonIcon icon={mailOutline} />
                 <input
@@ -77,7 +80,7 @@ const LoginForm = () => {
                   onChange={(e) => setUsername(e.target.value)}
                   disabled={load}
                 />
-                <label htmlFor="username">Username:</label>
+                <label htmlFor="username">{t('Username')}:</label>
               </div>
               <div className="inputbox">
                 <IonIcon icon={lockClosedOutline} />
@@ -87,7 +90,7 @@ const LoginForm = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={load}
                 />
-                <label htmlFor="password">Password:</label>
+                <label htmlFor="password">{t('Password')}:</label>
               </div>
               <button type="submit" className="reg1" disabled={loading && load}>
                 {loading && (
@@ -99,24 +102,24 @@ const LoginForm = () => {
                       width={40}
                       style={{ marginRight: "5px" }}
                     />
-                    <span>Loading...</span>
+                    <span>{t('Loading')}...</span>
                   </>
                 )}
-                {load && <span className="lddd">Loading...</span>}
-                {!loading && !load && "Login"}
+                {load && <span className="lddd">{t('Loading')}...</span>}
+                {!loading && !load && t('Login')}
               </button>
               <div className="login">
                 {errorMessage && <div className="logerror">{errorMessage}</div>}
                 {!errorMessage && (
                   <p>
-                    Do not have an account?{" "}
-                    <Link className="regww" href="/register">
-                      Register
+                    {t('Do not have an account?')}{" "}
+                    <Link style={{fontWeight: "700"}} className="regww" href="/register">
+                      {t('Register')}
                     </Link>
                   </p>
                 )}
                 <br />
-                <p>© 2023 Oasis. All rights reserved.</p>
+                <p>{t('For better future')}</p>
               </div>
             </form>
           </div>

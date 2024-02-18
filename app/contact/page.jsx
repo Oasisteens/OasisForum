@@ -10,7 +10,7 @@ const Contact = () => {
   const {t} = useTranslation();
   return (
     <>
-      <title>Contact</title>
+      <title>{t('Contact')}</title>
       <meta charSet="UTF-8" />
       <nav className="index">
         <div className="icon-container">
