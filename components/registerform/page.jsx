@@ -1,7 +1,9 @@
 "use client";
-import styles from "@/app/src/register.css";
+import "@/app/src/register.css";
 import axios from "axios";
 import { IonIcon } from "@ionic/react";
+import "@/app/i18n";
+import { useTranslation } from "react-i18next";
 import { TailSpin } from "react-loader-spinner";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -18,6 +20,7 @@ const Registerform = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [load, setLoad] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     window.onload = function () {};
@@ -47,7 +50,7 @@ const Registerform = () => {
   };
   return (
     <>
-      <title>Register</title>
+      <title>{t('Register')}</title>
       <section className="Reg">
         <div class="wave"></div>
         <div class="wave"></div>
@@ -55,7 +58,7 @@ const Registerform = () => {
         <div className="form-boxR">
           <div className="form-value">
             <form onSubmit={handleSubmit}>
-              <h2 className="regU">Register</h2>
+              <h2 className="regU">{t('Register')}</h2>
               <div className="inputboxR">
                 <IonIcon icon={mailOutline} />
                 <input
@@ -64,7 +67,7 @@ const Registerform = () => {
                   required
                   disabled={load}
                 />
-                <label htmlFor="username">Username:</label>
+                <label htmlFor="username">{t('Username')}:</label>
               </div>
               <div className="inputboxR">
                 <IonIcon icon={lockClosedOutline} />
@@ -74,7 +77,7 @@ const Registerform = () => {
                   required
                   disabled={load}
                 />
-                <label htmlFor="password">Password:</label>
+                <label htmlFor="password">{t('Password')}:</label>
               </div>
               {/* <div className="inputbox">
                 <IonIcon icon={diamondOutline} />
@@ -95,24 +98,24 @@ const Registerform = () => {
                       width={40}
                       style={{ marginRight: "5px" }}
                     />
-                    <span>Loading...</span>
+                    <span>{t('Loading')}...</span>
                   </>
                 )}
-                {load && <span>Loading...</span>}
-                {!loading && !load && "Register"}
+                {load && <span>{t('Loading')}...</span>}
+                {!loading && !load && t('Register')}
               </button>
               <div className="register">
-                {error && <p className="error">Username has been registered</p>}
+                {error && <p className="error">{t('Username has been registered')}</p>}
                 {!error && (
                   <p>
-                    Already have an account?{" "}
+                    {t('Already have an account?')}{" "}
                     <Link href="/login" style={{ color: "black" }}>
-                      Login
+                      {t('Login')}
                     </Link>
                   </p>
                 )}
                 <br />
-                <p>© 2023 Oasis. All rights reserved.</p>
+                <p>{t('For better future')}</p>
               </div>
             </form>
           </div>

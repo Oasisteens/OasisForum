@@ -14,7 +14,7 @@ const Intro = () => {
   const { t } = useTranslation();
   return (
     <>
-      <title>Oasis</title>
+      <title>{t('Oasis')}</title>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <nav className="index">
