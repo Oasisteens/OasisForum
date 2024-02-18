@@ -2,7 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import { TailSpin } from "react-loader-spinner";
 import { useRef } from "react";
 import axios from "axios";
@@ -22,7 +22,7 @@ const commentUpload = ({
   const [temp, setTemp] = useState(false);
   const [anonymous, setAnonymous] = useState(false);
   const commentRef = useRef(null);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -32,10 +32,7 @@ const commentUpload = ({
       return;
     }
 
-    if (
-      comment === null ||
-      comment === undefined
-    ) {
+    if (comment === null || comment === undefined) {
       alert(t("Comment cannot be empty"));
       return;
     } else if (comment.split(" ").filter((word) => word).length > 500) {
@@ -168,7 +165,7 @@ const commentUpload = ({
                 fontWeight: "600",
               }}
             >
-              Pictures
+              {t("Pictures")}
               <input
                 type="file"
                 id="input-files"
@@ -188,15 +185,12 @@ const commentUpload = ({
                 cursor: "pointer",
               }}
             >
-              {anonymous ? "Anonymous" : "Not Anonymous"}
+              {anonymous ? t("Anonymous") : t("Not Anonymous")}
             </div>
             <button
               type="submit"
               className="postCommentBtn"
               disabled={commentUploadLoad}
-              onClick={() => {
-                setComment(document.getElementById("comment").textContent);
-              }}
             >
               {commentUploadLoad ? (
                 <div className="load">
@@ -210,7 +204,7 @@ const commentUpload = ({
                   <span className="ld">Loading...</span>
                 </div>
               ) : (
-                <p className="ldd">Post</p>
+                <p className="ldd">{t("Post")}</p>
               )}
             </button>
           </div>

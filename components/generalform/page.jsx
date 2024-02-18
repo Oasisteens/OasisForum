@@ -2,13 +2,14 @@
 import "@/app/src/channels.css";
 import React from "react";
 import axios from "axios";
-import "@/app/i18n"
+import { franc } from "franc-min";
+import "@/app/i18n";
 import Skeleton from "../skeletons/Skeleton";
 import LikeButton from "../likeButton";
 import { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { Picker } from "emoji-mart";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import SubCommentUpload from "../subCommentUpload";
 import ColorThief from "colorthief";
 import CommentUpload from "../commentUpload";
@@ -444,24 +445,23 @@ function Generalform({ admin, username }) {
 
   return (
     <>
-      <title>{t('General')}</title>
+      <title>{t("General")}</title>
       <div id="topBar">
         <a href="intro" className="titleg">
-        {t('General')}
+          {t("General")}
         </a>
       </div>
       <br />
       <br />
       <a href="dashboard" id="backButton">
-        {t('Back to Dashboard')}
+        {t("Back to Dashboard")}
       </a>
       <button className="refreshBtn" onClick={handleRefresh}>
-        {t('Refresh')}
+        {t("Refresh")}
       </button>
       <button className="adp" id="GaddPostBtn" onClick={handleAddPostClick}>
-        <span>{t('Write a post')}</span>
+        <span>{t("Write a post")}</span>
       </button>
-      {console.log(navigator.language || navigator.languages[0])}
       {!inputBoxHidden && (
         <div id="inputBoxGeneral">
           <form
@@ -476,7 +476,7 @@ function Generalform({ admin, username }) {
               id="title"
               name="title"
               rows={1}
-              placeholder={t('Enter title (20 words max)')}
+              placeholder={t("Enter title (20 words max)")}
               onInput={(e) => {
                 const value = e.target.value;
                 setTitleWords(value.split(" ").filter((word) => word).length);
@@ -513,10 +513,21 @@ function Generalform({ admin, username }) {
               id="content"
               name="content"
               rows={1}
-              placeholder={t('Write sth...')}
+              placeholder={t("Write sth...")}
               onInput={(e) => {
                 const value = e.target.value;
-                setContentWords(value.split(" ").filter((word) => word).length);
+                const detectedLanguage = franc(value);
+                let wordCount;
+                if (
+                  detectedLanguage === "eng" ||
+                  detectedLanguage === "cmn" ||
+                  detectedLanguage === "jpn"
+                ) {
+                  wordCount = value.length;
+                } else {
+                  // 对于其他语言，你可能需要添加更多的条件分支
+                }
+                setContentWords(wordCount);
                 setContent(value); // Update title state
                 e.target.style.height = "40px";
                 e.target.style.height = e.target.scrollHeight + "px";
@@ -546,7 +557,7 @@ function Generalform({ admin, username }) {
             <br />
             <br />
             <label htmlFor="input-files" className="picUpload">
-              {t('Pictures')}
+              {t("Pictures")}
               <input
                 type="file"
                 id="input-files"
@@ -565,7 +576,7 @@ function Generalform({ admin, username }) {
                     setTitle(document.getElementById("title").textContent);
                 }}
               >
-                {!load && <p className="ldd">Post</p>}
+                {!load && <p className="ldd">{t("Post")}</p>}
                 {load && (
                   <div className="load">
                     <TailSpin
@@ -580,7 +591,7 @@ function Generalform({ admin, username }) {
                 )}
               </button>
               <button className="closeForm" onClick={handleCloseFormClick}>
-                <p>Cancel</p>
+                <p>{t("Cancel")}</p>
               </button>
               <div className="switchForm">
                 <label className="switch">
@@ -592,7 +603,7 @@ function Generalform({ admin, username }) {
                   />
                   <span className="slider round">
                     <h6 className="posta">
-                      {t('Anon')}
+                      {t("Anon")}
                       <p />
                     </h6>
                   </span>
@@ -717,10 +728,14 @@ function Generalform({ admin, username }) {
                   <br />
                   <br />
                   {(post.postAnonymous !== "true" || admin == true) && (
-                    <p className="usr">posted by {post.username}</p>
+                    <p className="usr">
+                      {t("posted by")} {post.username}
+                    </p>
                   )}
                   <br />
-                  <p className="postT">posted on {post.postingtime}</p>
+                  <p className="postT">
+                    {t("posted on")} {post.postingtime}
+                  </p>
                   <br />
                   <div className="likeContainer">
                     {likes.map((like, likeIndex) => (
@@ -760,7 +775,7 @@ function Generalform({ admin, username }) {
                       ></path>
                     </svg>
                     <p style={{ position: "relative", marginBottom: "0.5vh" }}>
-                      {t('Comments')}
+                      {t("Comments")}
                     </p>
                   </button>
                   {commentOpen.includes(post._id) && (
@@ -790,7 +805,7 @@ function Generalform({ admin, username }) {
                                 marginLeft: "0.25vw",
                               }}
                             >
-                              {t('Comments')}
+                              {t("Comments")}
                             </p>
                           </div>
                           <hr
@@ -832,7 +847,7 @@ function Generalform({ admin, username }) {
                                               scale: "0.8",
                                             }}
                                           >
-                                            <span>Admin Delete</span>
+                                            <span>{t("Admin Delete")}</span>
                                           </button>
                                         </form>
                                       )}
@@ -857,7 +872,7 @@ function Generalform({ admin, username }) {
                                               scale: "0.8",
                                             }}
                                           >
-                                            <span>Delete</span>
+                                            <span>{t("Delete")}</span>
                                           </button>
                                         </form>
                                       )}
@@ -900,7 +915,7 @@ function Generalform({ admin, username }) {
                                             marginTop: "0.5vh",
                                           }}
                                         >
-                                          Reply
+                                          {t("Reply")}
                                         </p>
                                       </button>
                                       <div
@@ -1012,7 +1027,7 @@ M125.025,99.15H25.02V85.51l22.73-22.724l11.363,11.36l36.365-36.361l29.547,29.547
                           value={post._id}
                         />
                         <button type="submit" className="deleteBtn">
-                          <span>Delete</span>
+                          <span>{t("Delete")}</span>
                         </button>
                       </form>
                     </div>
@@ -1027,7 +1042,7 @@ M125.025,99.15H25.02V85.51l22.73-22.724l11.363,11.36l36.365-36.361l29.547,29.547
                           value={post._id}
                         />
                         <button type="submit" className="deleteBtn">
-                          <span>Admin Delete</span>
+                          <span>{t("Admin Delete")}</span>
                         </button>
                       </form>
                     </div>

@@ -19,6 +19,7 @@
     "colorthief": "^2.2.0",
     "emoji-mart": "^5.5.2",
     "fast-levenshtein": "^3.0.0",
+    "franc-min": "^6.2.0",
     "fs": "^0.0.1-security",
     "i18next": "^23.8.3",
     "jquery": "^3.7.1",
