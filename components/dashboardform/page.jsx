@@ -5,6 +5,8 @@ import Link from "next/link";
 import Nav from "@/app/(components)/Nav";
 import { useState } from "react";
 import axios from "axios";
+import "@/app/i18n";
+import { useTranslation } from "react-i18next";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import "../../app/src/dashboard.css";
 
@@ -18,6 +20,29 @@ export default function Dashboardform({ username }) {
   const [lshow, setLshow] = useState(false);
   const [rshow, setRshow] = useState(false);
   const [navVisible, setNavVisible] = useState(false);
+
+  // i18n setting
+  const { t } = useTranslation();
+  const { i18n } = useTranslation();
+  const language = i18n.language.substring(0, 2); // get language from i18n
+
+  // Pull info(language) from localStorage
+  useEffect(() => {
+    if(!localStorage.getItem("language")){
+      localStorage.setItem("language", navigator.language.substring(0, 2));
+    }
+    const selectedLanguage = localStorage.getItem("language");
+    if (selectedLanguage) {
+      i18n.changeLanguage(selectedLanguage);
+    }
+  }, [i18n]);
+
+  const changeLanguage = (event) => {
+    const selectedLanguage = event.target.value;
+    i18n.changeLanguage(selectedLanguage);
+    // save user option in localStorage
+    localStorage.setItem("language", selectedLanguage);
+  };
 
   const leftover = posts.length % 5;
 
@@ -118,7 +143,7 @@ export default function Dashboardform({ username }) {
   return (
     <body className="dash">
       <title>
-        {username ? `Welcome to ${username}'s Dashboard!` : "Dashboard"}
+        {username ? `${username}${t("'s Dashboard")}` : t("Dashboard")}
       </title>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -148,7 +173,7 @@ export default function Dashboardform({ username }) {
               strokeWidth="32"
             />
           </svg>
-          <span className="intro">Oasis</span>
+          <span className="intro">{t("Oasis")}</span>
         </Link>
         <button className="menuBtn" onClick={handleNav}>
           <svg
@@ -165,7 +190,23 @@ export default function Dashboardform({ username }) {
             />
           </svg>
         </button>
-        <h1 className="dashh1">Welcome to {username}&apos;s Dashboard!</h1>
+        <h1 className="dashh1">
+          {username ? `${username}${t("'s Dashboard")}` : t("Dashboard")}
+        </h1>
+        <div className="language-selector">
+          <select
+            id="lang"
+            name="lang"
+            onChange={changeLanguage}
+            value={language}
+          >
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="ja">日本語</option>
+          </select>
+        </div>
       </top>
       {navVisible && (
         <div className="nav">
@@ -174,14 +215,14 @@ export default function Dashboardform({ username }) {
       )}
       <section className="secd">
         <div className="comments">
-          <h2 className="dashh2">Comments</h2>
+          <h2 className="dashh2">{t("My Comments")}</h2>
           <br />
           <div className="dashcomment">
-            <p className="dashp">You have no comments yet!</p>
+            <p className="dashp">{t("You have no comments yet")}</p>
           </div>
         </div>
         <div className="posts">
-          <h2 className="dashh2">My Posts</h2>
+          <h2 className="dashh2">{t("My Posts")}</h2>
           <br />
           <div className="dashpost">
             {posts.length > 0 && lshow && (
@@ -197,7 +238,7 @@ export default function Dashboardform({ username }) {
             )}
             {posts.length > 0 && !lshow && <div className="postBtns" />}
             {(posts.length === 0 || posts.length === undefined) && (
-              <p className="dashp">You have no posts yet!</p>
+              <p className="dashp">{t("You have no posts yet")}</p>
             )}
             <TransitionGroup className="myPosts">
               {posts.length > 0 &&
@@ -228,7 +269,7 @@ export default function Dashboardform({ username }) {
           </div>
         </div>
         <div className="likes">
-          <h2 className="dashh2">Liked Posts</h2>
+          <h2 className="dashh2">{t("Liked Posts")}</h2>
           <br />
           <div className="dashpost">
             {posts.length > 0 && lshow && (
@@ -246,7 +287,7 @@ export default function Dashboardform({ username }) {
               <div className="postBtns" width="40" height="40" />
             )}
             {(posts.length === 0 || posts.length === undefined) && (
-              <p className="dashp">You have no liked posts yet!</p>
+              <p className="dashp">{t("You have no liked posts yet")}</p>
             )}
             <TransitionGroup className="myPosts">
               {posts.length > 0 &&
@@ -279,10 +320,10 @@ export default function Dashboardform({ username }) {
           </div>
         </div>
         <div className="like">
-          <h2 className="dashh2">Liked Comments</h2>
+          <h2 className="dashh2">{t("Liked Comments")}</h2>
           <br />
           <div className="dashlike">
-            <p className="dashp">You have no liked comments yet!</p>
+            <p className="dashp">{t("You have no liked comments yet")}</p>
           </div>
         </div>
       </section>

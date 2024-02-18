@@ -211,3 +211,18 @@ div.nav {
   position: relative;
   margin-top: auto;
 }
+
+.language-selector {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.language-selector select {
+  padding: 5px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  color: #3c4043;
+}

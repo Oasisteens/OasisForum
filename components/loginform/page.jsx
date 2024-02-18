@@ -19,7 +19,17 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false); // Added loading state
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+  const { i18n } = useTranslation();
+  useEffect(() => {
+    if(!localStorage.getItem("language")){
+      localStorage.setItem("language", navigator.language.substring(0, 2));
+    }
+    const selectedLanguage = localStorage.getItem("language");
+    if (selectedLanguage) {
+      i18n.changeLanguage(selectedLanguage);
+    }
+  }, [i18n]);
 
   useEffect(() => {
     window.onload = function () {};
@@ -36,7 +46,7 @@ const LoginForm = () => {
         redirect: false,
       });
       if (res.error) {
-        setErrorMessage(t('Invalid username or password'));
+        setErrorMessage(t("Invalid username or password"));
         setTimeout(() => {
           setErrorMessage(null);
         }, 3000);
@@ -55,7 +65,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <title>{t('Login')}</title>
+      <title>{t("Login")}</title>
       <body className="loginbd">
         <div className="box1" />
         <div className="box2" />
@@ -71,7 +81,7 @@ const LoginForm = () => {
         <div className="form-box">
           <div className="form-value">
             <form onSubmit={handleSubmit} id="loginForm">
-              <h2 className="LogTitle">{t('Login')}</h2>
+              <h2 className="LogTitle">{t("Login")}</h2>
               <div className="inputbox">
                 <IonIcon icon={mailOutline} />
                 <input
@@ -80,7 +90,7 @@ const LoginForm = () => {
                   onChange={(e) => setUsername(e.target.value)}
                   disabled={load}
                 />
-                <label htmlFor="username">{t('Username')}:</label>
+                <label htmlFor="username">{t("Username")}:</label>
               </div>
               <div className="inputbox">
                 <IonIcon icon={lockClosedOutline} />
@@ -90,7 +100,7 @@ const LoginForm = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={load}
                 />
-                <label htmlFor="password">{t('Password')}:</label>
+                <label htmlFor="password">{t("Password")}:</label>
               </div>
               <button type="submit" className="reg1" disabled={loading && load}>
                 {loading && (
@@ -102,24 +112,28 @@ const LoginForm = () => {
                       width={40}
                       style={{ marginRight: "5px" }}
                     />
-                    <span>{t('Loading')}...</span>
+                    <span>{t("Loading")}...</span>
                   </>
                 )}
-                {load && <span className="lddd">{t('Loading')}...</span>}
-                {!loading && !load && t('Login')}
+                {load && <span className="lddd">{t("Loading")}...</span>}
+                {!loading && !load && t("Login")}
               </button>
               <div className="login">
                 {errorMessage && <div className="logerror">{errorMessage}</div>}
                 {!errorMessage && (
                   <p>
-                    {t('Do not have an account?')}{" "}
-                    <Link style={{fontWeight: "700"}} className="regww" href="/register">
-                      {t('Register')}
+                    {t("Do not have an account?")}{" "}
+                    <Link
+                      style={{ fontWeight: "700" }}
+                      className="regww"
+                      href="/register"
+                    >
+                      {t("Register")}
                     </Link>
                   </p>
                 )}
                 <br />
-                <p>{t('For better future')}</p>
+                <p>{t("For better future")}</p>
               </div>
             </form>
           </div>

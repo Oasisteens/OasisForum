@@ -7,6 +7,8 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import { TailSpin } from "react-loader-spinner";
 import { Picker } from "emoji-mart";
+import "@/app/i18n";
+import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 
 function Newsform({ admin, username }) {
@@ -32,7 +34,19 @@ function Newsform({ admin, username }) {
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   let newArray;
 
-  console.log(username);
+  const { t } = useTranslation();
+  const { i18n } = useTranslation();
+
+  // Pull info(language) from localStorage
+  useEffect(() => {
+    if(!localStorage.getItem("language")){
+      localStorage.setItem("language", navigator.language.substring(0, 2));
+    }
+    const selectedLanguage = localStorage.getItem("language");
+    if (selectedLanguage) {
+      i18n.changeLanguage(selectedLanguage);
+    }
+  }, [i18n]);
 
   const fetchNews = async () => {
     try {
@@ -240,20 +254,20 @@ function Newsform({ admin, username }) {
       <title>News</title>
       <div id="topBar">
         <a href="intro" className="titleg">
-          News
+          {t("News")}
         </a>
       </div>
       <br />
       <br />
       <a href="dashboard" id="backButton">
-        Back to Dashboard
+        {t("Back to Dashboard")}
       </a>
       <button className="refreshBtn" onClick={handleRefresh}>
-        Refresh
+        {t("Refresh")}
       </button>
       {admin && (
         <button className="adp" id="GaddPostBtn" onClick={handleAddPostClick}>
-          <span>Write news</span>
+          <span>{t("Write News")}</span>
         </button>
       )}
       {!inputBoxHidden && (

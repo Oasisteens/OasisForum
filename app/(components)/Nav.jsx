@@ -3,10 +3,13 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import "../src/nav.css";
+import "@/app/i18n";
+import { useTranslation } from "react-i18next";
 
 const Nav = () => {
   const [activeIcon, setActiveIcon] = useState(null);
   const [lift, setLift] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <nav className="dash">
@@ -45,7 +48,7 @@ const Nav = () => {
               }}
               href="/general"
             >
-              General
+              {t("General")}
             </Link>
           </li>
         </div>
@@ -73,7 +76,7 @@ const Nav = () => {
               }}
               href="/news"
             >
-              News
+              {t("News")}
             </Link>
           </li>
         </div>
@@ -96,7 +99,7 @@ const Nav = () => {
               }}
               href="/confession"
             >
-              Confession
+              {t("Confession")}
             </Link>
           </li>
         </div>
@@ -119,7 +122,7 @@ const Nav = () => {
               }}
               href="/discussion"
             >
-              Discussion
+              {t("Discussion")}
             </Link>
           </li>
         </div>
