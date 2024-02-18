@@ -16,7 +16,7 @@ import CommentUpload from "../commentUpload";
 import SubComment from "../subComment";
 import { useEffect } from "react";
 
-function Generalform({ admin, username }) {
+function Generalform({ username }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [load, setLoad] = useState(false);
@@ -48,9 +48,23 @@ function Generalform({ admin, username }) {
   // const [commentNumber, setCommentNumber] = useState([]);
   // The commentDisplay function is for showing the comment post button and the picturen upload button. If the content is focused, or in other words, the user is writing or editing the comment, it shows, else, we need to make space for showing other comments.
   const [addCommentDisplay, setAddCommentDisplay] = useState([]);
-  let newArray;
+  const [admin, setAdmin] = useState(false);
   const { t } = useTranslation();
-  const {i18n} = useTranslation()
+  const {i18n} = useTranslation();
+
+  useEffect(() => {
+    const fetchAdmin = async () => {
+      try {
+        const res = await axios.post("http://localhost:3000/api/fetchAdmin", {
+          username,
+        });
+        setAdmin(res.data.admin)
+      } catch (error) {
+        console.log("Error loading admin", error);
+      }
+    }
+    fetchAdmin();
+  },[])
 
   useEffect(() => {
     if(!localStorage.getItem("language")){
