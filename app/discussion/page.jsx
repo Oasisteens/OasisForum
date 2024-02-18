@@ -1,27 +1,35 @@
+'use client'
+import { useSession } from 'next-auth/react'
 import DiscussionForm from "@/components/discussionForm.jsx";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { useEffect } from 'react';
 import axios from "axios";
-import { authOptions } from "../api/auth/[...nextauth]/route.js";
 
-export default async function Discussion() {
+export default function Discussion() {
   let admin;
-  const session = await getServerSession(authOptions);
+  const session = useSession();
 
-  if (!session) redirect("/");
+  if (session.status === 'unauthenticated') redirect("/");
 
-  try {
-    const res = await axios.post("http://localhost:3000/api/fetchAdmin", {
-      username: session?.user?.name,
-    });
-    admin = res.data.admin;
-  } catch (error) {
-    console.log("Error loading admin", error);
+  useEffect(() => {
+    const fetchAdmin = async () => {
+      try {
+        const res = await axios.post("http://localhost:3000/api/fetchAdmin", {
+          username: session.data.user.name,
+        });
+        admin = res.data.admin;
+      } catch (error) {
+        console.log("Error loading admin", error);
+      }
+    }
+    fetchAdmin();
+  },[])
+
+  if(session.status === 'authenticated') {
+    return (
+      <main>
+        <DiscussionForm admin={admin} username={session.data.user.name} />
+      </main>
+    );
   }
-
-  return (
-    <main>
-      <DiscussionForm admin={admin} username={session?.user?.name} />
-    </main>
-  );
 }

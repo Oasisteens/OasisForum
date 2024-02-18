@@ -1,11 +1,16 @@
+'use client'
+import { useSession } from 'next-auth/react'
 import Dashboardform from "../../components/dashboardform/page.jsx";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route.js";
+import { redirect } from "next/navigation";
 
-export default async function Home() {
-  const session = await getServerSession(authOptions);
+export default function Home() {
+  const session = useSession();
 
-  if (session) {
-    return <Dashboardform username={session?.user?.name} />;
+  if (session.status === 'unauthenticated') {
+    redirect("/login");
+  }
+
+  if (session.status === 'authenticated') {
+    return <Dashboardform username={session.data.user.name} />;
   }
 }
