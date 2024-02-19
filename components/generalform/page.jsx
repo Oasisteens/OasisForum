@@ -2,7 +2,6 @@
 import "@/app/src/channels.css";
 import React from "react";
 import axios from "axios";
-import { franc } from "franc-min";
 import "@/app/i18n";
 import Skeleton from "../skeletons/Skeleton";
 import LikeButton from "../likeButton";
@@ -14,6 +13,7 @@ import SubCommentUpload from "../subCommentUpload";
 import ColorThief from "colorthief";
 import CommentUpload from "../commentUpload";
 import SubComment from "../subComment";
+import count from "word-count";
 import { useEffect } from "react";
 
 function Generalform({ username }) {
@@ -50,7 +50,7 @@ function Generalform({ username }) {
   const [addCommentDisplay, setAddCommentDisplay] = useState([]);
   const [admi, setAdmi] = useState(false);
   const { t } = useTranslation();
-  const {i18n} = useTranslation();
+  const { i18n } = useTranslation();
 
   useEffect(() => {
     const fetchAdmin = async () => {
@@ -58,18 +58,18 @@ function Generalform({ username }) {
         const res = await axios.post("http://localhost:3000/api/fetchAdmin", {
           username,
         });
-        setAdmi(res.data.admin)
+        setAdmi(res.data.admin);
       } catch (error) {
         console.log("Error loading admin", error);
       }
-    }
+    };
     fetchAdmin();
-  },[])
+  }, []);
 
   const admin = admi;
 
   useEffect(() => {
-    if(!localStorage.getItem("language")){
+    if (!localStorage.getItem("language")) {
       localStorage.setItem("language", navigator.language.substring(0, 2));
     }
     const selectedLanguage = localStorage.getItem("language");
@@ -261,10 +261,10 @@ function Generalform({ username }) {
     } else if (content === null || content === undefined) {
       alert("Content cannot be empty");
       return;
-    } else if (title.split(" ").filter((word) => word).length > 20) {
+    } else if (titleWords > 20) {
       alert("Title cannot be more than 20 words");
       return;
-    } else if (content.split(" ").filter((word) => word).length > 1000) {
+    } else if (contentWords > 1000) {
       alert("Content cannot be more than 1000 words");
       return;
     }
@@ -506,7 +506,8 @@ function Generalform({ username }) {
               placeholder={t("Enter title (20 words max)")}
               onInput={(e) => {
                 const value = e.target.value;
-                setTitleWords(value.split(" ").filter((word) => word).length);
+                const wordCount = count(value);
+                setTitleWords(wordCount);
                 setTitle(value); // Update title state
                 e.target.style.height = "40px";
                 e.target.style.height = e.target.scrollHeight + "px";
@@ -543,17 +544,7 @@ function Generalform({ username }) {
               placeholder={t("Write sth...")}
               onInput={(e) => {
                 const value = e.target.value;
-                const detectedLanguage = franc(value);
-                let wordCount;
-                if (
-                  detectedLanguage === "eng" ||
-                  detectedLanguage === "cmn" ||
-                  detectedLanguage === "jpn"
-                ) {
-                  wordCount = value.length;
-                } else {
-                  // 对于其他语言，你可能需要添加更多的条件分支
-                }
+                const wordCount = count(value);
                 setContentWords(wordCount);
                 setContent(value); // Update title state
                 e.target.style.height = "40px";

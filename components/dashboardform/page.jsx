@@ -28,7 +28,7 @@ export default function Dashboardform({ username }) {
 
   // Pull info(language) from localStorage
   useEffect(() => {
-    if(!localStorage.getItem("language")){
+    if (!localStorage.getItem("language")) {
       localStorage.setItem("language", navigator.language.substring(0, 2));
     }
     const selectedLanguage = localStorage.getItem("language");
@@ -141,13 +141,13 @@ export default function Dashboardform({ username }) {
   };
 
   return (
-    <body className="dash">
+    <main className="dash">
       <title>
         {username ? `${username}${t("'s Dashboard")}` : t("Dashboard")}
       </title>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <top className="dash">
+      <div className="dash">
         <Link href="intro" className="toIntro">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -207,7 +207,7 @@ export default function Dashboardform({ username }) {
             <option value="ja">日本語</option>
           </select>
         </div>
-      </top>
+      </div>
       {navVisible && (
         <div className="nav">
           <Nav />
@@ -327,6 +327,6 @@ export default function Dashboardform({ username }) {
           </div>
         </div>
       </section>
-    </body>
+    </main>
   );
 }

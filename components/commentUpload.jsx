@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { TailSpin } from "react-loader-spinner";
 import { useRef } from "react";
 import axios from "axios";
+import count from "word-count";
 
 const commentUpload = ({
   getComments,
@@ -35,7 +36,7 @@ const commentUpload = ({
     if (comment === null || comment === undefined) {
       alert(t("Comment cannot be empty"));
       return;
-    } else if (comment.split(" ").filter((word) => word).length > 500) {
+    } else if (commentWords > 500) {
       alert(t("Comment cannot be more than 500 words"));
       return;
     }
@@ -117,7 +118,8 @@ const commentUpload = ({
           }}
           onInput={(e) => {
             const value = e.target.value;
-            setCommentWords(value.split(" ").filter((word) => word).length);
+            const words = count(value);
+            setCommentWords(words);
             setComment(value); // Update title state
             e.target.style.height = "40px";
             e.target.style.height = e.target.scrollHeight + "px";
