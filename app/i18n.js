@@ -77,7 +77,6 @@ i18n
           "Username has been registered": "用户名已被注册",
           "Already have an account?": "已有账号？",
           "Invalid username or password": "用户名或密码错误",
-
           Dashboard: "主页",
           "'s Dashboard": "的主页",
           "You have no comments yet": "你还没有评论",
@@ -91,6 +90,11 @@ i18n
           Discussion: "讨论室",
           Confession: "告白墙",
           "Write News": "发布公告",
+
+          Pink: "活力粉",
+          Blue: "深沉蓝",
+          Purple: "高贵紫",
+          Red: "热情红",
         },
       },
       es: {

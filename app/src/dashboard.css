@@ -1,5 +1,6 @@
 :root {
   --width: 100vw;
+  --main-color: #133153;
 }
 
 h1.h11 {
@@ -178,7 +179,7 @@ div.dash {
   top: 0;
   left: 0;
   text-align: center;
-  background-color: #133153;
+  background-color: var(--main-color);
   height: 8vh;
   width: var(--width);
 }
@@ -219,6 +220,30 @@ div.nav {
 }
 
 .language-selector select {
+  padding: 5px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  color: #3c4043;
+}
+
+.language-selector select:active, .language-selector select:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+div.color-selector {
+  position: absolute;
+  top: 10px;
+  right: 120px;
+}
+.color-selector select:active, .color-selector select:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+div.color-selector select {
   padding: 5px;
   font-size: 14px;
   border: none;

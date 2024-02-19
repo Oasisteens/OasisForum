@@ -9,6 +9,7 @@ import "@/app/i18n";
 import { useTranslation } from "react-i18next";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import "../../app/src/dashboard.css";
+import { event } from "jquery";
 
 export default function Dashboardform({ username }) {
   const [posts, setPosts] = useState([]);
@@ -20,13 +21,14 @@ export default function Dashboardform({ username }) {
   const [lshow, setLshow] = useState(false);
   const [rshow, setRshow] = useState(false);
   const [navVisible, setNavVisible] = useState(false);
+  const [color, setColor] = useState("#133153");
 
   // i18n setting
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const language = i18n.language.substring(0, 2); // get language from i18n
-
   // Pull info(language) from localStorage
+
   useEffect(() => {
     if (!localStorage.getItem("language")) {
       localStorage.setItem("language", navigator.language.substring(0, 2));
@@ -37,11 +39,29 @@ export default function Dashboardform({ username }) {
     }
   }, [i18n]);
 
+  useEffect(() => {
+    if (!localStorage.getItem("color")) {
+      localStorage.setItem("color", "#133153");
+    }
+    const selectedColor = localStorage.getItem("dashColor");
+    if (selectedColor) {
+      document.documentElement.style.setProperty("--main-color", selectedColor);
+      setColor(selectedColor);
+    }
+  }, [i18n]);
+
   const changeLanguage = (event) => {
     const selectedLanguage = event.target.value;
     i18n.changeLanguage(selectedLanguage);
     // save user option in localStorage
     localStorage.setItem("language", selectedLanguage);
+  };
+
+  const changeColor = (event) => {
+    const selectedColor = event.target.value;
+    setColor(selectedColor);
+    document.documentElement.style.setProperty("--main-color", selectedColor);
+    localStorage.setItem("dashColor", selectedColor);
   };
 
   const leftover = posts.length % 5;
@@ -205,6 +225,19 @@ export default function Dashboardform({ username }) {
             <option value="es">Español</option>
             <option value="fr">Français</option>
             <option value="ja">日本語</option>
+          </select>
+        </div>
+        <div className="color-selector">
+          <select
+            id="color"
+            name="color"
+            onChange={changeColor}
+            value={color}
+          >
+            <option value="#ff4777">{t('Pink')}</option>
+            <option value="#133153">{t('Blue')}</option>
+            <option value="#980065">{t('Purple')}</option>
+            <option value="#dc3023">{t('Red')}</option>
           </select>
         </div>
       </div>
