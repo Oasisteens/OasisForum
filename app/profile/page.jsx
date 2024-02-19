@@ -1,13 +1,15 @@
+'use client'
+import { useSession } from "next-auth/react";
 import UserInfo from "@/components/userinfo/page.jsx";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 
-export default async function profile() {
-  const session = await getServerSession(authOptions);
-  console.log(session);
-  if (!session) {
+export default function profile() {
+  const session = useSession();
+  if (session.status === 'unauthenticated') {
     redirect("/login");
   }
-  return <UserInfo />;
+  if(session.status === 'authenticated'){
+    return <UserInfo />;
+  }
+ 
 }

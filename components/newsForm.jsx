@@ -11,7 +11,7 @@ import "@/app/i18n";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 
-function Newsform({ admin, username }) {
+function Newsform({ username }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [load, setLoad] = useState(false);
@@ -32,6 +32,23 @@ function Newsform({ admin, username }) {
   const [likeloads, setLikeloads] = useState(true);
   const [likeload, setLikeload] = useState([]);
   const [selectedEmoji, setSelectedEmoji] = useState(null);
+  const [admi, setAdmi] = useState(false);
+
+  useEffect(() => {
+    const fetchAdmin = async () => {
+      try {
+        const res = await axios.post("/api/fetchAdmin", {
+          username: username,
+        });
+        setAdmi(res.data.admin);
+      } catch (error) {
+        console.log("Error loading admin", error);
+      }
+    };
+    fetchAdmin();
+  }, [])
+
+  const admin = admi;
   let newArray;
 
   const { t } = useTranslation();
@@ -251,7 +268,7 @@ function Newsform({ admin, username }) {
   }, []);
   return (
     <>
-      <title>News</title>
+      <title>{t('News')}</title>
       <div id="topBar">
         <a href="intro" className="titleg">
           {t("News")}
