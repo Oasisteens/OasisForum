@@ -9,7 +9,6 @@ import "@/app/i18n";
 import { useTranslation } from "react-i18next";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import "../../app/src/dashboard.css";
-import { event } from "jquery";
 
 export default function Dashboardform({ username }) {
   const [posts, setPosts] = useState([]);
@@ -22,6 +21,17 @@ export default function Dashboardform({ username }) {
   const [rshow, setRshow] = useState(false);
   const [navVisible, setNavVisible] = useState(false);
   const [color, setColor] = useState("#133153");
+  const colorRegex = /#ff4777|#133153|#980065|#dc3023/;
+
+  // Custom Color hasn't finished
+
+  // const changeCustomColor = (event) => {
+  //   const value = event.target.customColor.value;
+  //   setColor(value);
+  //   document.documentElement.style.setProperty("--main-color", value);
+  //   localStorage.setItem("dashColor", value);
+  //   setShowColorPicker(false);
+  // }
 
   // i18n setting
   const { t } = useTranslation();
@@ -48,7 +58,7 @@ export default function Dashboardform({ username }) {
       document.documentElement.style.setProperty("--main-color", selectedColor);
       setColor(selectedColor);
     }
-  }, [i18n]);
+  }, []);
 
   const changeLanguage = (event) => {
     const selectedLanguage = event.target.value;
@@ -59,9 +69,11 @@ export default function Dashboardform({ username }) {
 
   const changeColor = (event) => {
     const selectedColor = event.target.value;
-    setColor(selectedColor);
-    document.documentElement.style.setProperty("--main-color", selectedColor);
-    localStorage.setItem("dashColor", selectedColor);
+    if(selectedColor) {
+      setColor(selectedColor);
+      document.documentElement.style.setProperty("--main-color", selectedColor);
+      localStorage.setItem("dashColor", selectedColor);
+    }
   };
 
   const leftover = posts.length % 5;
@@ -232,13 +244,21 @@ export default function Dashboardform({ username }) {
             id="color"
             name="color"
             onChange={changeColor}
-            value={color}
+            value={colorRegex.test(color) && color}
           >
             <option value="#ff4777">{t('Pink')}</option>
             <option value="#133153">{t('Blue')}</option>
             <option value="#980065">{t('Purple')}</option>
             <option value="#dc3023">{t('Red')}</option>
+            {/* <option value="custom">{t('Custom')}</option> */}
           </select>
+          {/* Custom Color hasn't finished */}
+          {/* {showColorPicker && (
+            <form onSubmit={changeCustomColor}>
+              <input type="color" name="customColor" id="customColor" value={color} />
+              <button type="submit">{t('Choose')}</button>
+            </form>
+      )} */}
         </div>
       </div>
       {navVisible && (
