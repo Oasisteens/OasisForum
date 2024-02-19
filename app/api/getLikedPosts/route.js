@@ -6,17 +6,21 @@ import Like from "@/models/like";
 
 export async function GET(req) {
   await DBconnect();
-  var posts = [];
-  var likes = [];
-  const username = req.nextUrl.query.username;
-  const likestatuses = await Likestatus.find({ username: username });
-  await Promise.all(
+  const username = req.nextUrl.searchParams.get("username");
+  const likestatusesMongo = await Likestatus.find({ username: username });
+  const likestatuses = likestatusesMongo.toJSON();
+
+  const results = await Promise.all(
     likestatuses.map(async (likestatus) => {
-      const post = await Post.findOne({ _id: likestatus.postId });
-      const like = await Like.findOne({ postId: likestatus.postId });
-      posts.push(post);
-      likes.push(like);
+      const postPromise = Post.findOne({ _id: likestatus.postId });
+      const likePromise = Like.findOne({ postId: likestatus.postId });
+      const [post, like] = await Promise.all([postPromise, likePromise]);
+      return { post, like };
     }),
   );
+
+  const posts = results.map(result => result.post);
+  const likes = results.map(result => result.like);
+
   return NextResponse.json({ posts, likes }, { postslikes });
 }
