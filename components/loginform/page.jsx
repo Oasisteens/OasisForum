@@ -22,7 +22,7 @@ const LoginForm = () => {
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   useEffect(() => {
-    if(!localStorage.getItem("language")){
+    if (!localStorage.getItem("language")) {
       localStorage.setItem("language", navigator.language.substring(0, 2));
     }
     const selectedLanguage = localStorage.getItem("language");

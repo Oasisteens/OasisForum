@@ -1,15 +1,19 @@
-'use client'
-import { useSession } from 'next-auth/react'
+"use client";
+import { useSession } from "next-auth/react";
 import DiscussionForm from "@/components/discussionForm.jsx";
 import { redirect } from "next/navigation";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import axios from "axios";
 
 export default function Discussion() {
   let admin;
   const session = useSession();
 
-  if (session.status === 'unauthenticated') redirect("/");
+  useEffect(() => {
+    if (session.status === "unauthenticated") {
+      redirect("/login");
+    }
+  }, [session.status]);
 
   useEffect(() => {
     const fetchAdmin = async () => {
@@ -21,11 +25,20 @@ export default function Discussion() {
       } catch (error) {
         console.log("Error loading admin", error);
       }
-    }
+    };
     fetchAdmin();
-  },[])
+  }, []);
 
-  if(session.status === 'authenticated') {
+  if (session.status === "loading" || session.status === "loaded") {
+    return (
+      <div class="ring">
+        Loading
+        <span className="ringspan"></span>
+      </div>
+    );
+  }
+
+  if (session.status === "authenticated") {
     return (
       <main>
         <DiscussionForm admin={admin} username={session.data.user.name} />

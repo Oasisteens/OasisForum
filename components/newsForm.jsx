@@ -46,7 +46,7 @@ function Newsform({ username }) {
       }
     };
     fetchAdmin();
-  }, [])
+  }, []);
 
   const admin = admi;
   let newArray;
@@ -56,7 +56,7 @@ function Newsform({ username }) {
 
   // Pull info(language) from localStorage
   useEffect(() => {
-    if(!localStorage.getItem("language")){
+    if (!localStorage.getItem("language")) {
       localStorage.setItem("language", navigator.language.substring(0, 2));
     }
     const selectedLanguage = localStorage.getItem("language");
@@ -268,7 +268,7 @@ function Newsform({ username }) {
   }, []);
   return (
     <>
-      <title>{t('News')}</title>
+      <title>{t("News")}</title>
       <div id="topBar">
         <a href="intro" className="titleg">
           {t("News")}
