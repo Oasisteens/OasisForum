@@ -91,10 +91,10 @@ i18n
           Confession: "告白墙",
           "Write News": "发布公告",
 
-          Pink: "活力粉",
-          Blue: "深沉蓝",
+          Pink: "可爱粉",
+          Blue: "远峰蓝",
           Purple: "高贵紫",
-          Red: "热情红",
+          Red: "活力红",
           " files has been uploaded": "个文件已上传",
           " file has been uploaded": "个文件已上传",
         },

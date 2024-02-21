@@ -429,6 +429,7 @@ button.postBtn {
   padding-left: 1rem;
   padding-right: 1rem;
   background-color: var(--sec-color);
+  transition: 0.3s;
 }
 button.postBtn:hover {
   transition: 0.3s;
@@ -445,6 +446,7 @@ button.closeForm {
   padding-left: 1rem;
   padding-right: 1rem;
   background-color: var(--sec-color);
+  transition: 0.3s;
 }
 button.closeForm:hover {
   transition: 0.3s;
@@ -569,15 +571,17 @@ div.ptitle {
 label[for="input-files"] {
   padding: 10px;
   position: relative;
-  background-color: #2196f3;
+  background-color: var(--sec-color);
   color: white;
   cursor: pointer;
   border-radius: 5px;
+  transition: 0.3s;
 }
 
 /* Change the label style on hover */
 label[for="input-files"]:hover {
-  background-color: #0d8aee;
+  transition: 0.3s;
+  background-color: var(--sub-color);
 }
 
 div.formBottom {
