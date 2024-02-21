@@ -2,7 +2,9 @@
 import { useState } from "react";
 import axios from "axios";
 import React, { useEffect } from "react";
-import styles from "../app/src/confession.scss";
+import "../app/src/confession.scss";
+import { TailSpin } from "react-loader-spinner";
+import { useTranslation } from "react-i18next";
 import loveWords from "../app/src/loveWords.json";
 
 export default function Confessionform({ username }) {
@@ -10,10 +12,11 @@ export default function Confessionform({ username }) {
   const [nickname, setNickname] = useState("");
   const [content, setContent] = useState("");
   const [hidden, setHidden] = useState(true);
-  const [anonymous, setAnonymous] = useState(true);
   const [loveforms, setLoveforms] = useState([]);
   const [cn, setCn] = useState("");
+  const [loading, setLoading] = useState(false);
   const [en, setEn] = useState("");
+  const {t} = useTranslation();
 
   useEffect(() => {
     const loveWordsArray = Object.values(loveWords);
@@ -38,23 +41,29 @@ export default function Confessionform({ username }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const response = await axios.post("/api/fetchLove", {
         username,
         toWho,
         nickname,
         content,
-        anonymous,
       });
+      setLoading(false);
+      closeForm();
+      getLove();
     } catch (error) {
       console.log(error);
     }
   };
 
   const openForm = () => {
-    setHidden(false);
+    setHidden(!hidden);
   };
   const closeForm = () => {
     setHidden(true);
+    setToWho("");
+    setNickname("");
+    setContent("");
   };
 
   return (
@@ -62,11 +71,6 @@ export default function Confessionform({ username }) {
       <div className="pyro">
         <div className="before"></div>
         <div className="after"></div>
-        <div className="loveSentence">
-          {cn}
-          <br />
-          {en}
-        </div>
         <button className="openFormBtn" onClick={() => openForm()}>
           Express your love
         </button>
@@ -83,22 +87,44 @@ export default function Confessionform({ username }) {
               <button className="closeFormBtn" onClick={() => closeForm()}>
                 X
               </button>
-              <input
+              <textarea
                 type="text"
                 className="IPT"
                 name="toWho"
                 required
                 placeholder="To who?"
+                onInput={(e) => {
+                  const value = e.target.value;
+                  setToWho(value); // Update title state
+                  e.target.style.height = e.target.scrollHeight + "px";
+                }}
+                onFocus={(e) => {
+                  e.target.style.color = "black";
+                  e.target.style.height = e.target.scrollHeight + "px";
+                }}
+                onBlur={(e) => {
+                  e.target.style.color = "gray";
+                }}
                 value={toWho}
-                onChange={(e) => setToWho(e.target.value)}
               />
-              <input
+              <textarea
                 type="text"
                 className="IPT"
                 name="nickname"
                 placeholder="Your nickname?"
+                onInput={(e) => {
+                  const value = e.target.value;
+                  setNickname(value); // Update title state
+                  e.target.style.height = e.target.scrollHeight + "px";
+                }}
+                onFocus={(e) => {
+                  e.target.style.color = "black";
+                  e.target.style.height = e.target.scrollHeight + "px";
+                }}
+                onBlur={(e) => {
+                  e.target.style.color = "gray";
+                }}
                 value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
               />
               <textarea
                 required
@@ -108,7 +134,6 @@ export default function Confessionform({ username }) {
                 rows={1}
                 onInput={(e) => {
                   const value = e.target.value;
-                  // setTitleWords(value.split(" ").filter((word) => word).length);
                   setContent(value); // Update title state
                   e.target.style.height = e.target.scrollHeight + "px";
                 }}
@@ -121,13 +146,14 @@ export default function Confessionform({ username }) {
                 }}
                 value={content}
               />
-              <input
-                type="checkbox"
-                name="anonymous"
-                value={anonymous}
-                onChange={(e) => setAnonymous(e.target.value)}
-              />
-              <button type="submit">Submit</button>
+              <button
+                type="submit"
+                className={`confessionBtn ${!loading && "add"}`}
+                disabled={loading}
+              >
+                {!loading && <p>{t("Post")}</p>}
+                {loading && t('Loading...')}
+              </button>
             </form>
           </div>
         )}
@@ -140,6 +166,11 @@ export default function Confessionform({ username }) {
             </div>
           ))}
         </div>
+        <footer className="loveSentence">
+          {cn}
+          <br />
+          {en}
+        </footer>
       </div>
     </body>
   );

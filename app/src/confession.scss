@@ -78,7 +78,8 @@ body.loveBg {
   padding: 0;
   color: white;
   background: #003366;
-  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .pyro > .before,
@@ -162,15 +163,16 @@ button.openFormBtn {
 button.openFormBtn:hover {
   background-color: #a4a4a4;
 }
-div.loveSentence {
+footer.loveSentence {
+  text-align: center;
   font-style: italic;
   color: rgb(255, 255, 255);
-  position: fixed;
+  width: 100vw;
+  position: relative;
+  margin-top: 4vh;
+  margin-bottom: 8vh;
   font-size: 0.8rem;
   text-align: center;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 div.loveOne {
   color: black;
@@ -197,7 +199,8 @@ div.formContainer {
   top: 20vh;
 }
 div.loveBody {
-  position: absolute;
+  position: relative;
+  width: 75vw;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
@@ -224,4 +227,16 @@ div.lvNickname {
 div.lvContent {
   white-space: pre-wrap;
   overflow-wrap: break-word;
+}
+button.confessionBtn{
+  background-color: var(--blue-lighter);
+  border-radius: 20px;
+  padding: 4px;
+  width: 8vw;
+  color: white;
+  transition: 0.3s;
+}
+button.add:hover{
+  background-color: var(--blue-lightest);
+  transition: 0.3s;
 }
