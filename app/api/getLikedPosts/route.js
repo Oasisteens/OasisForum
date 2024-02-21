@@ -19,8 +19,8 @@ export async function GET(req) {
     }),
   );
 
-  const posts = results.map(result => result.post);
-  const likes = results.map(result => result.like);
+  const posts = results.map((result) => result.post);
+  const likes = results.map((result) => result.like);
 
   return NextResponse.json({ posts, likes }, { postslikes });
 }
