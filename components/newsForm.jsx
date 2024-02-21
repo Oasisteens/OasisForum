@@ -403,7 +403,7 @@ function Newsform({ username }) {
       )}
       <div className="bg">
         <div id="posts" className="word-box">
-        <br />
+          <br />
           {loading
             ? Array.from({ length: 15 }).map((_, i) => (
                 <div className="borderClass" key={i}>
