@@ -167,7 +167,9 @@ const commentUpload = ({
                 fontWeight: "600",
               }}
             >
-              {t("Pictures")}
+              {commentFiles.length > 1 && `${commentFiles.length}${t(' files has been uploaded')}`}
+              {commentFiles.length === 1 && `${commentFiles.length}${t(' file has been uploaded')}`}
+              {!(commentFiles.length > 1) && !(commentFiles.length === 1) && t('Pictures')}
               <input
                 type="file"
                 id="input-files"

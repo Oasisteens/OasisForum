@@ -95,6 +95,8 @@ i18n
           Blue: "深沉蓝",
           Purple: "高贵紫",
           Red: "热情红",
+          " files has been uploaded": "个文件已上传",
+          " file has been uploaded": "个文件已上传",
         },
       },
       es: {
