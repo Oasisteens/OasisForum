@@ -228,7 +228,8 @@ div.nav {
   color: #3c4043;
 }
 
-.language-selector select:active, .language-selector select:focus {
+.language-selector select:active,
+.language-selector select:focus {
   outline: none;
   box-shadow: none;
 }
@@ -238,7 +239,8 @@ div.color-selector {
   top: 10px;
   right: 120px;
 }
-.color-selector select:active, .color-selector select:focus {
+.color-selector select:active,
+.color-selector select:focus {
   outline: none;
   box-shadow: none;
 }

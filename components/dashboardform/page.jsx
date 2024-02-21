@@ -69,7 +69,7 @@ export default function Dashboardform({ username }) {
 
   const changeColor = (event) => {
     const selectedColor = event.target.value;
-    if(selectedColor) {
+    if (selectedColor) {
       setColor(selectedColor);
       document.documentElement.style.setProperty("--main-color", selectedColor);
       localStorage.setItem("dashColor", selectedColor);
@@ -246,10 +246,10 @@ export default function Dashboardform({ username }) {
             onChange={changeColor}
             value={colorRegex.test(color) && color}
           >
-            <option value="#ff4777">{t('Pink')}</option>
-            <option value="#133153">{t('Blue')}</option>
-            <option value="#980065">{t('Purple')}</option>
-            <option value="#dc3023">{t('Red')}</option>
+            <option value="#ff4777">{t("Pink")}</option>
+            <option value="#133153">{t("Blue")}</option>
+            <option value="#980065">{t("Purple")}</option>
+            <option value="#dc3023">{t("Red")}</option>
             {/* <option value="custom">{t('Custom')}</option> */}
           </select>
           {/* Custom Color hasn't finished */}
