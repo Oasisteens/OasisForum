@@ -575,7 +575,9 @@ function Generalform({ username }) {
             <br />
             <br />
             <label htmlFor="input-files" className="picUpload">
-              {t("Pictures")}
+              {files.length > 1 && `${files.length}${t(' files has been uploaded')}`}
+              {files.length === 1 && `${files.length}${t(' file has been uploaded')}`}
+              {!(files.length > 1) && !(files.length === 1) && t('Pictures')}
               <input
                 type="file"
                 id="input-files"
