@@ -20,8 +20,7 @@ export default function Dashboardform({ username }) {
   const [lshow, setLshow] = useState(false);
   const [rshow, setRshow] = useState(false);
   const [navVisible, setNavVisible] = useState(false);
-  const [color, setColor] = useState("#133153");
-  const colorRegex = /#ff4777|#133153|#980065|#dc3023/;
+  const [color, setColor] = useState("blue");
 
   // Custom Color hasn't finished
 
@@ -50,12 +49,15 @@ export default function Dashboardform({ username }) {
   }, [i18n]);
 
   useEffect(() => {
-    if (!localStorage.getItem("color")) {
-      localStorage.setItem("color", "#133153");
+    if (!localStorage.getItem("dashColor")) {
+      localStorage.setItem("dashColor", "blue");
     }
     const selectedColor = localStorage.getItem("dashColor");
     if (selectedColor) {
-      document.documentElement.style.setProperty("--main-color", selectedColor);
+      document.documentElement.style.setProperty(
+        "--dash-color",
+        `var(--${selectedColor})`,
+      );
       setColor(selectedColor);
     }
   }, []);
@@ -71,7 +73,10 @@ export default function Dashboardform({ username }) {
     const selectedColor = event.target.value;
     if (selectedColor) {
       setColor(selectedColor);
-      document.documentElement.style.setProperty("--main-color", selectedColor);
+      document.documentElement.style.setProperty(
+        "--dash-color",
+        `var(--${selectedColor})`,
+      );
       localStorage.setItem("dashColor", selectedColor);
     }
   };
@@ -240,16 +245,11 @@ export default function Dashboardform({ username }) {
           </select>
         </div>
         <div className="color-selector">
-          <select
-            id="color"
-            name="color"
-            onChange={changeColor}
-            value={colorRegex.test(color) && color}
-          >
-            <option value="#ff4777">{t("Pink")}</option>
-            <option value="#133153">{t("Blue")}</option>
-            <option value="#980065">{t("Purple")}</option>
-            <option value="#dc3023">{t("Red")}</option>
+          <select id="color" name="color" onChange={changeColor} value={color}>
+            <option value="pink">{t("Pink")}</option>
+            <option value="blue">{t("Blue")}</option>
+            <option value="purple">{t("Purple")}</option>
+            <option value="red">{t("Red")}</option>
             {/* <option value="custom">{t('Custom')}</option> */}
           </select>
           {/* Custom Color hasn't finished */}

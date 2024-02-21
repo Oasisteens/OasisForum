@@ -3,17 +3,27 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+  --pink-lightest: #ff8fb3;
+  --pink-lighter: #c04d8f;
+  --pink-light: #8a3373;
+  --pink: #f668ab;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --purple-lightest: #d880ff;
+  --purple-lighter: #8e20cc;
+  --purple-light: #6c1a99;
+  --purple: #b026ff;
+
+  --red-lightest: #ff9494;
+  --red-lighter: #b0271d;
+  --red-light: #841d17;
+  --red: #dc3023;
+
+  --blue-lightest: #2c9aff;
+  --blue-lighter: #1976d2;
+  --blue-light: #1a699e;
+  --blue: #133153;
+
+  --ring-color: var(--blue-lightest);
 }
 
 body {
@@ -35,10 +45,10 @@ body {
   line-height: 150px;
   font-family: sans-serif;
   font-size: 20px;
-  color: pink;
+  color: var(--ring-color);
   letter-spacing: 4px;
   text-transform: uppercase;
-  text-shadow: 0 0 10px pink;
+  text-shadow: 0 0 10px var(--ring-color);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 .ring:before {
@@ -49,8 +59,8 @@ body {
   width: 100%;
   height: 100%;
   border: 3px solid transparent;
-  border-top: 3px solid pink;
-  border-right: 3px solid pink;
+  border-top: 3px solid var(--ring-color);
+  border-right: 3px solid var(--ring-color);
   border-radius: 50%;
   animation: animateC 2s linear infinite;
 }
@@ -71,10 +81,10 @@ span.ringspan:before {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: pink;
+  background: var(--ring-color);
   top: -6px;
   right: -8px;
-  box-shadow: 0 0 20px pink;
+  box-shadow: 0 0 20px var(--ring-color);
 }
 @keyframes animateC {
   0% {
