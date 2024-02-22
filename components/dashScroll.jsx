@@ -107,7 +107,7 @@ const DashScroll = ({ posts, likes, ind, info }) => {
         )}
         {posts.length > 0 && !lshow && <div className="postBtns" />}
         {(posts.length === 0 || posts.length === undefined) && (
-          <p className="dashp">
+          <p className="dashp" style={{margin: "2vh 2vh"}}>
             {mapping[`${info}`] === 1
               ? t("You have no posts yet")
               : mapping[`${info}`] === 2
