@@ -1,6 +1,7 @@
 :root {
   --width: 100vw;
   --dash-color: #133153;
+  --scroll-color: var(--blue-lighter);
 }
 
 h1.h11 {
@@ -116,7 +117,7 @@ div.myPost {
   border-radius: 20px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
   background-color: white;
-  color: #22a0ce;
+  color: var(--scroll-color);
   padding: 0.5rem;
   width: 10vw;
 }
@@ -152,15 +153,16 @@ div.myPosts {
 div.postBtns {
   position: relative;
   width: 40px;
+  align-items: center;
   height: 40px;
-  left: 1vw;
+  margin: 1vw;
 }
 button.postBtns {
-  top: 2.5vw;
+  top: 2.2vh;
   position: relative;
   width: 40px;
   height: 40px;
-  left: 1vw;
+  margin: 1vw;
 }
 p.dashp {
   position: relative;

@@ -7,8 +7,7 @@ import Like from "@/models/like";
 export async function GET(req) {
   await DBconnect();
   const username = req.nextUrl.searchParams.get("username");
-  const likestatusesMongo = await Likestatus.find({ username: username });
-  const likestatuses = likestatusesMongo.toJSON();
+  const likestatuses = await Likestatus.find({ username: username });
 
   const results = await Promise.all(
     likestatuses.map(async (likestatus) => {
@@ -22,5 +21,8 @@ export async function GET(req) {
   const posts = results.map((result) => result.post);
   const likes = results.map((result) => result.like);
 
-  return NextResponse.json({ posts, likes }, { postslikes });
+  return NextResponse.json(
+    { posts, likes, message: "Successfully fetched liked posts" },
+    { status: "200" },
+  );
 }
