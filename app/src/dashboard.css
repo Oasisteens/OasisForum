@@ -62,7 +62,6 @@ section.secd {
   overflow-y: scroll;
   background-color: #f2f4f5;
   overflow-x: hidden;
-  padding: 2rem;
   color: #374151;
   font-size: 1.2rem;
   height: 100vh;
@@ -81,10 +80,10 @@ section.secd::-webkit-scrollbar-thumb {
 
 /* This is the handle on hover */
 section.secd::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(56, 239, 208);
+  background-color: var(--scroll-color);
 }
 h1.dashh1 {
-  top: 1.7vh;
+  top: 14px;
   left: 50%;
   color: white;
   transform: translateX(-50%);
@@ -92,25 +91,13 @@ h1.dashh1 {
   position: absolute;
   font-weight: 550;
 }
-div.comments {
-  padding: 3rem;
-  text-align: left;
-}
-div.posts {
-  padding: 3rem;
-}
-div.likes {
-  padding: 3rem;
-}
-div.like {
-  padding: 3rem;
-}
 h2.dashh2 {
   position: relative;
-  left: 4vw;
+  left: 2vw;
 }
 div.dashpost {
   display: flex;
+  width: 100vw;
 }
 div.myPost {
   border: #e5e7eb solid 1px;
@@ -119,11 +106,14 @@ div.myPost {
   background-color: white;
   color: var(--scroll-color);
   padding: 0.5rem;
-  width: 10vw;
+  width: 17vw;
+}
+div.myAdd {
+  width: 14.6vw;
 }
 div.myPosts {
   display: flex;
-  gap: 6.5vw;
+  gap: 2vw;
 }
 .item-enter {
   opacity: 0;
@@ -182,7 +172,7 @@ div.dash {
   left: 0;
   text-align: center;
   background-color: var(--dash-color);
-  height: 8vh;
+  height: 65px;
   width: var(--width);
 }
 button.menuBtn {

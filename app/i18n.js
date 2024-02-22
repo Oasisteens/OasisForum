@@ -97,6 +97,7 @@ i18n
           Red: "活力红",
           " files has been uploaded": "个文件已上传",
           " file has been uploaded": "个文件已上传",
+          "Likes: ": "赞: ",
         },
       },
       es: {
