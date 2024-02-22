@@ -1,23 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+  --main-color: var(--blue);
+  --sub-color: var(--blue-lighter);
+  --third-color: var(--blue-lightest);
+}
 .background {
-  background-color: #f4a896;
+  background-color: #fbfbfb;
   height: 100vh;
   width: 100vw;
 }
 .card {
   position: absolute;
   margin: auto;
-  background-color: #358597;
+  background-color: var(--main-color);
   border-radius: 0.5rem;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  height: fit-content;
-  width: fit-content;
-  width: -moz-fit-content;
+  height: auto;
+  width: auto;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -27,17 +31,18 @@
 .card-text {
   font-size: 1.125rem;
   font-weight: 600;
+  color: white;
 }
 
 .blue-text {
   font-style: bold;
-  color: #114dcf;
+  color: var(--third-color);
 }
 
 .logout-btn {
-  background-color: #f4a896;
+  background-color: var(--sub-color);
   font-weight: 800;
-  color: black;
+  color: white;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   padding-top: 0.5rem;
@@ -46,16 +51,11 @@
 }
 
 .logout-btn:hover {
-  background-color: rgb(240, 122, 142);
-}
-
-.logout-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.5);
+  background-color: var(--third-color);
 }
 
 .redi {
-  color: #f4a896;
+  color: var(--sub-color);
   font-weight: 800;
   font-size: 1rem;
   text-align: center;
@@ -64,6 +64,6 @@
 }
 
 .redi:hover {
-  color: rgb(240, 122, 142);
+  color: var(--third-color);
   text-decoration: underline;
 }

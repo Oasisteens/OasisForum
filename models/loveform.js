@@ -25,9 +25,6 @@ const loveformSchema = new Schema({
         .replace("Z", ""),
     immutable: true,
   },
-  anonymous: {
-    type: Boolean,
-  },
 });
 
 const Loveform =

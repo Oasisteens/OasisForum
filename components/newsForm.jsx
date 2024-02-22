@@ -35,6 +35,40 @@ function Newsform({ username }) {
   const [admi, setAdmi] = useState(false);
 
   useEffect(() => {
+    if (!localStorage.getItem("dashColor")) {
+      localStorage.setItem("dashColor", "blue");
+    }
+    const selectedColor = localStorage.getItem("dashColor");
+    if (selectedColor !== "blue") {
+      document.documentElement.style.setProperty(
+        "--main-color",
+        `var(--${selectedColor})`,
+      );
+      document.documentElement.style.setProperty(
+        "--sub-color",
+        `var(--${selectedColor}-light)`,
+      );
+      document.documentElement.style.setProperty(
+        "--sec-color",
+        `var(--${selectedColor}-lightest)`,
+      );
+    } else {
+      document.documentElement.style.setProperty(
+        "--main-color",
+        `var(--blue-lighter)`,
+      );
+      document.documentElement.style.setProperty(
+        "--sub-color",
+        `var(--blue-light)`,
+      );
+      document.documentElement.style.setProperty(
+        "--sec-color",
+        `var(--blue-lightest)`,
+      );
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchAdmin = async () => {
       try {
         const res = await axios.post("/api/fetchAdmin", {
@@ -369,6 +403,7 @@ function Newsform({ username }) {
       )}
       <div className="bg">
         <div id="posts" className="word-box">
+          <br />
           {loading
             ? Array.from({ length: 15 }).map((_, i) => (
                 <div className="borderClass" key={i}>
@@ -478,7 +513,9 @@ function Newsform({ username }) {
                         ))}
                     </div>
                     <br />
-                    <p className="postT">posted on {post.postingtime}</p>
+                    <p className="postT">
+                      {t("posted on")} {post.postingtime}
+                    </p>
                     <br />
                     <div className="likeContainer">
                       {likes.map((like, likeIndex) => (

@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import Loginform from "@/components/loginform/page.jsx";
 import { redirect } from "next/navigation";
-import "../src/login.css"
+import "../src/loader.css";
 
 export default function Login() {
   const session = useSession();
@@ -15,9 +15,8 @@ export default function Login() {
   }, [session.status]);
   if (session.status === "loading" || session.status === "loaded") {
     return (
-      <div class="ring">
-        Loading
-        <span className="ringspan"></span>
+      <div className="wrapper">
+        <div className="loader" />
       </div>
     );
   }
