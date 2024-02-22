@@ -19,6 +19,6 @@ export default function profile() {
     );
   }
   if (session.status === "authenticated") {
-    return <UserInfo />;
+    return <UserInfo username={session.data.user.name} />;
   }
 }
