@@ -16,7 +16,7 @@ export default function Confessionform({ username }) {
   const [cn, setCn] = useState("");
   const [loading, setLoading] = useState(false);
   const [en, setEn] = useState("");
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const loveWordsArray = Object.values(loveWords);
@@ -152,7 +152,7 @@ export default function Confessionform({ username }) {
                 disabled={loading}
               >
                 {!loading && <p>{t("Post")}</p>}
-                {loading && t('Loading...')}
+                {loading && t("Loading...")}
               </button>
             </form>
           </div>

@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import Loginform from "@/components/loginform/page.jsx";
 import { redirect } from "next/navigation";
-import "../src/loader.css"
+import "../src/loader.css";
 
 export default function Login() {
   const session = useSession();
