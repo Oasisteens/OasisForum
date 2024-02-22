@@ -78,6 +78,40 @@ function Generalform({ username }) {
     }
   }, [i18n]);
 
+  useEffect(() => {
+    if (!localStorage.getItem("dashColor")) {
+      localStorage.setItem("dashColor", "blue");
+    }
+    const selectedColor = localStorage.getItem("dashColor");
+    if (selectedColor !== "blue") {
+      document.documentElement.style.setProperty(
+        "--main-color",
+        `var(--${selectedColor})`,
+      );
+      document.documentElement.style.setProperty(
+        "--sub-color",
+        `var(--${selectedColor}-light)`,
+      );
+      document.documentElement.style.setProperty(
+        "--sec-color",
+        `var(--${selectedColor}-lightest)`,
+      );
+    } else {
+      document.documentElement.style.setProperty(
+        "--main-color",
+        `var(--blue-lighter)`,
+      );
+      document.documentElement.style.setProperty(
+        "--sub-color",
+        `var(--blue-light)`,
+      );
+      document.documentElement.style.setProperty(
+        "--sec-color",
+        `var(--blue-lightest)`,
+      );
+    }
+  }, []);
+
   const getPosts = async () => {
     try {
       setLoading(true);
@@ -575,7 +609,11 @@ function Generalform({ username }) {
             <br />
             <br />
             <label htmlFor="input-files" className="picUpload">
-              {t("Pictures")}
+              {files.length > 1 &&
+                `${files.length}${t(" files has been uploaded")}`}
+              {files.length === 1 &&
+                `${files.length}${t(" file has been uploaded")}`}
+              {!(files.length > 1) && !(files.length === 1) && t("Pictures")}
               <input
                 type="file"
                 id="input-files"

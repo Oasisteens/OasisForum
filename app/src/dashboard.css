@@ -1,6 +1,7 @@
 :root {
   --width: 100vw;
-  --main-color: #133153;
+  --dash-color: #133153;
+  --scroll-color: var(--blue-lighter);
 }
 
 h1.h11 {
@@ -61,7 +62,6 @@ section.secd {
   overflow-y: scroll;
   background-color: #f2f4f5;
   overflow-x: hidden;
-  padding: 2rem;
   color: #374151;
   font-size: 1.2rem;
   height: 100vh;
@@ -80,10 +80,10 @@ section.secd::-webkit-scrollbar-thumb {
 
 /* This is the handle on hover */
 section.secd::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(56, 239, 208);
+  background-color: var(--scroll-color);
 }
 h1.dashh1 {
-  top: 1.7vh;
+  top: 14px;
   left: 50%;
   color: white;
   transform: translateX(-50%);
@@ -91,38 +91,31 @@ h1.dashh1 {
   position: absolute;
   font-weight: 550;
 }
-div.comments {
-  padding: 3rem;
-  text-align: left;
-}
-div.posts {
-  padding: 3rem;
-}
-div.likes {
-  padding: 3rem;
-}
-div.like {
-  padding: 3rem;
-}
 h2.dashh2 {
   position: relative;
-  left: 4vw;
+  left: 2vw;
 }
 div.dashpost {
   display: flex;
+  width: 100vw;
 }
 div.myPost {
   border: #e5e7eb solid 1px;
   border-radius: 20px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
   background-color: white;
-  color: #22a0ce;
+  color: var(--scroll-color);
   padding: 0.5rem;
-  width: 10vw;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  width: 17vw;
+}
+div.myAdd {
+  width: 14.6vw;
 }
 div.myPosts {
   display: flex;
-  gap: 6.5vw;
+  gap: 2vw;
 }
 .item-enter {
   opacity: 0;
@@ -152,19 +145,20 @@ div.myPosts {
 div.postBtns {
   position: relative;
   width: 40px;
+  align-items: center;
   height: 40px;
-  left: 1vw;
+  margin: 1vw;
 }
 button.postBtns {
-  top: 2.5vw;
+  top: 2.2vh;
   position: relative;
   width: 40px;
   height: 40px;
-  left: 1vw;
+  margin: 1vw;
 }
 p.dashp {
   position: relative;
-  left: 4vw;
+  left: 3vw;
 }
 .postsvgs {
   height: 40px !important;
@@ -179,8 +173,8 @@ div.dash {
   top: 0;
   left: 0;
   text-align: center;
-  background-color: var(--main-color);
-  height: 8vh;
+  background-color: var(--dash-color);
+  height: 65px;
   width: var(--width);
 }
 button.menuBtn {
@@ -228,7 +222,8 @@ div.nav {
   color: #3c4043;
 }
 
-.language-selector select:active, .language-selector select:focus {
+.language-selector select:active,
+.language-selector select:focus {
   outline: none;
   box-shadow: none;
 }
@@ -238,7 +233,8 @@ div.color-selector {
   top: 10px;
   right: 120px;
 }
-.color-selector select:active, .color-selector select:focus {
+.color-selector select:active,
+.color-selector select:focus {
   outline: none;
   box-shadow: none;
 }

@@ -13,13 +13,12 @@ export default function profile() {
   }, [session.status]);
   if (session.status === "loading" || session.status === "loaded") {
     return (
-      <div class="ring">
-        Loading
-        <span className="ringspan"></span>
+      <div className="wrapper">
+        <div className="loader" />
       </div>
     );
   }
   if (session.status === "authenticated") {
-    return <UserInfo />;
+    return <UserInfo username={session.data.user.name} />;
   }
 }

@@ -75,6 +75,7 @@ const Registerform = () => {
                   type="username"
                   onChange={(e) => setUsername(e.target.value)}
                   required
+                  maxLength={20}
                   disabled={load}
                 />
                 <label htmlFor="username">{t("Username")}:</label>
@@ -85,6 +86,7 @@ const Registerform = () => {
                   type="password"
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  maxLength={20}
                   disabled={load}
                 />
                 <label htmlFor="password">{t("Password")}:</label>
