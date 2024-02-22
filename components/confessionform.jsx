@@ -84,9 +84,6 @@ export default function Confessionform({ username }) {
               method="POST"
               encType="multipart/form-data"
             >
-              <button className="closeFormBtn" onClick={() => closeForm()}>
-                X
-              </button>
               <textarea
                 type="text"
                 className="IPT"
@@ -151,7 +148,7 @@ export default function Confessionform({ username }) {
                 className={`confessionBtn ${!loading && "add"}`}
                 disabled={loading}
               >
-                {!loading && <p>{t("Post")}</p>}
+                {!loading && <p style={{textAlign: "center"}}>{t("Post")}</p>}
                 {loading && t("Loading...")}
               </button>
             </form>
