@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useEffect } from "react";
 import Link from "next/link";
 import Nav from "@/app/(components)/Nav";
@@ -8,7 +7,6 @@ import { useState } from "react";
 import axios from "axios";
 import "@/app/i18n";
 import { useTranslation } from "react-i18next";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 import "../../app/src/dashboard.css";
 
 export default function Dashboardform({ username }) {
@@ -103,7 +101,7 @@ export default function Dashboardform({ username }) {
       const res = await axios.get("/api/getLikedPosts", {
         params: {
           username: username,
-        }
+        },
       });
       setLikedPosts(res.data.posts);
       setLikesSec(res.data.likes);
@@ -211,22 +209,37 @@ export default function Dashboardform({ username }) {
         </div>
       )}
       <section className="secd">
-        <div className="comments">
+        <br />
+        <br />
+        <br />
+        {/* <div className="comments">
           <h2 className="dashh2">{t("My Comments")}</h2>
           <br />
           <div className="dashcomment">
             <p className="dashp">{t("You have no comments yet")}</p>
           </div>
-        </div>
-        <DashScroll posts={posts} likes={likes} />
-        <DashScroll posts={likedPosts} likes={likesSec} />
-        <div className="like">
+        </div> */}
+        <DashScroll
+          posts={posts}
+          likes={likes}
+          ind={navVisible}
+          info={"post"}
+        />
+        <DashScroll
+          posts={likedPosts}
+          likes={likesSec}
+          ind={navVisible}
+          info={"likep"}
+        />
+        <DashScroll posts={""} likes={""} ind={navVisible} info={"comment"} />
+        <DashScroll posts={""} likes={""} ind={navVisible} info={"like"} />
+        {/* <div className="like">
           <h2 className="dashh2">{t("Liked Comments")}</h2>
           <br />
           <div className="dashlike">
             <p className="dashp">{t("You have no liked comments yet")}</p>
           </div>
-        </div>
+        </div> */}
       </section>
     </main>
   );

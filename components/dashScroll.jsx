@@ -4,12 +4,18 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
-const DashScroll = ({ posts, likes }) => {
+const DashScroll = ({ posts, likes, ind, info }) => {
   const leftover = posts.length % 5;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lshow, setLshow] = useState(false);
   const [rshow, setRshow] = useState(false);
   const { t } = useTranslation();
+  const mapping = {
+    post: 1,
+    likep: 2,
+    comment: 3,
+    like: 4,
+  };
   const goNext = () => {
     if (currentIndex + 9 < posts.length) {
       setCurrentIndex(currentIndex + 5);
@@ -68,7 +74,17 @@ const DashScroll = ({ posts, likes }) => {
   }, [currentIndex, posts, leftover]);
   return (
     <div className="posts">
-      <h2 className="dashh2">{t("My Posts")}</h2>
+      <h2 className="dashh2">
+        {mapping[`${info}`] === 1
+          ? t("My Posts")
+          : mapping[`${info}`] === 2
+            ? t("Liked Posts")
+            : mapping[`${info}`] === 3
+              ? t("My Comments")
+              : mapping[`${info}`] === 4
+                ? t("Liked Comments")
+                : ""}
+      </h2>
       <br />
       <div className="dashpost">
         {posts.length > 0 && lshow && (
@@ -91,17 +107,38 @@ const DashScroll = ({ posts, likes }) => {
         )}
         {posts.length > 0 && !lshow && <div className="postBtns" />}
         {(posts.length === 0 || posts.length === undefined) && (
-          <p className="dashp">{t("You have no posts yet")}</p>
+          <p className="dashp">
+            {mapping[`${info}`] === 1
+              ? t("You have no posts yet")
+              : mapping[`${info}`] === 2
+                ? t("You have no liked posts yet")
+                : mapping[`${info}`] === 3
+                  ? t("You have no comments yet")
+                  : mapping[`${info}`] === 4
+                    ? t("You have no liked comments yet")
+                    : ""}
+          </p>
         )}
         <TransitionGroup className="myPosts">
           {posts.length > 0 &&
-          likes.length > 0 &&
+            likes.length > 0 &&
             posts.slice(currentIndex, currentIndex + 5).map((post) => (
               <CSSTransition key={post._id} timeout={500} classNames="item">
-                <div className="myPost">
-                  <p>{post.title}</p>
-                  <p>{post.username}</p>
-                  <p>Likes: {likes.find(like => like.postId === post._id)?.number || 0}</p>
+                <div className={`myPost ${ind && "myAdd"}`}>
+                  <p style={{ fontSize: "1.2rem", fontWeight: "600" }}>
+                    {post.title}
+                  </p>
+                  <p style={{ fontSize: "0.9rem", fontWeight: "300" }}>
+                    {post.username}
+                  </p>
+                  <p style={{ fontSize: "0.9rem", fontWeight: "300" }}>
+                    {t("Likes: ")}
+                    {likes.find((like) => like.postId === post._id)?.number ||
+                      0}
+                  </p>
+                  <p style={{ fontSize: "0.9rem", fontWeight: "300" }}>
+                    {post.postingtime}
+                  </p>
                 </div>
               </CSSTransition>
             ))}
@@ -126,6 +163,7 @@ const DashScroll = ({ posts, likes }) => {
           </button>
         )}
       </div>
+      <br />
     </div>
   );
 };
