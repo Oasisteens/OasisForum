@@ -98,12 +98,12 @@ const subCommentUpload = ({
         }}
         encType="multipart/form-data"
         onDragEnter={(e) => e.preventDefault()}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={(e) => {
-                e.preventDefault();
-                console.log(e.dataTransfer.files);
-                setCommentFiles(e.dataTransfer.files);
-              }}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(e) => {
+          e.preventDefault();
+          console.log(e.dataTransfer.files);
+          setCommentFiles(e.dataTransfer.files);
+        }}
       >
         <input type="hidden" name="id" id="id" value={commentId} />
         <textarea
