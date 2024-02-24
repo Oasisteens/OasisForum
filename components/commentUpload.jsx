@@ -102,6 +102,13 @@ const commentUpload = ({
           handleCommentSubmit(e);
         }}
         encType="multipart/form-data"
+        onDragEnter={(e) => e.preventDefault()}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => {
+                e.preventDefault();
+                console.log(e.dataTransfer.files);
+                setCommentFiles(e.dataTransfer.files);
+              }}
       >
         <input type="hidden" name="id" id="id" value={postId} />
         <textarea
@@ -173,7 +180,7 @@ const commentUpload = ({
                 `${commentFiles.length}${t(" file has been uploaded")}`}
               {!(commentFiles.length > 1) &&
                 !(commentFiles.length === 1) &&
-                t("Pictures")}
+                t("Pictures (Drag and drop or Click)")}
               <input
                 type="file"
                 id="input-files"
