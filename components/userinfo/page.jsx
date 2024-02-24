@@ -60,6 +60,9 @@ const UserInfo = ({ username }) => {
   return (
     <main className="background">
       <div className="card">
+        <button className="avatar">
+          <img src="/userDefault.webp" alt="Default User" />
+        </button>
         <div>
           <p className="card-text">
             Username: <span className="blue-text">{username}</span>

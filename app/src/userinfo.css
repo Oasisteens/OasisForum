@@ -67,3 +67,7 @@
   color: var(--third-color);
   text-decoration: underline;
 }
+
+button.avatar {
+  border-radius: 50%;
+}
