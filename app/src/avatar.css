@@ -1,0 +1,11 @@
+img.avatar{
+    position: absolute;
+    border-radius: 50%;
+    width: 110px;
+    height: 110px;
+    cursor: pointer;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 30vh;
+    z-index: 1000;
+}

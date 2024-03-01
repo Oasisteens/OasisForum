@@ -1,12 +1,15 @@
 "use client";
 import { signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "@/app/i18n";
+import Avatar from "../avatar.jsx";
 import { useTranslation } from "react-i18next";
 import "@/app/src/userinfo.css";
 
-const UserInfo = ({ username }) => {
+const UserInfo = ({ username, image }) => {
+  const [avatarShow, setAvatarShow] = useState(false);
+
   const handleSignOut = () => {
     signOut();
     redirect("/");
@@ -57,23 +60,31 @@ const UserInfo = ({ username }) => {
     }
   }, []);
 
+  const handleAvatar = (e) => {
+    e.preventDefault();
+    setAvatarShow(true);
+  };
+
   return (
     <main className="background">
+        <Avatar
+          username={username}
+          avatar={image}
+        />
       <div className="card">
-        <button className="avatar">
-          <img src="/userDefault.webp" alt="Default User" />
-        </button>
+        <br />
         <div>
           <p className="card-text">
-            Username: <span className="blue-text">{username}</span>
+            {t("Username: ")}
+            <span className="blue-text">{username}</span>
           </p>
           <a href="dashboard" className="redi">
-            To Dashboard
+            {t("Back to Dashboard")}
           </a>
         </div>
 
         <button onClick={handleSignOut} className="logout-btn">
-          Log Out
+          {t("Log Out")}
         </button>
       </div>
     </main>
