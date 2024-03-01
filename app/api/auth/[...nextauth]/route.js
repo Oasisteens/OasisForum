@@ -23,6 +23,7 @@ export const authOptions = {
           }
           const newUserObject = {
             name: username,
+            email: user.image || null,
           };
           return newUserObject;
         } catch (error) {

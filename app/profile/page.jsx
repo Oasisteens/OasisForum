@@ -2,7 +2,7 @@
 import { useSession } from "next-auth/react";
 import UserInfo from "@/components/userinfo/page.jsx";
 import { redirect } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function profile() {
   const session = useSession();
@@ -10,7 +10,7 @@ export default function profile() {
     if (session.status === "unauthenticated") {
       redirect("/login");
     }
-  }, [session.status]);
+  }, [session.status,]);
   if (session.status === "loading" || session.status === "loaded") {
     return (
       <div className="wrapper">
@@ -19,6 +19,11 @@ export default function profile() {
     );
   }
   if (session.status === "authenticated") {
-    return <UserInfo username={session.data.user.name} />;
+    return (
+      <UserInfo
+        username={session.data.user.name}
+        image={session.data.user.email || null}
+      />
+    );
   }
 }

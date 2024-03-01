@@ -104,6 +104,8 @@ i18n
           "Express your love": "表达你的爱意",
           "from: ": "来自：",
           "Pictures (Drag and drop or Click)": "图片（拖拽上传或点击）",
+          "Username: ": "用户名：",
+          "Log Out": "登出",
         },
       },
       es: {
