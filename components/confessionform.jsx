@@ -16,7 +16,20 @@ export default function Confessionform({ username }) {
   const [cn, setCn] = useState("");
   const [loading, setLoading] = useState(false);
   const [en, setEn] = useState("");
+
   const { t } = useTranslation();
+  const { i18n } = useTranslation();
+  // Pull info(language) from localStorage
+
+  useEffect(() => {
+    if (!localStorage.getItem("language")) {
+      localStorage.setItem("language", navigator.language.substring(0, 2));
+    }
+    const selectedLanguage = localStorage.getItem("language");
+    if (selectedLanguage) {
+      i18n.changeLanguage(selectedLanguage);
+    }
+  }, [i18n]);
 
   useEffect(() => {
     const loveWordsArray = Object.values(loveWords);
@@ -69,10 +82,10 @@ export default function Confessionform({ username }) {
   return (
     <body className="loveBg">
       <div className="pyro">
-        <div className="before"></div>
-        <div className="after"></div>
+        <div className="before" />
+        <div className="after" />
         <button className="openFormBtn" onClick={() => openForm()}>
-          Express your love
+          {t("Express your love")}
         </button>
         {hidden ? (
           false
@@ -89,7 +102,7 @@ export default function Confessionform({ username }) {
                 className="IPT"
                 name="toWho"
                 required
-                placeholder="To who?"
+                placeholder={t("To who?")}
                 onInput={(e) => {
                   const value = e.target.value;
                   setToWho(value); // Update title state
@@ -108,7 +121,7 @@ export default function Confessionform({ username }) {
                 type="text"
                 className="IPT"
                 name="nickname"
-                placeholder="Your nickname?"
+                placeholder={t("Your nickname? (optional)")}
                 onInput={(e) => {
                   const value = e.target.value;
                   setNickname(value); // Update title state
@@ -127,7 +140,7 @@ export default function Confessionform({ username }) {
                 required
                 name="content"
                 className="IPT"
-                placeholder="Your confession?"
+                placeholder={t("Your confession?")}
                 rows={1}
                 onInput={(e) => {
                   const value = e.target.value;
@@ -148,7 +161,7 @@ export default function Confessionform({ username }) {
                 className={`confessionBtn ${!loading && "add"}`}
                 disabled={loading}
               >
-                {!loading && <p style={{textAlign: "center"}}>{t("Post")}</p>}
+                {!loading && <p style={{ textAlign: "center" }}>{t("Post")}</p>}
                 {loading && t("Loading...")}
               </button>
             </form>
@@ -159,7 +172,12 @@ export default function Confessionform({ username }) {
             <div className="loveOne" key={index}>
               <div className="Towho">To: {loveform.toWho}</div>
               <div className="lvContent">{loveform.content}</div>
-              <div className="lvNickname">from: {loveform.nickname}</div>
+              {loveform.nickname && (
+                <div className="lvNickname">
+                  {t("from: ")}
+                  {loveform.nickname}
+                </div>
+              )}
             </div>
           ))}
         </div>
