@@ -6,6 +6,16 @@ import { useEffect } from "react";
 
 export default function profile() {
   const session = useSession();
+  const { update } = useSession();
+  const updateSession = async (avatar) => {
+    await update({
+      ...session.data,
+      user: {
+        ...session.data.user,
+        image: avatar,
+      },
+    });
+  };
   useEffect(() => {
     if (session.status === "unauthenticated") {
       redirect("/login");
@@ -19,6 +29,12 @@ export default function profile() {
     );
   }
   if (session.status === "authenticated") {
-    return <UserInfo username={session.data.user.name} />;
+    return (
+        <UserInfo
+          username={session.data.user.name}
+          image={session.data.user.image || null}
+          updateSession={updateSession}
+        />
+    );
   }
 }

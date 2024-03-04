@@ -90,7 +90,6 @@ i18n
           Discussion: "讨论室",
           Confession: "告白墙",
           "Write News": "发布公告",
-
           Pink: "可爱粉",
           Blue: "远峰蓝",
           Purple: "高贵紫",
@@ -98,6 +97,15 @@ i18n
           " files has been uploaded": "个文件已上传",
           " file has been uploaded": "个文件已上传",
           "Likes: ": "赞: ",
+
+          "To who?": "为谁？",
+          "Your nickname? (optional)": "你的署名？（可选）",
+          "Your confession?": "你的告白？",
+          "Express your love": "表达你的爱意",
+          "from: ": "来自：",
+          "Pictures (Drag and drop or Click)": "图片（拖拽上传或点击）",
+          "Username: ": "用户名：",
+          "Log Out": "登出",
         },
       },
       es: {

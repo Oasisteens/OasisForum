@@ -531,6 +531,13 @@ function Generalform({ username }) {
             }}
             id="postForm"
             encType="multipart/form-data"
+            onDragEnter={(e) => e.preventDefault()}
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => {
+              e.preventDefault();
+              console.log(e.dataTransfer.files);
+              setFiles(e.dataTransfer.files);
+            }}
           >
             <textarea
               required
@@ -613,7 +620,9 @@ function Generalform({ username }) {
                 `${files.length}${t(" files has been uploaded")}`}
               {files.length === 1 &&
                 `${files.length}${t(" file has been uploaded")}`}
-              {!(files.length > 1) && !(files.length === 1) && t("Pictures")}
+              {!(files.length > 1) &&
+                !(files.length === 1) &&
+                t("Pictures (Drag and drop or Click)")}
               <input
                 type="file"
                 id="input-files"
