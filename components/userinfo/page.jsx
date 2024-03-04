@@ -7,7 +7,7 @@ import Avatar from "../avatar.jsx";
 import { useTranslation } from "react-i18next";
 import "@/app/src/userinfo.css";
 
-const UserInfo = ({ username, image }) => {
+const UserInfo = ({ username, image, updateSession }) => {
   const [avatarShow, setAvatarShow] = useState(false);
 
   const handleSignOut = () => {
@@ -67,10 +67,7 @@ const UserInfo = ({ username, image }) => {
 
   return (
     <main className="background">
-        <Avatar
-          username={username}
-          avatar={image}
-        />
+      <Avatar username={username} avatar={image} updateSession={updateSession} />
       <div className="card">
         <br />
         <div>
