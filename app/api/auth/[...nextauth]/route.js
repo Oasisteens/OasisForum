@@ -23,7 +23,7 @@ export const authOptions = {
           }
           const newUserObject = {
             name: username,
-            email: user.image || null,
+            image: user.image || null,
           };
           return newUserObject;
         } catch (error) {
@@ -40,6 +40,26 @@ export const authOptions = {
   pages: {
     signIn: "/login",
     signOut: "/profile",
+  },
+  callbacks: {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update") {
+        return {
+          ...token,
+          ...session.user,
+        };
+      }
+      return {...token, ...user};
+    },
+    async session({ session, token }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          ...token,
+        },
+      };
+    },
   },
 };
 const handler = NextAuth(authOptions);
