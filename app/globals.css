@@ -2,22 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global Style */
+
 :root {
+  /* pink palette */
   --pink-lightest: #ff8fb3;
   --pink-lighter: #c04d8f;
   --pink-light: #8a3373;
   --pink: #f668ab;
 
+  /* purple palette */
   --purple-lightest: #d880ff;
   --purple-lighter: #8e20cc;
   --purple-light: #6c1a99;
   --purple: #b026ff;
 
+  /* red palette */
   --red-lightest: #ff9494;
   --red-lighter: #b0271d;
   --red-light: #841d17;
   --red: #dc3023;
 
+  /* blue palette */
   --blue-lightest: #2c9aff;
   --blue-lighter: #1976d2;
   --blue-light: #1a699e;
@@ -47,7 +53,6 @@ div.wrapper {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
 .loader::before {
   position: absolute;
   content: "";
@@ -61,7 +66,6 @@ div.wrapper {
   border: 3px solid white;
   box-shadow: inset 0px 0px 100px -70px #111;
 }
-
 @keyframes animate {
   from {
     transform: rotate(0deg);

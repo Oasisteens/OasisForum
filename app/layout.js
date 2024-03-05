@@ -2,6 +2,7 @@ import "typeface-raleway";
 import "./globals.css";
 import { AuthProvider } from "./Providers";
 
+// root layout document
 export const metadata = {
   title: "Oasis",
   description: "Free Forum for All",
