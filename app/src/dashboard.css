@@ -178,9 +178,9 @@ div.dash {
   width: var(--width);
 }
 button.menuBtn {
-  top: 1.5vh;
+  top: 12px;
+  left: 1.5vw;
   color: white;
-  left: 4vw;
   width: 40px;
   height: 40px;
   position: relative;
@@ -192,14 +192,14 @@ button.menuBtn:hover {
 .toIntro {
   position: relative;
   display: flex;
-  top: 0.4vh;
-  left: 1vw;
+  top: 7px;
+  left: 3vw;
   color: white;
   font-size: 1.2rem;
 }
 span.intro {
   position: relative;
-  top: 1.7vh;
+  top: 10px;
 }
 
 div.nav {
