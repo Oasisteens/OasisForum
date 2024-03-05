@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Connect to MongoDB
 export default async function DBconnect() {
   try {
     if (mongoose.connection.readyState === 1) {
@@ -13,6 +14,7 @@ export default async function DBconnect() {
   }
 }
 
+// Disconnect from MongoDB
 const DBclose = async () => {
   try {
     await mongoose.disconnect();
