@@ -23,8 +23,6 @@ export default function AvatarUpload({ username, avatar, updateSession }) {
     }
   };
 
-  console.log(avatar);
-
   const uploadImage = async (e) => {
     if (typeof cropper !== "undefined") {
       cropper.getCroppedCanvas().toBlob(async (blob) => {
