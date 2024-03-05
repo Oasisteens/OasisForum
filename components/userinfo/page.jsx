@@ -67,7 +67,11 @@ const UserInfo = ({ username, image, updateSession }) => {
 
   return (
     <main className="background">
-      <Avatar username={username} avatar={image} updateSession={updateSession} />
+      <Avatar
+        username={username}
+        avatar={image}
+        updateSession={updateSession}
+      />
       <div className="card">
         <br />
         <div>
