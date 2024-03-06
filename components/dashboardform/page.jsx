@@ -57,15 +57,15 @@ export default function Dashboardform({ username }) {
         attachTo: { element: '.menuBtn', on: 'bottom' },
         buttons: [
           {
-            text: t('Next'),
-            action: () => {
-              tour.next();
-            },
-          },
-          {
             text: t('Back'),
             action: () => {
               tour.back();
+            },
+          },
+          {
+            text: t('Next'),
+            action: () => {
+              tour.next();
             },
           },
           {
@@ -85,18 +85,74 @@ export default function Dashboardform({ username }) {
         attachTo: { element: '.toIntro', on: 'bottom' },
         buttons: [
           {
+            text: t('Back'),
+            action: () => {
+              tour.back();
+            },
+          },
+          {
+            text: t('Next'),
+            action: () => {
+              tour.next();
+            },
+          },
+          {
+            text: t('End'),
+            action: () => {
+              tour.cancel();
+              const elements = document.querySelectorAll('[class^="shepherd-"]');
+              elements.forEach(element => element.remove());
+              localStorage.setItem("tour", "false");
+            }
+          }
+        ]
+      },
+      {
+        id: 'step3',
+        text: t('Click here to change the color theme'),
+        attachTo: { element: '.color-selector', on: 'bottom' },
+        buttons: [
+          {
+            text: t('Back'),
+            action: () => {
+              tour.back();
+            },
+          },
+          {
+            text: t('Next'),
+            action: () => {
+              tour.next();
+            },
+          },
+          {
+            text: t('End'),
+            action: () => {
+              tour.cancel();
+              const elements = document.querySelectorAll('[class^="shepherd-"]');
+              elements.forEach(element => element.remove());
+              localStorage.setItem("tour", "false");
+            }
+          }
+        ]
+      },
+      {
+        id: 'step4',
+        text: t('Click here to change the language'),
+        attachTo: { element: '.language-selector', on: 'bottom' },
+        buttons: [
+          {
+            text: t('Back'),
+            action: () => {
+              tour.back();
+            },
+          },
+          {
             text: t('Next'),
             action: () => {
                 tour.cancel();
                 const elements = document.querySelectorAll('[class^="shepherd-"]');
                 elements.forEach(element => element.remove());
                 localStorage.setItem("tour", "false");
-            },
-          },
-          {
-            text: t('Back'),
-            action: () => {
-              tour.back();
             },
           },
           {

@@ -114,6 +114,8 @@ i18n
           "End": "结束导览",
           "Back": "上一步",
           "Go back to the intro page": "点击这里返回首页",
+          "Click here to change the language": "点击这里切换语言",
+          "Click here to change the color theme": "点击这里切换颜色主题",
         },
       },
       es: {
