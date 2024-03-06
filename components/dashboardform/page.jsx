@@ -50,34 +50,67 @@ export default function Dashboardform({ username }) {
       useModalOverlay: true
     });
 
-    tour.addStep({
-      id: 'menu',
-      text: t('Click here to open the navigator menu'),
-      attachTo: { element: '.menuBtn', on: 'bottom' },
-      buttons: [
-        {
-          text: t('Next'),
-          action: () => {
-            tour.next();
+    tour.addSteps([
+      {
+        id: 'step1',
+        text: t('Click here to open the navigator menu'),
+        attachTo: { element: '.menuBtn', on: 'bottom' },
+        buttons: [
+          {
+            text: t('Next'),
+            action: () => {
+              tour.next();
+            },
           },
-        },
-        {
-          text: t('Back'),
-          action: () => {
-            tour.back();
+          {
+            text: t('Back'),
+            action: () => {
+              tour.back();
+            },
           },
-        },
-        {
-          text: t('End'),
-          action: () => {
-            tour.cancel();
-            const elements = document.querySelectorAll('[class^="shepherd-"]');
-            elements.forEach(element => element.remove());
-            localStorage.setItem("tour", "false");
+          {
+            text: t('End'),
+            action: () => {
+              tour.cancel();
+              const elements = document.querySelectorAll('[class^="shepherd-"]');
+              elements.forEach(element => element.remove());
+              localStorage.setItem("tour", "false");
+            }
           }
-        }
-      ]
-    });
+        ]
+      },
+      {
+        id: 'step2',
+        text: t('Go back to the intro page'),
+        attachTo: { element: '.toIntro', on: 'bottom' },
+        buttons: [
+          {
+            text: t('Next'),
+            action: () => {
+                tour.cancel();
+                const elements = document.querySelectorAll('[class^="shepherd-"]');
+                elements.forEach(element => element.remove());
+                localStorage.setItem("tour", "false");
+            },
+          },
+          {
+            text: t('Back'),
+            action: () => {
+              tour.back();
+            },
+          },
+          {
+            text: t('End'),
+            action: () => {
+              tour.cancel();
+              const elements = document.querySelectorAll('[class^="shepherd-"]');
+              elements.forEach(element => element.remove());
+              localStorage.setItem("tour", "false");
+            }
+          }
+        ]
+      }
+    ]);
 
     tour.start();
   } //tour setting (including localStorage setting)
@@ -87,7 +120,9 @@ export default function Dashboardform({ username }) {
   }, []); //tour initial use
 
   const handleTour = () => {
+    if(localStorage.getItem("tour") === "false") {
     localStorage.setItem("tour", "true");
+    }
     tourInit();
   };
 
