@@ -108,6 +108,11 @@ i18n
           "Pictures (Drag and drop or Click)": "图片（拖拽上传或点击）",
           "Username: ": "用户名：",
           "Log Out": "登出",
+          "Click here to open the navigator menu": "点击这里打开导航菜单",
+          "Guided Tour": "新手引导",
+          "Next": "下一步",
+          "End": "结束导览",
+          "Back": "上一步",
         },
       },
       es: {

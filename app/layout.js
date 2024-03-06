@@ -1,6 +1,7 @@
 import "typeface-raleway";
 import "./globals.css";
 import { AuthProvider } from "./Providers";
+import 'shepherd.js/dist/css/shepherd.css';
 
 // root layout document
 export const metadata = {
