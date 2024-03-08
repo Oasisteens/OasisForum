@@ -4,7 +4,7 @@ import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import axios from "axios";
 import "@/app/src/avatar.css";
-import Shepherd from 'shepherd.js';
+import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
 
 export default function AvatarUpload({ username, avatar, updateSession }) {
@@ -13,7 +13,7 @@ export default function AvatarUpload({ username, avatar, updateSession }) {
   const [file, setFile] = useState(null);
   const [showAvatar, setShowAvatar] = useState(true);
   const inputRef = useRef();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const tourInit = () => {
     if (!localStorage.getItem("Atour")) {
@@ -25,48 +25,52 @@ export default function AvatarUpload({ username, avatar, updateSession }) {
     const tour = new Shepherd.Tour({
       defaultStepOptions: {
         cancelIcon: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
-      useModalOverlay: true
+      useModalOverlay: true,
     });
 
     tour.addSteps([
       {
-        id: 'step1',
-        text: t('Click here to upload user image'),
-        attachTo: { element: '.avatar', on: 'bottom' },
+        id: "step1",
+        text: t("Click here to upload user image"),
+        attachTo: { element: ".avatar", on: "bottom" },
         buttons: [
           {
-            text: t('Back'),
+            text: t("Back"),
             action: () => {
               tour.back();
             },
           },
           {
-            text: t('Next'),
+            text: t("Next"),
             action: () => {
-                tour.cancel();
-                const elements = document.querySelectorAll('[class^="shepherd-"]');
-                elements.forEach(element => element.remove());
-                localStorage.setItem("Atour", "false");
+              tour.cancel();
+              const elements = document.querySelectorAll(
+                '[class^="shepherd-"]',
+              );
+              elements.forEach((element) => element.remove());
+              localStorage.setItem("Atour", "false");
             },
           },
           {
-            text: t('End'),
+            text: t("End"),
             action: () => {
               tour.cancel();
-              const elements = document.querySelectorAll('[class^="shepherd-"]');
-              elements.forEach(element => element.remove());
+              const elements = document.querySelectorAll(
+                '[class^="shepherd-"]',
+              );
+              elements.forEach((element) => element.remove());
               localStorage.setItem("Atour", "false");
-            }
-          }
-        ]
-      }
+            },
+          },
+        ],
+      },
     ]);
 
     tour.start();
-  } //tour setting (including localStorage setting)
+  }; //tour setting (including localStorage setting)
 
   useEffect(() => {
     tourInit();
@@ -155,14 +159,10 @@ export default function AvatarUpload({ username, avatar, updateSession }) {
         ref={inputRef}
         style={{ display: "none" }}
       />
-      <div 
-      onClick={onImageClick}
-      className="avatarContainer"
-      >
-            <div className="uploadIcon"
-            >
-              <img src="./camera.svg" alt="upload" width={40} height={40} />
-            </div>
+      <div onClick={onImageClick} className="avatarContainer">
+        <div className="uploadIcon">
+          <img src="./camera.svg" alt="upload" width={40} height={40} />
+        </div>
         {showAvatar ? (
           <img
             src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatar}`}
