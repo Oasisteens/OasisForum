@@ -115,23 +115,22 @@ function Newsform({ username }) {
       console.log("Error loading news", error);
     }
   };
-  const fetchLikes = async () => {
-    try {
-      console.log("fetching likes");
-      setLikeloads(true);
-      const res = await axios.get("/api/fetchLike", {
-        params: {
-          forum: "news",
-          username: username,
-        },
-      });
-      setLikes(res.data.likes);
-      setLikestatuses(res.data.likestatuses);
-      setLikeloads(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const fetchLikes = async () => {
+  //   try {
+  //     setLikeloads(true);
+  //     const res = await axios.get("/api/fetchLike", {
+  //       params: {
+  //         forum: "news",
+  //         username: username,
+  //       },
+  //     });
+  //     setLikes(res.data.likes);
+  //     setLikestatuses(res.data.likestatuses);
+  //     setLikeloads(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const imagePreview = (index, postIndex) => {
     document.body.style.overflowY = "hidden";
@@ -186,8 +185,6 @@ function Newsform({ username }) {
     formData.append("title", title);
     formData.append("content", content);
     formData.append("postAnonymous", postAnonymous);
-    console.log(postAnonymous);
-    console.log("--------------------");
     formData.append("group", "news");
     formData.append("username", username);
 
@@ -265,40 +262,40 @@ function Newsform({ username }) {
     }
   };
 
-  const sendLike = async (category, likeIndex, e) => {
-    e.preventDefault();
-    try {
-      newArray = [...likeload];
-      newArray[likeIndex] = true;
-      setLikeload(newArray);
-      const postId = e.target.id.value;
-      const likestatus = likestatuses?.find(
-        (likestatus) => likestatus.postId === postId,
-      );
-      const currentStatus = likestatus?.status ?? false;
-      const res = await axios.post("/api/fetchLike", {
-        postId,
-        sendUsername: username,
-        status: !currentStatus,
-        category,
-      });
-      setLikestatuses(res.data.likestatuses);
-      setLikes(res.data.likes);
-      newArray[likeIndex] = false;
-      setLikeload(newArray);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const sendLike = async (category, likeIndex, e) => {
+  //   e.preventDefault();
+  //   try {
+  //     newArray = [...likeload];
+  //     newArray[likeIndex] = true;
+  //     setLikeload(newArray);
+  //     const postId = e.target.id.value;
+  //     const likestatus = likestatuses?.find(
+  //       (likestatus) => likestatus.postId === postId,
+  //     );
+  //     const currentStatus = likestatus?.status ?? false;
+  //     const res = await axios.post("/api/fetchLike", {
+  //       postId,
+  //       sendUsername: username,
+  //       status: !currentStatus,
+  //       category,
+  //     });
+  //     setLikestatuses(res.data.likestatuses);
+  //     setLikes(res.data.likes);
+  //     newArray[likeIndex] = false;
+  //     setLikeload(newArray);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleRefresh = async () => {
     await fetchNews();
-    await fetchLikes();
+    // await fetchLikes();
   };
 
   useEffect(() => {
     fetchNews();
-    fetchLikes();
+    // fetchLikes();
   }, []);
   return (
     <>
@@ -517,7 +514,7 @@ function Newsform({ username }) {
                       {t("posted on")} {post.postingtime}
                     </p>
                     <br />
-                    <div className="likeContainer">
+                    {/* <div className="likeContainer">
                       {likes.map((like, likeIndex) => (
                         <>
                           {like.postId === post._id &&
@@ -602,7 +599,7 @@ function Newsform({ username }) {
                             )}
                         </>
                       ))}
-                    </div>
+                    </div> */}
                     {/* <button onClick={openCommentForm}>
                       Add a Comment
                     </button>

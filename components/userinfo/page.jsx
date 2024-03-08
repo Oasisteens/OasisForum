@@ -37,7 +37,7 @@ const UserInfo = ({ username, image, updateSession }) => {
     if (selectedLanguage) {
       i18n.changeLanguage(selectedLanguage);
     }
-  }, [i18n]);
+  }, [i18n]); //localStorage get language setting
 
   useEffect(() => {
     if (!localStorage.getItem("dashColor")) {
@@ -58,16 +58,15 @@ const UserInfo = ({ username, image, updateSession }) => {
         `var(--${selectedColor}-lightest)`,
       );
     }
-  }, []);
-
-  const handleAvatar = (e) => {
-    e.preventDefault();
-    setAvatarShow(true);
-  };
+  }, []); //localStorage get color setting
 
   return (
     <main className="background">
-      <Avatar username={username} avatar={image} updateSession={updateSession} />
+      <Avatar
+        username={username}
+        avatar={image}
+        updateSession={updateSession}
+      />
       <div className="card">
         <br />
         <div>

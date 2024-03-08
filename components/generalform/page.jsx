@@ -64,9 +64,9 @@ function Generalform({ username }) {
       }
     };
     fetchAdmin();
-  }, []);
+  }, []); //fetch admin information
 
-  const admin = admi;
+  const admin = admi; //temporary variable
 
   useEffect(() => {
     if (!localStorage.getItem("language")) {
@@ -76,7 +76,7 @@ function Generalform({ username }) {
     if (selectedLanguage) {
       i18n.changeLanguage(selectedLanguage);
     }
-  }, [i18n]);
+  }, [i18n]); //localstorage get language setting
 
   useEffect(() => {
     if (!localStorage.getItem("dashColor")) {
@@ -110,7 +110,7 @@ function Generalform({ username }) {
         `var(--blue-lightest)`,
       );
     }
-  }, []);
+  }, []); //localstorage get color setting
 
   const getPosts = async () => {
     try {
@@ -127,7 +127,8 @@ function Generalform({ username }) {
       setError(true);
       console.log("Error loading posts", error);
     }
-  };
+  }; //getposts for server
+
   const fetchLikes = async () => {
     try {
       console.log("fetching likes");
@@ -144,7 +145,7 @@ function Generalform({ username }) {
     } catch (error) {
       console.log(error);
     }
-  };
+  }; //fetchlikes from server
 
   const getComments = async (id) => {
     try {
@@ -188,7 +189,7 @@ function Generalform({ username }) {
     } catch (error) {
       console.log(error);
     }
-  };
+  }; //get comments for post in which its _id is equal to id
 
   const deleteComment = async (e) => {
     e.preventDefault();
@@ -204,7 +205,7 @@ function Generalform({ username }) {
     } catch (error) {
       console.log(error);
     }
-  };
+  }; //delete a specific comment
 
   // for future use to get number of comments
   // const getCommentNumber = async (index, id) => {
@@ -243,7 +244,7 @@ function Generalform({ username }) {
     let newArray = [...check]; // create a copy of the current state
     newArray[index] = true; // set the first element to false
     setCheck(newArray); // update the state
-  };
+  }; //preview images (>=2)
 
   const imagePreview1 = (postIndex, img) => {
     document.body.style.overflowY = "hidden";
@@ -264,7 +265,7 @@ function Generalform({ username }) {
     Array[postIndex] = true; // set the first element to false
     setImgCheck(Array); // update the state
     setOk(true);
-  };
+  }; //preview single image
 
   const handleWheel = (e) => {
     setScale((prevScale) => {
@@ -275,11 +276,11 @@ function Generalform({ username }) {
       newScale = Math.min(2, newScale);
       return newScale;
     });
-  };
+  }; //handle wheel for zooming in and out
 
   const handleFileChange = (e) => {
     setFiles(e.target.files);
-  };
+  }; //handle file change
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -350,7 +351,7 @@ function Generalform({ username }) {
       console.log(error);
       setLoad(false);
     }
-  };
+  }; //submit post
 
   const handleAddPostClick = () => {
     setInputBoxHidden(!inputBoxHidden);
@@ -372,7 +373,7 @@ function Generalform({ username }) {
     document.documentElement.style.setProperty("--2-color", "#f2f4f5");
     document.documentElement.style.setProperty("--3-color", "#f2f4f5");
     document.body.style.overflowY = "scroll";
-  };
+  }; //setting for image preview
 
   const handleClose = (index) => {
     setOk(false);
@@ -383,7 +384,7 @@ function Generalform({ username }) {
     document.documentElement.style.setProperty("--2-color", "#f2f4f5");
     document.documentElement.style.setProperty("--3-color", "#f2f4f5");
     document.body.style.overflowY = "scroll";
-  };
+  }; //setting for image preview1
 
   const getSpec = async () => {};
 
@@ -420,6 +421,7 @@ function Generalform({ username }) {
   //     }
   //   };
   // }, []);
+  //this is a function to preview images when uploading, but it is not finished yet
 
   const handleSub = async (e) => {
     e.preventDefault();
@@ -433,13 +435,13 @@ function Generalform({ username }) {
     } catch (error) {
       console.log(error);
     }
-  };
+  }; //delete post
 
   const handleRefresh = async () => {
     await getPosts();
     await fetchLikes();
     setCommentOpen([].map(() => false));
-  };
+  }; //refresh page
 
   const handleComment = async (postId) => {
     const ind = commentOpen.includes(postId);
@@ -463,7 +465,7 @@ function Generalform({ username }) {
   useEffect(() => {
     getPosts();
     fetchLikes();
-  }, []);
+  }, []); //initial setup
 
   const loadImage = (src, maxTries = 3) => {
     return new Promise((resolve, reject) => {
@@ -482,7 +484,7 @@ function Generalform({ username }) {
 
       img.src = src;
     });
-  };
+  }; //load image
 
   useEffect(() => {
     const loadImages = async () => {
@@ -502,7 +504,7 @@ function Generalform({ username }) {
     };
 
     loadImages();
-  }, [posts]);
+  }, [posts]); //load images
 
   return (
     <>

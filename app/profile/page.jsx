@@ -30,11 +30,11 @@ export default function profile() {
   }
   if (session.status === "authenticated") {
     return (
-        <UserInfo
-          username={session.data.user.name}
-          image={session.data.user.image || null}
-          updateSession={updateSession}
-        />
+      <UserInfo
+        username={session.data.user.name}
+        image={session.data.user.image || null}
+        updateSession={updateSession}
+      />
     );
   }
 }

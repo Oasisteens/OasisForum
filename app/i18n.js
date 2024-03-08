@@ -1,6 +1,8 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
+// i18n settings
+
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
@@ -106,6 +108,15 @@ i18n
           "Pictures (Drag and drop or Click)": "图片（拖拽上传或点击）",
           "Username: ": "用户名：",
           "Log Out": "登出",
+          "Click here to open the navigator menu": "点击这里打开导航菜单",
+          "Guided Tour": "新手引导",
+          Next: "下一步",
+          End: "结束导览",
+          Back: "上一步",
+          "Go back to the intro page": "点击这里返回首页",
+          "Click here to change the language": "点击这里切换语言",
+          "Click here to change the color theme": "点击这里切换颜色主题",
+          "Click here to upload user image": "点击这里上传用户头像",
         },
       },
       es: {
@@ -286,10 +297,10 @@ i18n
           Discussion: "Discussion",
           Confession: "Confession",
           "Write News": "Écrire des nouvelles",
-          Pink: "Rose mignon",
-          Blue: "Bleu lointain",
-          Purple: "Violet noble",
-          Red: "Rouge énergique",
+          Pink: "Rose",
+          Blue: "Bleu",
+          Purple: "Violet",
+          Red: "Rouge",
           " files has been uploaded": " fichiers ont été téléchargés",
           " file has been uploaded": " fichier a été téléchargé",
           "Likes: ": "Aime: ",
@@ -376,10 +387,10 @@ i18n
           Discussion: "ディスカッション",
           Confession: "告白",
           "Write News": "ニュースを書く",
-          Pink: "かわいいピンク",
-          Blue: "遠い青",
-          Purple: "高貴な紫",
-          Red: "活気のある赤",
+          Pink: "ピンク",
+          Blue: "青",
+          Purple: "紫",
+          Red: "赤",
           " files has been uploaded": " ファイルがアップロードされました",
           " file has been uploaded": " ファイルがアップロードされました",
           "Likes: ": "いいね: ",
