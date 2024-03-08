@@ -422,7 +422,7 @@ function Generalform({ username }) {
   //   };
   // }, []);
   //this is a function to preview images when uploading, but it is not finished yet
-  
+
   const handleSub = async (e) => {
     e.preventDefault();
     try {

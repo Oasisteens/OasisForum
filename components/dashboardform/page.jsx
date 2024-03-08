@@ -6,7 +6,7 @@ import DashScroll from "../dashScroll";
 import { useState } from "react";
 import axios from "axios";
 import "@/app/i18n";
-import Shepherd from 'shepherd.js';
+import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
 import "../../app/src/dashboard.css";
 
@@ -44,143 +44,153 @@ export default function Dashboardform({ username }) {
     const tour = new Shepherd.Tour({
       defaultStepOptions: {
         cancelIcon: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
-      useModalOverlay: true
+      useModalOverlay: true,
     });
 
     tour.addSteps([
       {
-        id: 'step1',
-        text: t('Click here to open the navigator menu'),
-        attachTo: { element: '.menuBtn', on: 'bottom' },
+        id: "step1",
+        text: t("Click here to open the navigator menu"),
+        attachTo: { element: ".menuBtn", on: "bottom" },
         buttons: [
           {
-            text: t('Back'),
+            text: t("Back"),
             action: () => {
               tour.back();
             },
           },
           {
-            text: t('Next'),
+            text: t("Next"),
             action: () => {
               tour.next();
             },
           },
           {
-            text: t('End'),
+            text: t("End"),
             action: () => {
               tour.cancel();
-              const elements = document.querySelectorAll('[class^="shepherd-"]');
-              elements.forEach(element => element.remove());
+              const elements = document.querySelectorAll(
+                '[class^="shepherd-"]',
+              );
+              elements.forEach((element) => element.remove());
               localStorage.setItem("tour", "false");
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       {
-        id: 'step2',
-        text: t('Go back to the intro page'),
-        attachTo: { element: '.toIntro', on: 'bottom' },
+        id: "step2",
+        text: t("Go back to the intro page"),
+        attachTo: { element: ".toIntro", on: "bottom" },
         buttons: [
           {
-            text: t('Back'),
+            text: t("Back"),
             action: () => {
               tour.back();
             },
           },
           {
-            text: t('Next'),
+            text: t("Next"),
             action: () => {
               tour.next();
             },
           },
           {
-            text: t('End'),
+            text: t("End"),
             action: () => {
               tour.cancel();
-              const elements = document.querySelectorAll('[class^="shepherd-"]');
-              elements.forEach(element => element.remove());
+              const elements = document.querySelectorAll(
+                '[class^="shepherd-"]',
+              );
+              elements.forEach((element) => element.remove());
               localStorage.setItem("tour", "false");
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       {
-        id: 'step3',
-        text: t('Click here to change the color theme'),
-        attachTo: { element: '.color-selector', on: 'bottom' },
+        id: "step3",
+        text: t("Click here to change the color theme"),
+        attachTo: { element: ".color-selector", on: "bottom" },
         buttons: [
           {
-            text: t('Back'),
+            text: t("Back"),
             action: () => {
               tour.back();
             },
           },
           {
-            text: t('Next'),
+            text: t("Next"),
             action: () => {
               tour.next();
             },
           },
           {
-            text: t('End'),
+            text: t("End"),
             action: () => {
               tour.cancel();
-              const elements = document.querySelectorAll('[class^="shepherd-"]');
-              elements.forEach(element => element.remove());
+              const elements = document.querySelectorAll(
+                '[class^="shepherd-"]',
+              );
+              elements.forEach((element) => element.remove());
               localStorage.setItem("tour", "false");
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       {
-        id: 'step4',
-        text: t('Click here to change the language'),
-        attachTo: { element: '.language-selector', on: 'bottom' },
+        id: "step4",
+        text: t("Click here to change the language"),
+        attachTo: { element: ".language-selector", on: "bottom" },
         buttons: [
           {
-            text: t('Back'),
+            text: t("Back"),
             action: () => {
               tour.back();
             },
           },
           {
-            text: t('Next'),
+            text: t("Next"),
             action: () => {
-                tour.cancel();
-                const elements = document.querySelectorAll('[class^="shepherd-"]');
-                elements.forEach(element => element.remove());
-                localStorage.setItem("tour", "false");
+              tour.cancel();
+              const elements = document.querySelectorAll(
+                '[class^="shepherd-"]',
+              );
+              elements.forEach((element) => element.remove());
+              localStorage.setItem("tour", "false");
             },
           },
           {
-            text: t('End'),
+            text: t("End"),
             action: () => {
               tour.cancel();
-              const elements = document.querySelectorAll('[class^="shepherd-"]');
-              elements.forEach(element => element.remove());
+              const elements = document.querySelectorAll(
+                '[class^="shepherd-"]',
+              );
+              elements.forEach((element) => element.remove());
               localStorage.setItem("tour", "false");
-            }
-          }
-        ]
-      }
+            },
+          },
+        ],
+      },
     ]);
 
     tour.start();
-  } //tour setting (including localStorage setting)
+  }; //tour setting (including localStorage setting)
 
   useEffect(() => {
     tourInit();
   }, []); //tour initial use
 
   const handleTour = () => {
-    if(localStorage.getItem("tour") === "false") {
-    localStorage.setItem("tour", "true");
+    if (localStorage.getItem("tour") === "false") {
+      localStorage.setItem("tour", "true");
     }
     tourInit();
-  };
+  }; //start tour
 
   useEffect(() => {
     if (!localStorage.getItem("language")) {
