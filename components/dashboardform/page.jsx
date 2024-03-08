@@ -196,6 +196,7 @@ export default function Dashboardform({ username }) {
     if (selectedLanguage) {
       i18n.changeLanguage(selectedLanguage);
     }
+    tourInit();
   }, [i18n]); //localstorage get language
 
   useEffect(() => {
