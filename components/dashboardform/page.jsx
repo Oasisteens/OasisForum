@@ -6,6 +6,7 @@ import DashScroll from "../dashScroll";
 import { useState } from "react";
 import axios from "axios";
 import "@/app/i18n";
+import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
 import "../../app/src/dashboard.css";
 
@@ -33,6 +34,164 @@ export default function Dashboardform({ username }) {
   const language = i18n.language.substring(0, 2); // get language from i18n
   // Pull info(language) from localStorage
 
+  const tourInit = () => {
+    if (!localStorage.getItem("tour")) {
+      localStorage.setItem("tour", "true");
+    }
+    if (localStorage.getItem("tour") === "false") {
+      return;
+    }
+    const tour = new Shepherd.Tour({
+      defaultStepOptions: {
+        cancelIcon: {
+          enabled: false,
+        },
+      },
+      useModalOverlay: true,
+    });
+
+    tour.addSteps([
+      {
+        id: "step1",
+        text: t("Click here to open the navigator menu"),
+        attachTo: { element: ".menuBtn", on: "bottom" },
+        buttons: [
+          {
+            text: t("Back"),
+            action: () => {
+              tour.back();
+            },
+          },
+          {
+            text: t("Next"),
+            action: () => {
+              tour.next();
+            },
+          },
+          {
+            text: t("End"),
+            action: () => {
+              tour.cancel();
+              const elements = document.querySelectorAll(
+                '[class^="shepherd-"]',
+              );
+              elements.forEach((element) => element.remove());
+              localStorage.setItem("tour", "false");
+            },
+          },
+        ],
+      },
+      {
+        id: "step2",
+        text: t("Go back to the intro page"),
+        attachTo: { element: ".toIntro", on: "bottom" },
+        buttons: [
+          {
+            text: t("Back"),
+            action: () => {
+              tour.back();
+            },
+          },
+          {
+            text: t("Next"),
+            action: () => {
+              tour.next();
+            },
+          },
+          {
+            text: t("End"),
+            action: () => {
+              tour.cancel();
+              const elements = document.querySelectorAll(
+                '[class^="shepherd-"]',
+              );
+              elements.forEach((element) => element.remove());
+              localStorage.setItem("tour", "false");
+            },
+          },
+        ],
+      },
+      {
+        id: "step3",
+        text: t("Click here to change the color theme"),
+        attachTo: { element: ".color-selector", on: "bottom" },
+        buttons: [
+          {
+            text: t("Back"),
+            action: () => {
+              tour.back();
+            },
+          },
+          {
+            text: t("Next"),
+            action: () => {
+              tour.next();
+            },
+          },
+          {
+            text: t("End"),
+            action: () => {
+              tour.cancel();
+              const elements = document.querySelectorAll(
+                '[class^="shepherd-"]',
+              );
+              elements.forEach((element) => element.remove());
+              localStorage.setItem("tour", "false");
+            },
+          },
+        ],
+      },
+      {
+        id: "step4",
+        text: t("Click here to change the language"),
+        attachTo: { element: ".language-selector", on: "bottom" },
+        buttons: [
+          {
+            text: t("Back"),
+            action: () => {
+              tour.back();
+            },
+          },
+          {
+            text: t("Next"),
+            action: () => {
+              tour.cancel();
+              const elements = document.querySelectorAll(
+                '[class^="shepherd-"]',
+              );
+              elements.forEach((element) => element.remove());
+              localStorage.setItem("tour", "false");
+            },
+          },
+          {
+            text: t("End"),
+            action: () => {
+              tour.cancel();
+              const elements = document.querySelectorAll(
+                '[class^="shepherd-"]',
+              );
+              elements.forEach((element) => element.remove());
+              localStorage.setItem("tour", "false");
+            },
+          },
+        ],
+      },
+    ]);
+
+    tour.start();
+  }; //tour setting (including localStorage setting)
+
+  useEffect(() => {
+    tourInit();
+  }, []); //tour initial use
+
+  const handleTour = () => {
+    if (localStorage.getItem("tour") === "false") {
+      localStorage.setItem("tour", "true");
+    }
+    tourInit();
+  }; //start tour
+
   useEffect(() => {
     if (!localStorage.getItem("language")) {
       localStorage.setItem("language", navigator.language.substring(0, 2));
@@ -41,7 +200,7 @@ export default function Dashboardform({ username }) {
     if (selectedLanguage) {
       i18n.changeLanguage(selectedLanguage);
     }
-  }, [i18n]);
+  }, [i18n]); //localstorage get language
 
   useEffect(() => {
     if (!localStorage.getItem("dashColor")) {
@@ -59,7 +218,7 @@ export default function Dashboardform({ username }) {
       );
       setColor(selectedColor);
     }
-  }, []);
+  }, []); //localstorage get color
 
   const changeLanguage = (event) => {
     const selectedLanguage = event.target.value;
@@ -113,11 +272,11 @@ export default function Dashboardform({ username }) {
   useEffect(() => {
     getPosts();
     getLikedPosts();
-  }, []);
+  }, []); //get posts and liked posts
 
   const handleNav = () => {
     setNavVisible(!navVisible);
-  };
+  }; //handle navigator menu
 
   return (
     <main className="dash">
@@ -127,6 +286,21 @@ export default function Dashboardform({ username }) {
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <div className="dash">
+        <button className="menuBtn" onClick={handleNav}>
+          <svg
+            fill="none"
+            width="100%"
+            height="100%"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="currentColor"
+              fillRule="evenodd"
+              d="M19 4a1 1 0 01-1 1H2a1 1 0 010-2h16a1 1 0 011 1zm0 6a1 1 0 01-1 1H2a1 1 0 110-2h16a1 1 0 011 1zm-1 7a1 1 0 100-2H2a1 1 0 100 2h16z"
+            />
+          </svg>
+        </button>
         <Link href="intro" className="toIntro">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -154,21 +328,6 @@ export default function Dashboardform({ username }) {
           </svg>
           <span className="intro">{t("Oasis")}</span>
         </Link>
-        <button className="menuBtn" onClick={handleNav}>
-          <svg
-            fill="none"
-            width="100%"
-            height="100%"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="currentColor"
-              fillRule="evenodd"
-              d="M19 4a1 1 0 01-1 1H2a1 1 0 010-2h16a1 1 0 011 1zm0 6a1 1 0 01-1 1H2a1 1 0 110-2h16a1 1 0 011 1zm-1 7a1 1 0 100-2H2a1 1 0 100 2h16z"
-            />
-          </svg>
-        </button>
         <h1 className="dashh1">
           {username ? `${username}${t("'s Dashboard")}` : t("Dashboard")}
         </h1>
@@ -186,6 +345,9 @@ export default function Dashboardform({ username }) {
             <option value="ja">日本語</option>
           </select>
         </div>
+        <button className="tour" onClick={handleTour}>
+          {t("Guided Tour")}
+        </button>
         <div className="color-selector">
           <select id="color" name="color" onChange={changeColor} value={color}>
             <option value="pink">{t("Pink")}</option>

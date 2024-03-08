@@ -4,7 +4,8 @@ import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import axios from "axios";
 import "@/app/src/avatar.css";
-import { update } from "react-spring";
+import Shepherd from 'shepherd.js';
+import { useTranslation } from "react-i18next";
 
 export default function AvatarUpload({ username, avatar, updateSession }) {
   const [image, setImage] = useState(null);
@@ -12,6 +13,64 @@ export default function AvatarUpload({ username, avatar, updateSession }) {
   const [file, setFile] = useState(null);
   const [showAvatar, setShowAvatar] = useState(true);
   const inputRef = useRef();
+  const {t} = useTranslation();
+
+  const tourInit = () => {
+    if (!localStorage.getItem("Atour")) {
+      localStorage.setItem("Atour", "true");
+    }
+    if (localStorage.getItem("Atour") === "false") {
+      return;
+    }
+    const tour = new Shepherd.Tour({
+      defaultStepOptions: {
+        cancelIcon: {
+          enabled: false
+        }
+      },
+      useModalOverlay: true
+    });
+
+    tour.addSteps([
+      {
+        id: 'step1',
+        text: t('Click here to upload user image'),
+        attachTo: { element: '.avatar', on: 'bottom' },
+        buttons: [
+          {
+            text: t('Back'),
+            action: () => {
+              tour.back();
+            },
+          },
+          {
+            text: t('Next'),
+            action: () => {
+                tour.cancel();
+                const elements = document.querySelectorAll('[class^="shepherd-"]');
+                elements.forEach(element => element.remove());
+                localStorage.setItem("Atour", "false");
+            },
+          },
+          {
+            text: t('End'),
+            action: () => {
+              tour.cancel();
+              const elements = document.querySelectorAll('[class^="shepherd-"]');
+              elements.forEach(element => element.remove());
+              localStorage.setItem("Atour", "false");
+            }
+          }
+        ]
+      }
+    ]);
+
+    tour.start();
+  } //tour setting (including localStorage setting)
+
+  useEffect(() => {
+    tourInit();
+  }, []); //tour initial use
 
   const onSelectFile = (e) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -22,8 +81,6 @@ export default function AvatarUpload({ username, avatar, updateSession }) {
       setShowAvatar(false);
     }
   };
-
-  console.log(avatar);
 
   const uploadImage = async (e) => {
     if (typeof cropper !== "undefined") {
@@ -98,7 +155,14 @@ export default function AvatarUpload({ username, avatar, updateSession }) {
         ref={inputRef}
         style={{ display: "none" }}
       />
-      <div onClick={onImageClick}>
+      <div 
+      onClick={onImageClick}
+      className="avatarContainer"
+      >
+            <div className="uploadIcon"
+            >
+              <img src="./camera.svg" alt="upload" width={40} height={40} />
+            </div>
         {showAvatar ? (
           <img
             src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatar}`}
