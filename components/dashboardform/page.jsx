@@ -181,10 +181,6 @@ export default function Dashboardform({ username }) {
     tour.start();
   }; //tour setting (including localStorage setting)
 
-  useEffect(() => {
-    tourInit();
-  }, []); //tour initial use
-
   const handleTour = () => {
     if (localStorage.getItem("tour") === "false") {
       localStorage.setItem("tour", "true");
