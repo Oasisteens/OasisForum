@@ -41,3 +41,18 @@ div.bg {
   z-index: 1000;
   background-color: rgba(148, 148, 148, 0.8);
 }
+div.avatarContainer:hover  .avatar {
+  filter: brightness(50%);
+}
+div.avatarContainer:hover div.uploadIcon{
+  display: flex;
+}
+div.uploadIcon {
+  position: fixed;
+  display: none;
+  cursor: pointer;
+  top: 34%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+}
