@@ -1,8 +1,8 @@
-import Likestatus from "@/models/likestatus";
+import Likestatus from "../../../models/likestatus";
 import { NextResponse } from "next/server";
-import DBconnect from "@/libs/mongodb";
-import Post from "@/models/post";
-import Like from "@/models/like";
+import DBconnect from "../../../libs/mongodb";
+import Post from "../../../models/post";
+import Like from "../../../models/like";
 
 export async function GET(req) {
   await DBconnect();

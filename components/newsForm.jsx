@@ -1,5 +1,5 @@
 "use client";
-import "@/app/src/channels.css";
+import "../app/src/channels.css";
 import React from "react";
 import axios from "axios";
 import Skeleton from "./skeletons/Skeleton";
@@ -7,7 +7,7 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import { TailSpin } from "react-loader-spinner";
 import { Picker } from "emoji-mart";
-import "@/app/i18n";
+import "../app/i18n";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 

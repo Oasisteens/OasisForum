@@ -1,6 +1,6 @@
-import DBconnect from "@/libs/mongodb";
-import MainTopic from "@/models/mainTopic";
-import SubTopic from "@/models/subTopic";
+import DBconnect from "../../../libs/mongodb";
+import MainTopic from "../../../models/mainTopic";
+import SubTopic from "../../../models/subTopic";
 import { NextResponse } from "next/server";
 
 export async function GET() {

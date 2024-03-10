@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
-import UserInfo from "@/components/userinfo/page.jsx";
+import UserInfo from "../../components/userinfo/page.jsx";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 

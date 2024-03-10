@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
-import NewsForm from "@/components/newsForm.jsx";
+import NewsForm from "../../components/newsForm.jsx";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 

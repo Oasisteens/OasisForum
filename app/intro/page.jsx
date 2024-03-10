@@ -4,7 +4,7 @@ import SocialMedia from "../(icons)/SocialMedia";
 import Chatbubbles from "../(icons)/ionIcons/Chatbubbles";
 import AlertCircle from "../(icons)/ionIcons/AlertCircle";
 import Construct from "../(icons)/ionIcons/Construct";
-import "@/app/i18n";
+import "../i18n";
 import { useTranslation } from "react-i18next";
 import LockClosed from "../(icons)/ionIcons/LockClosed";
 import Megaphone from "../(icons)/ionIcons/Megaphone";
