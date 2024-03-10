@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
-import Generalform from "@/components/generalform/page";
+import Generalform from "../..//components/generalform/page.jsx";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 

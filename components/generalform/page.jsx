@@ -1,8 +1,8 @@
 "use client";
-import "@/app/src/channels.css";
+import "../../app/src/channels.css";
 import React from "react";
 import axios from "axios";
-import "@/app/i18n";
+import "../../app/i18n";
 import Skeleton from "../skeletons/Skeleton";
 import LikeButton from "../likeButton";
 import { useState } from "react";
@@ -478,7 +478,7 @@ function Generalform({ username }) {
         if (tries < maxTries) {
           img.src = src;
         } else {
-          reject(new Error(`Failed to load image after ${maxTries} attempts`));
+          console.error(`Failed to load image after ${maxTries} attempts`);
         }
       };
 

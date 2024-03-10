@@ -2,10 +2,10 @@
 import { signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
-import "@/app/i18n";
+import "../../app/i18n";
 import Avatar from "../avatar.jsx";
 import { useTranslation } from "react-i18next";
-import "@/app/src/userinfo.css";
+import "../../app/src/userinfo.css";
 
 const UserInfo = ({ username, image, updateSession }) => {
   const [avatarShow, setAvatarShow] = useState(false);

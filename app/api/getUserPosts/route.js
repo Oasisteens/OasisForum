@@ -1,7 +1,7 @@
-import DBconnect from "@/libs/mongodb";
-import Post from "@/models/post";
+import DBconnect from "../../../libs/mongodb";
+import Post from "../../../models/post";
 import { NextResponse } from "next/server";
-import Like from "@/models/like";
+import Like from "../../../models/like";
 
 export async function POST(req, res) {
   try {
