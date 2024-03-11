@@ -14,6 +14,8 @@ import ColorThief from "colorthief";
 import CommentUpload from "../commentUpload";
 import SubComment from "../subComment";
 import count from "word-count";
+import Link from "next/link";
+import { truncate } from "lodash";
 import { useEffect } from "react";
 
 function Generalform({ username }) {
@@ -45,6 +47,7 @@ function Generalform({ username }) {
   const [titlerows, setTitleRows] = useState(1);
   const [contentrows, setContentRows] = useState(1);
   const [comments, setComments] = useState([]);
+  const [isExpanded, setIsExpanded] = useState([]);
   // const [commentNumber, setCommentNumber] = useState([]);
   // The commentDisplay function is for showing the comment post button and the picturen upload button. If the content is focused, or in other words, the user is writing or editing the comment, it shows, else, we need to make space for showing other comments.
   const [addCommentDisplay, setAddCommentDisplay] = useState([]);
@@ -506,25 +509,66 @@ function Generalform({ username }) {
     loadImages();
   }, [posts]); //load images
 
+  const toggleExpand = (id) => {
+    var newArray = [...isExpanded];
+    newArray.push(id);
+    setIsExpanded(newArray);
+  }; //toggle expand
+
+  const displayContent = (content, id, length = 103) => {
+    if (isExpanded.includes(id)) {
+      return content;
+    } else {
+      const indices = [];
+      const noSpaces = [...content]
+        .filter((c, i) => {
+          if (c !== " ") {
+            indices.push(i);
+            return true;
+          }
+          return false;
+        })
+        .join("");
+
+      const truncated = truncate(noSpaces, { length: length, omission: "" });
+
+      let result = "";
+      let j = 0;
+      for (let i = 0; i < content.length && j < truncated.length; i++) {
+        if (i === indices[j]) {
+          result += truncated[j];
+          j++;
+        } else {
+          result += " ";
+        }
+      }
+
+      return result + (truncated.length < noSpaces.length ? "..." : "");
+    }
+  };
   return (
     <>
       <title>{t("General")}</title>
       <div id="topBar">
         <a href="intro" className="titleg">
           {t("General")}
-        </a>
+        </a>{" "}
+        {/* to intro page */}
       </div>
       <br />
       <br />
       <a href="dashboard" id="backButton">
         {t("Back to Dashboard")}
-      </a>
+      </a>{" "}
+      {/* back to dashboard button */}
       <button className="refreshBtn" onClick={handleRefresh}>
         {t("Refresh")}
-      </button>
+      </button>{" "}
+      {/* refresh button */}
       <button className="adp" id="GaddPostBtn" onClick={handleAddPostClick}>
         <span>{t("Write a post")}</span>
-      </button>
+      </button>{" "}
+      {/* add post button */}
       {!inputBoxHidden && (
         <div id="inputBoxGeneral">
           <form
@@ -684,7 +728,8 @@ function Generalform({ username }) {
             </div>
           </div>
         </div>
-      )}
+      )}{" "}
+      {/* input box for posting */}
       <div className="bg">
         <div id="posts" className="word-box">
           {loading
@@ -705,12 +750,24 @@ function Generalform({ username }) {
                     <br />
                   </React.Fragment>
                 </div>
-              ))
+              )) //skeletons for loading
             : posts.map((post, postIndex) => (
                 <div className="postsG" key={post._id}>
-                  <div className="ptitle">{post.title}</div>
+                  <Link href={`/posts/${post._id}`} className="ptitle">
+                    {post.title}
+                  </Link>
                   <br />
-                  <div className="contents">{post.content}</div>
+                  <div
+                    className="contents"
+                    style={{
+                      cursor: isExpanded.includes(post._id)
+                        ? "inherit"
+                        : "pointer",
+                    }}
+                    onClick={() => toggleExpand(post._id)}
+                  >
+                    {displayContent(post.content, post._id)}
+                  </div>
                   <br />
                   <br />
                   <div className="imgs">
@@ -1115,7 +1172,8 @@ M125.025,99.15H25.02V85.51l22.73-22.724l11.363,11.36l36.365-36.361l29.547,29.547
                     </div>
                   )}
                 </div>
-              ))}
+              ))}{" "}
+          {/* posts mapping */}
         </div>
       </div>
       <div id="spacing" />
