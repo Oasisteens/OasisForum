@@ -556,11 +556,14 @@ svg.loadHeart {
     transform: scale(1.2);
   }
 }
-div.ptitle {
+.ptitle {
   font-weight: 600;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   font-size: 1.5rem;
+}
+.ptitle:hover {
+  text-decoration: underline;
 }
 /* Hide the default file input */
 #input-files {
