@@ -8,8 +8,11 @@ import { NextResponse } from "next/server";
 export async function GET(req) {
   await DBconnect();
   const id = req.nextUrl.searchParams.get("id");
-  const post = await Post.findById(id);
-  return NextResponse.json({ post }, { status: 200 });
+  const [post, like] = await Promise.all([
+    Post.findById(id),
+    Like.findOne({ postId: id }),
+  ]);
+  return NextResponse.json({ post, like }, { status: 200 });
 }
 
 export async function DELETE(req) {
