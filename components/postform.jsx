@@ -15,40 +15,23 @@ import ColorThief from "colorthief";
 import CommentUpload from "./commentUpload";
 import SubComment from "./subComment";
 import Link from "next/link";
-import comment from "../models/comment";
 
 function Postform({ id, username }) {
   const [post, setPost] = useState(null);
   const [like, setLike] = useState(null);
   const [likes, setLikes] = useState([]); // For comment likes
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [load, setLoad] = useState(false);
   const [scale, setScale] = useState(1);
   const [check, setCheck] = useState([]);
-  const [imgCheck, setImgCheck] = useState([]);
+  const [imgCheck, setImgCheck] = useState();
   const [ok, setOk] = useState(false);
   const [posts, setPosts] = useState([]);
   const [backCheck, setBackCheck] = useState(false);
-  const [msg, setMsg] = useState(null);
-  const [title, setTitle] = useState("");
   const [subComments, setSubComments] = useState([]);
-  const [content, setContent] = useState("");
-  const [files, setFiles] = useState([]);
   const [likestatuses, setLikestatuses] = useState([]);
-  const [postAnonymous, setPostAnonymous] = useState(false);
-  const [inputBoxHidden, setInputBoxHidden] = useState(true);
   const [likeloads, setLikeloads] = useState(true);
-  const [likeload, setLikeload] = useState([]);
-  const [commentLikeLoad, setCommentLikeLoad] = useState(null);
-  const [selectedEmoji, setSelectedEmoji] = useState(null);
-  const [commentOpen, setCommentOpen] = useState([].map(() => false));
-  const [titleWords, setTitleWords] = useState(0);
-  const [contentWords, setContentWords] = useState(0);
-  const [titlerows, setTitleRows] = useState(1);
-  const [contentrows, setContentRows] = useState(1);
+  const [commentOpen, setCommentOpen] = useState(false);
   const [comments, setComments] = useState([]);
-  const [isExpanded, setIsExpanded] = useState([]);
   // const [commentNumber, setCommentNumber] = useState([]);
   // The commentDisplay function is for showing the comment post button and the picturen upload button. If the content is focused, or in other words, the user is writing or editing the comment, it shows, else, we need to make space for showing other comments.
   const [addCommentDisplay, setAddCommentDisplay] = useState([]);
@@ -116,29 +99,21 @@ function Postform({ id, username }) {
     }
   }, []); //localstorage get color setting
 
-  const fetchLikes = async () => {
-    try {
-      setLikeloads(true);
-      const res = await axios.get("/api/fetchLike", {
-        params: {
-          username: username,
-          forum: "general",
-        },
-      });
-      setLikestatuses(res.data.likestatuses);
-      setLikeloads(false);
-    } catch (error) {
-      console.log(error);
-    }
-  }; //fetchlikes from server
-
   const getComments = async (id) => {
     try {
-      const response = await axios.get("/api/fetchComments", {
-        params: {
-          postId: id,
-        },
-      });
+      const [res, response] = await Promise.all([
+        axios.get("/api/fetchCommentLikes", {
+          params: {
+            commentIds: comments.map((comment) => comment._id),
+            subIds: subComments.map((subComment) => subComment._id),
+          },
+        }),
+        axios.get("/api/fetchComments", {
+          params: {
+            postId: id,
+          },
+        }),
+      ]);
 
       if (response.data.comments.length < comments.length) {
         setComments(response.data.comments);
@@ -171,17 +146,11 @@ function Postform({ id, username }) {
         // Add the unique new subcomments to the subComments array
         setSubComments([...subComments, ...uniqueNewSubComments]);
       }
-      const res = await axios.get("/api/fetchCommentLikes", {
-        params: {
-          commentIds: comments.map((comment) => comment._id),
-          subIds: subComments.map((subComment) => subComment._id),
-        },
-      });
       setLikes(res.data.likes);
     } catch (error) {
       console.log(error);
     }
-  }; //get comments for post in which its _id is equal to id
+  }; //get comments for post in which its _id is equal to id and get comment likes
 
   const deleteComment = async (e) => {
     e.preventDefault();
@@ -199,22 +168,7 @@ function Postform({ id, username }) {
     }
   }; //delete a specific comment
 
-  // for future use to get number of comments
-  // const getCommentNumber = async (index, id) => {
-  //   try{
-  //     const response = await axios.post('/api/fetchComments',
-  //     {
-  //       postId: id
-  //     });
-  //     const newArray = [...commentNumber];
-  //     newArray[index] = response.data.commentNumber;
-  //     setCommentNumber(newArray);
-  //   } catch(error){
-  //     console.log(error);
-  //   }
-  // }
-
-  const imagePreview = (index, postIndex, img) => {
+  const imagePreview = (index, img) => {
     document.body.style.overflowY = "hidden";
     const colorThief = new ColorThief();
     const image = new Image();
@@ -228,17 +182,13 @@ function Postform({ id, username }) {
       document.documentElement.style.setProperty("--2-color", rgbColors[1]);
       document.documentElement.style.setProperty("--3-color", rgbColors[2]);
     };
-
-    let Array = [...imgCheck]; // create a copy of the current state
-    Array[postIndex] = true; // set the first element to false
-    setImgCheck(Array); // update the state
+    let Array = [...check]; // create a copy of the current state
+    Array[index] = true; // set the first element to false
+    setCheck(Array); // update the state
     setBackCheck(true);
-    let newArray = [...check]; // create a copy of the current state
-    newArray[index] = true; // set the first element to false
-    setCheck(newArray); // update the state
   }; //preview images (>=2)
 
-  const imagePreview1 = (postIndex, img) => {
+  const imagePreview1 = (img) => {
     document.body.style.overflowY = "hidden";
     const colorThief = new ColorThief();
     const image = new Image();
@@ -253,9 +203,7 @@ function Postform({ id, username }) {
       document.documentElement.style.setProperty("--2-color", rgbColors[1]);
       document.documentElement.style.setProperty("--3-color", rgbColors[2]);
     };
-    let Array = [...imgCheck]; // create a copy of the current state
-    Array[postIndex] = true; // set the first element to false
-    setImgCheck(Array); // update the state
+    setImgCheck(true);
     setOk(true);
   }; //preview single image
 
@@ -270,10 +218,7 @@ function Postform({ id, username }) {
     });
   }; //handle wheel for zooming in and out
 
-  const handleCheckClose = (index, postIndex) => {
-    let Array = [...check]; // create a copy of the current state
-    Array[postIndex] = false; // set the first element to false
-    setImgCheck(Array); // update the state
+  const handleCheckClose = (index) => {
     let newArray = [...check]; // create a copy of the current state
     newArray[index] = false; // set the first element to false
     setCheck(newArray); // update the state
@@ -311,19 +256,8 @@ function Postform({ id, username }) {
 
   const handleRefresh = async () => {
     await fetchPost();
-    await fetchLikes();
     setCommentOpen([].map(() => false));
   }; //refresh page
-
-  const handleComment = async (postId) => {
-    const ind = commentOpen.includes(postId);
-    if (ind) {
-      setCommentOpen(commentOpen.filter((id) => id !== postId));
-    } else {
-      setCommentOpen([...commentOpen, postId]);
-    }
-    if (!ind) await getComments(postId);
-  };
 
   const handleSubComment = (commentId) => {
     const ind = addCommentDisplay.includes(commentId);
@@ -336,7 +270,6 @@ function Postform({ id, username }) {
 
   useEffect(() => {
     fetchPost();
-    fetchLikes();
   }, []); //initial setup
 
   const loadImage = (src, maxTries = 3) => {
@@ -379,7 +312,25 @@ function Postform({ id, username }) {
   }, [posts]); //load images
 
   return (
-    <div>
+    <section>
+      <div id="topBar">
+        <a href="/general" className="titleg">
+          {t("General")}
+        </a>{" "}
+        {/* to intro page */}
+      </div>
+      <br />
+      <br />
+      <a href="/dashboard" id="backButton">
+        {t("Back to Dashboard")}
+      </a>{" "}
+      {/* back to dashboard button */}
+      <button className="refreshBtn" onClick={handleRefresh}>
+        {t("Refresh")}
+      </button>{" "}
+      {/* refresh button */}
+      <br />
+      <br />
       {post && (
         <div className="bg">
           <div id="posts" className="word-box">
@@ -414,9 +365,7 @@ function Postform({ id, username }) {
                   {post.pictureUrl.length > 1 &&
                     post.pictureUrl.map((image, index) => (
                       <section key={"multi" + image.filename}>
-                        <button
-                          onClick={() => imagePreview(index, postIndex, image)}
-                        >
+                        <button onClick={() => imagePreview(index, image)}>
                           <img
                             src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
                             alt={image.filename}
@@ -425,7 +374,7 @@ function Postform({ id, username }) {
                             className="Images"
                           />
                         </button>
-                        {check[index] && imgCheck[postIndex] && (
+                        {check[index] && (
                           <img
                             src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
                             alt={image.filename}
@@ -436,10 +385,10 @@ function Postform({ id, username }) {
                             onWheel={handleWheel}
                           />
                         )}
-                        {check[index] && imgCheck[postIndex] && (
+                        {check[index] && (
                           <button
                             id="closePreview"
-                            onClick={() => handleCheckClose(index, postIndex)}
+                            onClick={() => handleCheckClose(index)}
                           >
                             X
                           </button>
@@ -520,7 +469,7 @@ function Postform({ id, username }) {
 
                 {/* Comment Section */}
                 <button
-                  onClick={() => handleComment(post._id)}
+                  onClick={() => setCommentOpen(true)}
                   style={{ display: "flex", alignItems: "flex-end" }}
                 >
                   <svg
@@ -539,7 +488,7 @@ function Postform({ id, username }) {
                     {t("Comments")}
                   </p>
                 </button>
-                {commentOpen.includes(post._id) && (
+                {commentOpen && (
                   <>
                     <CommentUpload
                       fetchLikes={fetchLikes}
@@ -549,7 +498,7 @@ function Postform({ id, username }) {
                       getComments={getComments}
                     />
                     <br />
-                    {commentOpen.includes(post._id) && (
+                    {commentOpen && (
                       <div className="commentSection">
                         <div style={{ display: "flex", padding: "8px" }}>
                           <p>
@@ -728,7 +677,7 @@ function Postform({ id, username }) {
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 }
 
