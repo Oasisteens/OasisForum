@@ -753,7 +753,11 @@ function Generalform({ username }) {
               )) //skeletons for loading
             : posts.map((post, postIndex) => (
                 <div className="postsG" key={post._id}>
-                  <Link href={`/posts/${post._id}`} className="ptitle">
+                  <Link
+                    href={`/posts/${post._id}`}
+                    target="_blank"
+                    className="ptitle"
+                  >
                     {post.title}
                   </Link>
                   <br />
