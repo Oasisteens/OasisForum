@@ -2,6 +2,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import Link from "next/link";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 const DashScroll = ({ posts, likes, ind, info }) => {
@@ -72,6 +73,11 @@ const DashScroll = ({ posts, likes, ind, info }) => {
       setLshow(false);
     }
   }, [currentIndex, posts, leftover]);
+  useEffect(() => {
+    if (ind)
+      document.documentElement.style.setProperty("--dash-width", "14.6vw");
+    else document.documentElement.style.setProperty("--dash-width", "17vw");
+  }, [ind]);
   return (
     <div className="posts">
       <h2 className="dashh2">
@@ -123,23 +129,36 @@ const DashScroll = ({ posts, likes, ind, info }) => {
           {posts.length > 0 &&
             likes.length > 0 &&
             posts.slice(currentIndex, currentIndex + 5).map((post) => (
-              <CSSTransition key={post._id} timeout={500} classNames="item">
-                <div className={`myPost ${ind && "myAdd"}`}>
-                  <p style={{ fontSize: "1.2rem", fontWeight: "600" }}>
-                    {post.title}
-                  </p>
-                  <p style={{ fontSize: "0.9rem", fontWeight: "300" }}>
-                    {post.username}
-                  </p>
-                  <p style={{ fontSize: "0.9rem", fontWeight: "300" }}>
-                    {t("Likes: ")}
-                    {likes.find((like) => like.postId === post._id)?.number ||
-                      0}
-                  </p>
-                  <p style={{ fontSize: "0.9rem", fontWeight: "300" }}>
-                    {post.postingtime}
-                  </p>
-                </div>
+              <CSSTransition
+                key={post._id}
+                timeout={500}
+                classNames="item"
+                style={{ display: "flex", alignItems: "stretch" }}
+              >
+                <Link href={`/posts/${post._id}`} target="_blank">
+                  <div className="boxBig" style={{ display: "flex" }}>
+                    <div className="myPost dashBox">
+                      <div className="dashBox1" />
+                      <p
+                        className="dashTitle"
+                        style={{ fontSize: "1.2rem", fontWeight: "600" }}
+                      >
+                        {post.title}
+                      </p>
+                      <p style={{ fontSize: "0.9rem", fontWeight: "300" }}>
+                        {post.username}
+                      </p>
+                      <p style={{ fontSize: "0.9rem", fontWeight: "300" }}>
+                        {t("Likes: ")}
+                        {likes.find((like) => like.postId === post._id)
+                          ?.number || 0}
+                      </p>
+                      <p style={{ fontSize: "0.9rem", fontWeight: "300" }}>
+                        {post.postingtime}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
               </CSSTransition>
             ))}
         </TransitionGroup>
