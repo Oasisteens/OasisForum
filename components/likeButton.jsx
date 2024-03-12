@@ -18,6 +18,7 @@ const likeButton = ({
   shift,
   height,
   vershift,
+  type,
 }) => {
   const [likeload, setLikeLoad] = useState(false);
   const sendLike = async (category, e) => {
@@ -36,7 +37,11 @@ const likeButton = ({
         updatedAt: like.updatedAt,
       });
       setLikestatuses(res.data.likestatuses);
-      setLikes(res.data.likes);
+      if (type === "individual") {
+        //fetchCommentLikes
+      } else {
+        setLikes(res.data.likes);
+      }
       setLikeLoad(false);
     } catch (error) {
       setLikeLoad(false);

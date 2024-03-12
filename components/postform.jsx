@@ -3,6 +3,7 @@ import "../app/src/post.css";
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import "../app/i18n.js";
 import Skeleton from "./skeletons/Skeleton.jsx";
 import LikeButton from "./likeButton.jsx";
@@ -14,10 +15,12 @@ import ColorThief from "colorthief";
 import CommentUpload from "./commentUpload";
 import SubComment from "./subComment";
 import Link from "next/link";
+import comment from "../models/comment";
 
 function Postform({ id, username }) {
   const [post, setPost] = useState(null);
   const [like, setLike] = useState(null);
+  const [likes, setLikes] = useState([]); // For comment likes
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [load, setLoad] = useState(false);
@@ -29,7 +32,6 @@ function Postform({ id, username }) {
   const [backCheck, setBackCheck] = useState(false);
   const [msg, setMsg] = useState(null);
   const [title, setTitle] = useState("");
-  const [likes, setLikes] = useState([]);
   const [subComments, setSubComments] = useState([]);
   const [content, setContent] = useState("");
   const [files, setFiles] = useState([]);
@@ -53,6 +55,7 @@ function Postform({ id, username }) {
   const [admi, setAdmi] = useState(false);
   const { t } = useTranslation();
   const { i18n } = useTranslation();
+  const router = useRouter();
 
   const fetchPost = async () => {
     try {
@@ -63,6 +66,9 @@ function Postform({ id, username }) {
       setLoading(false);
     } catch (error) {
       console.error(error);
+      if (error.response && error.response.status === 404) {
+        router.push("/404");
+      }
     }
   }; //fetch post
 
@@ -112,7 +118,6 @@ function Postform({ id, username }) {
 
   const fetchLikes = async () => {
     try {
-      console.log("fetching likes");
       setLikeloads(true);
       const res = await axios.get("/api/fetchLike", {
         params: {
@@ -120,7 +125,6 @@ function Postform({ id, username }) {
           forum: "general",
         },
       });
-      setLikes(res.data.likes);
       setLikestatuses(res.data.likestatuses);
       setLikeloads(false);
     } catch (error) {
@@ -167,6 +171,13 @@ function Postform({ id, username }) {
         // Add the unique new subcomments to the subComments array
         setSubComments([...subComments, ...uniqueNewSubComments]);
       }
+      const res = await axios.get("/api/fetchCommentLikes", {
+        params: {
+          commentIds: comments.map((comment) => comment._id),
+          subIds: subComments.map((subComment) => subComment._id),
+        },
+      });
+      setLikes(res.data.likes);
     } catch (error) {
       console.log(error);
     }
@@ -502,6 +513,7 @@ function Postform({ id, username }) {
                       vershift="0.5vw"
                       shift="0.2vw"
                       height="76px"
+                      type="individual"
                     />
                   }
                 </div>
@@ -658,6 +670,7 @@ function Postform({ id, username }) {
                                           fontsize="1.2rem"
                                           shift="1px"
                                           height="37px"
+                                          type="individual"
                                         />
                                       ))}
                                     </div>
@@ -688,7 +701,6 @@ function Postform({ id, username }) {
                                         likeloads={likeloads}
                                         likestatuses={likestatuses}
                                         setLikestatuses={setLikestatuses}
-                                        setLikes={setLikes}
                                         username={username}
                                         subComment={subComment}
                                       />
