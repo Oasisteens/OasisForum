@@ -29,14 +29,14 @@ const likeButton = ({
         (likestatus) => likestatus.postId === postId,
       );
       const currentStatus = likestatus?.status ?? false;
+      console.log(!currentStatus);
       const res = await axios.post("/api/fetchLike", {
         postId,
         sendUsername: username,
         status: !currentStatus,
         category,
-        updatedAt: like.updatedAt,
       });
-      setLikestatuses(res.data.likestatuses);
+      await setLikestatuses(res.data.likestatuses);
       if (type === "individual") {
         //fetchCommentLikes
       } else {

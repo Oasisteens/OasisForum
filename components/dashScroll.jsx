@@ -150,7 +150,7 @@ const DashScroll = ({ posts, likes, ind, info }) => {
                       </p>
                       <p style={{ fontSize: "0.9rem", fontWeight: "300" }}>
                         {t("Likes: ")}
-                        {likes.find((like) => like.postId === post._id)
+                        {likes.find((like) => like?.postId === post._id)
                           ?.number || 0}
                       </p>
                       <p style={{ fontSize: "0.9rem", fontWeight: "300" }}>
