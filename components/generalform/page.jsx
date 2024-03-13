@@ -866,30 +866,28 @@ function Generalform({ username }) {
                   </p>
                   <br />
                   <div className="likeContainer">
-                    {
-                      (() => {
-                        let like = likes.find(like => like.postId === post._id);
-                        if (like) {
-                          return (
-                            <LikeButton
-                              key={like._id}
-                              category="post"
-                              postId={post._id}
-                              likeloads={likeloads}
-                              like={like}
-                              likestatuses={likestatuses}
-                              username={username}
-                              setLikestatuses={setLikestatuses}
-                              setLikes={setLikes}
-                              size={50}
-                              vershift="0.5vw"
-                              shift="0.2vw"
-                              height="76px"
-                            />
-                          );
-                        }
-                      })()
-                    }
+                    {(() => {
+                      let like = likes.find((like) => like.postId === post._id);
+                      if (like) {
+                        return (
+                          <LikeButton
+                            key={like._id}
+                            category="post"
+                            postId={post._id}
+                            likeloads={likeloads}
+                            like={like}
+                            likestatuses={likestatuses}
+                            username={username}
+                            setLikestatuses={setLikestatuses}
+                            setLikes={setLikes}
+                            size={50}
+                            vershift="0.5vw"
+                            shift="0.2vw"
+                            height="76px"
+                          />
+                        );
+                      }
+                    })()}
                   </div>
 
                   {/* Comment Section */}

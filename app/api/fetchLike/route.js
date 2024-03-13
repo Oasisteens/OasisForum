@@ -24,36 +24,35 @@ export async function GET(req) {
   }
 }
 
+// POST method updates like and likestatus with OCC, and then returns the updated version
 export async function POST(req) {
   await DBconnect();
-  const { postId, sendUsername, status, category } =
-    await req.json();
+  const { postId, sendUsername, status, category, number } = await req.json();
 
-  await Promise.all([
-    Likestatus.findOneAndUpdate(
-      { postId: postId, username: sendUsername, category },
-      { $set: { status: status } },
-      { upsert: true, new: true },
-    )
-    ,
-    status
-      ? Like.findOneAndUpdate(
-          { postId: postId },
-          { $inc: { number: 1 } },
-          { new: true },
-        )
-      : Like.findOneAndUpdate(
-          { postId: postId },
-          { $inc: { number: -1 }, get: { number: 0 } },
-          { new: true },
-        ),
-  ]);
-  const [likestatuses, likes] = await Promise.all([
-    Likestatus.find(),
-    Like.find(),
-  ]);
+  const like = await Like.findOne({ postId: postId });
+  if (!like || like.number !== number || (number === 0 && status === false)) {
+    return NextResponse.json(
+      { message: "busy sending request" },
+      { status: 400 },
+    );
+  }
+
+  status ? like.number++ : like.number--;
+
+  const likestatus = await Likestatus.findOneAndUpdate(
+    { postId: postId, username: sendUsername, category },
+    { $set: { status: status } },
+    { upsert: true, new: true },
+  );
+
+  await like
+    .save()
+    .then(() => {})
+    .catch((error) => {
+      return NextResponse.json({ message: "Server error" }, { status: 500 });
+    });
   return NextResponse.json(
-    { message: "like successfully recorded", likestatuses, likes },
+    { message: "like successfully recorded", likestatus, like },
     { status: 201 },
   );
 }
