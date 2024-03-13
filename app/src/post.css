@@ -58,7 +58,7 @@ button.refreshBtn {
   position: relative;
   font-size: 20px;
   top: 4vh;
-  left: 25vw;
+  left: 80vw;
   text-decoration: none;
   font-weight: 600;
   padding: 5px 10px;
@@ -89,4 +89,31 @@ button.refreshBtn:active {
   100% {
     transform: scale(1);
   }
+}
+div.postBg {
+  position: relative;
+  margin-left: 20vw;
+  margin-right: 20vw;
+}
+p.postTitle {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+div.bottom {
+  position: relative;
+  margin-left: 4vw;
+  margin-right: 4vw;
+}
+div.borderClass {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* This will center children vertically */
+  justify-content: center; /* This will center children horizontally */
+  width: 70vw;
+  position: relative;
+  margin: 0 auto;
+}
+div.postContents {
+  white-space: pre-wrap;
 }

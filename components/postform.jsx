@@ -256,7 +256,7 @@ function Postform({ id, username }) {
 
   const handleRefresh = async () => {
     await fetchPost();
-    setCommentOpen([].map(() => false));
+    // setCommentOpen([].map(() => false));
   }; //refresh page
 
   const handleSubComment = (commentId) => {
@@ -313,6 +313,7 @@ function Postform({ id, username }) {
 
   return (
     <section>
+      <title>{post && post.title}</title>
       <div id="topBar">
         <a href="/general" className="titleg">
           {t("General")}
@@ -329,36 +330,35 @@ function Postform({ id, username }) {
         {t("Refresh")}
       </button>{" "}
       {/* refresh button */}
-      <br />
-      <br />
-      {post && (
-        <div className="bg">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <br key={i} />
+      ))}
+      {loading && (
+        <div className="borderClass">
+          <React.Fragment>
+            <Skeleton classes="title width-70" />
+            <Skeleton classes="text width-40" />
+            <Skeleton classes="text width-40" />
+            <Skeleton classes="text width-40" />
+            <br />
+            <Skeleton classes="text width-pic" />
+            <br />
+            <Skeleton classes="text width-user" />
+            <br />
+            <Skeleton classes="text width-40" />
+            <Skeleton classes="text width-delete" />
+            <br />
+          </React.Fragment>
+        </div>
+      )}
+      {post && !loading && (
+        <div className="postBg">
           <div id="posts" className="word-box">
-            {loading ? (
-              <div className="borderClass" key={`Skeletons${i}`}>
-                <React.Fragment>
-                  <Skeleton classes="title width-40" />
-                  <Skeleton classes="text width-70" />
-                  <Skeleton classes="text width-70" />
-                  <Skeleton classes="text width-70" />
-                  <br />
-                  <Skeleton classes="text width-pic" />
-                  <br />
-                  <Skeleton classes="text width-user" />
-                  <br />
-                  <Skeleton classes="text width-40" />
-                  <Skeleton classes="text width-delete" />
-                  <br />
-                </React.Fragment>
-              </div>
-            ) : (
-              //skeletons for loading
-              <div className="postsG" key={post._id}>
-                <Link href={`/posts/${post._id}`} className="ptitle">
-                  {post.title}
-                </Link>
-                <br />
-                <div className="contents">{post.content}</div>
+            <div className="postsG" key={post._id}>
+              <p className="postTitle">{post.title}</p>
+              <br />
+              <div className="bottom">
+                <div className="postContents">{post.content}</div>
                 <br />
                 <br />
                 <div className="imgs">
@@ -672,7 +672,7 @@ function Postform({ id, username }) {
                   </div>
                 )}
               </div>
-            )}{" "}
+            </div>{" "}
             {/* posts mapping */}
           </div>
         </div>
