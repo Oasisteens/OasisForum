@@ -25,22 +25,32 @@ const likeButton = ({
     e.preventDefault();
     try {
       setLikeLoad(true);
-      const likestatus = likestatuses?.find(
+      const likestatusTemp = likestatuses?.find(
         (likestatus) => likestatus.postId === postId,
       );
-      const currentStatus = likestatus?.status ?? false;
-      console.log(!currentStatus);
+      const currentStatus = likestatusTemp?.status ?? false;
       const res = await axios.post("/api/fetchLike", {
         postId,
         sendUsername: username,
         status: !currentStatus,
         category,
+        number: like.number,
       });
-      await setLikestatuses(res.data.likestatuses);
-      if (type === "individual") {
-        //fetchCommentLikes
-      } else {
-        setLikes(res.data.likes);
+      const updateStatus = (prevStatuses, newStatus) => {
+        return prevStatuses.map((item) =>
+          item.postId === newStatus.postId ? newStatus : item,
+        );
+      }; // only add the newly returned document without pulling info again
+
+      const likestatus = res.data.likestatus;
+      const likeNew = res.data.like;
+
+      await setLikestatuses((prevLikestatuses) =>
+        updateStatus(prevLikestatuses, likestatus),
+      );
+
+      if (type !== "individual") {
+        setLikes((prevLikes) => updateStatus(prevLikes, likeNew));
       }
       setLikeLoad(false);
     } catch (error) {
