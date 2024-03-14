@@ -102,19 +102,11 @@ function Postform({ id, username }) {
 
   const getComments = async (id) => {
     try {
-      const [response, res] = await Promise.all([
-        axios.get("/api/fetchComments", {
-          params: {
-            postId: id,
-          },
-        }),
-        axios.get("/api/fetchCommentLikes", {
-          params: {
-            commentIds: comments.map((comment) => comment._id),
-            subIds: subComments.map((subComment) => subComment._id),
-          },
-        }),
-      ]);
+      const response = await axios.get("/api/fetchComments", {
+        params: {
+          postId: id,
+        },
+      });
 
       if (response.data.comments.length < comments.length) {
         setComments(response.data.comments);
@@ -147,11 +139,21 @@ function Postform({ id, username }) {
         // Add the unique new subcomments to the subComments array
         setSubComments([...subComments, ...uniqueNewSubComments]);
       }
-      setLikes(res.data.likes);
     } catch (error) {
       console.log(error);
     }
   }; //get comments for post in which its _id is equal to id and get comment likes
+
+  const fetchLikes = async () => {
+    const res = await axios.get("/api/fetchCommentLikes", {
+      params: {
+        commentIds: comments.map((comment) => comment._id),
+        subIds: subComments.map((subComment) => subComment._id),
+      },
+    });
+    setLikes(res.data.likes);
+    setLikestatuses(res.data.likestatuses);
+  };
 
   const deleteComment = async (e) => {
     e.preventDefault();
@@ -164,6 +166,7 @@ function Postform({ id, username }) {
         },
       });
       await getComments(postId);
+      await fetchLikes();
     } catch (error) {
       console.log(error);
     }
@@ -249,7 +252,8 @@ function Postform({ id, username }) {
           id: e.target.id.value,
         },
       });
-      await fetchPost();
+      alert(t("Post deleted, redirecting to General..."));
+      router.push("/general");
     } catch (error) {
       console.log(error);
     }
@@ -273,6 +277,7 @@ function Postform({ id, username }) {
     setCommentOpen(!commentOpen);
     if (!commentOpen) {
       await getComments(id);
+      await fetchLikes();
     }
   };
 
@@ -551,7 +556,7 @@ function Postform({ id, username }) {
                                         />
                                         <button
                                           type="submit"
-                                          className="deleteBtn"
+                                          className="dBtn"
                                           style={{
                                             position: "absolute",
                                             right: "2.5vw",
@@ -627,7 +632,6 @@ function Postform({ id, username }) {
                                           fontsize="1.2rem"
                                           shift="1px"
                                           height="37px"
-                                          type="individual"
                                         />
                                       ))}
                                     </div>
@@ -685,6 +689,7 @@ function Postform({ id, username }) {
           </div>
         </div>
       )}
+      <br />
     </section>
   );
 }

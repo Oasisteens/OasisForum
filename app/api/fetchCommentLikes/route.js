@@ -16,6 +16,7 @@ export async function GET(req) {
       Like.find({ postId: { $in: subIds } }),
     ]);
     const likes = commentLikes.concat(subCommentLikes);
+    console.log(likes);
     return NextResponse.json({ likes }, { status: 200 });
   } catch (error) {
     console.error(error);

@@ -78,3 +78,16 @@ label.picUpload {
 #subComment.empty {
   color: gray; /* color when comment is empty */
 }
+.ld {
+  color: white;
+}
+
+.ldd {
+  text-align: center;
+  color: white;
+}
+
+div.load {
+  display: flex;
+  justify-content: center;
+}
