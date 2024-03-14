@@ -201,7 +201,6 @@ function Postform({ id, username }) {
 
     image.onload = async function () {
       const colors = await colorThief.getPalette(image, 3);
-      console.log(colors);
       const rgbColors = colors.map((color) => `rgb(${color.join(", ")})`);
       document.documentElement.style.setProperty("--1-color", rgbColors[0]);
       document.documentElement.style.setProperty("--2-color", rgbColors[1]);
@@ -233,11 +232,9 @@ function Postform({ id, username }) {
     document.body.style.overflowY = "scroll";
   }; //setting for image preview
 
-  const handleClose = (index) => {
+  const handleClose = () => {
     setOk(false);
-    let newArray = [...imgCheck]; // create a copy of the current state
-    newArray[index] = false; // set the first element to false
-    setImgCheck(newArray); // update the state
+    setImgCheck(false); // update the state
     document.documentElement.style.setProperty("--1-color", "#f2f4f5");
     document.documentElement.style.setProperty("--2-color", "#f2f4f5");
     document.documentElement.style.setProperty("--3-color", "#f2f4f5");
@@ -324,7 +321,7 @@ function Postform({ id, username }) {
     loadImages();
   }, [posts]); //load images
   return (
-    <section>
+    <body>
       <title>{post && post.title}</title>
       <div id="topBar">
         <a href="/general" className="titleg">
@@ -346,7 +343,7 @@ function Postform({ id, username }) {
         <br key={i} />
       ))}
       {loading && (
-        <div className="borderClass">
+        <div className="borderClassSkeleton">
           <React.Fragment>
             <Skeleton classes="title width-70" />
             <Skeleton classes="text width-40" />
@@ -409,9 +406,9 @@ function Postform({ id, username }) {
                       </section>
                     ))}
                   {post.pictureUrl.length === 1 &&
-                    post.pictureUrl.map((image, index) => (
+                    post.pictureUrl.map((image) => (
                       <section key={"1pic" + image.filename}>
-                        <button onClick={() => imagePreview1(postIndex, image)}>
+                        <button onClick={() => imagePreview1(image)}>
                           <img
                             src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
                             alt={image.filename}
@@ -420,7 +417,7 @@ function Postform({ id, username }) {
                             className="Image"
                           />
                         </button>
-                        {ok && imgCheck[postIndex] && (
+                        {ok && imgCheck && (
                           <img
                             src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
                             alt={image.filename}
@@ -431,18 +428,16 @@ function Postform({ id, username }) {
                           />
                         )}
 
-                        {ok && imgCheck[postIndex] && (
+                        {ok && imgCheck && (
                           <button
                             id="closePreview"
-                            onClick={() => handleClose(postIndex)}
+                            onClick={() => handleClose()}
                           >
                             X
                           </button>
                         )}
 
-                        {ok && imgCheck[postIndex] && (
-                          <div className="blocks" />
-                        )}
+                        {ok && imgCheck && <div className="blocks" />}
                       </section>
                     ))}
                 </div>
@@ -677,7 +672,7 @@ function Postform({ id, username }) {
                   <div className="deleteForm">
                     <form onSubmit={handleSub} id="deleteForm">
                       <input type="hidden" name="id" id="id" value={id} />
-                      <button type="submit" className="deleteBtn">
+                      <button type="submit" className="deleteBtn1">
                         <span>{t("Delete")}</span>
                       </button>
                     </form>
@@ -690,7 +685,7 @@ function Postform({ id, username }) {
         </div>
       )}
       <br />
-    </section>
+    </body>
   );
 }
 

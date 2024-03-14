@@ -12,6 +12,7 @@
 html {
   width: 100%;
 }
+
 h1 {
   font-size: 1rem;
   position: relative;
@@ -21,7 +22,6 @@ h1 {
 
 body {
   margin: 0;
-
   padding: 0;
   width: 100%;
   height: 100%;
@@ -116,9 +116,11 @@ a.titleg {
   left: 600px;
   bottom: 152px;
 }
+
 .heart {
   color: red;
 }
+
 #backButton {
   color: var(--black-color);
   position: relative;
