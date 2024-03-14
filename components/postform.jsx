@@ -102,16 +102,16 @@ function Postform({ id, username }) {
 
   const getComments = async (id) => {
     try {
-      const [res, response] = await Promise.all([
+      const [response, res] = await Promise.all([
+        axios.get("/api/fetchComments", {
+          params: {
+            postId: id,
+          },
+        }),
         axios.get("/api/fetchCommentLikes", {
           params: {
             commentIds: comments.map((comment) => comment._id),
             subIds: subComments.map((subComment) => subComment._id),
-          },
-        }),
-        axios.get("/api/fetchComments", {
-          params: {
-            postId: id,
           },
         }),
       ]);
@@ -257,7 +257,7 @@ function Postform({ id, username }) {
 
   const handleRefresh = async () => {
     await fetchPost();
-    // setCommentOpen([].map(() => false));
+    setCommentOpen(false);
   }; //refresh page
 
   const handleSubComment = (commentId) => {
@@ -266,6 +266,13 @@ function Postform({ id, username }) {
       setAddCommentDisplay(addCommentDisplay.filter((id) => id !== commentId));
     } else {
       setAddCommentDisplay([...addCommentDisplay, commentId]);
+    }
+  };
+
+  const handleComment = async () => {
+    setCommentOpen(!commentOpen);
+    if (!commentOpen) {
+      await getComments(id);
     }
   };
 
@@ -311,7 +318,6 @@ function Postform({ id, username }) {
 
     loadImages();
   }, [posts]); //load images
-
   return (
     <section>
       <title>{post && post.title}</title>
@@ -469,7 +475,7 @@ function Postform({ id, username }) {
 
                 {/* Comment Section */}
                 <button
-                  onClick={() => setCommentOpen(true)}
+                  onClick={() => handleComment()}
                   style={{ display: "flex", alignItems: "flex-end" }}
                 >
                   <svg
@@ -491,7 +497,7 @@ function Postform({ id, username }) {
                 {commentOpen && (
                   <>
                     <CommentUpload
-                      fetchLikes={fetchLikes}
+                      type="individual"
                       username={username}
                       postId={post._id}
                       commentOpen={commentOpen}
@@ -568,7 +574,9 @@ function Postform({ id, username }) {
                                   <div style={{ display: "flex" }}>
                                     <h2 style={{}}>{com.postingtime}</h2>
                                     <button
-                                      onClick={() => handleSubComment(com._id)}
+                                      onClick={async () =>
+                                        handleSubComment(com._id)
+                                      }
                                       style={{
                                         display: "flex",
                                         left: "15vw",
@@ -664,7 +672,7 @@ function Postform({ id, username }) {
                 {post.username === username && (
                   <div className="deleteForm">
                     <form onSubmit={handleSub} id="deleteForm">
-                      <input type="hidden" name="id" id="id" value={post._id} />
+                      <input type="hidden" name="id" id="id" value={id} />
                       <button type="submit" className="deleteBtn">
                         <span>{t("Delete")}</span>
                       </button>

@@ -30,13 +30,13 @@ const likeButton = ({
     try {
       setLikeLoad(true);
       var currentStatus;
-      if (type !== "individual") {
+      if (type === "individual") {
+        currentStatus = likestatus?.status ?? false;
+      } else {
         const likestatusTemp = likestatuses?.find(
           (likestatus) => likestatus.postId === postId,
         );
         currentStatus = likestatusTemp?.status ?? false;
-      } else {
-        currentStatus = likestatus?.status ?? false;
       }
       const res = await axios.post("/api/fetchLike", {
         postId,
@@ -46,7 +46,10 @@ const likeButton = ({
         number: like.number,
       });
 
-      if (type !== "individual") {
+      if (type === "individual") {
+        setLikestatus(res.data.likestatus);
+        setLike(res.data.like);
+      } else {
         const updateStatus = (prevStatuses, newStatus) => {
           return prevStatuses.map((item) =>
             item.postId === newStatus.postId ? newStatus : item,
@@ -60,9 +63,6 @@ const likeButton = ({
           updateStatus(prevLikestatuses, likestatus),
         );
         setLikes((prevLikes) => updateStatus(prevLikes, likeNew));
-      } else {
-        setLikestatus(res.data.likestatus);
-        setLike(res.data.like);
       }
       setLikeLoad(false);
     } catch (error) {
