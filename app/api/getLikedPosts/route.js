@@ -7,8 +7,8 @@ import Like from "../../../models/like";
 export async function GET(req) {
   await DBconnect();
   const username = req.nextUrl.searchParams.get("username");
-  const likestatuses = await Likestatus.find({ username: username });
-
+  const temp = await Likestatus.find({ username: username });
+  const likestatuses = temp.filter((likestatus) => likestatus.status === true);
   const results = await Promise.all(
     likestatuses.map(async (likestatus) => {
       const postPromise = Post.findOne({ _id: likestatus.postId });
