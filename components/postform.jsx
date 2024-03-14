@@ -35,7 +35,7 @@ function Postform({ id, username }) {
   // const [commentNumber, setCommentNumber] = useState([]);
   // The commentDisplay function is for showing the comment post button and the picturen upload button. If the content is focused, or in other words, the user is writing or editing the comment, it shows, else, we need to make space for showing other comments.
   const [addCommentDisplay, setAddCommentDisplay] = useState([]);
-  const [admi, setAdmi] = useState(false);
+  const [likestatus, setLikestatus] = useState(null);
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const router = useRouter();
@@ -46,6 +46,7 @@ function Postform({ id, username }) {
       const res = await axios.get(`/api/fetchPost?id=${id}`);
       setPost(res.data.post);
       setLike(res.data.like);
+      setLikestatus(res.data.likestatus);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -451,18 +452,17 @@ function Postform({ id, username }) {
                     <LikeButton
                       key={like._id}
                       category="post"
-                      postId={post._id}
-                      likeloads={likeloads}
+                      postId={id}
                       like={like}
-                      likestatuses={likestatuses}
+                      likestatus={likestatus}
+                      setLikestatus={setLikestatus}
                       username={username}
-                      setLikestatuses={setLikestatuses}
-                      setLikes={setLikes}
                       size={50}
                       vershift="0.5vw"
                       shift="0.2vw"
                       height="76px"
                       type="individual"
+                      setLike={setLike}
                     />
                   }
                 </div>

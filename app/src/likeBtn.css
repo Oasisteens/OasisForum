@@ -1,0 +1,23 @@
+button.likeBtn {
+  position: relative;
+}
+p.postlike {
+  position: relative;
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+svg.loadHeart {
+  position: relative;
+  animation: scaling 1s infinite ease-in-out;
+}
+@keyframes scaling {
+  0% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}

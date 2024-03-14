@@ -8,13 +8,14 @@ import { NextResponse } from "next/server";
 export async function GET(req) {
   await DBconnect();
   const id = req.nextUrl.searchParams.get("id");
-  const [post, like] = await Promise.all([
+  const [post, like, likestatus] = await Promise.all([
     Post.findById(id),
     Like.findOne({ postId: id }),
+    Likestatus.findOne({ postId: id }),
   ]);
   if (!post)
     return NextResponse.json({ message: "Post not found" }, { status: 404 });
-  return NextResponse.json({ post, like }, { status: 200 });
+  return NextResponse.json({ post, like, likestatus }, { status: 200 });
 }
 
 export async function DELETE(req) {
