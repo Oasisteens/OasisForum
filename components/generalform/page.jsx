@@ -884,6 +884,7 @@ function Generalform({ username }) {
                             vershift="0.5vw"
                             shift="0.2vw"
                             height="76px"
+                            type="all"
                           />
                         );
                       }
@@ -1074,6 +1075,7 @@ function Generalform({ username }) {
                                             fontsize="1.2rem"
                                             shift="1px"
                                             height="37px"
+                                            type="all"
                                           />
                                         ))}
                                       </div>

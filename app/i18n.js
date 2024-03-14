@@ -99,7 +99,6 @@ i18n
           " files has been uploaded": "个文件已上传",
           " file has been uploaded": "个文件已上传",
           "Likes: ": "赞: ",
-
           "To who?": "为谁？",
           "Your nickname? (optional)": "你的署名？（可选）",
           "Your confession?": "你的告白？",
@@ -117,6 +116,8 @@ i18n
           "Click here to change the language": "点击这里切换语言",
           "Click here to change the color theme": "点击这里切换颜色主题",
           "Click here to upload user image": "点击这里上传用户头像",
+          "Post deleted, redirecting to General...":
+            "帖子已删除，正在跳转到常规...",
         },
       },
       es: {
@@ -211,6 +212,31 @@ i18n
           " files has been uploaded": " archivos han sido subidos",
           " file has been uploaded": " archivo ha sido subido",
           "Likes: ": "Me gusta: ",
+          "To who?": "¿A quién?",
+          "Your nickname? (optional)": "¿Tu apodo? (opcional)",
+          "Your confession?": "¿Tu confesión?",
+          "Express your love": "Expresa tu amor",
+          "from: ": "de: ",
+          "Pictures (Drag and drop or Click)":
+            "Imágenes (Arrastra y suelta o Haz clic)",
+          "Username: ": "Nombre de usuario: ",
+          "Log Out": "Cerrar sesión",
+          "Click here to open the navigator menu":
+            "Haz clic aquí para abrir el menú del navegador",
+          "Guided Tour": "Tour guiado",
+          Next: "Siguiente",
+          End: "Fin",
+          Back: "Atrás",
+          "Go back to the intro page":
+            "Haz clic aquí para volver a la página de introducción",
+          "Click here to change the language":
+            "Haz clic aquí para cambiar el idioma",
+          "Click here to change the color theme":
+            "Haz clic aquí para cambiar el tema de color",
+          "Click here to upload user image":
+            "Haz clic aquí para subir la imagen del usuario",
+          "Post deleted, redirecting to General...":
+            "Publicación eliminada, redirigiendo a General...",
         },
       },
       fr: {
@@ -304,6 +330,31 @@ i18n
           " files has been uploaded": " fichiers ont été téléchargés",
           " file has been uploaded": " fichier a été téléchargé",
           "Likes: ": "Aime: ",
+          "To who?": "À qui?",
+          "Your nickname? (optional)": "Votre surnom? (optionnel)",
+          "Your confession?": "Votre confession?",
+          "Express your love": "Exprimez votre amour",
+          "from: ": "de: ",
+          "Pictures (Drag and drop or Click)":
+            "Images (Glisser-déposer ou Cliquer)",
+          "Username: ": "Nom d'utilisateur: ",
+          "Log Out": "Se déconnecter",
+          "Click here to open the navigator menu":
+            "Cliquez ici pour ouvrir le menu de navigation",
+          "Guided Tour": "Visite guidée",
+          Next: "Suivant",
+          End: "Fin",
+          Back: "Retour",
+          "Go back to the intro page":
+            "Cliquez ici pour revenir à la page d'introduction",
+          "Click here to change the language":
+            "Cliquez ici pour changer la langue",
+          "Click here to change the color theme":
+            "Cliquez ici pour changer le thème de couleur",
+          "Click here to upload user image":
+            "Cliquez ici pour télécharger l'image de l'utilisateur",
+          "Post deleted, redirecting to General...":
+            "Poste supprimé, redirection vers Général...",
         },
       },
       ja: {
@@ -394,6 +445,30 @@ i18n
           " files has been uploaded": " ファイルがアップロードされました",
           " file has been uploaded": " ファイルがアップロードされました",
           "Likes: ": "いいね: ",
+          "To who?": "誰に？",
+          "Your nickname? (optional)": "あなたのニックネーム？（オプション）",
+          "Your confession?": "あなたの告白？",
+          "Express your love": "あなたの愛を表現する",
+          "from: ": "から：",
+          "Pictures (Drag and drop or Click)":
+            "画像（ドラッグアンドドロップまたはクリック）",
+          "Username: ": "ユーザー名：",
+          "Log Out": "ログアウト",
+          "Click here to open the navigator menu":
+            "ここをクリックしてナビゲーターメニューを開く",
+          "Guided Tour": "ガイド付きツアー",
+          Next: "次へ",
+          End: "終了",
+          Back: "戻る",
+          "Go back to the intro page": "ここをクリックして紹介ページに戻る",
+          "Click here to change the language":
+            "ここをクリックして言語を変更する",
+          "Click here to change the color theme":
+            "ここをクリックして色のテーマを変更する",
+          "Click here to upload user image":
+            "ここをクリックしてユーザー画像をアップロードする",
+          "Post deleted, redirecting to General...":
+            "投稿が削除され、一般にリダイレクトしています...",
         },
       },
     },
