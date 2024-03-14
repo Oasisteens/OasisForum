@@ -134,7 +134,6 @@ function Generalform({ username }) {
 
   const fetchLikes = async () => {
     try {
-      console.log("fetching likes");
       setLikeloads(true);
       const res = await axios.get("/api/fetchLike", {
         params: {
@@ -258,7 +257,6 @@ function Generalform({ username }) {
 
     image.onload = async function () {
       const colors = await colorThief.getPalette(image, 3);
-      console.log(colors);
       const rgbColors = colors.map((color) => `rgb(${color.join(", ")})`);
       document.documentElement.style.setProperty("--1-color", rgbColors[0]);
       document.documentElement.style.setProperty("--2-color", rgbColors[1]);
@@ -581,7 +579,6 @@ function Generalform({ username }) {
             onDragOver={(e) => e.preventDefault()}
             onDrop={(e) => {
               e.preventDefault();
-              console.log(e.dataTransfer.files);
               setFiles(e.dataTransfer.files);
             }}
           >
