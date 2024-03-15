@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IonIcon } from "@ionic/react";
 import { TailSpin } from "react-loader-spinner";
-import "@/app/i18n";
+import "../../app/i18n";
 import { useTranslation } from "react-i18next";
 import { mailOutline, lockClosedOutline } from "ionicons/icons";
-import "@/app/src/login.css";
+import "../../app/src/login.css";
 import { signIn } from "next-auth/react";
 
 const LoginForm = () => {

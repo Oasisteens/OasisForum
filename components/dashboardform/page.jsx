@@ -1,11 +1,11 @@
 "use client";
 import { useEffect } from "react";
 import Link from "next/link";
-import Nav from "@/app/(components)/Nav";
+import Nav from "../../app/(components)/Nav";
 import DashScroll from "../dashScroll";
 import { useState } from "react";
 import axios from "axios";
-import "@/app/i18n";
+import "../../app/i18n";
 import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
 import "../../app/src/dashboard.css";

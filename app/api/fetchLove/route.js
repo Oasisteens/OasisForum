@@ -1,5 +1,5 @@
-import DBconnect from "@/libs/mongodb";
-import Loveform from "@/models/loveform";
+import DBconnect from "../../../libs/mongodb";
+import Loveform from "../../../models/loveform";
 import { NextResponse } from "next/server";
 
 export async function GET() {

@@ -1,6 +1,6 @@
-import Comment from "@/models/comment";
-import Post from "@/models/post";
-import DBconnect from "@/libs/mongodb";
+import Comment from "../../../models/comment";
+import Post from "../../../models/post";
+import DBconnect from "../../../libs/mongodb";
 import { NextResponse } from "next/server";
 import { comment } from "postcss";
 

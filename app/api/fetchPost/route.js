@@ -5,16 +5,22 @@ import Comment from "../../../models/comment";
 import Likestatus from "../../../models/likestatus";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req) {
   await DBconnect();
-  const posts = (await Post.find({ group: "general" })).reverse();
-  return NextResponse.json({ posts }, { status: 200 });
+  const id = req.nextUrl.searchParams.get("id");
+  const [post, like, likestatus] = await Promise.all([
+    Post.findById(id),
+    Like.findOne({ postId: id }),
+    Likestatus.findOne({ postId: id }),
+  ]);
+  if (!post)
+    return NextResponse.json({ message: "Post not found" }, { status: 404 });
+  return NextResponse.json({ post, like, likestatus }, { status: 200 });
 }
 
 export async function DELETE(req) {
-  const { id } = await req.json();
   await DBconnect();
-
+  const id = req.nextUrl.searchParams.get("id");
   // Find comments with the given postId
   const comments = await Comment.find({ postId: id });
 

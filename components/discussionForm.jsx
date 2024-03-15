@@ -3,8 +3,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
-import Nav from "@/app/(components)/Nav";
-import styles from "@/app/src/discussion.css";
+import Nav from "../app/(components)/Nav";
+import styles from "../app/src/discussion.css";
 
 function DiscussionForm({ admin, username }) {
   const [mainTopics, setMainTopics] = useState([]);

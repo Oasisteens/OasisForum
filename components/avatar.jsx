@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import axios from "axios";
-import "@/app/src/avatar.css";
+import "../app/src/avatar.css";
 import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
 
