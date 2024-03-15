@@ -7,6 +7,7 @@ import { TailSpin } from "react-loader-spinner";
 import { useRef } from "react";
 import axios from "axios";
 import count from "word-count";
+import "../app/src/commentsection.css";
 
 const commentUpload = ({
   getComments,
@@ -14,6 +15,7 @@ const commentUpload = ({
   postId,
   username,
   fetchLikes,
+  type,
 }) => {
   const [comment, setComment] = useState("");
   const [commentFiles, setCommentFiles] = useState([]);
@@ -78,7 +80,9 @@ const commentUpload = ({
           commentRef.current.style.height = "40px";
         }
       }
-      fetchLikes();
+      if (type != "individual") {
+        fetchLikes();
+      }
     } catch (error) {
       console.log(error);
       setCommentUploadLoad(false);
@@ -86,7 +90,8 @@ const commentUpload = ({
   };
 
   useEffect(() => {
-    const ind = commentOpen.includes(postId);
+    const ind =
+      type === "individual" ? commentOpen : commentOpen.includes(postId);
     if (ind) {
       setCommentDisplay(false);
       setTemp(false);

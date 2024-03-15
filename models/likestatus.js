@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const moment = require("moment-timezone");
+import mongoose from "mongoose";
+import moment from "moment-timezone";
 const Schema = mongoose.Schema;
 
 const likestatusSchema = new Schema({

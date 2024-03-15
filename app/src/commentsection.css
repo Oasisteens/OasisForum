@@ -1,0 +1,93 @@
+/* Hide the default file input */
+#input-files {
+  display: none;
+}
+
+/* Style the label */
+label[for="input-files"] {
+  padding: 10px;
+  position: relative;
+  background-color: var(--sec-color);
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+/* Change the label style on hover */
+label[for="input-files"]:hover {
+  transition: 0.3s;
+  background-color: var(--sub-color);
+}
+
+div.formBottom {
+  position: relative;
+  top: 6vh;
+}
+
+div.commentForm {
+  position: relative;
+  padding: 1px;
+}
+
+button.postCommentBtn {
+  padding: 10px;
+  font-weight: 600;
+  position: relative;
+  background-color: #ec3da0;
+  color: white;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+}
+
+button.postCommentBtn:hover {
+  background-color: #da3492;
+}
+
+div.commentSection {
+  border: 1px solid #c4c4c4;
+  border-radius: 5px;
+}
+label.picUpload {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#comment,
+#subComment {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 0.5px solid gray;
+  min-height: 34px;
+  padding: 10px 10px;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+  outline: none;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  color: gray; /* default color, replace with the actual color when comment is not empty */
+}
+
+#comment.empty,
+#subComment.empty {
+  color: gray; /* color when comment is empty */
+}
+.ld {
+  color: white;
+}
+
+.ldd {
+  text-align: center;
+  color: white;
+}
+
+div.load {
+  display: flex;
+  justify-content: center;
+}

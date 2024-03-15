@@ -1,10 +1,11 @@
 "use client";
-import { useSession } from "next-auth/react";
-import NewsForm from "../../components/newsForm.jsx";
+import React from "react";
+import Postform from "../../../components/postform.jsx";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
-export default function general() {
+const Page = ({ params: { id } }) => {
   const session = useSession();
 
   useEffect(() => {
@@ -22,10 +23,8 @@ export default function general() {
   }
 
   if (session.status === "authenticated") {
-    return (
-      <main>
-        <NewsForm username={session.data.user.name} />
-      </main>
-    );
+    return <Postform id={id} username={session.data.user.name} />;
   }
-}
+};
+
+export default Page;

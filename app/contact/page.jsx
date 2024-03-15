@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import SocialMedia from "../(icons)/SocialMedia";
 import PeopleCircle from "../(icons)/ionIcons/PeopleCircle";
 import Chatbubbles from "../(icons)/ionIcons/Chatbubbles";
-import "@/app/i18n";
+import "../i18n";
 import { useTranslation } from "react-i18next";
 import "../src/contact.css";
 const Contact = () => {
