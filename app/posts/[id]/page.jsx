@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Postform from "../../../components/postform.jsx";
+import Postform from "../../../components/jsx/postform.jsx";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";

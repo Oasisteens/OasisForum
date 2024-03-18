@@ -7,7 +7,7 @@ import { TailSpin } from "react-loader-spinner";
 import { useRef } from "react";
 import axios from "axios";
 import count from "word-count";
-import "../app/src/commentsection.css";
+import "../../app/src/commentsection.css";
 
 const commentUpload = ({
   getComments,

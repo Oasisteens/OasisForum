@@ -296,7 +296,7 @@ button.searchBtn {
 div.search {
   position: relative;
 }
-search.searchContainer{
+search.searchContainer {
   display: flex;
   left: 4vw;
   height: 30px;

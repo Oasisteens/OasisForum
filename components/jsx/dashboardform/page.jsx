@@ -1,15 +1,15 @@
 "use client";
 import { useEffect } from "react";
 import Link from "next/link";
-import Nav from "../../app/(components)/Nav";
-import DashScroll from "../dashScroll";
+import Nav from "../../../app/(components)/Nav";
+import DashScroll from "../dashScroll.jsx";
 import { useState } from "react";
 import axios from "axios";
 import Image from "next/image";
-import "../../app/i18n";
+import "../../../app/i18n";
 import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
-import "../../app/src/dashboard.css";
+import "../../../app/src/dashboard.css";
 
 export default function Dashboardform({ username }) {
   const [posts, setPosts] = useState([]);

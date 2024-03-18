@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
-import DiscussionForm from "../../components/discussionForm.jsx";
+import DiscussionForm from "../../components/jsx/discussionForm.jsx";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import axios from "axios";

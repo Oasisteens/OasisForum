@@ -1,7 +1,7 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import Loginform from "../../components/loginform/page.jsx";
+import Loginform from "../../components/jsx/loginform/page.jsx";
 import { redirect } from "next/navigation";
 import "../src/loader.css";
 
