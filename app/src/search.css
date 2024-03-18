@@ -1,0 +1,58 @@
+:root {
+  --width: 100vw;
+  --dash-color: #133153;
+  --scroll-color: var(--blue-lighter);
+  --dash-width: 17vw;
+}
+div.searchTop {
+  width: 100%;
+  height: 140px;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--dash-color);
+  position: fixed;
+}
+.stoIntro {
+  position: relative;
+  display: flex;
+  top: 17px;
+  left: 4.5vw;
+  color: white;
+  font-size: 2rem;
+}
+span.intro {
+  position: relative;
+  top: 10px;
+}
+form.searchForm {
+  position: fixed;
+  left: 15vw;
+  display: flex;
+  top: 20px;
+  width: 60vw;
+  height: 65px;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+#submitBtn {
+  position: relative;
+  flex-grow: 1;
+  transition: 0.3s;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+#searchInput {
+  flex-grow: 19;
+  height: 40px;
+  color: white;
+  background-color: transparent;
+  outline: none;
+  padding-left: 10px;
+  font-size: 1.3rem;
+  position: relative;
+  top: 12px;
+}
+#submitBtn:hover {
+  background-color: rgba(128, 128, 128, 0.429);
+  transition: 0.3s;
+}
