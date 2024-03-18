@@ -5,6 +5,7 @@ import Nav from "../../app/(components)/Nav";
 import DashScroll from "../dashScroll";
 import { useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 import "../../app/i18n";
 import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
@@ -325,6 +326,16 @@ export default function Dashboardform({ username }) {
           </svg>
           <span className="intro">{t("Oasis")}</span>
         </Link>
+        <search className="searchContainer">
+        <button className="searchBtn">
+          <Image src="/search.svg" alt="logo" width={25} height={25} color="ffffff" />
+        </button>
+          <div className="search">
+            <form>
+              <input type="search" style={{backgroundColor: "transparent", border: "none"}}/>
+            </form>
+            </div>
+        </search>
         <h1 className="dashh1">
           {username ? `${username}${t("'s Dashboard")}` : t("Dashboard")}
         </h1>

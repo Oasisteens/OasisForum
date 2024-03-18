@@ -289,3 +289,23 @@ p.dashTitle:hover {
   transform: translateX(calc(200% + var(--dash-width))) skew(-45deg);
   transition: all 0.5s;
 }
+button.searchBtn {
+  position: relative;
+  color: white;
+}
+div.search {
+  position: relative;
+}
+search.searchContainer{
+  display: flex;
+  left: 4vw;
+  height: 30px;
+  flex-direction: row;
+  align-items: flex-end;
+  position: relative;
+  border: 1px solid #e5e7eb;
+  padding: 3px;
+  padding-left: 3px;
+  padding-right: 3px;
+  border-radius: 10px;
+}
