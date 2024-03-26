@@ -1,7 +1,7 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import Registerform from "../../components/registerform/page.jsx";
+import Registerform from "../../components/jsx/registerform/page.jsx";
 import { redirect } from "next/navigation";
 
 export default function Register() {

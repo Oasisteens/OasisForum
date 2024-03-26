@@ -47,8 +47,8 @@ const Intro = () => {
           {t("Oasis")}
         </a>
         <div className="gradient-text">
-          <a className="channel c1" href="login">
-            {t("Login")}
+          <a className="channel c1" href="general">
+            {t("Posts")}
           </a>
           <a className="channel c2" href="register">
             {t("Register")}

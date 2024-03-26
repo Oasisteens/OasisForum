@@ -1,8 +1,8 @@
 "use client";
-import "../../app/src/register.css";
+import "../../../app/src/register.css";
 import axios from "axios";
 import { IonIcon } from "@ionic/react";
-import "../../app/i18n";
+import "../../../app/i18n";
 import { useTranslation } from "react-i18next";
 import { TailSpin } from "react-loader-spinner";
 import { useState } from "react";

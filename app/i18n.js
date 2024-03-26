@@ -118,6 +118,18 @@ i18n
           "Click here to upload user image": "点击这里上传用户头像",
           "Post deleted, redirecting to General...":
             "帖子已删除，正在跳转到常规...",
+
+          " Results": "个结果",
+          Filters: "筛选",
+          "No Matched Results": "没有匹配的结果",
+          Search: "搜索",
+          Posts: "帖子",
+          "Please sign in to like posts": "请登录以点赞帖子",
+          "Please sign in to write a post": "请登录以发帖",
+          "Please sign in to write a comment": "请登录以评论",
+          "You must log in to view a specific post, redirecting to login...":
+            "您必须登录才能查看特定帖子，正在重定向到登录页面...",
+          "Click here to go to the search page": "点击进入搜索页面",
         },
       },
       es: {

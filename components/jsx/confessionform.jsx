@@ -2,10 +2,10 @@
 import { useState } from "react";
 import axios from "axios";
 import React, { useEffect } from "react";
-import "../app/src/confession.scss";
+import "../../app/src/confession.scss";
 import { TailSpin } from "react-loader-spinner";
 import { useTranslation } from "react-i18next";
-import loveWords from "../app/src/loveWords.json";
+import loveWords from "../../app/src/loveWords.json";
 
 export default function Confessionform({ username }) {
   const [toWho, setToWho] = useState("");

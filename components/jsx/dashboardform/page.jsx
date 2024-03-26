@@ -1,14 +1,17 @@
 "use client";
 import { useEffect } from "react";
 import Link from "next/link";
-import Nav from "../../app/(components)/Nav";
-import DashScroll from "../dashScroll";
+import Nav from "../../../app/(components)/Nav";
+import DashScroll from "../dashScroll.jsx";
 import { useState } from "react";
 import axios from "axios";
-import "../../app/i18n";
+import Image from "next/image";
+import "../../../app/i18n";
 import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
-import "../../app/src/dashboard.css";
+import "../../../app/src/dashboard.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 export default function Dashboardform({ username }) {
   const [posts, setPosts] = useState([]);
@@ -113,6 +116,36 @@ export default function Dashboardform({ username }) {
       },
       {
         id: "step3",
+        text: t("Click here to go to the search page"),
+        attachTo: { element: ".toSearch", on: "bottom" },
+        buttons: [
+          {
+            text: t("Back"),
+            action: () => {
+              tour.back();
+            },
+          },
+          {
+            text: t("Next"),
+            action: () => {
+              tour.next();
+            },
+          },
+          {
+            text: t("End"),
+            action: () => {
+              tour.cancel();
+              const elements = document.querySelectorAll(
+                '[class^="shepherd-"]',
+              );
+              elements.forEach((element) => element.remove());
+              localStorage.setItem("tour", "false");
+            },
+          },
+        ],
+      },
+      {
+        id: "step4",
         text: t("Click here to change the color theme"),
         attachTo: { element: ".color-selector", on: "bottom" },
         buttons: [
@@ -142,7 +175,7 @@ export default function Dashboardform({ username }) {
         ],
       },
       {
-        id: "step4",
+        id: "step5",
         text: t("Click here to change the language"),
         attachTo: { element: ".language-selector", on: "bottom" },
         buttons: [
@@ -324,6 +357,9 @@ export default function Dashboardform({ username }) {
             />
           </svg>
           <span className="intro">{t("Oasis")}</span>
+        </Link>
+        <Link href="/search" target="_blank" className="toSearch">
+          <FontAwesomeIcon icon={faSearch} />
         </Link>
         <h1 className="dashh1">
           {username ? `${username}${t("'s Dashboard")}` : t("Dashboard")}

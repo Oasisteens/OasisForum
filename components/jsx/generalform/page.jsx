@@ -1,8 +1,8 @@
 "use client";
-import "../../app/src/channels.css";
+import "../../../app/src/channels.css";
 import React from "react";
 import axios from "axios";
-import "../../app/i18n";
+import "../../../app/i18n";
 import Skeleton from "../skeletons/Skeleton";
 import LikeButton from "../likeButton";
 import { useState } from "react";
@@ -355,6 +355,10 @@ function Generalform({ username }) {
   }; //submit post
 
   const handleAddPostClick = () => {
+    if (!username) {
+      alert(t("Please sign in to write a post"));
+      return;
+    }
     setInputBoxHidden(!inputBoxHidden);
   };
 
@@ -455,6 +459,10 @@ function Generalform({ username }) {
   };
 
   const handleSubComment = (commentId) => {
+    if (!username) {
+      alert(t("Please sign in to write a comment"));
+      return;
+    }
     const ind = addCommentDisplay.includes(commentId);
     if (ind) {
       setAddCommentDisplay(addCommentDisplay.filter((id) => id !== commentId));

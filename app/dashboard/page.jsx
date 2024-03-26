@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
-import Dashboardform from "../../components/dashboardform/page.jsx";
+import Dashboardform from "../../components/jsx/dashboardform/page.jsx";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 

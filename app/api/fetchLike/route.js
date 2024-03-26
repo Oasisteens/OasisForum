@@ -9,12 +9,19 @@ export async function GET(req) {
     const forum = req.nextUrl.searchParams.get("forum");
     const username = req.nextUrl.searchParams.get("username");
     if (forum) {
+      if (!username) {
+        const likes = await Like.find({ forum: forum });
+        return NextResponse.json({ likes }, { status: 200 });
+      }
       const [likes, likestatuses] = await Promise.all([
         Like.find({ forum: forum }),
         Likestatus.find({ username: username }),
       ]);
       return NextResponse.json({ likes, likestatuses }, { status: 200 });
     } else {
+      if (!username) {
+        return NextResponse.json({ status: 200 });
+      }
       const likestatuses = await Likestatus.find({ username: username });
       return NextResponse.json({ likestatuses }, { status: 200 });
     }

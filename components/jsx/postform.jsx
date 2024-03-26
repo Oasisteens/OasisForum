@@ -1,10 +1,10 @@
 "use client";
-import "../app/src/post.css";
+import "../../app/src/post.css";
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import "../app/i18n.js";
+import "../../app/i18n.js";
 import Skeleton from "./skeletons/Skeleton.jsx";
 import LikeButton from "./likeButton.jsx";
 import { TailSpin } from "react-loader-spinner";

@@ -1,18 +1,19 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import Loginform from "../../components/jsx/loginform/page.jsx";
-import { redirect } from "next/navigation";
-import "../src/loader.css";
+import SearchForm from "../../components/jsx/searchForm.jsx";
 
-export default function Login() {
+export default function Register() {
   const session = useSession();
 
-  useEffect(() => {
-    if (session.status === "authenticated") {
-      redirect("/dashboard");
-    }
-  }, [session.status]);
+  if (session.status === "authenticated") {
+    return (
+      <SearchForm
+        username={session.data.user.name}
+        image={session.data.user.image || null}
+      />
+    );
+  }
   if (session.status === "loading" || session.status === "loaded") {
     return (
       <div className="wrapper">
@@ -21,6 +22,6 @@ export default function Login() {
     );
   }
   if (session.status === "unauthenticated") {
-    return <Loginform />;
+    return <SearchForm username={null} image={null} />;
   }
 }
