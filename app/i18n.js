@@ -129,6 +129,7 @@ i18n
           "Please sign in to write a comment": "请登录以评论",
           "You must log in to view a specific post, redirecting to login...":
             "您必须登录才能查看特定帖子，正在重定向到登录页面...",
+          "Click here to go to the search page": "点击进入搜索页面",
         },
       },
       es: {
