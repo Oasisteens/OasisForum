@@ -30,7 +30,7 @@ const commentUpload = ({
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
 
-    if (username === undefined && username === null) {
+    if (!username) {
       alert(t("You must login to post"));
       return;
     }

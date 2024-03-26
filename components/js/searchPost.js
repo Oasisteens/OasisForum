@@ -5,16 +5,19 @@ const fuseOptions = {
   includeScore: false,
   shouldSort: true,
   includeMatches: false,
-  findAllMatches: false,
-  minMatchCharLength: 2,
+  findAllMatches: true,
+  minMatchCharLength: 1,
   location: 0,
-  threshold: 0.6,
+  threshold: 0.5,
   distance: 100,
   useExtendedSearch: false,
   ignoreLocation: false,
   ignoreFieldNorm: false,
   fieldNormWeight: 1,
-  keys: ["title", "username"],
+  keys: [
+    { name: "title", weight: 0.7 },
+    { name: "username", weight: 0.3 },
+  ],
 };
 
 export default function search(list, pattern) {

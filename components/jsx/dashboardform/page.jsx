@@ -327,14 +327,23 @@ export default function Dashboardform({ username }) {
           <span className="intro">{t("Oasis")}</span>
         </Link>
         <search className="searchContainer">
-        <button className="searchBtn">
-          <Image src="/search.svg" alt="logo" width={25} height={25} color="ffffff" />
-        </button>
+          <button className="searchBtn">
+            <Image
+              src="/search.svg"
+              alt="logo"
+              width={25}
+              height={25}
+              color="ffffff"
+            />
+          </button>
           <div className="search">
             <form>
-              <input type="search" style={{backgroundColor: "transparent", border: "none"}}/>
+              <input
+                type="search"
+                style={{ backgroundColor: "transparent", border: "none" }}
+              />
             </form>
-            </div>
+          </div>
         </search>
         <h1 className="dashh1">
           {username ? `${username}${t("'s Dashboard")}` : t("Dashboard")}

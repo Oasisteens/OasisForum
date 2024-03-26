@@ -1,9 +1,10 @@
-export default function debounce(fn, delay) {
-    let timer = null;
-    return function (this, ...args) {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        fn.apply(this, args);
-      }, delay);
-    };
-  } // 防抖函数
+export default function debounce(fn, delay = 100) {
+  let timer = null;
+  return function (...args) {
+    const context = this;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(context, args);
+    }, delay);
+  };
+} // 防抖函数

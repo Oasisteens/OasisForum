@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import debounce from "../js/debounce.js";
 import search from "../../components/js/searchPost.js";
 import "../../app/i18n.js";
 import { useTranslation } from "react-i18next";
@@ -11,6 +12,8 @@ import Image from "next/image";
 const SearchForm = () => {
   const [posts, setPosts] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const [color, setColor] = useState("blue");
+  const [filterNum, setFilterNum] = useState(0);
 
   const { t } = useTranslation();
   const { i18n } = useTranslation();
@@ -32,34 +35,18 @@ const SearchForm = () => {
       localStorage.setItem("dashColor", "blue");
     }
     const selectedColor = localStorage.getItem("dashColor");
-    if (selectedColor !== "blue") {
+    if (selectedColor) {
       document.documentElement.style.setProperty(
-        "--main-color",
+        "--dash-color",
         `var(--${selectedColor})`,
       );
       document.documentElement.style.setProperty(
-        "--sub-color",
-        `var(--${selectedColor}-light)`,
+        "--scroll-color",
+        `var(--${selectedColor}-lighter)`,
       );
-      document.documentElement.style.setProperty(
-        "--sec-color",
-        `var(--${selectedColor}-lightest)`,
-      );
-    } else {
-      document.documentElement.style.setProperty(
-        "--main-color",
-        `var(--blue-lighter)`,
-      );
-      document.documentElement.style.setProperty(
-        "--sub-color",
-        `var(--blue-light)`,
-      );
-      document.documentElement.style.setProperty(
-        "--sec-color",
-        `var(--blue-lightest)`,
-      );
+      setColor(selectedColor);
     }
-  }, []); //localstorage get color setting
+  }, []); //localstorage get color
 
   const changeLanguage = (event) => {
     const selectedLanguage = event.target.value;
@@ -87,21 +74,26 @@ const SearchForm = () => {
   const getPosts = async () => {
     const res = await axios.get("/api/general");
     setPosts(res.data.posts);
-  };
+  }; //fetchPosts
 
   useEffect(() => {
     getPosts();
   }, []); //fetch posts
 
-  const handleSearch = (event) => {
-    event.preventDefault();
-    const pattern = event.target[0].value;
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const pattern = e.target[0].value;
     setSearchResults(search(posts, pattern));
-  };
+  }; //Directly search by pressing the button
 
-  useEffect(() => {
-    console.log(searchResults);
-  }, [searchResults]);
+  const dySearchProp = (e) => {
+    e.preventDefault();
+    const pattern = e.target.value;
+    console.log(pattern);
+    setSearchResults(search(posts, pattern));
+  }; //Prop for dynamic search
+
+  const dySearch = debounce(dySearchProp, 400); //Dynamic search
 
   return (
     <div>
@@ -110,8 +102,8 @@ const SearchForm = () => {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="ionicon"
-            width={70}
-            height={70}
+            width={60}
+            height={60}
             viewBox="0 0 512 512"
           >
             <path
@@ -134,7 +126,12 @@ const SearchForm = () => {
           <span className="intro">{t("Oasis")}</span>
         </Link>
         <form onSubmit={handleSearch} className="searchForm">
-          <input type="text" placeholder="Search" id="searchInput" />
+          <input
+            type="text"
+            placeholder={t("Search")}
+            id="searchInput"
+            onChange={dySearch}
+          />
           <button type="submit" id="submitBtn">
             <Image
               src="./search.svg"
@@ -144,19 +141,80 @@ const SearchForm = () => {
             />
           </button>
         </form>
-      </div>
-      {searchResults.length > 0 && (
-        <div>
-          <h2>Results</h2>
-          {searchResults.map((t) => (
-            <div key={t.item._id}>
-              <h3>{t.item.title}</h3>
-              <p>{t.item.username}</p>
-              <br />
-            </div>
-          ))}
+        <div className="language-selector">
+          <select
+            id="lang"
+            name="lang"
+            onChange={changeLanguage}
+            value={language}
+          >
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="ja">日本語</option>
+          </select>
         </div>
-      )}
+
+        <div className="color-selector">
+          <select id="color" name="color" onChange={changeColor} value={color}>
+            <option value="pink">{t("Pink")}</option>
+            <option value="blue">{t("Blue")}</option>
+            <option value="purple">{t("Purple")}</option>
+            <option value="red">{t("Red")}</option>
+            {/* <option value="custom">{t('Custom')}</option> */}
+          </select>
+          {/* Custom Color hasn't finished */}
+          {/* {showColorPicker && (
+            <form onSubmit={changeCustomColor}>
+              <input type="color" name="customColor" id="customColor" value={color} />
+              <button type="submit">{t('Choose')}</button>
+            </form>
+      )} */}
+        </div>
+      </div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <section className="searchBottom">
+        <div className="searchOptions">
+          <h2 className="title">
+            {t("Filters")} ({filterNum && filterNum})
+          </h2>
+        </div>
+        <div className="searchResults">
+          {searchResults.length === 0 && (
+            <h2 className="resultsNum">{t("No Matched Results")}</h2>
+          )}
+          {searchResults.length > 0 && (
+            <div>
+              <h2 className="resultsNum">
+                {searchResults.length}
+                {t(" Results")}
+              </h2>
+              <div className="searchGrid">
+                {searchResults.map((t) => (
+                  <Link
+                    href={`/posts/${t.item._id}`}
+                    target="_blank"
+                    className="boxBig"
+                    style={{ display: "flex" }}
+                  >
+                    <div key={t.item._id} className="indPost">
+                      <h3 className="indTitle">{t.item.title}</h3>
+                      <p>{t.item.username}</p>
+                      <br />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 };

@@ -1,12 +1,16 @@
+@import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap);
+
 :root {
   --width: 100vw;
   --dash-color: #133153;
   --scroll-color: var(--blue-lighter);
   --dash-width: 17vw;
+  background-color: #f2f4f5;
 }
 div.searchTop {
   width: 100%;
-  height: 140px;
+  z-index: 1000;
+  height: 110px;
   display: flex;
   flex-direction: row;
   background-color: var(--dash-color);
@@ -15,10 +19,10 @@ div.searchTop {
 .stoIntro {
   position: relative;
   display: flex;
-  top: 17px;
+  top: 20px;
   left: 4.5vw;
   color: white;
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 span.intro {
   position: relative;
@@ -26,12 +30,13 @@ span.intro {
 }
 form.searchForm {
   position: fixed;
-  left: 15vw;
+  left: 17vw;
   display: flex;
   top: 20px;
   width: 60vw;
   height: 65px;
   border: 1px solid white;
+  border-color: linear-gradient(#133153, #133153);
   border-radius: 5px;
 }
 #submitBtn {
@@ -47,12 +52,107 @@ form.searchForm {
   color: white;
   background-color: transparent;
   outline: none;
-  padding-left: 10px;
-  font-size: 1.3rem;
+  padding-left: 15px;
+  font-size: 1.2rem;
   position: relative;
   top: 12px;
 }
 #submitBtn:hover {
   background-color: rgba(128, 128, 128, 0.429);
   transition: 0.3s;
+}
+section.searchBottom {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+div.searchOptions {
+  flex-grow: 1;
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+}
+div.searchResults {
+  flex-grow: 3;
+  width: 75%;
+  /* display: grid;
+  grid-template-columns: repeat(4, 1fr); */
+}
+h2.resultsNum {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+}
+div.searchGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+div.indPost {
+  border: #e5e7eb solid 1px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  color: var(--scroll-color);
+  padding: 0.5rem;
+  margin: 3px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  width: var(--dash-width);
+  transition: transform 0.3s;
+}
+div.indPost:hover {
+  transform: scale(1.15);
+  transition: transform 0.4s;
+}
+
+.language-selector {
+  position: absolute;
+  top: 35px;
+  right: 5vw;
+}
+
+.language-selector select {
+  padding: 5px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  color: #3c4043;
+}
+
+.language-selector select:active,
+.language-selector select:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+div.color-selector {
+  position: absolute;
+  top: 35px;
+  right: 15vw;
+}
+.color-selector select:active,
+.color-selector select:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+div.color-selector select {
+  padding: 5px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  color: #3c4043;
+}
+
+h3.indTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+h2.title {
+  font-family: poppins, sans-serif;
+  font-size: 1.5rem;
+  position: relative;
+  left: 1vw;
 }

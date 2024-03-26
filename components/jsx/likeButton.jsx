@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import numeral from "numeral";
 import "../../app/src/likeBtn.css";
+import { useTranslation } from "react-i18next";
 
 const likeButton = ({
   likeloads,
@@ -25,8 +26,13 @@ const likeButton = ({
   type,
 }) => {
   const [likeload, setLikeLoad] = useState(false);
+  const { t } = useTranslation();
   const sendLike = async (category, e) => {
     e.preventDefault();
+    if (!username) {
+      alert(t("Please sign in to like posts"));
+      return;
+    }
     try {
       setLikeLoad(true);
       var currentStatus;
@@ -143,11 +149,11 @@ const likeButton = ({
         <section style={{ display: "flex", height: height }}>
           <form
             onSubmit={(e) => sendLike(category, e)}
-            disabled={likeloads || likeload}
+            disabled={likeloads || likeload || !username}
           >
             <button className="likeBtn" type="submit">
               {(() => {
-                const likestatus = likestatuses.find(
+                const likestatus = likestatuses?.find(
                   (likestatus) =>
                     likestatus.postId === postId &&
                     likestatus.username === username,

@@ -355,6 +355,10 @@ function Generalform({ username }) {
   }; //submit post
 
   const handleAddPostClick = () => {
+    if (!username) {
+      alert(t("Please sign in to write a post"));
+      return;
+    }
     setInputBoxHidden(!inputBoxHidden);
   };
 
@@ -455,6 +459,10 @@ function Generalform({ username }) {
   };
 
   const handleSubComment = (commentId) => {
+    if (!username) {
+      alert(t("Please sign in to write a comment"));
+      return;
+    }
     const ind = addCommentDisplay.includes(commentId);
     if (ind) {
       setAddCommentDisplay(addCommentDisplay.filter((id) => id !== commentId));
