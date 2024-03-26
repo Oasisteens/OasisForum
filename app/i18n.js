@@ -127,6 +127,8 @@ i18n
           "Please sign in to like posts": "请登录以点赞帖子",
           "Please sign in to write a post": "请登录以发帖",
           "Please sign in to write a comment": "请登录以评论",
+          "You must log in to view a specific post, redirecting to login...":
+            "您必须登录才能查看特定帖子，正在重定向到登录页面...",
         },
       },
       es: {

@@ -7,12 +7,6 @@ import { useEffect } from "react";
 export default function general() {
   const session = useSession();
 
-  useEffect(() => {
-    if (session.status === "unauthenticated") {
-      redirect("/login");
-    }
-  }, [session.status]);
-
   if (session.status === "loading" || session.status === "loaded") {
     return (
       <div className="wrapper">
@@ -21,11 +15,9 @@ export default function general() {
     );
   }
 
-  if (session.status === "authenticated") {
-    return (
-      <main>
-        <NewsForm username={session.data.user.name} />
-      </main>
-    );
-  }
+  return (
+    <main>
+      <NewsForm username={session.data?.user.name} />
+    </main>
+  );
 }
