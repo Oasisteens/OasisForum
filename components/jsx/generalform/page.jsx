@@ -769,9 +769,11 @@ function Generalform({ username }) {
                   <div
                     className="contents"
                     style={{
-                      cursor: isExpanded.includes(post._id)
-                        ? "inherit"
-                        : "pointer",
+                      cursor:
+                        isExpanded.includes(post._id) ||
+                        post.content.length <= 103
+                          ? "inherit"
+                          : "pointer",
                     }}
                     onClick={() => toggleExpand(post._id)}
                   >

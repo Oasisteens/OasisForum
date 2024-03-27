@@ -405,8 +405,6 @@ export default function Dashboardform({ username }) {
       )}
       <section className="secd">
         <br />
-        <br />
-        <br />
         {/* <div className="comments">
           <h2 className="dashh2">{t("My Comments")}</h2>
           <br />
