@@ -540,3 +540,12 @@ div.likeContainer {
 .ptitle:hover {
   text-decoration: underline;
 }
+img.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+div.preview-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}

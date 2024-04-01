@@ -331,7 +331,7 @@ export default function Dashboardform({ username }) {
             />
           </svg>
         </button>
-        <Link href="intro" className="toIntro">
+        <Link href="/" className="toIntro">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="ionicon"

@@ -301,7 +301,7 @@ function Newsform({ username }) {
     <>
       <title>{t("News")}</title>
       <div id="topBar">
-        <a href="intro" className="titleg">
+        <a href="/" className="titleg">
           {t("News")}
         </a>
       </div>

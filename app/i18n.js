@@ -104,7 +104,8 @@ i18n
           "Your confession?": "你的告白？",
           "Express your love": "表达你的爱意",
           "from: ": "来自：",
-          "Pictures (Drag and drop or Click)": "图片（拖拽上传或点击）",
+          "Pictures or Videos (Drag and drop or Click)":
+            "图片或视频（拖拽上传或点击）",
           "Username: ": "用户名：",
           "Log Out": "登出",
           "Click here to open the navigator menu": "点击这里打开导航菜单",
@@ -130,6 +131,8 @@ i18n
           "You must log in to view a specific post, redirecting to login...":
             "您必须登录才能查看特定帖子，正在重定向到登录页面...",
           "Click here to go to the search page": "点击进入搜索页面",
+          "Please sign in to post": "请登录以发布",
+          "Return to dashboard": "返回主页",
         },
       },
       es: {
@@ -229,8 +232,8 @@ i18n
           "Your confession?": "¿Tu confesión?",
           "Express your love": "Expresa tu amor",
           "from: ": "de: ",
-          "Pictures (Drag and drop or Click)":
-            "Imágenes (Arrastra y suelta o Haz clic)",
+          "Pictures or Videos (Drag and drop or Click)":
+            "Imágenes o Videos (Arrastra y suelta o Haz clic)",
           "Username: ": "Nombre de usuario: ",
           "Log Out": "Cerrar sesión",
           "Click here to open the navigator menu":
@@ -347,8 +350,8 @@ i18n
           "Your confession?": "Votre confession?",
           "Express your love": "Exprimez votre amour",
           "from: ": "de: ",
-          "Pictures (Drag and drop or Click)":
-            "Images (Glisser-déposer ou Cliquer)",
+          "Pictures or Videos (Drag and drop or Click)":
+            "Images ou Vidéos (Glisser-déposer ou Cliquer)",
           "Username: ": "Nom d'utilisateur: ",
           "Log Out": "Se déconnecter",
           "Click here to open the navigator menu":
@@ -462,8 +465,8 @@ i18n
           "Your confession?": "あなたの告白？",
           "Express your love": "あなたの愛を表現する",
           "from: ": "から：",
-          "Pictures (Drag and drop or Click)":
-            "画像（ドラッグアンドドロップまたはクリック）",
+          "Pictures or Videos (Drag and drop or Click)":
+            "画像またはビデオ（ドラッグアンドドロップまたはクリック）",
           "Username: ": "ユーザー名：",
           "Log Out": "ログアウト",
           "Click here to open the navigator menu":

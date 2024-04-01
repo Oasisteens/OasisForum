@@ -6,6 +6,7 @@ import "../../app/src/confession.scss";
 import { TailSpin } from "react-loader-spinner";
 import { useTranslation } from "react-i18next";
 import loveWords from "../../app/src/loveWords.json";
+import Link from "next/link";
 
 export default function Confessionform({ username }) {
   const [toWho, setToWho] = useState("");
@@ -70,6 +71,10 @@ export default function Confessionform({ username }) {
   };
 
   const openForm = () => {
+    if (!username) {
+      alert(t("Please sign in to post"));
+      return;
+    }
     setHidden(!hidden);
   };
   const closeForm = () => {
@@ -87,6 +92,9 @@ export default function Confessionform({ username }) {
         <button className="openFormBtn" onClick={() => openForm()}>
           {t("Express your love")}
         </button>
+        <Link href="/dashboard" className="returnBtn">
+          {t("Return to dashboard")}
+        </Link>
         {hidden ? (
           false
         ) : (
