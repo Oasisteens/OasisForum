@@ -8,18 +8,23 @@ import { TailSpin } from "react-loader-spinner";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { mailOutline, lockClosedOutline, diamondOutline } from "ionicons/icons";
+import {
+  mailOutline,
+  lockClosedOutline,
+  personCircleOutline,
+} from "ionicons/icons";
 import Link from "next/link";
 
 const Registerform = () => {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [adminCode, setAdminCode] = useState("");
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [load, setLoad] = useState(true);
+  const [focus, setFocus] = useState([]);
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   useEffect(() => {
@@ -44,7 +49,7 @@ const Registerform = () => {
       const response = await axios.post("/api/users", {
         username: username,
         password: password,
-        adminCode: adminCode,
+        email: email,
       });
       router.replace("/login");
       setMessage(response.data.message);
@@ -58,6 +63,18 @@ const Registerform = () => {
       }, 3000);
     }
   };
+
+  const handleFocus = (index) => {
+    const newFocus = [...focus];
+    newFocus[index] = true;
+    setFocus(newFocus);
+  };
+
+  const handleBlur = (index) => {
+    const newFocus = [...focus];
+    newFocus[index] = false;
+    setFocus(newFocus);
+  };
   return (
     <>
       <title>{t("Register")}</title>
@@ -69,10 +86,17 @@ const Registerform = () => {
           <div className="form-value">
             <form onSubmit={handleSubmit}>
               <h2 className="regU">{t("Register")}</h2>
-              <div className="inputboxR">
-                <IonIcon icon={mailOutline} />
+              <div
+                className="inputboxR"
+                style={{
+                  borderBottomColor: `${focus[0] ? "black" : "rgba(150, 150, 150, 0.6)"}`,
+                }}
+              >
+                <IonIcon className="personIcon" icon={personCircleOutline} />
                 <input
                   type="username"
+                  onFocus={() => handleFocus(0)}
+                  onBlur={() => handleBlur(0)}
                   onChange={(e) => setUsername(e.target.value)}
                   required
                   maxLength={20}
@@ -80,10 +104,17 @@ const Registerform = () => {
                 />
                 <label htmlFor="username">{t("Username")}:</label>
               </div>
-              <div className="inputboxR">
+              <div
+                className="inputboxR"
+                style={{
+                  borderBottomColor: `${focus[1] ? "black" : "rgba(150, 150, 150, 0.6)"}`,
+                }}
+              >
                 <IonIcon icon={lockClosedOutline} />
                 <input
                   type="password"
+                  onFocus={() => handleFocus(1)}
+                  onBlur={() => handleBlur(1)}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   maxLength={20}
@@ -91,15 +122,23 @@ const Registerform = () => {
                 />
                 <label htmlFor="password">{t("Password")}:</label>
               </div>
-              {/* <div className="inputbox">
-                <IonIcon icon={diamondOutline} />
+              <div
+                className="inputboxR"
+                style={{
+                  borderBottomColor: `${focus[2] ? "black" : "rgba(150, 150, 150, 0.6)"}`,
+                }}
+              >
+                <IonIcon icon={mailOutline} />
                 <input
-                  type="text"
-                  onChange={(e) => setAdminCode(e.target.value)}
+                  type="email"
+                  onFocus={() => handleFocus(2)}
+                  onBlur={() => handleBlur(2)}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
+                  disabled={load}
                 />
-                <label htmlFor="adminCode">Code (Pi first three digits):</label>
-              </div> */}
+                <label htmlFor="email">{t("Email")}:</label>
+              </div>
               <button type="submit" className="reg1" disabled={loading && load}>
                 {loading && (
                   <>

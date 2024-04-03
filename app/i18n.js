@@ -133,6 +133,7 @@ i18n
           "Click here to go to the search page": "点击进入搜索页面",
           "Please sign in to post": "请登录以发布",
           "Return to dashboard": "返回主页",
+          Email: "邮件",
         },
       },
       es: {
