@@ -13,7 +13,7 @@ import "../../../app/src/dashboard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-export default function Dashboardform({ username }) {
+export default function Dashboardform({ username, email }) {
   const [posts, setPosts] = useState([]);
   const [likes, setLikes] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
@@ -36,6 +36,10 @@ export default function Dashboardform({ username }) {
   const { i18n } = useTranslation();
   const language = i18n.language.substring(0, 2); // get language from i18n
   // Pull info(language) from localStorage
+
+  useEffect(() => {
+    console.log(email);
+  }, []);
 
   const tourInit = () => {
     if (!localStorage.getItem("tour")) {

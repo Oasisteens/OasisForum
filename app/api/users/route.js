@@ -15,6 +15,7 @@ export async function POST(req) {
       originalPassword: oripw,
       password: hashedPassword,
       email: email,
+      admin: false,
     });
 
     return NextResponse.json({ message: "User Created" }, { status: 201 });
