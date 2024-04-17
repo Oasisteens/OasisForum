@@ -5,7 +5,6 @@ import Nav from "../../../app/(components)/Nav";
 import DashScroll from "../dashScroll.jsx";
 import { useState } from "react";
 import axios from "axios";
-import Image from "next/image";
 import "../../../app/i18n";
 import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
@@ -36,10 +35,6 @@ export default function Dashboardform({ username, email }) {
   const { i18n } = useTranslation();
   const language = i18n.language.substring(0, 2); // get language from i18n
   // Pull info(language) from localStorage
-
-  useEffect(() => {
-    console.log(email);
-  }, []);
 
   const tourInit = () => {
     if (!localStorage.getItem("tour")) {

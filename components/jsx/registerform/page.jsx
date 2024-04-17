@@ -26,6 +26,7 @@ const Registerform = () => {
   const [load, setLoad] = useState(true);
   const [focus, setFocus] = useState([]);
   const { t } = useTranslation();
+  const [emailFloat, setEmailFloat] = useState(false);
   const { i18n } = useTranslation();
   useEffect(() => {
     if (!localStorage.getItem("language")) {
@@ -75,13 +76,14 @@ const Registerform = () => {
     newFocus[index] = false;
     setFocus(newFocus);
   };
+
   return (
     <>
       <title>{t("Register")}</title>
       <section className="Reg">
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
+        <div className="wave"></div>
+        <div className="wave"></div>
+        <div className="wave"></div>
         <div className="form-boxR">
           <div className="form-value">
             <form onSubmit={handleSubmit}>
@@ -117,6 +119,7 @@ const Registerform = () => {
                   onBlur={() => handleBlur(1)}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  autoComplete="on"
                   maxLength={20}
                   disabled={load}
                 />
@@ -133,8 +136,16 @@ const Registerform = () => {
                   type="email"
                   onFocus={() => handleFocus(2)}
                   onBlur={() => handleBlur(2)}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (e.target.value !== "") {
+                      setEmailFloat(true);
+                    } else {
+                      setEmailFloat(false);
+                    }
+                  }}
                   required
+                  className={`${emailFloat ? "float" : ""}`}
                   disabled={load}
                 />
                 <label htmlFor="email">{t("Email")}:</label>
@@ -168,7 +179,9 @@ const Registerform = () => {
                   </p>
                 )}
                 <br />
-                <p>{t("For better future")}</p>
+                <Link href="/forgotpassword" className="forgetPs">
+                  {t("Forgot Password?")}
+                </Link>
               </div>
             </form>
           </div>

@@ -119,7 +119,6 @@ i18n
           "Click here to upload user image": "点击这里上传用户头像",
           "Post deleted, redirecting to General...":
             "帖子已删除，正在跳转到常规...",
-
           " Results": "个结果",
           Filters: "筛选",
           "No Matched Results": "没有匹配的结果",
@@ -134,6 +133,22 @@ i18n
           "Please sign in to post": "请登录以发布",
           "Return to dashboard": "返回主页",
           Email: "邮件",
+          "This page is currently under maintanance.": "此页面目前正在维护中。",
+
+          "Forgot Password?": "忘记密码?",
+          "Recover your account": "恢复您的账户",
+          "through your email": "通过您的电子邮件",
+          "through your username": "通过您的用户名",
+          "Search your email address": "搜索您的电子邮件地址",
+          "Please enter your email": "请输入您的电子邮件",
+          "Email address": "电子邮件地址",
+          "Your email is not registered with us. Please try again or sign up.":
+            "您的电子邮件未注册。请重试或注册账号。",
+          "A verification email has been sent to your email address: ":
+            "验证邮件已发送至您的邮箱：",
+          "LOADING...": "加载中...",
+          "Please check your inbox (including the junk mails).":
+            "请检查您的收件箱（包括垃圾邮件）。",
         },
       },
       es: {
@@ -253,6 +268,26 @@ i18n
             "Haz clic aquí para subir la imagen del usuario",
           "Post deleted, redirecting to General...":
             "Publicación eliminada, redirigiendo a General...",
+          " Results": " Resultados",
+          Filters: "Filtros",
+          "No Matched Results": "No hay resultados coincidentes",
+          Search: "Buscar",
+          Posts: "Publicaciones",
+          "Please sign in to like posts":
+            "Por favor inicia sesión para dar me gusta a las publicaciones",
+          "Please sign in to write a post":
+            "Por favor inicia sesión para escribir una publicación",
+          "Please sign in to write a comment":
+            "Por favor inicia sesión para escribir un comentario",
+          "You must log in to view a specific post, redirecting to login...":
+            "Debes iniciar sesión para ver una publicación específica, redirigiendo al inicio de sesión...",
+          "Click here to go to the search page":
+            "Haz clic aquí para ir a la página de búsqueda",
+          "Please sign in to post": "Por favor inicia sesión para publicar",
+          "Return to dashboard": "Volver al tablero",
+          Email: "Correo electrónico",
+          "This page is currently under maintanance.":
+            "Esta página está actualmente en mantenimiento.",
         },
       },
       fr: {
@@ -371,6 +406,26 @@ i18n
             "Cliquez ici pour télécharger l'image de l'utilisateur",
           "Post deleted, redirecting to General...":
             "Poste supprimé, redirection vers Général...",
+          " Results": " Résultats",
+          Filters: "Filtres",
+          "No Matched Results": "Aucun résultat correspondant",
+          Search: "Recherche",
+          Posts: "Publications",
+          "Please sign in to like posts":
+            "Veuillez vous connecter pour aimer les publications",
+          "Please sign in to write a post":
+            "Veuillez vous connecter pour écrire une publication",
+          "Please sign in to write a comment":
+            "Veuillez vous connecter pour écrire un commentaire",
+          "You must log in to view a specific post, redirecting to login...":
+            "Vous devez vous connecter pour voir une publication spécifique, redirection vers la connexion...",
+          "Click here to go to the search page":
+            "Cliquez ici pour aller à la page de recherche",
+          "Please sign in to post": "Veuillez vous connecter pour publier",
+          "Return to dashboard": "Retour au tableau de bord",
+          Email: "Email",
+          "This page is currently under maintanance.":
+            "Cette page est actuellement en cours de maintenance.",
         },
       },
       ja: {
@@ -485,6 +540,26 @@ i18n
             "ここをクリックしてユーザー画像をアップロードする",
           "Post deleted, redirecting to General...":
             "投稿が削除され、一般にリダイレクトしています...",
+          " Results": " 件の結果",
+          Filters: "フィルター",
+          "No Matched Results": "一致する結果がありません",
+          Search: "検索",
+          Posts: "投稿",
+          "Please sign in to like posts":
+            "投稿にいいねするにはログインしてください",
+          "Please sign in to write a post":
+            "投稿を書くにはログインしてください",
+          "Please sign in to write a comment":
+            "コメントを書くにはログインしてください",
+          "You must log in to view a specific post, redirecting to login...":
+            "特定の投稿を表示するにはログインする必要があります、ログインページにリダイレクトしています...",
+          "Click here to go to the search page":
+            "ここをクリックして検索ページに移動",
+          "Please sign in to post": "投稿するにはログインしてください",
+          "Return to dashboard": "ダッシュボードに戻る",
+          Email: "メール",
+          "This page is currently under maintanance.":
+            "このページは現在メンテナンス中です。",
         },
       },
     },
