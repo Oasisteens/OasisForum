@@ -196,6 +196,9 @@ div.emailForm {
 }
 form.emailForm {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   top: 4rem;
 }
 input.emailInput {
@@ -248,4 +251,8 @@ div.final {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.recaptcha {
+  margin-left: 1rem;
+  margin-top: 0.5rem;
 }

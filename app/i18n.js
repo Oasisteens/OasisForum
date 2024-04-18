@@ -149,6 +149,10 @@ i18n
           "LOADING...": "加载中...",
           "Please check your inbox (including the junk mails).":
             "请检查您的收件箱（包括垃圾邮件）。",
+          "Please click <I'm not a robot> before sending the form":
+            "请在发送表单之前点击<我不是机器人>",
+          "An error occurred. Please try again later.":
+            "发生错误。请稍后再试。",
         },
       },
       es: {

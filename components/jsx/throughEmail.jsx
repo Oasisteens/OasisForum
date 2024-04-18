@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const ThroughEmail = () => {
   const { t } = useTranslation();
@@ -13,6 +14,7 @@ const ThroughEmail = () => {
   const [final, setFinal] = useState(false);
   const [to, setTo] = useState("");
   const [sendMailDisabled, setSendMailDisabled] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState("");
 
   const sendMail = async (email, lang, username) => {
     try {
@@ -27,9 +29,28 @@ const ThroughEmail = () => {
     }
   };
 
+  const handleCaptchaChange = (value) => {
+    // Handle captcha value change
+    setCaptchaValue(value);
+  };
+
   const verifyEmail = async (e) => {
     e.preventDefault();
     IncWidth();
+    try {
+      const res = await axios.post("/api/validateCaptcha", {
+        response_key: captchaValue,
+      });
+      if (res.data.success === false) {
+        alert(t("Please click <I'm not a robot> before sending the form"));
+        return;
+      }
+    } catch (err) {
+      if (err.response.status === 500) {
+        alert(t("An error occurred. Please try again later."));
+      }
+      console.log(err);
+    }
     try {
       const res = await axios.get("/api/verifyEmail", {
         params: {
@@ -159,11 +180,17 @@ const ThroughEmail = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t("Email address")}
             />
+            <ReCAPTCHA
+              className="recaptcha"
+              size="normal"
+              sitekey="6LeGyr4pAAAAALQNLTIknyzYqBi_D3Juk9LnsROZ"
+              onChange={handleCaptchaChange}
+            />
             <button
               id="searchEmail"
               className="searchEmail"
               type="submit"
-              disabled={sendMailDisabled}
+              disabled={sendMailDisabled || captchaValue === ""}
             >
               {loading ? (
                 <div
