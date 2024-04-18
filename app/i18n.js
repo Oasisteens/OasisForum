@@ -153,6 +153,10 @@ i18n
             "请在发送表单之前点击<我不是机器人>",
           "An error occurred. Please try again later.":
             "发生错误。请稍后再试。",
+          "Search your username": "搜索您的用户名",
+          "Please enter your username": "请输入您的用户名",
+          "User not found. Please try again or sign up.":
+            "未找到用户。请重试或注册。",
         },
       },
       es: {

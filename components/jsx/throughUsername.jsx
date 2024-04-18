@@ -3,16 +3,18 @@ import { useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const ThroughUsername = () => {
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const language = i18n.language.substring(0, 2);
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [final, setFinal] = useState(false);
   const [to, setTo] = useState("");
   const [sendMailDisabled, setSendMailDisabled] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState("");
 
   const sendMail = async (email, lang, username) => {
     try {
@@ -27,13 +29,32 @@ const ThroughUsername = () => {
     }
   };
 
-  const verifyEmail = async (e) => {
+  const handleCaptchaChange = (value) => {
+    // Handle captcha value change
+    setCaptchaValue(value);
+  };
+
+  const verifyUsername = async (e) => {
     e.preventDefault();
     IncWidth();
     try {
-      const res = await axios.get("/api/verifyEmail", {
+      const res = await axios.post("/api/validateCaptcha", {
+        response_key: captchaValue,
+      });
+      if (res.data.success === false) {
+        alert(t("Please click <I'm not a robot> before sending the form"));
+        return;
+      }
+    } catch (err) {
+      if (err.response.status === 500) {
+        alert(t("An error occurred. Please try again later."));
+      }
+      console.log(err);
+    }
+    try {
+      const res = await axios.get("/api/verifyUsername", {
         params: {
-          email: email,
+          username: username,
         },
       });
       if (res.data.message === "User found") {
@@ -47,7 +68,7 @@ const ThroughUsername = () => {
         form.style.height = "38rem";
         setTo(res.data.user.email);
         setFinal(true);
-        sendMail(email, language, res.data.user.username);
+        sendMail(res.data.user.email, language, res.data.user.username);
         setTimeout(() => {
           form.style.transition = "none";
         }, 1000);
@@ -59,11 +80,7 @@ const ThroughUsername = () => {
       DecWidth();
     } catch (err) {
       if (err.response.status === 404) {
-        alert(
-          t(
-            "Your email is not registered with us. Please try again or sign up.",
-          ),
-        );
+        alert(t("User not found. Please try again or sign up."));
         DecWidth();
       }
     }
@@ -144,26 +161,32 @@ const ThroughUsername = () => {
                 overflowWrap: "break-word",
               }}
             >
-              {t("Search your email address")}
+              {t("Search your username")}
             </h1>
             <br />
             <h2 style={{ fontSize: "1rem", fontWeight: "400" }}>
-              {t("Please enter your email")}
+              {t("Please enter your username")}
             </h2>
           </div>
-          <form className="emailForm" onSubmit={verifyEmail}>
+          <form className="emailForm" onSubmit={verifyUsername}>
             <input
-              type="email"
-              value={email}
+              type="text"
+              value={username}
               className="emailInput"
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t("Email address")}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder={t("Username")}
+            />
+            <ReCAPTCHA
+              className="recaptcha"
+              size="normal"
+              sitekey="6LeGyr4pAAAAALQNLTIknyzYqBi_D3Juk9LnsROZ"
+              onChange={handleCaptchaChange}
             />
             <button
               id="searchEmail"
               className="searchEmail"
               type="submit"
-              disabled={sendMailDisabled}
+              disabled={sendMailDisabled || captchaValue === ""}
             >
               {loading ? (
                 <div

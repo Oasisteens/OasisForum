@@ -1,5 +1,7 @@
 import nodemailer from "nodemailer";
 import crypto from "crypto";
+import DBconnect from "../../../libs/mongodb";
+import Token from "../../../models/token";
 import { NextResponse } from "next/server";
 import resetEmail from "../../../components/js/resetEmail";
 
@@ -17,6 +19,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function POST(req) {
+  await DBconnect();
   const { to, lang, username } = await req.json();
 
   // Generate a random hash
@@ -41,6 +44,8 @@ export async function POST(req) {
       subject: "Password Reset", // Subject
       html: emailHtml, // HTML body
     });
+
+    await Token.create({ username: username, resetToken: resetToken });
 
     return NextResponse.json(
       { message: "Email sent successfully.", lang: lang },
