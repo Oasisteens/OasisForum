@@ -19,27 +19,27 @@ const Intro = () => {
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const language = i18n.language.substring(0, 2); // get language from i18n
-useEffect(() => {
-  const splineCanvas = document.getElementById("spline-canvas");
-  const app = new Application(splineCanvas);
-  let timeoutId;
+  useEffect(() => {
+    const splineCanvas = document.getElementById("spline-canvas");
+    const app = new Application(splineCanvas);
+    let timeoutId;
 
-  setIsLoading(true);
+    setIsLoading(true);
 
-  app.load(process.env.NEXT_PUBLIC_3D_URL).then(() => {
-    setIsLoading(false);
-    clearTimeout(timeoutId); // Clear the timeout if the load completes successfully
-  });
+    app.load(process.env.NEXT_PUBLIC_3D_URL).then(() => {
+      setIsLoading(false);
+      clearTimeout(timeoutId); // Clear the timeout if the load completes successfully
+    });
 
-  // Set a timeout to set isLoading to false and add to true after 10 seconds
-  timeoutId = setTimeout(() => {
-    setIsLoading(false);
-    const bg = document.getElementById("sectionIntro");
-    bg.classList.add("temp");
-  }, 10000); // 10 seconds
+    // Set a timeout to set isLoading to false and add to true after 10 seconds
+    timeoutId = setTimeout(() => {
+      setIsLoading(false);
+      const bg = document.getElementById("sectionIntro");
+      bg.classList.add("temp");
+    }, 10000); // 10 seconds
 
-  return () => clearTimeout(timeoutId); // Clear the timeout if the component unmounts
-}, []);
+    return () => clearTimeout(timeoutId); // Clear the timeout if the component unmounts
+  }, []);
 
   // Pull info(language) from localStorage
   useEffect(() => {

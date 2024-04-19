@@ -14,7 +14,6 @@ import SubCommentUpload from "./subCommentUpload";
 import ColorThief from "colorthief";
 import CommentUpload from "./commentUpload";
 import SubComment from "./subComment";
-import Link from "next/link";
 
 function Postform({ id, username }) {
   const [post, setPost] = useState(null);
@@ -321,7 +320,7 @@ function Postform({ id, username }) {
     loadImages();
   }, [posts]); //load images
   return (
-    <body>
+    <body className="indPost">
       <title>{post && post.title}</title>
       <div id="topBar">
         <a href="/general" className="titleg">
@@ -331,11 +330,11 @@ function Postform({ id, username }) {
       </div>
       <br />
       <br />
-      <a href="/dashboard" id="backButton">
+      <a href="/dashboard" id="backButton2">
         {t("Back to Dashboard")}
       </a>{" "}
       {/* back to dashboard button */}
-      <button className="refreshBtn" onClick={handleRefresh}>
+      <button className="refreshBtn2" onClick={handleRefresh}>
         {t("Refresh")}
       </button>{" "}
       {/* refresh button */}
@@ -363,7 +362,7 @@ function Postform({ id, username }) {
       {post && !loading && (
         <div className="postBg">
           <div id="posts" className="word-box">
-            <div className="postsG" key={post._id}>
+            <div key={post._id}>
               <p className="postTitle">{post.title}</p>
               <br />
               <div className="bottom">
@@ -453,7 +452,7 @@ function Postform({ id, username }) {
                   {t("posted on")} {post.postingtime}
                 </p>
                 <br />
-                <div className="likeContainer">
+                <div>
                   {
                     <LikeButton
                       key={like._id}

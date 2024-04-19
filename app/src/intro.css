@@ -19,12 +19,7 @@ p {
   padding: 0;
 }
 .temp {
-  background: linear-gradient(
-    -55deg,
-    #ee7752,
-    rgb(180, 180, 36),
-    #1d9f80
-  ); 
+  background: linear-gradient(-55deg, #ee7752, rgb(180, 180, 36), #1d9f80);
   background: linear-gradient(
     -55deg,
     #ee7752,
