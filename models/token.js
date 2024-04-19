@@ -10,11 +10,12 @@ const tokenSchema = new Schema({
   resetToken: {
     type: String,
     unique: true,
+    length: 20,
     required: true,
   },
   createdAt: {
     type: Date,
-    expires: 60, // This token will expire in 1 hour
+    expires: 600, // This token will expire in 1 hour
     default: Date.now,
   },
 });

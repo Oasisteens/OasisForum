@@ -157,6 +157,19 @@ i18n
           "Please enter your username": "请输入您的用户名",
           "User not found. Please try again or sign up.":
             "未找到用户。请重试或注册。",
+          "The verification link will expire in 10 minutes.":
+            "验证链接将在10分钟后过期。",
+          Hi: "你好",
+          "!": "！",
+          "New Password": "新密码",
+          "Confirm Password": "确认密码",
+          "Reset Password": "重置密码",
+          "Please enter your new password": "请输入您的新密码",
+          "Password cannot be empty": "密码不能为空",
+          "Passwords do not match": "密码不匹配",
+          "Username does not match": "用户名不匹配",
+          "Password updated. Please login with your new password.":
+            "密码已更新。请使用新密码登录。",
         },
       },
       es: {

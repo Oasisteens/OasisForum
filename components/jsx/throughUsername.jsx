@@ -141,6 +141,11 @@ const ThroughUsername = () => {
             <h1>{to}</h1>
             <h1>{t("Please check your inbox (including the junk mails).")}</h1>
           </div>
+          <br />
+          <br />
+          <h2 style={{ fontSize: "0.9rem" }}>
+            {t("The verification link will expire in 10 minutes.")}
+          </h2>
         </div>
       ) : (
         <>

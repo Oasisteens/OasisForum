@@ -605,37 +605,46 @@ function Generalform({ username }) {
               setFiles(e.dataTransfer.files);
             }}
           >
-            <textarea
-              required
-              id="title"
-              name="title"
-              rows={1}
-              placeholder={t("Enter title (20 words max)")}
-              onInput={(e) => {
-                const value = e.target.value;
-                const wordCount = count(value);
-                setTitleWords(wordCount);
-                setTitle(value); // Update title state
-                e.target.style.height = "40px";
-                e.target.style.height = e.target.scrollHeight + "px";
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "row",
+                width: "60%",
               }}
-              onFocus={(e) => {
-                e.target.style.color = "black";
-                e.target.style.height = "40px";
-                e.target.style.height = e.target.scrollHeight + "px";
-              }}
-              onBlur={(e) => {
-                e.target.style.color = "gray";
-              }}
-              value={title}
-            />
-            <div style={{ position: "relative" }}>
+            >
+              <textarea
+                required
+                id="title"
+                name="title"
+                rows={1}
+                placeholder={t("Enter title (20 words max)")}
+                onInput={(e) => {
+                  const value = e.target.value;
+                  const wordCount = count(value);
+                  setTitleWords(wordCount);
+                  setTitle(value); // Update title state
+                  e.target.style.height = "40px";
+                  e.target.style.height = e.target.scrollHeight + "px";
+                }}
+                onFocus={(e) => {
+                  e.target.style.color = "black";
+                  e.target.style.height = "40px";
+                  e.target.style.height = e.target.scrollHeight + "px";
+                }}
+                onBlur={(e) => {
+                  e.target.style.color = "gray";
+                }}
+                value={title}
+              />
               <span
                 style={{
                   position: "absolute",
                   fontSize: "0.85rem",
-                  right: "12vw",
-                  bottom: "0.6vh",
+                  right: "0.2vw",
+                  bottom: "-0.1rem",
+                  margin: 0,
+                  padding: 0,
                 }}
               >
                 {titleWords}

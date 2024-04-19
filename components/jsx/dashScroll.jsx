@@ -135,7 +135,7 @@ const DashScroll = ({ posts, likes, ind, info }) => {
                 classNames="item"
                 style={{ display: "flex", alignItems: "stretch" }}
               >
-                <Link href={`/posts/${post._id}`} target="_blank">
+                <Link href={`/posts/${post?._id}`} target="_blank">
                   <div className="boxBig" style={{ display: "flex" }}>
                     <div className="myPost dashBox">
                       <div className="dashBox1" />
