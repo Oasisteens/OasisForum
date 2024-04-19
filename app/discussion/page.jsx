@@ -59,7 +59,7 @@ export default function Discussion() {
   const { t } = useTranslation();
   useEffect(() => {
     alert(t("This page is currently under maintanance."));
-    router.push("/404");
+    router.push("/dashboard");
   }, []);
   return null;
 }
