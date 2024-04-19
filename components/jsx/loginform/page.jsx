@@ -133,7 +133,9 @@ const LoginForm = () => {
                   </p>
                 )}
                 <br />
-                <p>{t("For better future")}</p>
+                <Link href="/forgotpassword" className="forgetPs">
+                  {t("Forgot Password?")}
+                </Link>
               </div>
             </form>
           </div>

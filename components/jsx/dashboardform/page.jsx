@@ -5,7 +5,6 @@ import Nav from "../../../app/(components)/Nav";
 import DashScroll from "../dashScroll.jsx";
 import { useState } from "react";
 import axios from "axios";
-import Image from "next/image";
 import "../../../app/i18n";
 import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
@@ -13,7 +12,7 @@ import "../../../app/src/dashboard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-export default function Dashboardform({ username }) {
+export default function Dashboardform({ username, email }) {
   const [posts, setPosts] = useState([]);
   const [likes, setLikes] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
@@ -331,7 +330,7 @@ export default function Dashboardform({ username }) {
             />
           </svg>
         </button>
-        <Link href="intro" className="toIntro">
+        <Link href="/" className="toIntro">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="ionicon"
@@ -404,8 +403,6 @@ export default function Dashboardform({ username }) {
         </div>
       )}
       <section className="secd">
-        <br />
-        <br />
         <br />
         {/* <div className="comments">
           <h2 className="dashh2">{t("My Comments")}</h2>

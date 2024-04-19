@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SocialMedia from "../(icons)/SocialMedia";
 import Chatbubbles from "../(icons)/ionIcons/Chatbubbles";
 import AlertCircle from "../(icons)/ionIcons/AlertCircle";
@@ -11,11 +11,24 @@ import Megaphone from "../(icons)/ionIcons/Megaphone";
 import People from "../(icons)/ionIcons/People";
 import ShieldHalf from "../(icons)/ionIcons/ShieldHalf";
 import "../src/intro.css";
+import { Application } from "@splinetool/runtime";
+
 const Intro = () => {
   // i18n setting
+  const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const language = i18n.language.substring(0, 2); // get language from i18n
+  useEffect(() => {
+    const splineCanvas = document.getElementById("spline-canvas");
+    const app = new Application(splineCanvas);
+
+    app.load(process.env.NEXT_PUBLIC_3D_URL).then(() => {
+      setIsLoading(false);
+    });
+
+    setIsLoading(true);
+  }, []);
 
   // Pull info(language) from localStorage
   useEffect(() => {
@@ -35,15 +48,25 @@ const Intro = () => {
     localStorage.setItem("language", selectedLanguage);
   };
   return (
-    <>
+    <section className="intro">
       <title>{t("Oasis")}</title>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      {isLoading && (
+        <div className="wrapperBg">
+          <div className="wrapper">
+            <div className="loader" />
+          </div>
+        </div>
+      )}
+      <div id="spline-background">
+        <canvas id="spline-canvas"></canvas>
+      </div>
       <nav className="index">
         <div className="icon-container">
           <Chatbubbles />
         </div>
-        <a className="webicon" href="intro">
+        <a className="webicon" href="/">
           {t("Oasis")}
         </a>
         <div className="gradient-text">
@@ -164,7 +187,7 @@ const Intro = () => {
       <br />
       <br />
       <SocialMedia />
-    </>
+    </section>
   );
 };
 

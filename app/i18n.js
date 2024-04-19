@@ -104,7 +104,8 @@ i18n
           "Your confession?": "你的告白？",
           "Express your love": "表达你的爱意",
           "from: ": "来自：",
-          "Pictures (Drag and drop or Click)": "图片（拖拽上传或点击）",
+          "Pictures or Videos (Drag and drop or Click)":
+            "图片或视频（拖拽上传或点击）",
           "Username: ": "用户名：",
           "Log Out": "登出",
           "Click here to open the navigator menu": "点击这里打开导航菜单",
@@ -118,7 +119,6 @@ i18n
           "Click here to upload user image": "点击这里上传用户头像",
           "Post deleted, redirecting to General...":
             "帖子已删除，正在跳转到常规...",
-
           " Results": "个结果",
           Filters: "筛选",
           "No Matched Results": "没有匹配的结果",
@@ -130,6 +130,46 @@ i18n
           "You must log in to view a specific post, redirecting to login...":
             "您必须登录才能查看特定帖子，正在重定向到登录页面...",
           "Click here to go to the search page": "点击进入搜索页面",
+          "Please sign in to post": "请登录以发布",
+          "Return to dashboard": "返回主页",
+          Email: "邮件",
+          "This page is currently under maintanance.": "此页面目前正在维护中。",
+
+          "Forgot Password?": "忘记密码?",
+          "Recover your account": "恢复您的账户",
+          "through your email": "通过您的电子邮件",
+          "through your username": "通过您的用户名",
+          "Search your email address": "搜索您的电子邮件地址",
+          "Please enter your email": "请输入您的电子邮件",
+          "Email address": "电子邮件地址",
+          "Your email is not registered with us. Please try again or sign up.":
+            "您的电子邮件未注册。请重试或注册账号。",
+          "A verification email has been sent to your email address: ":
+            "验证邮件已发送至您的邮箱：",
+          "LOADING...": "加载中...",
+          "Please check your inbox (including the junk mails).":
+            "请检查您的收件箱（包括垃圾邮件）。",
+          "Please click <I'm not a robot> before sending the form":
+            "请在发送表单之前点击<我不是机器人>",
+          "An error occurred. Please try again later.":
+            "发生错误。请稍后再试。",
+          "Search your username": "搜索您的用户名",
+          "Please enter your username": "请输入您的用户名",
+          "User not found. Please try again or sign up.":
+            "未找到用户。请重试或注册。",
+          "The verification link will expire in 10 minutes.":
+            "验证链接将在10分钟后过期。",
+          Hi: "你好",
+          "!": "！",
+          "New Password": "新密码",
+          "Confirm Password": "确认密码",
+          "Reset Password": "重置密码",
+          "Please enter your new password": "请输入您的新密码",
+          "Password cannot be empty": "密码不能为空",
+          "Passwords do not match": "密码不匹配",
+          "Username does not match": "用户名不匹配",
+          "Password updated. Please login with your new password.":
+            "密码已更新。请使用新密码登录。",
         },
       },
       es: {
@@ -229,8 +269,8 @@ i18n
           "Your confession?": "¿Tu confesión?",
           "Express your love": "Expresa tu amor",
           "from: ": "de: ",
-          "Pictures (Drag and drop or Click)":
-            "Imágenes (Arrastra y suelta o Haz clic)",
+          "Pictures or Videos (Drag and drop or Click)":
+            "Imágenes o Videos (Arrastra y suelta o Haz clic)",
           "Username: ": "Nombre de usuario: ",
           "Log Out": "Cerrar sesión",
           "Click here to open the navigator menu":
@@ -249,6 +289,26 @@ i18n
             "Haz clic aquí para subir la imagen del usuario",
           "Post deleted, redirecting to General...":
             "Publicación eliminada, redirigiendo a General...",
+          " Results": " Resultados",
+          Filters: "Filtros",
+          "No Matched Results": "No hay resultados coincidentes",
+          Search: "Buscar",
+          Posts: "Publicaciones",
+          "Please sign in to like posts":
+            "Por favor inicia sesión para dar me gusta a las publicaciones",
+          "Please sign in to write a post":
+            "Por favor inicia sesión para escribir una publicación",
+          "Please sign in to write a comment":
+            "Por favor inicia sesión para escribir un comentario",
+          "You must log in to view a specific post, redirecting to login...":
+            "Debes iniciar sesión para ver una publicación específica, redirigiendo al inicio de sesión...",
+          "Click here to go to the search page":
+            "Haz clic aquí para ir a la página de búsqueda",
+          "Please sign in to post": "Por favor inicia sesión para publicar",
+          "Return to dashboard": "Volver al tablero",
+          Email: "Correo electrónico",
+          "This page is currently under maintanance.":
+            "Esta página está actualmente en mantenimiento.",
         },
       },
       fr: {
@@ -347,8 +407,8 @@ i18n
           "Your confession?": "Votre confession?",
           "Express your love": "Exprimez votre amour",
           "from: ": "de: ",
-          "Pictures (Drag and drop or Click)":
-            "Images (Glisser-déposer ou Cliquer)",
+          "Pictures or Videos (Drag and drop or Click)":
+            "Images ou Vidéos (Glisser-déposer ou Cliquer)",
           "Username: ": "Nom d'utilisateur: ",
           "Log Out": "Se déconnecter",
           "Click here to open the navigator menu":
@@ -367,6 +427,26 @@ i18n
             "Cliquez ici pour télécharger l'image de l'utilisateur",
           "Post deleted, redirecting to General...":
             "Poste supprimé, redirection vers Général...",
+          " Results": " Résultats",
+          Filters: "Filtres",
+          "No Matched Results": "Aucun résultat correspondant",
+          Search: "Recherche",
+          Posts: "Publications",
+          "Please sign in to like posts":
+            "Veuillez vous connecter pour aimer les publications",
+          "Please sign in to write a post":
+            "Veuillez vous connecter pour écrire une publication",
+          "Please sign in to write a comment":
+            "Veuillez vous connecter pour écrire un commentaire",
+          "You must log in to view a specific post, redirecting to login...":
+            "Vous devez vous connecter pour voir une publication spécifique, redirection vers la connexion...",
+          "Click here to go to the search page":
+            "Cliquez ici pour aller à la page de recherche",
+          "Please sign in to post": "Veuillez vous connecter pour publier",
+          "Return to dashboard": "Retour au tableau de bord",
+          Email: "Email",
+          "This page is currently under maintanance.":
+            "Cette page est actuellement en cours de maintenance.",
         },
       },
       ja: {
@@ -462,8 +542,8 @@ i18n
           "Your confession?": "あなたの告白？",
           "Express your love": "あなたの愛を表現する",
           "from: ": "から：",
-          "Pictures (Drag and drop or Click)":
-            "画像（ドラッグアンドドロップまたはクリック）",
+          "Pictures or Videos (Drag and drop or Click)":
+            "画像またはビデオ（ドラッグアンドドロップまたはクリック）",
           "Username: ": "ユーザー名：",
           "Log Out": "ログアウト",
           "Click here to open the navigator menu":
@@ -481,6 +561,26 @@ i18n
             "ここをクリックしてユーザー画像をアップロードする",
           "Post deleted, redirecting to General...":
             "投稿が削除され、一般にリダイレクトしています...",
+          " Results": " 件の結果",
+          Filters: "フィルター",
+          "No Matched Results": "一致する結果がありません",
+          Search: "検索",
+          Posts: "投稿",
+          "Please sign in to like posts":
+            "投稿にいいねするにはログインしてください",
+          "Please sign in to write a post":
+            "投稿を書くにはログインしてください",
+          "Please sign in to write a comment":
+            "コメントを書くにはログインしてください",
+          "You must log in to view a specific post, redirecting to login...":
+            "特定の投稿を表示するにはログインする必要があります、ログインページにリダイレクトしています...",
+          "Click here to go to the search page":
+            "ここをクリックして検索ページに移動",
+          "Please sign in to post": "投稿するにはログインしてください",
+          "Return to dashboard": "ダッシュボードに戻る",
+          Email: "メール",
+          "This page is currently under maintanance.":
+            "このページは現在メンテナンス中です。",
         },
       },
     },

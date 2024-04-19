@@ -98,7 +98,7 @@ const SearchForm = () => {
   return (
     <div>
       <div className="searchTop">
-        <Link href="intro" className="stoIntro">
+        <Link href="/" className="stoIntro">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="ionicon"

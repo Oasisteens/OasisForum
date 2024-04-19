@@ -17,6 +17,7 @@ import count from "word-count";
 import Link from "next/link";
 import { truncate } from "lodash";
 import { useEffect } from "react";
+import GetCommentNum from "../getCommentNum.jsx";
 
 function Generalform({ username }) {
   const [loading, setLoading] = useState(true);
@@ -48,6 +49,8 @@ function Generalform({ username }) {
   const [contentrows, setContentRows] = useState(1);
   const [comments, setComments] = useState([]);
   const [isExpanded, setIsExpanded] = useState([]);
+  const [showAvatar, setShowAvatar] = useState([]);
+  const [fileUrls, setFileUrls] = useState([]);
   // const [commentNumber, setCommentNumber] = useState([]);
   // The commentDisplay function is for showing the comment post button and the picturen upload button. If the content is focused, or in other words, the user is writing or editing the comment, it shows, else, we need to make space for showing other comments.
   const [addCommentDisplay, setAddCommentDisplay] = useState([]);
@@ -279,9 +282,32 @@ function Generalform({ username }) {
     });
   }; //handle wheel for zooming in and out
 
-  const handleFileChange = (e) => {
-    setFiles(e.target.files);
-  }; //handle file change
+  const handleFileChange = (event) => {
+    const uploadedFiles = Array.from(event.target.files);
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.mp4|\.mov)$/i;
+
+    if (uploadedFiles.length + files.length > 9) {
+      alert("You can only upload up to 9 files.");
+      event.target.value = "";
+      return;
+    }
+
+    uploadedFiles.forEach((file) => {
+      if (!allowedExtensions.exec(file.name)) {
+        alert("Invalid file type. Only images and videos are allowed.");
+        event.target.value = "";
+      } else {
+        const url = URL.createObjectURL(file);
+        setFileUrls((prevUrls) => [...prevUrls, url]);
+        setFiles((prevFiles) => [...prevFiles, file]);
+      }
+    });
+  };
+
+  const handleRemoveFile = (index) => {
+    setFiles((prevFiles) => prevFiles.filter((file, i) => i !== index));
+    setFileUrls((prevUrls) => prevUrls.filter((url, i) => i !== index));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -345,6 +371,7 @@ function Generalform({ username }) {
         setContentWords(0);
         setTitleWords(0);
         setFiles([]);
+        setFileUrls([]);
         setPostAnonymous(false);
       }
       fetchLikes();
@@ -390,43 +417,6 @@ function Generalform({ username }) {
     document.documentElement.style.setProperty("--3-color", "#f2f4f5");
     document.body.style.overflowY = "scroll";
   }; //setting for image preview1
-
-  const getSpec = async () => {};
-
-  //   useEffect(() => {
-  //     const imagesPreview = (input, placeToInsertImagePreview) => {
-  //       if (input.files) {
-  //         const filesAmount = input.files.length;
-  //         for (let i = 0; i < filesAmount; i++) {
-  //           const reader = new FileReader();
-  //           reader.onload = function(event) {
-  //             const img = document.createElement('img');
-  //             img.src = event.target.result;
-  //             img.style.width = '100px'; // Set the image width
-  //             img.style.height = '100px'; // Set the image height
-  //             img.style.objectFit = 'cover'; // Set the object-fit property
-  //             img.style.margin = '10px'; // Set the margin
-  //             placeToInsertImagePreview.appendChild(img);
-  //           };
-  //           reader.readAsDataURL(input.files[i]);
-  //         }
-  //       }
-  //     };
-
-  //     const inputFilesElement = document.getElementById('input-files');
-  //     const previewImagesElement = document.querySelector('div.preview-images');
-
-  //     if (inputFilesElement) {
-  //       inputFilesElement.addEventListener('change', () => imagesPreview(inputFilesElement, previewImagesElement));
-  //     }
-  //     // Cleanup function
-  //   return () => {
-  //     if (inputFilesElement) {
-  //       inputFilesElement.removeEventListener('change', () => imagesPreview(inputFilesElement, previewImagesElement));
-  //     }
-  //   };
-  // }, []);
-  //this is a function to preview images when uploading, but it is not finished yet
 
   const handleSub = async (e) => {
     e.preventDefault();
@@ -481,7 +471,7 @@ function Generalform({ username }) {
       let tries = 0;
       const img = new Image();
 
-      img.onload = resolve;
+      img.onload = () => resolve("Image loaded successfully");
       img.onerror = () => {
         tries++;
         if (tries < maxTries) {
@@ -552,11 +542,36 @@ function Generalform({ username }) {
       return result + (truncated.length < noSpaces.length ? "..." : "");
     }
   };
+
+  useEffect(() => {
+    const loadImages = async () => {
+      try {
+        const loadResults = await Promise.all(
+          posts.map((post) =>
+            loadImage(
+              `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/avatar-${post.username}.jpg`,
+            ).then((result) => {
+              if (result === "Image loaded successfully") {
+                setShowAvatar((prevShowAvatar) => [
+                  ...prevShowAvatar,
+                  post._id,
+                ]);
+              }
+            }),
+          ),
+        );
+      } catch (error) {
+        console.log("One or more images failed to load", error);
+      }
+    };
+
+    loadImages();
+  }, [posts]); //load images
   return (
     <>
       <title>{t("General")}</title>
       <div id="topBar">
-        <a href="intro" className="titleg">
+        <a href="/" className="titleg">
           {t("General")}
         </a>{" "}
         {/* to intro page */}
@@ -590,37 +605,46 @@ function Generalform({ username }) {
               setFiles(e.dataTransfer.files);
             }}
           >
-            <textarea
-              required
-              id="title"
-              name="title"
-              rows={1}
-              placeholder={t("Enter title (20 words max)")}
-              onInput={(e) => {
-                const value = e.target.value;
-                const wordCount = count(value);
-                setTitleWords(wordCount);
-                setTitle(value); // Update title state
-                e.target.style.height = "40px";
-                e.target.style.height = e.target.scrollHeight + "px";
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "row",
+                width: "60%",
               }}
-              onFocus={(e) => {
-                e.target.style.color = "black";
-                e.target.style.height = "40px";
-                e.target.style.height = e.target.scrollHeight + "px";
-              }}
-              onBlur={(e) => {
-                e.target.style.color = "gray";
-              }}
-              value={title}
-            />
-            <div style={{ position: "relative" }}>
+            >
+              <textarea
+                required
+                id="title"
+                name="title"
+                rows={1}
+                placeholder={t("Enter title (20 words max)")}
+                onInput={(e) => {
+                  const value = e.target.value;
+                  const wordCount = count(value);
+                  setTitleWords(wordCount);
+                  setTitle(value); // Update title state
+                  e.target.style.height = "40px";
+                  e.target.style.height = e.target.scrollHeight + "px";
+                }}
+                onFocus={(e) => {
+                  e.target.style.color = "black";
+                  e.target.style.height = "40px";
+                  e.target.style.height = e.target.scrollHeight + "px";
+                }}
+                onBlur={(e) => {
+                  e.target.style.color = "gray";
+                }}
+                value={title}
+              />
               <span
                 style={{
                   position: "absolute",
                   fontSize: "0.85rem",
-                  right: "12vw",
-                  bottom: "0.6vh",
+                  right: "0.2vw",
+                  bottom: "-0.1rem",
+                  margin: 0,
+                  padding: 0,
                 }}
               >
                 {titleWords}
@@ -673,7 +697,7 @@ function Generalform({ username }) {
                 `${files.length}${t(" file has been uploaded")}`}
               {!(files.length > 1) &&
                 !(files.length === 1) &&
-                t("Pictures (Drag and drop or Click)")}
+                t("Pictures or Videos (Drag and drop or Click)")}
               <input
                 type="file"
                 id="input-files"
@@ -725,6 +749,25 @@ function Generalform({ username }) {
                   </span>
                 </label>
               </div>
+              <div className="preview-container">
+                {fileUrls &&
+                  fileUrls.map((url, index) => {
+                    const file = files[index];
+                    const isVideo = file && file.type.startsWith("video");
+                    return (
+                      <div key={index}>
+                        {isVideo ? (
+                          <video src={url} width="140" controls />
+                        ) : (
+                          <img src={url} alt="Preview" width="140" />
+                        )}
+                        <button onClick={() => handleRemoveFile(index)}>
+                          Remove
+                        </button>
+                      </div>
+                    );
+                  })}
+              </div>
             </div>
           </form>
           <div className="row">
@@ -769,9 +812,11 @@ function Generalform({ username }) {
                   <div
                     className="contents"
                     style={{
-                      cursor: isExpanded.includes(post._id)
-                        ? "inherit"
-                        : "pointer",
+                      cursor:
+                        isExpanded.includes(post._id) ||
+                        post.content.length <= 103
+                          ? "inherit"
+                          : "pointer",
                     }}
                     onClick={() => toggleExpand(post._id)}
                   >
@@ -861,9 +906,28 @@ function Generalform({ username }) {
                   <br />
                   <br />
                   {(post.postAnonymous !== "true" || admin == true) && (
-                    <p className="usr">
-                      {t("posted by")} {post.username}
-                    </p>
+                    <div
+                      className="author"
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      {showAvatar.includes(post._id) && post.username ? (
+                        <img
+                          src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/avatar-${post.username}.jpg`}
+                          className="avatar"
+                        />
+                      ) : (
+                        <img
+                          priority="true"
+                          src="./preview.svg"
+                          className="avatar"
+                          alt="avatar"
+                          width={35}
+                          height={35}
+                        />
+                      )}
+                      {"\u00A0\u00A0"}
+                      {post.username}
+                    </div>
                   )}
                   <br />
                   <p className="postT">
@@ -913,9 +977,16 @@ function Generalform({ username }) {
                         d="M25.784 21.017A10.992 10.992 0 0 0 27 16c0-6.065-4.935-11-11-11S5 9.935 5 16s4.935 11 11 11c1.742 0 3.468-.419 5.018-1.215l4.74 1.185a.996.996 0 0 0 .949-.263 1 1 0 0 0 .263-.95l-1.186-4.74zm-2.033.11.874 3.498-3.498-.875a1.006 1.006 0 0 0-.731.098A8.99 8.99 0 0 1 16 25c-4.963 0-9-4.038-9-9s4.037-9 9-9 9 4.038 9 9a8.997 8.997 0 0 1-1.151 4.395.995.995 0 0 0-.098.732z"
                       ></path>
                     </svg>
-                    <p style={{ position: "relative", marginBottom: "0.5vh" }}>
-                      {t("Comments")}
-                    </p>
+                    <div
+                      style={{
+                        position: "relative",
+                        marginBottom: "0.5vh",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <GetCommentNum postId={post._id} /> <p>{t("Comments")}</p>
+                    </div>
                   </button>
                   {commentOpen.includes(post._id) && (
                     <>

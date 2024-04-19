@@ -37,7 +37,6 @@ body {
 a.titleg {
   font-size: 1.3rem;
   position: relative;
-  top: 0.3vh;
   left: 2.5vw;
   font-weight: 600;
   color: white;
@@ -47,7 +46,7 @@ a.titleg {
 #topBar {
   padding: 1rem 0; /* Adjust the padding */
   width: 100%;
-  height: 8vh;
+  height: 4rem;
   background-color: var(--main-color);
   position: fixed;
   top: 0;
@@ -57,7 +56,7 @@ a.titleg {
 
 #inputBoxGeneral {
   position: absolute;
-  top: 28vh;
+  top: 14rem;
   left: 50vw;
   width: 36vw;
   background-color: white;
@@ -72,7 +71,7 @@ a.titleg {
   padding: 1rem;
   width: 40vw;
   margin: 1rem;
-  margin-bottom: 3vh;
+  margin-bottom: 1.5rem;
   border-radius: 26px;
   background-color: white;
   color: var(--black-color);
@@ -82,7 +81,7 @@ a.titleg {
 }
 
 #spacing {
-  height: 10vh;
+  height: 5rem;
 }
 
 .adp {
@@ -95,7 +94,7 @@ a.titleg {
   background-color: white;
   border: none;
   left: 50vw;
-  top: 8vh;
+  top: 4rem;
   border-radius: 12px;
   padding: 0.7rem;
   color: var(--black-color);
@@ -125,7 +124,7 @@ a.titleg {
   color: var(--black-color);
   position: relative;
   font-size: 20px;
-  top: 4vh;
+  top: 2rem;
   left: 40px;
   border: 2px solid transparent;
   text-decoration: none;
@@ -151,7 +150,7 @@ button.refreshBtn {
   color: var(--black-color);
   position: relative;
   font-size: 20px;
-  top: 4vh;
+  top: 2rem;
   left: 25vw;
   text-decoration: none;
   font-weight: 600;
@@ -205,7 +204,7 @@ button.refreshBtn:active {
 #inputBox {
   width: 28vw;
   padding: 3rem;
-  height: 62vh;
+  height: 30rem;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
   border: #e5e7eb solid 1px;
   border-radius: 5px;
@@ -219,6 +218,7 @@ button.refreshBtn:active {
 
 #postForm {
   margin-top: 20px;
+  position: relative;
 }
 
 label.picUpload {
@@ -254,10 +254,10 @@ br {
 .switch {
   position: relative;
   display: inline-block;
-  width: 4.2vw;
-  bottom: 5.5vh;
+  width: 3.75rem;
+  bottom: 5.5rem;
   right: -2vw;
-  height: 4.2vh;
+  height: 2.1rem;
 }
 
 /* Hide default HTML checkbox */
@@ -318,7 +318,6 @@ input:checked + .slider:before {
 .posta {
   position: relative;
   white-space: nowrap;
-  top: 0.2vh;
   left: 4.7vw;
   font-weight: 550;
   font-size: 1.2rem;
@@ -327,7 +326,7 @@ input:checked + .slider:before {
 div.switchForm {
   position: relative;
   left: 20vw;
-  top: 1vh;
+  top: 3.5rem;
 }
 div.preview-images > img {
   width: 30%;
@@ -366,7 +365,7 @@ img {
   border: 1px solid rgb(148, 148, 148);
   border-radius: 2px;
   padding: 6px 12px;
-  width: 60%;
+  flex-grow: 1;
   overflow: hidden;
   resize: none;
   outline: none;
@@ -489,7 +488,7 @@ div.imgs {
 }
 .Images {
   width: 12.25vw;
-  height: 24vh;
+  height: 12vw;
   object-fit: cover;
   margin: 0.2rem;
 }
@@ -511,7 +510,7 @@ div.imgs {
 }
 #closePreview {
   position: fixed;
-  top: 20vh;
+  top: 10rem;
   left: 70vw;
   z-index: 9999;
 }
@@ -528,7 +527,7 @@ div.likeContainer {
   position: relative;
   width: 9vw;
   left: 30vw;
-  height: 8vh;
+  height: 4rem;
   display: flex;
 }
 .ptitle {
@@ -539,4 +538,13 @@ div.likeContainer {
 }
 .ptitle:hover {
   text-decoration: underline;
+}
+img.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+div.preview-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }

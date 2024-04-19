@@ -185,7 +185,7 @@ const commentUpload = ({
                 `${commentFiles.length}${t(" file has been uploaded")}`}
               {!(commentFiles.length > 1) &&
                 !(commentFiles.length === 1) &&
-                t("Pictures (Drag and drop or Click)")}
+                t("Pictures or Videos (Drag and drop or Click)")}
               <input
                 type="file"
                 id="input-files"

@@ -22,6 +22,11 @@ export default function Home() {
   }
 
   if (session.status === "authenticated") {
-    return <Dashboardform username={session.data.user.name} />;
+    return (
+      <Dashboardform
+        username={session.data.user.name}
+        email={session.data.user.email}
+      />
+    );
   }
 }

@@ -1,0 +1,258 @@
+$text_color: white;
+$stick_color: white; //Changes the colour of all sticks
+$stick_length: 30px; //Changes length of all sticks
+$stick_distance: -8px; //Changes distance between sticks (will need editing after 30px)
+
+#container {
+  width: $stick_length * 6;
+  padding-top: 180px;
+  margin: auto;
+  vertical-align: middle;
+}
+
+.stick {
+  width: $stick_length;
+  height: 3px;
+  background: $stick_color;
+  display: inline-block;
+  margin-left: $stick_distance;
+}
+
+.stick:nth-child(n) {
+  -ms-transform: rotate(30deg); /* IE 9 */
+  -webkit-transform: rotate(30deg); /* Safari and Chrome */
+  -moz-transform: rotate(30deg);
+  transform: rotate(30deg);
+  -webkit-animation: fall 2s infinite;
+  -moz-animation: fall 2s infinite;
+  animation: fall 2s infinite;
+}
+
+.stick:nth-child(2n) {
+  -ms-transform: rotate(-30deg); /* IE 9 */
+  -webkit-transform: rotate(-30deg); /* Safari and Chrome */
+  -moz-transform: rotate(-30deg);
+  transform: rotate(-30deg);
+  -webkit-animation: rise 2s infinite;
+  -moz-animation: rise 2s infinite;
+  animation: rise 2s infinite;
+}
+
+@-webkit-keyframes rise {
+  50% {
+    -ms-transform: rotate(30deg); /* IE 9 */
+    -webkit-transform: rotate(30deg);
+    -moz-transform: rotate(30deg);
+    transform: rotate(30deg);
+  }
+}
+
+@-moz-keyframes rise {
+  50% {
+    -ms-transform: rotate(30deg); /* IE 9 */
+    -webkit-transform: rotate(30deg);
+    -moz-transform: rotate(30deg);
+    transform: rotate(30deg);
+  }
+}
+
+@keyframes rise {
+  50% {
+    -ms-transform: rotate(30deg); /* IE 9 */
+    -webkit-transform: rotate(30deg);
+    -moz-transform: rotate(30deg);
+    transform: rotate(30deg);
+  }
+}
+
+@-webkit-keyframes fall {
+  50% {
+    -ms-transform: rotate(-30deg); /* IE 9 */
+    -webkit-transform: rotate(-30deg);
+    -moz-transform: rotate(-30deg);
+    transform: rotate(-30deg);
+  }
+}
+
+@-moz-keyframes fall {
+  50% {
+    -ms-transform: rotate(-30deg); /* IE 9 */
+    -webkit-transform: rotate(-30deg);
+    -moz-transform: rotate(-30deg);
+    transform: rotate(-30deg);
+  }
+}
+
+@keyframes fall {
+  50% {
+    -ms-transform: rotate(-30deg); /* IE 9 */
+    -webkit-transform: rotate(-30deg);
+    -moz-transform: rotate(-30deg);
+    transform: rotate(-30deg);
+  }
+}
+
+@-webkit-keyframes fade {
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fade {
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade {
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+div.resetForm {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: white;
+  border-radius: 15px;
+  width: 55vw;
+  padding: 2rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+main.reset {
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(233, 242, 252);
+}
+button.recoverBtn {
+  flex-grow: 1;
+  margin: 1rem;
+  border-radius: 15px;
+  aspect-ratio: 1/1;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(226, 237, 247);
+  transition: background-color 0.5s;
+}
+button.recoverBtn:hover {
+  transition: background-color 0.5s;
+  background-color: rgb(200, 220, 240);
+}
+button.recover1:hover .path {
+  stroke-dasharray: 1500;
+  stroke-dashoffset: 1500;
+  animation: draw 0.4s linear forwards;
+}
+
+.path1 {
+  stroke-dasharray: 1500;
+  stroke-dashoffset: 1500;
+  animation: draw 0.8s linear forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+button.recover2:hover .animated-fill {
+  transform: scale(0.8);
+  transition: 0.7s;
+}
+.animated-fill {
+  transition: 0.7s;
+}
+div.emailForm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 15px;
+  background-color: white;
+  padding: 2rem;
+  width: 65vw;
+  height: 24rem;
+  display: grid;
+  align-items: flex-start;
+  grid-template-columns: repeat(2, 1fr);
+}
+form.emailForm {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  top: 4rem;
+}
+input.emailInput {
+  border-radius: 8px;
+  font-size: 1.1rem;
+  width: 30vw;
+  border: 1px solid black;
+  padding: 1.1rem 0.5rem 1.1rem 0.5rem;
+  margin: 1rem;
+}
+input.emailInput:focus {
+  outline: 2px solid #d07a33;
+  border-color: transparent;
+}
+button.searchEmail {
+  position: absolute;
+  border-radius: 20px;
+  background-color: #fec071;
+  right: 1vw;
+  color: white;
+  padding: 0.5rem 1.3rem 0.5rem 1.3rem;
+  top: 13rem;
+  transition: background-color 0.5s;
+}
+button.searchEmail:hover {
+  background-color: #e5995c;
+  transition: background-color 0.5s;
+}
+#searchEmail {
+  width: 6rem;
+  transition: width 0.7s;
+}
+p.loading {
+  letter-spacing: 2px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -webkit-animation: fade 2s infinite;
+  -moz-animation: fade 2s infinite;
+  animation: fade 2s infinite;
+}
+#emailForm {
+  width: 65vw;
+}
+div.final {
+  display: flex;
+  width: 37vw;
+  overflow-wrap: break-word;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.recaptcha {
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+}

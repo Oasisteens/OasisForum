@@ -1,0 +1,42 @@
+{
+  "zh": {
+    "translation": {
+      "Dear user ": "尊敬的用户",
+      ",": "，",
+      "Hello! You are receiving this email because we got your password reset request. Click the button below to reset your password:": "您好！您收到此邮件是因为我们收到了您的密码重置请求。点击下面的按钮重置您的密码：",
+      "If you did not request a password reset, please ignore this email.": "如果您没有请求密码重置，请忽略此邮件。",
+      "Reset Password": "重置密码",
+      "This email is automatically sent by the system, please do not reply. If you have any questions, please send email to help@oasisforum.cn to contact us.": "此邮件由系统自动发送，请勿回复。如有任何问题，请通过邮件help@oasisforum.cn联系我们。"
+    }
+  },
+  "fr": {
+    "translation": {
+      "Dear user ": "Cher utilisateur",
+      ",": ",",
+      "Hello! You are receiving this email because we got your password reset request. Click the button below to reset your password:": "Bonjour! Vous recevez cet e-mail parce que nous avons reçu votre demande de réinitialisation de mot de passe. Cliquez sur le bouton ci-dessous pour réinitialiser votre mot de passe:",
+      "If you did not request a password reset, please ignore this email.": "Si vous n'avez pas demandé de réinitialisation de mot de passe, veuillez ignorer cet e-mail.",
+      "Reset Password": "Réinitialiser le mot de passe",
+      "This email is automatically sent by the system, please do not reply. If you have any questions, please send email to help@oasisforum.cn to contact us.": "Cet e-mail est automatiquement envoyé par le système, veuillez ne pas y répondre. Si vous avez des questions, veuillez envoyer un e-mail à help@oasisforum.cn pour nous contacter."
+    }
+  },
+  "es": {
+    "translation": {
+      "Dear user ": "Estimado usuario",
+      ",": ",",
+      "Hello! You are receiving this email because we got your password reset request. Click the button below to reset your password:": "¡Hola! Estás recibiendo este correo electrónico porque recibimos tu solicitud de restablecimiento de contraseña. Haz clic en el botón de abajo para restablecer tu contraseña:",
+      "If you did not request a password reset, please ignore this email.": "Si no solicitaste un restablecimiento de contraseña, por favor ignora este correo electrónico.",
+      "Reset Password": "Restablecer contraseña",
+      "This email is automatically sent by the system, please do not reply. If you have any questions, please send email to help@oasisforum.cn to contact us.": "Este correo electrónico es enviado automáticamente por el sistema, por favor no respondas. Si tienes alguna pregunta, por favor envía un correo electrónico a help@oasisforum.cn para contactarnos."
+    }
+  },
+  "ja": {
+    "translation": {
+      "Dear user ": "親愛なるユーザー",
+      ",": "、",
+      "Hello! You are receiving this email because we got your password reset request. Click the button below to reset your password:": "こんにちは！パスワードのリセット要求を受け取ったため、このメールを受け取っています。以下のボタンをクリックしてパスワードをリセットしてください：",
+      "If you did not request a password reset, please ignore this email.": "パスワードのリセットを要求していない場合は、このメールを無視してください。",
+      "Reset Password": "パスワードをリセット",
+      "This email is automatically sent by the system, please do not reply. If you have any questions, please send email to help@oasisforum.cn to contact us.": "このメールはシステムから自動的に送信されますので、返信しないでください。ご質問がある場合は、help@oasisforum.cnにメールを送ってお問い合わせください。"
+    }
+  }
+}

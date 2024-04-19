@@ -27,7 +27,7 @@ const Contact = () => {
           <Chatbubbles />
         </div>
         <li>
-          <a className="webicon" href="intro">
+          <a className="webicon" href="/">
             {t("Oasis")}
           </a>
         </li>

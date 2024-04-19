@@ -5,7 +5,7 @@ const admin = () => {
       <title>Admin</title>
       <nav className="index">
         <li>
-          <a className="webicon" href="intro">
+          <a className="webicon" href="/">
             Intro
           </a>
         </li>

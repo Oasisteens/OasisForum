@@ -1,0 +1,100 @@
+main.resetPs {
+  background-color: rgb(233, 242, 252);
+  width: 100vw;
+  position: fixed;
+  height: 100vh;
+  overflow: hidden;
+}
+form.resetPsForm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 40vw;
+  height: 34rem;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border-radius: 12px;
+}
+input.psReset {
+  outline: none;
+  border: 1px solid grey;
+  margin: 0 2rem 0 2rem;
+  padding: 0.4rem 1rem 0.4rem 1rem;
+  border-radius: 8px;
+}
+input.psReset:focus {
+  border-color: black;
+}
+button.resetpsBtn {
+  position: absolute;
+  background-color: rgb(57, 179, 227);
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 18px;
+  color: white;
+  min-width: 10vw;
+  transition: background-color 0.4s;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+button.resetpsBtn:hover {
+  background-color: rgb(87, 160, 189);
+  transition: background-color 0.4s;
+}
+h1.resetTitle {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+.recaptcha {
+  position: relative;
+  margin: 0 auto;
+}
+p.tip {
+  background-color: rgb(227, 66, 66);
+  color: white;
+  margin: 0 3rem 0 3rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 10px;
+}
+
+.dots {
+  animation: bounce 1.5s infinite linear;
+  background: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  height: 8px;
+  text-align: center;
+  width: 8px;
+}
+
+.dots:nth-child(1) {
+  animation-delay: 0.2s;
+}
+.dots:nth-child(2) {
+  animation-delay: 0.4s;
+}
+.dots:nth-child(3) {
+  animation-delay: 0.6s;
+}
+.dots:nth-child(4) {
+  animation-delay: 0.8s;
+}
+.dots:nth-child(5) {
+  animation-delay: 1s;
+}
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  15% {
+    transform: translateY(-15px);
+  }
+  30% {
+    transform: translateY(0);
+  }
+}

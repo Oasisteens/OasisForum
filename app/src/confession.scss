@@ -158,11 +158,30 @@ button.openFormBtn {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   top: 8vh;
+  transition: 0.3s;
   right: 10vw;
   position: absolute;
 }
 button.openFormBtn:hover {
   background-color: #a4a4a4;
+  transition: 0.3s;
+}
+.returnBtn {
+  position: relative;
+  left: 91vw;
+  z-index: 1000;
+  top: 4.5rem;
+  padding: 1rem;
+  border-radius: 5px;
+  color: #b5b5b5;
+  border: 1px solid transparent;
+  transition: 0.3s;
+}
+.returnBtn:hover {
+  background-color: #d0d0d050;
+  transition: 0.3s;
+  color: white;
+  border-color: rgba(209, 209, 209, 0.767);
 }
 footer.loveSentence {
   text-align: center;

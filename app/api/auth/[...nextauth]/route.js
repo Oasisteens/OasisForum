@@ -24,6 +24,7 @@ const authOptions = {
           const newUserObject = {
             name: username,
             image: user.image || null,
+            email: user.email || null,
           };
           return newUserObject;
         } catch (error) {
