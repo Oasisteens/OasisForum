@@ -1,3 +1,4 @@
+"use server";
 import DBconnect from "../../../libs/mongodb";
 import MainTopic from "../../../models/mainTopic";
 import SubTopic from "../../../models/subTopic";

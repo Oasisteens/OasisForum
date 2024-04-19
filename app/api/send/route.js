@@ -1,3 +1,4 @@
+"use server";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
 import DBconnect from "../../../libs/mongodb";

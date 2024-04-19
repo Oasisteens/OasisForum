@@ -1,3 +1,4 @@
+"use server";
 import { NextResponse } from "next/server.js";
 import User from "../../../models/user";
 import DBconnect from "../../../libs/mongodb";

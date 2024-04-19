@@ -8,6 +8,10 @@
   --title-color: rgb(220, 199, 159);
 }
 
+section.intro {
+  overflow-x: hidden;
+}
+
 section.intro,
 h1,
 p {
@@ -85,7 +89,8 @@ nav ul li {
   color: var(--main-title-color);
 }
 .channel {
-  color: wheat;
+  color: white;
+  -webkit-text-stroke: 0;
   font-size: 25em;
 }
 section {
@@ -97,6 +102,7 @@ section {
 footer {
   background-color: rgba(51, 51, 51, 0.2);
   padding: 20px;
+  position: relative;
   color: var(--main-title-color);
   text-align: center;
 }
@@ -285,16 +291,20 @@ h2 {
   font-size: 2rem;
   font-weight: bold;
 }
-.container {
+div.introContainer {
   display: grid;
+  position: relative;
+  flex-grow: 1;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  row-gap: 3vh;
+  gap: 3vw;
   justify-content: center;
 }
 
 .block {
   margin: 10px;
+  width: auto;
+  position: relative;
   color: var(--main-title-color);
 }
 .icon {
@@ -306,7 +316,7 @@ h2 {
   background-color: var(--main-title-color);
 }
 @media screen and (max-width: 900px) {
-  .container {
+  div.introContainer {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 1fr);
     row-gap: 0;
@@ -439,4 +449,9 @@ div.wrapperBg {
   width: 100%;
   z-index: 10000;
   height: 100%;
+}
+section.introBtm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

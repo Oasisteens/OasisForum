@@ -107,7 +107,7 @@ const Intro = () => {
           )}
         </p>
       </header>
-      <section>
+      <section className="introBtm">
         <h1 className="intro">{t("About Us")}</h1>
         <hr />
         <p>
@@ -115,7 +115,7 @@ const Intro = () => {
             "Our forum is a community-driven platform that encourages open discussions, fosters learning, and promotes respectful interactions. We believe in the power of diverse perspectives and the value of constructive contributions. Our guidelines are designed to ensure a safe and inclusive environment for everyone. Join us and be part of the conversation today!",
           )}
         </p>
-        <div className="container">
+        <div className="introContainer">
           <div className="block">
             <div className="icon">
               <People />

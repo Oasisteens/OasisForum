@@ -1,3 +1,4 @@
+"use server";
 import Comment from "../../../models/comment";
 import Post from "../../../models/post";
 import DBconnect from "../../../libs/mongodb";

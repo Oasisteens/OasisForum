@@ -1,3 +1,4 @@
+"use server";
 import fetch from "node-fetch";
 import { NextResponse } from "next/server";
 
