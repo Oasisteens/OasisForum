@@ -9,6 +9,11 @@
   --border-color: #ebeced;
 }
 
+body.indPost {
+  background-color: white !important;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 #topBar {
   padding: 1rem 0; /* Adjust the padding */
   width: 100%;
@@ -56,7 +61,7 @@ button.deleteBtn1:active {
   animation: click-effect 0.3s ease-in-out;
 }
 
-#backButton {
+#backButton2 {
   color: var(--black-color);
   position: relative;
   font-size: 20px;
@@ -82,7 +87,7 @@ button.deleteBtn1:active {
   animation: click-effect 0.3s ease-in-out;
 }
 
-button.refreshBtn {
+button.refreshBtn2 {
   color: var(--black-color);
   position: relative;
   font-size: 20px;

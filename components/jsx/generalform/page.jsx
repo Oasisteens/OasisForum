@@ -54,7 +54,7 @@ function Generalform({ username }) {
   // const [commentNumber, setCommentNumber] = useState([]);
   // The commentDisplay function is for showing the comment post button and the picturen upload button. If the content is focused, or in other words, the user is writing or editing the comment, it shows, else, we need to make space for showing other comments.
   const [addCommentDisplay, setAddCommentDisplay] = useState([]);
-  const [admi, setAdmi] = useState(false);
+  const [admin, setAdmin] = useState(false);
   const { t } = useTranslation();
   const { i18n } = useTranslation();
 
@@ -64,15 +64,13 @@ function Generalform({ username }) {
         const res = await axios.post("http://localhost:3000/api/fetchAdmin", {
           username,
         });
-        setAdmi(res.data.admin);
+        setAdmin(res.data.admin);
       } catch (error) {
         console.log("Error loading admin", error);
       }
     };
     fetchAdmin();
   }, []); //fetch admin information
-
-  const admin = admi; //temporary variable
 
   useEffect(() => {
     if (!localStorage.getItem("language")) {
@@ -568,7 +566,7 @@ function Generalform({ username }) {
     loadImages();
   }, [posts]); //load images
   return (
-    <>
+    <section className="posts">
       <title>{t("General")}</title>
       <div id="topBar">
         <a href="/" className="titleg">
@@ -1265,7 +1263,7 @@ M125.025,99.15H25.02V85.51l22.73-22.724l11.363,11.36l36.365-36.361l29.547,29.547
       </div>
       <div id="spacing" />
       <br />
-    </>
+    </section>
   );
 }
 

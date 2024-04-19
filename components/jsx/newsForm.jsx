@@ -32,7 +32,7 @@ function Newsform({ username }) {
   const [likeloads, setLikeloads] = useState(true);
   const [likeload, setLikeload] = useState([]);
   const [selectedEmoji, setSelectedEmoji] = useState(null);
-  const [admi, setAdmi] = useState(false);
+  const [admin, setAdmin] = useState(false);
 
   useEffect(() => {
     if (!localStorage.getItem("dashColor")) {
@@ -74,16 +74,13 @@ function Newsform({ username }) {
         const res = await axios.post("/api/fetchAdmin", {
           username: username,
         });
-        setAdmi(res.data.admin);
+        setAdmin(res.data.admin);
       } catch (error) {
         console.log("Error loading admin", error);
       }
     };
     fetchAdmin();
   }, []);
-
-  const admin = admi;
-  let newArray;
 
   const { t } = useTranslation();
   const { i18n } = useTranslation();
@@ -298,7 +295,7 @@ function Newsform({ username }) {
     // fetchLikes();
   }, []);
   return (
-    <>
+    <section className="posts">
       <title>{t("News")}</title>
       <div id="topBar">
         <a href="/" className="titleg">
@@ -694,7 +691,7 @@ function Newsform({ username }) {
       </div>
       <div id="spacing" />
       <br />
-    </>
+    </section>
   );
 }
 

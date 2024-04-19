@@ -22,12 +22,23 @@ const Intro = () => {
   useEffect(() => {
     const splineCanvas = document.getElementById("spline-canvas");
     const app = new Application(splineCanvas);
+    let timeoutId;
+
+    setIsLoading(true);
 
     app.load(process.env.NEXT_PUBLIC_3D_URL).then(() => {
       setIsLoading(false);
+      clearTimeout(timeoutId); // Clear the timeout if the load completes successfully
     });
 
-    setIsLoading(true);
+    // Set a timeout to set isLoading to false and add to true after 10 seconds
+    timeoutId = setTimeout(() => {
+      setIsLoading(false);
+      const bg = document.getElementById("sectionIntro");
+      bg.classList.add("temp");
+    }, 10000); // 10 seconds
+
+    return () => clearTimeout(timeoutId); // Clear the timeout if the component unmounts
   }, []);
 
   // Pull info(language) from localStorage
@@ -48,7 +59,7 @@ const Intro = () => {
     localStorage.setItem("language", selectedLanguage);
   };
   return (
-    <section className="intro">
+    <section className="intro" id="sectionIntro">
       <title>{t("Oasis")}</title>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
