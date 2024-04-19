@@ -1,3 +1,4 @@
+"use server";
 import Likestatus from "../../../models/likestatus";
 import { NextResponse } from "next/server";
 import DBconnect from "../../../libs/mongodb";

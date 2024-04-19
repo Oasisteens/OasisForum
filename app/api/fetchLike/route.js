@@ -1,3 +1,4 @@
+"use server";
 import Like from "../../../models/like";
 import Likestatus from "../../../models/likestatus";
 import DBconnect from "../../../libs/mongodb";
