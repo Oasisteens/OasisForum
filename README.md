@@ -16,8 +16,8 @@ OasisForum is a place where users can share ideas, ask questions, and engage in 
 
 To run this project locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/username/OasisForum.git`
-2. Navigate into the project directory: `cd OasisForum`
+1. Clone the repository: `git clone https://github.com/Oasisteens/OasisFrontend`
+2. Navigate into the project directory: `cd OasisFrontend`
 3. Install the dependencies: `npm install`
 4. Start the development server: `npm run dev`
 
