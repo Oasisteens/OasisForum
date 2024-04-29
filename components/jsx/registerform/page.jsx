@@ -27,6 +27,8 @@ const Registerform = () => {
   const [focus, setFocus] = useState([]);
   const { t } = useTranslation();
   const [emailFloat, setEmailFloat] = useState(false);
+  const [usernameFloat, setUsernameFloat] = useState(false);
+  const [passwordFloat, setPasswordFloat] = useState(false);
   const { i18n } = useTranslation();
   useEffect(() => {
     if (!localStorage.getItem("language")) {
@@ -58,9 +60,9 @@ const Registerform = () => {
     } catch (error) {
       setMessage(error.response.data.error);
       setLoading(false);
-      setError(true);
+      setError("Username has been registered");
       setTimeout(() => {
-        setError(false);
+        setError("");
       }, 3000);
     }
   };
@@ -99,10 +101,27 @@ const Registerform = () => {
                   type="username"
                   onFocus={() => handleFocus(0)}
                   onBlur={() => handleBlur(0)}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                    if (e.target.value !== "") {
+                      setUsernameFloat(true);
+                    } else {
+                      setUsernameFloat(false);
+                    }
+                  }}
                   required
                   maxLength={20}
+                  pattern="^[^\W_]+$"
+                  onInvalid={(e) => {
+                    if (e.target.value !== "") {
+                      setError("No Special Characters");
+                      setTimeout(() => {
+                        setError("");
+                      }, 3000);
+                    }
+                  }}
                   disabled={load}
+                  className={`${usernameFloat ? "float" : ""}`}
                 />
                 <label htmlFor="username">{t("Username")}:</label>
               </div>
@@ -117,11 +136,20 @@ const Registerform = () => {
                   type="password"
                   onFocus={() => handleFocus(1)}
                   onBlur={() => handleBlur(1)}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (e.target.value !== "") {
+                      setPasswordFloat(true);
+                    } else {
+                      setPasswordFloat(false);
+                    }
+                  }}
                   required
                   autoComplete="on"
                   maxLength={20}
+                  minLength={6}
                   disabled={load}
+                  className={`${passwordFloat ? "float" : ""}`}
                 />
                 <label htmlFor="password">{t("Password")}:</label>
               </div>
@@ -167,10 +195,8 @@ const Registerform = () => {
                 {!loading && !load && t("Register")}
               </button>
               <div className="register">
-                {error && (
-                  <p className="error">{t("Username has been registered")}</p>
-                )}
-                {!error && (
+                {error !== "" && <p className="error">{t(error)}</p>}
+                {error === "" && (
                   <p>
                     {t("Already have an account?")}{" "}
                     <Link href="/login" style={{ color: "black" }}>

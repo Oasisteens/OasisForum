@@ -170,6 +170,7 @@ i18n
           "Username does not match": "用户名不匹配",
           "Password updated. Please login with your new password.":
             "密码已更新。请使用新密码登录。",
+          "No Special Characters": "不允许特殊字符",
         },
       },
       es: {
