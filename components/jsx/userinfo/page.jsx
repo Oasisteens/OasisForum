@@ -8,8 +8,6 @@ import { useTranslation } from "react-i18next";
 import "../../../app/src/userinfo.css";
 
 const UserInfo = ({ username, image, updateSession }) => {
-  const [avatarShow, setAvatarShow] = useState(false);
-
   const handleSignOut = () => {
     signOut();
     redirect("/");
