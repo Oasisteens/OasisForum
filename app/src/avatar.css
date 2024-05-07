@@ -9,8 +9,7 @@
   top: 30vh;
   z-index: 1000;
 }
-div.cropper {
-  z-index: 10000;
+.cropper {
   max-width: 100vw;
   max-height: 100vh;
   position: absolute;
@@ -33,13 +32,6 @@ button.uploadBtn {
 button.uploadBtn:hover {
   transition: 0.3s;
   background-color: var(--sub-color);
-}
-div.bg {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
-  background-color: rgba(148, 148, 148, 0.8);
 }
 div.avatarContainer:hover .avatar {
   filter: brightness(50%);

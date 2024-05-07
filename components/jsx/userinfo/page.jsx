@@ -7,7 +7,7 @@ import Avatar from "../avatar.jsx";
 import { useTranslation } from "react-i18next";
 import "../../../app/src/userinfo.css";
 
-const UserInfo = ({ username, image, updateSession }) => {
+const UserInfo = ({ username, image, updateSession, auth }) => {
   const handleSignOut = () => {
     signOut();
     redirect("/");
@@ -59,11 +59,12 @@ const UserInfo = ({ username, image, updateSession }) => {
   }, []); //localStorage get color setting
 
   return (
-    <main className="background">
+    <main className="background" id="userBg">
       <Avatar
         username={username}
         avatar={image}
         updateSession={updateSession}
+        auth={auth}
       />
       <div className="card">
         <br />
@@ -72,14 +73,16 @@ const UserInfo = ({ username, image, updateSession }) => {
             {t("Username: ")}
             <span className="blue-text">{username}</span>
           </p>
-          <a href="dashboard" className="redi">
+          <a href="/dashboard" className="redi">
             {t("Back to Dashboard")}
           </a>
         </div>
 
-        <button onClick={handleSignOut} className="logout-btn">
-          {t("Log Out")}
-        </button>
+        {auth && (
+          <button onClick={handleSignOut} className="logout-btn">
+            {t("Log Out")}
+          </button>
+        )}
       </div>
     </main>
   );

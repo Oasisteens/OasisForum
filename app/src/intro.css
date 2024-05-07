@@ -57,40 +57,39 @@ body::-webkit-scrollbar-thumb {
 body::-webkit-scrollbar-thumb:hover {
   background-color: rgb(56, 239, 208);
 }
-h1 {
+h1.intro {
   text-align: center;
   font-size: 2rem;
   color: var(--main-title-color);
 }
-header {
+header.introHeader {
   background-color: rgba(51, 51, 51, 0.2);
   padding: 20px;
   color: var(--main-title-color);
 }
-nav {
+nav.index {
   background-color: rgba(160, 160, 160, 0.2);
   padding: 10px;
   color: var(--main-title-color);
 }
-nav ul {
+nav.index ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
   color: var(--main-title-color);
 }
-nav ul li {
+nav.index ul li {
   display: inline-block;
   margin-right: 10px;
   color: var(--main-title-color);
 }
-.channel {
+a.channel {
   color: white;
   -webkit-text-stroke: 0;
   font-size: 25em;
 }
-section {
+section.intro {
   background-color: rgba(120, 120, 120, 0.2);
-  padding: 20px;
   text-align: left;
   color: var(--main-title-color);
 }
@@ -217,14 +216,9 @@ footer {
   -o-text-fill-color: transparent;
   transform: scale(1.5);
 }
-p {
+p.intro {
   color: var(--main-title-color);
   text-align: left;
-}
-h2 {
-  text-align: center;
-  font-size: 2rem;
-  color: var(--main-title-color);
 }
 .index {
   display: flex;
@@ -244,7 +238,7 @@ h2 {
   display: flex;
 }
 
-.channel {
+a.channel {
   margin-right: 15px;
   color: var(--main-title-color);
   font-size: 1.5rem;
@@ -257,12 +251,12 @@ h2 {
     color 0.3s;
 }
 
-.channel:hover {
+a.channel:hover {
   background-color: rgba(300, 300, 300, 0.2);
   color: #fff;
 }
 
-.channel:active {
+a.channel:active {
   animation: click-effect 0.3s ease-in-out;
 }
 
@@ -448,5 +442,7 @@ div.wrapperBg {
 section.introBtm {
   display: flex;
   flex-direction: column;
+  background-color: rgba(120, 120, 120, 0.2);
+  padding-top: 20px;
   align-items: center;
 }

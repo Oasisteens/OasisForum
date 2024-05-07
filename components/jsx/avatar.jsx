@@ -6,8 +6,15 @@ import axios from "axios";
 import "../../app/src/avatar.css";
 import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
+import Image from "next/image";
+import Modal from "react-modal";
 
-export default function AvatarUpload({ username, avatar, updateSession }) {
+export default function AvatarUpload({
+  username,
+  avatar,
+  updateSession,
+  auth,
+}) {
   const [image, setImage] = useState(null);
   const [cropper, setCropper] = useState();
   const [file, setFile] = useState(null);
@@ -15,7 +22,12 @@ export default function AvatarUpload({ username, avatar, updateSession }) {
   const inputRef = useRef();
   const { t } = useTranslation();
 
+  useEffect(() => {
+    Modal.setAppElement("#userBg");
+  }, []);
+
   const tourInit = () => {
+    if (!auth) return;
     if (!localStorage.getItem("Atour")) {
       localStorage.setItem("Atour", "true");
     }
@@ -128,30 +140,25 @@ export default function AvatarUpload({ username, avatar, updateSession }) {
 
   return (
     <div>
-      {image && (
-        <>
-          <div className="bg" />
-          <div className="cropper">
-            <Cropper
-              src={image}
-              initialAspectRatio={1}
-              preview=".img-preview"
-              guides={true}
-              viewMode={1}
-              dragMode="move"
-              scalable={true}
-              cropBoxMovable={true}
-              cropBoxResizable={true}
-              onInitialized={(instance) => {
-                setCropper(instance);
-              }}
-            />
-            <button className="uploadBtn" onClick={uploadImage}>
-              Upload
-            </button>
-          </div>
-        </>
-      )}
+      <Modal isOpen={image !== null} className={cropper}>
+        <Cropper
+          src={image}
+          initialAspectRatio={1}
+          preview=".img-preview"
+          guides={true}
+          viewMode={1}
+          dragMode="move"
+          scalable={true}
+          cropBoxMovable={true}
+          cropBoxResizable={true}
+          onInitialized={(instance) => {
+            setCropper(instance);
+          }}
+        />
+        <button className="uploadBtn" onClick={uploadImage}>
+          Upload
+        </button>
+      </Modal>
       <input
         type="file"
         accept="image/*"
@@ -159,26 +166,44 @@ export default function AvatarUpload({ username, avatar, updateSession }) {
         ref={inputRef}
         style={{ display: "none" }}
       />
-      <div onClick={onImageClick} className="avatarContainer">
-        <div className="uploadIcon">
-          <img src="./camera.svg" alt="upload" width={40} height={40} />
+      {auth ? (
+        <div onClick={onImageClick} className="avatarContainer">
+          <div className="uploadIcon">
+            <Image src="/camera.svg" alt="upload" width={40} height={40} />
+          </div>
+          {showAvatar ? (
+            <img
+              src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatar}`}
+              className="avatar"
+            />
+          ) : (
+            <img
+              priority="true"
+              src="./preview.svg"
+              className="avatar"
+              alt="avatar"
+              width={110}
+              height={110}
+            />
+          )}
         </div>
-        {showAvatar ? (
-          <img
-            src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatar}`}
-            className="avatar"
-          />
-        ) : (
-          <img
-            priority="true"
-            src="./preview.svg"
-            className="avatar"
-            alt="avatar"
-            width={110}
-            height={110}
-          />
-        )}
-      </div>
+      ) : showAvatar ? (
+        <img
+          src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatar}`}
+          className="avatar"
+          style={{ cursor: "default" }}
+        />
+      ) : (
+        <img
+          priority="true"
+          src="./preview.svg"
+          className="avatar"
+          alt="avatar"
+          width={110}
+          height={110}
+          style={{ cursor: "default" }}
+        />
+      )}
     </div>
   );
 }

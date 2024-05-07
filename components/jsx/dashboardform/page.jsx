@@ -399,7 +399,7 @@ export default function Dashboardform({ username, email }) {
       </div>
       {navVisible && (
         <div className="nav">
-          <Nav />
+          <Nav username={username} />
         </div>
       )}
       <section className="secd">
