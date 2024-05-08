@@ -7,7 +7,6 @@ import "../../app/src/avatar.css";
 import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
-import Modal from "react-modal";
 
 export default function AvatarUpload({
   username,
@@ -19,12 +18,9 @@ export default function AvatarUpload({
   const [cropper, setCropper] = useState();
   const [file, setFile] = useState(null);
   const [showAvatar, setShowAvatar] = useState(true);
+  const [loading, setLoading] = useState(false); //loading state for image upload
   const inputRef = useRef();
   const { t } = useTranslation();
-
-  useEffect(() => {
-    Modal.setAppElement("#userBg");
-  }, []);
 
   const tourInit = () => {
     if (!auth) return;
@@ -99,6 +95,8 @@ export default function AvatarUpload({
   };
 
   const uploadImage = async (e) => {
+    setLoading(true);
+    changeWidth("20vw");
     if (typeof cropper !== "undefined") {
       cropper.getCroppedCanvas().toBlob(async (blob) => {
         // Convert the Blob to a File
@@ -119,11 +117,18 @@ export default function AvatarUpload({
               },
             },
           );
+          setLoading(false);
+          changeWidth("8vw");
+          window.location.reload();
           await updateSession(res.data.avatarUrl);
           setImage(null);
           setShowAvatar(true);
         } catch (error) {
+          setLoading(false);
+          changeWidth("8vw");
           console.log("Error: ", error);
+          if (error.response.status === 429)
+            alert("Too many requests, please try again in 1 minute.");
         }
       });
     }
@@ -138,27 +143,50 @@ export default function AvatarUpload({
     else setShowAvatar(true);
   }, []);
 
+  const changeWidth = (width) => {
+    const btn = document.getElementById("uploadBtn");
+    btn.style.transition = "width 0.4s";
+    btn.style.width = width;
+    setTimeout(() => {
+      btn.style.width;
+      btn.style.transition = "width none";
+    }, 500);
+  };
+
   return (
     <div>
-      <Modal isOpen={image !== null} className={cropper}>
-        <Cropper
-          src={image}
-          initialAspectRatio={1}
-          preview=".img-preview"
-          guides={true}
-          viewMode={1}
-          dragMode="move"
-          scalable={true}
-          cropBoxMovable={true}
-          cropBoxResizable={true}
-          onInitialized={(instance) => {
-            setCropper(instance);
-          }}
-        />
-        <button className="uploadBtn" onClick={uploadImage}>
-          Upload
-        </button>
-      </Modal>
+      {image && (
+        <div className="modal">
+          <Cropper
+            src={image}
+            style={{
+              width: "40vw",
+              height: "20rem",
+              borderRadius: "8px",
+              backgroundColor: "#eee",
+              padding: "1rem",
+              alignItems: "center",
+              display: "flex",
+              justifyContent: "center",
+            }}
+            initialAspectRatio={1}
+            preview=".img-preview"
+            guides={true}
+            viewMode={1}
+            dragMode="move"
+            scalable={true}
+            cropBoxMovable={true}
+            cropBoxResizable={true}
+            onInitialized={(instance) => {
+              setCropper(instance);
+            }}
+          />
+          <button className="uploadBtn" id="uploadBtn" onClick={uploadImage}>
+            {loading ? t("Loading...") : t("Upload")}
+          </button>
+        </div>
+      )}
+
       <input
         type="file"
         accept="image/*"
@@ -177,9 +205,9 @@ export default function AvatarUpload({
               className="avatar"
             />
           ) : (
-            <img
+            <Image
               priority="true"
-              src="./preview.svg"
+              src="/preview.svg"
               className="avatar"
               alt="avatar"
               width={110}

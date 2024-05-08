@@ -1,6 +1,5 @@
 "use client";
 import { signOut } from "next-auth/react";
-import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import "../../../app/i18n.js";
 import Avatar from "../avatar.jsx";
@@ -9,8 +8,7 @@ import "../../../app/src/userinfo.css";
 
 const UserInfo = ({ username, image, updateSession, auth }) => {
   const handleSignOut = () => {
-    signOut();
-    redirect("/");
+    signOut({ redirect: true, callbackUrl: "/login" });
   };
   // Custom Color hasn't finished
 
@@ -66,7 +64,7 @@ const UserInfo = ({ username, image, updateSession, auth }) => {
         updateSession={updateSession}
         auth={auth}
       />
-      <div className="card">
+      <div className="card" style={{ height: auth ? "26vh" : "auto" }}>
         <br />
         <div>
           <p className="card-text">
@@ -77,6 +75,8 @@ const UserInfo = ({ username, image, updateSession, auth }) => {
             {t("Back to Dashboard")}
           </a>
         </div>
+
+        {!auth && <br />}
 
         {auth && (
           <button onClick={handleSignOut} className="logout-btn">
