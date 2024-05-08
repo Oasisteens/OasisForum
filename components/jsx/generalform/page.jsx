@@ -914,17 +914,21 @@ function Generalform({ username }) {
                   <br />
                   <br />
                   {(post.postAnonymous !== "true" || admin == true) && (
-                    <div
+                    <Link
                       className="author"
+                      href={`/profile/${post.username}`}
                       style={{ display: "flex", alignItems: "center" }}
                     >
                       {loadedSrc[post._id] ? (
-                        <img src={loadedSrc[post._id]} className="avatar" />
+                        <img
+                          src={loadedSrc[post._id]}
+                          className="avatarGeneral"
+                        />
                       ) : (
                         <img
                           priority="true"
                           src="./preview.svg"
-                          className="avatar"
+                          className="avatarGeneral"
                           alt="avatar"
                           width={35}
                           height={35}
@@ -932,7 +936,7 @@ function Generalform({ username }) {
                       )}
                       {"\u00A0\u00A0"}
                       {post.username}
-                    </div>
+                    </Link>
                   )}
                   <br />
                   <p className="postT">

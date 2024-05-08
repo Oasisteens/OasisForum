@@ -539,7 +539,7 @@ div.likeContainer {
 .ptitle:hover {
   text-decoration: underline;
 }
-img.avatar {
+img.avatarGeneral {
   width: 35px;
   height: 35px;
   border-radius: 50%;
