@@ -77,13 +77,13 @@ button.deleteBtn1:active {
     background-color 0.3s,
     color 0.3s;
 }
-#backButton:hover {
+#backButton2:hover {
   background-color: #79bcf246;
   border-color: var(--main-color);
   color: black;
 }
 
-#backButton:active {
+#backButton2:active {
   animation: click-effect 0.3s ease-in-out;
 }
 
@@ -103,13 +103,13 @@ button.refreshBtn2 {
     background-color 0.3s,
     color 0.3s;
 }
-button.refreshBtn:hover {
+button.refreshBtn2:hover {
   background-color: #79bcf246;
   border-color: var(--main-color);
   color: black;
 }
 
-button.refreshBtn:active {
+button.refreshBtn2:active {
   animation: click-effect 0.3s ease-in-out;
 }
 

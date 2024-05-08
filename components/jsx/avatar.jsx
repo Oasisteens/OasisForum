@@ -6,16 +6,24 @@ import axios from "axios";
 import "../../app/src/avatar.css";
 import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
+import Image from "next/image";
 
-export default function AvatarUpload({ username, avatar, updateSession }) {
+export default function AvatarUpload({
+  username,
+  avatar,
+  updateSession,
+  auth,
+}) {
   const [image, setImage] = useState(null);
   const [cropper, setCropper] = useState();
   const [file, setFile] = useState(null);
   const [showAvatar, setShowAvatar] = useState(true);
+  const [loading, setLoading] = useState(false); //loading state for image upload
   const inputRef = useRef();
   const { t } = useTranslation();
 
   const tourInit = () => {
+    if (!auth) return;
     if (!localStorage.getItem("Atour")) {
       localStorage.setItem("Atour", "true");
     }
@@ -87,6 +95,8 @@ export default function AvatarUpload({ username, avatar, updateSession }) {
   };
 
   const uploadImage = async (e) => {
+    setLoading(true);
+    changeWidth("20vw");
     if (typeof cropper !== "undefined") {
       cropper.getCroppedCanvas().toBlob(async (blob) => {
         // Convert the Blob to a File
@@ -107,11 +117,18 @@ export default function AvatarUpload({ username, avatar, updateSession }) {
               },
             },
           );
+          setLoading(false);
+          changeWidth("8vw");
+          window.location.reload();
           await updateSession(res.data.avatarUrl);
           setImage(null);
           setShowAvatar(true);
         } catch (error) {
+          setLoading(false);
+          changeWidth("8vw");
           console.log("Error: ", error);
+          if (error.response.status === 429)
+            alert("Too many requests, please try again in 1 minute.");
         }
       });
     }
@@ -126,32 +143,50 @@ export default function AvatarUpload({ username, avatar, updateSession }) {
     else setShowAvatar(true);
   }, []);
 
+  const changeWidth = (width) => {
+    const btn = document.getElementById("uploadBtn");
+    btn.style.transition = "width 0.4s";
+    btn.style.width = width;
+    setTimeout(() => {
+      btn.style.width;
+      btn.style.transition = "width none";
+    }, 500);
+  };
+
   return (
     <div>
       {image && (
-        <>
-          <div className="bg" />
-          <div className="cropper">
-            <Cropper
-              src={image}
-              initialAspectRatio={1}
-              preview=".img-preview"
-              guides={true}
-              viewMode={1}
-              dragMode="move"
-              scalable={true}
-              cropBoxMovable={true}
-              cropBoxResizable={true}
-              onInitialized={(instance) => {
-                setCropper(instance);
-              }}
-            />
-            <button className="uploadBtn" onClick={uploadImage}>
-              Upload
-            </button>
-          </div>
-        </>
+        <div className="modal">
+          <Cropper
+            src={image}
+            style={{
+              width: "40vw",
+              height: "20rem",
+              borderRadius: "8px",
+              backgroundColor: "#eee",
+              padding: "1rem",
+              alignItems: "center",
+              display: "flex",
+              justifyContent: "center",
+            }}
+            initialAspectRatio={1}
+            preview=".img-preview"
+            guides={true}
+            viewMode={1}
+            dragMode="move"
+            scalable={true}
+            cropBoxMovable={true}
+            cropBoxResizable={true}
+            onInitialized={(instance) => {
+              setCropper(instance);
+            }}
+          />
+          <button className="uploadBtn" id="uploadBtn" onClick={uploadImage}>
+            {loading ? t("Loading...") : t("Upload")}
+          </button>
+        </div>
       )}
+
       <input
         type="file"
         accept="image/*"
@@ -159,26 +194,44 @@ export default function AvatarUpload({ username, avatar, updateSession }) {
         ref={inputRef}
         style={{ display: "none" }}
       />
-      <div onClick={onImageClick} className="avatarContainer">
-        <div className="uploadIcon">
-          <img src="./camera.svg" alt="upload" width={40} height={40} />
+      {auth ? (
+        <div onClick={onImageClick} className="avatarContainer">
+          <div className="uploadIcon">
+            <Image src="/camera.svg" alt="upload" width={40} height={40} />
+          </div>
+          {showAvatar ? (
+            <img
+              src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatar}`}
+              className="avatar"
+            />
+          ) : (
+            <Image
+              priority="true"
+              src="/preview.svg"
+              className="avatar"
+              alt="avatar"
+              width={110}
+              height={110}
+            />
+          )}
         </div>
-        {showAvatar ? (
-          <img
-            src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatar}`}
-            className="avatar"
-          />
-        ) : (
-          <img
-            priority="true"
-            src="./preview.svg"
-            className="avatar"
-            alt="avatar"
-            width={110}
-            height={110}
-          />
-        )}
-      </div>
+      ) : showAvatar ? (
+        <img
+          src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatar}`}
+          className="avatar"
+          style={{ cursor: "default" }}
+        />
+      ) : (
+        <img
+          priority="true"
+          src="./preview.svg"
+          className="avatar"
+          alt="avatar"
+          width={110}
+          height={110}
+          style={{ cursor: "default" }}
+        />
+      )}
     </div>
   );
 }

@@ -36,7 +36,7 @@ const Intro = () => {
       setIsLoading(false);
       const bg = document.getElementById("sectionIntro");
       bg.classList.add("temp");
-    }, 10000); // 10 seconds
+    }, 5000); // 10 seconds
 
     return () => clearTimeout(timeoutId); // Clear the timeout if the component unmounts
   }, []);
@@ -109,10 +109,10 @@ const Intro = () => {
           </select>
         </div>
       </nav>
-      <header>
+      <header className="introHeader">
         <h1 className="intro">{t("Welcome to the Oasis!")}</h1>
         <hr />
-        <p>
+        <p className="intro">
           {t(
             "Welcome to our forum website, the ultimate platform for engaging discussions and connecting with like-minded individuals. Whether you are seeking expert advice, sharing your experiences, or simply looking to expand your knowledge, our forum offers a vibrant community where you can ask questions, contribute insights, and immerse yourself in a diverse range of topics. Join us and be part of the conversation today!",
           )}
@@ -121,7 +121,7 @@ const Intro = () => {
       <section className="introBtm">
         <h1 className="intro">{t("About Us")}</h1>
         <hr />
-        <p>
+        <p className="intro">
           {t(
             "Our forum is a community-driven platform that encourages open discussions, fosters learning, and promotes respectful interactions. We believe in the power of diverse perspectives and the value of constructive contributions. Our guidelines are designed to ensure a safe and inclusive environment for everyone. Join us and be part of the conversation today!",
           )}
@@ -132,7 +132,7 @@ const Intro = () => {
               <People />
             </div>
             <h3>{t("Diverse Community")}</h3>
-            <p>
+            <p className="intro">
               {t(
                 "Celebrating diversity, embracing perspectives, valuing everyone's voice",
               )}
@@ -143,7 +143,7 @@ const Intro = () => {
               <Megaphone />
             </div>
             <h3>{t("Engaging Discussions")}</h3>
-            <p>
+            <p className="intro">
               {t(
                 "Topics span tech, arts, sports, current events; engage with like-minded members",
               )}
@@ -154,7 +154,7 @@ const Intro = () => {
               <Construct />
             </div>
             <h3>{t("Constructive Contributions")}</h3>
-            <p>
+            <p className="intro">
               {t(
                 "Contribute insight, share experiences, foster learning in constructive discussions",
               )}
@@ -165,7 +165,7 @@ const Intro = () => {
               <ShieldHalf />
             </div>
             <h3>{t("No Spam or Self-Promotion")}</h3>
-            <p>
+            <p className="intro">
               {t(
                 "Avoid spam, excessive self-promo; share responsibly in designated areas",
               )}
@@ -176,7 +176,7 @@ const Intro = () => {
               <LockClosed />
             </div>
             <h3>{t("Privacy and Confidentiality")}</h3>
-            <p>
+            <p className="intro">
               {t(
                 "Respect privacy, do not share personal or confidential content",
               )}
@@ -187,7 +187,7 @@ const Intro = () => {
               <AlertCircle />
             </div>
             <h3>{t("Reporting Issues")}</h3>
-            <p>
+            <p className="intro">
               {t(
                 "Report guideline violations or issues to moderators for a safe community",
               )}

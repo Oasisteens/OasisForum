@@ -134,7 +134,6 @@ i18n
           "Return to dashboard": "返回主页",
           Email: "邮件",
           "This page is currently under maintanance.": "此页面目前正在维护中。",
-
           "Forgot Password?": "忘记密码?",
           "Recover your account": "恢复您的账户",
           "through your email": "通过您的电子邮件",
@@ -170,6 +169,9 @@ i18n
           "Username does not match": "用户名不匹配",
           "Password updated. Please login with your new password.":
             "密码已更新。请使用新密码登录。",
+          "No Special Characters": "不允许特殊字符",
+          Upload: "上传",
+          "Loading...": "加载中...",
         },
       },
       es: {
@@ -309,6 +311,48 @@ i18n
           Email: "Correo electrónico",
           "This page is currently under maintanance.":
             "Esta página está actualmente en mantenimiento.",
+          "Forgot Password?": "¿Olvidaste tu contraseña?",
+          "Recover your account": "Recupera tu cuenta",
+          "through your email": "a través de tu correo electrónico",
+          "through your username": "a través de tu nombre de usuario",
+          "Search your email address":
+            "Busca tu dirección de correo electrónico",
+          "Please enter your email":
+            "Por favor, introduce tu correo electrónico",
+          "Email address": "Dirección de correo electrónico",
+          "Your email is not registered with us. Please try again or sign up.":
+            "Tu correo electrónico no está registrado con nosotros. Por favor, inténtalo de nuevo o regístrate.",
+          "A verification email has been sent to your email address: ":
+            "Se ha enviado un correo electrónico de verificación a tu dirección de correo electrónico:",
+          "LOADING...": "CARGANDO...",
+          "Please check your inbox (including the junk mails).":
+            "Por favor, revisa tu bandeja de entrada (incluyendo los correos no deseados).",
+          "Please click <I'm not a robot> before sending the form":
+            "Por favor, haz clic en <No soy un robot> antes de enviar el formulario",
+          "An error occurred. Please try again later.":
+            "Ocurrió un error. Por favor, inténtalo de nuevo más tarde.",
+          "Search your username": "Busca tu nombre de usuario",
+          "Please enter your username":
+            "Por favor, introduce tu nombre de usuario",
+          "User not found. Please try again or sign up.":
+            "Usuario no encontrado. Por favor, inténtalo de nuevo o regístrate.",
+          "The verification link will expire in 10 minutes.":
+            "El enlace de verificación caducará en 10 minutos.",
+          Hi: "Hola",
+          "!": "!",
+          "New Password": "Nueva contraseña",
+          "Confirm Password": "Confirmar contraseña",
+          "Reset Password": "Restablecer contraseña",
+          "Please enter your new password":
+            "Por favor, introduce tu nueva contraseña",
+          "Password cannot be empty": "La contraseña no puede estar vacía",
+          "Passwords do not match": "Las contraseñas no coinciden",
+          "Username does not match": "El nombre de usuario no coincide",
+          "Password updated. Please login with your new password.":
+            "Contraseña actualizada. Por favor, inicia sesión con tu nueva contraseña.",
+          "No Special Characters": "No se permiten caracteres especiales",
+          Upload: "Subir",
+          "Loading...": "Cargando...",
         },
       },
       fr: {
@@ -447,6 +491,46 @@ i18n
           Email: "Email",
           "This page is currently under maintanance.":
             "Cette page est actuellement en cours de maintenance.",
+          "Forgot Password?": "Mot de passe oublié?",
+          "Recover your account": "Récupérez votre compte",
+          "through your email": "par votre email",
+          "through your username": "par votre nom d'utilisateur",
+          "Search your email address": "Recherchez votre adresse e-mail",
+          "Please enter your email": "Veuillez entrer votre email",
+          "Email address": "Adresse e-mail",
+          "Your email is not registered with us. Please try again or sign up.":
+            "Votre email n'est pas enregistré chez nous. Veuillez réessayer ou vous inscrire.",
+          "A verification email has been sent to your email address: ":
+            "Un email de vérification a été envoyé à votre adresse email:",
+          "LOADING...": "CHARGEMENT...",
+          "Please check your inbox (including the junk mails).":
+            "Veuillez vérifier votre boîte de réception (y compris les courriers indésirables).",
+          "Please click <I'm not a robot> before sending the form":
+            "Veuillez cliquer sur <Je ne suis pas un robot> avant d'envoyer le formulaire",
+          "An error occurred. Please try again later.":
+            "Une erreur s'est produite. Veuillez réessayer plus tard.",
+          "Search your username": "Recherchez votre nom d'utilisateur",
+          "Please enter your username":
+            "Veuillez entrer votre nom d'utilisateur",
+          "User not found. Please try again or sign up.":
+            "Utilisateur non trouvé. Veuillez réessayer ou vous inscrire.",
+          "The verification link will expire in 10 minutes.":
+            "Le lien de vérification expirera dans 10 minutes.",
+          Hi: "Salut",
+          "!": "!",
+          "New Password": "Nouveau mot de passe",
+          "Confirm Password": "Confirmer le mot de passe",
+          "Reset Password": "Réinitialiser le mot de passe",
+          "Please enter your new password":
+            "Veuillez entrer votre nouveau mot de passe",
+          "Password cannot be empty": "Le mot de passe ne peut pas être vide",
+          "Passwords do not match": "Les mots de passe ne correspondent pas",
+          "Username does not match": "Le nom d'utilisateur ne correspond pas",
+          "Password updated. Please login with your new password.":
+            "Mot de passe mis à jour. Veuillez vous connecter avec votre nouveau mot de passe.",
+          "No Special Characters": "Pas de caractères spéciaux",
+          Upload: "Télécharger",
+          "Loading...": "Chargement...",
         },
       },
       ja: {
@@ -581,6 +665,45 @@ i18n
           Email: "メール",
           "This page is currently under maintanance.":
             "このページは現在メンテナンス中です。",
+          "Forgot Password?": "パスワードをお忘れですか？",
+          "Recover your account": "アカウントを回復する",
+          "through your email": "あなたのメールを通じて",
+          "through your username": "あなたのユーザー名を通じて",
+          "Search your email address": "あなたのメールアドレスを検索する",
+          "Please enter your email": "あなたのメールを入力してください",
+          "Email address": "メールアドレス",
+          "Your email is not registered with us. Please try again or sign up.":
+            "あなたのメールは私たちと登録されていません。もう一度試してみてください、またはサインアップしてください。",
+          "A verification email has been sent to your email address: ":
+            "確認メールがあなたのメールアドレスに送信されました：",
+          "LOADING...": "読み込み中...",
+          "Please check your inbox (including the junk mails).":
+            "あなたの受信トレイを確認してください（ジャンクメールを含む）。",
+          "Please click <I'm not a robot> before sending the form":
+            "フォームを送信する前に<I'm not a robot>をクリックしてください",
+          "An error occurred. Please try again later.":
+            "エラーが発生しました。後でもう一度お試しください。",
+          "Search your username": "あなたのユーザー名を検索する",
+          "Please enter your username": "あなたのユーザー名を入力してください",
+          "User not found. Please try again or sign up.":
+            "ユーザーが見つかりません。もう一度試してみてください、またはサインアップしてください。",
+          "The verification link will expire in 10 minutes.":
+            "確認リンクは10分後に期限切れになります。",
+          Hi: "こんにちは",
+          "!": "！",
+          "New Password": "新しいパスワード",
+          "Confirm Password": "パスワードを確認する",
+          "Reset Password": "パスワードをリセットする",
+          "Please enter your new password":
+            "新しいパスワードを入力してください",
+          "Password cannot be empty": "パスワードは空にできません",
+          "Passwords do not match": "パスワードが一致しません",
+          "Username does not match": "ユーザー名が一致しません",
+          "Password updated. Please login with your new password.":
+            "パスワードが更新されました。新しいパスワードでログインしてください。",
+          "No Special Characters": "特殊文字は使用できません",
+          Upload: "アップロード",
+          "Loading...": "読み込み中...",
         },
       },
     },

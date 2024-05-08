@@ -89,6 +89,8 @@ const LoginForm = () => {
                   required
                   onChange={(e) => setUsername(e.target.value)}
                   disabled={load}
+                  pattern="^[^\W_]+$"
+                  maxLength={20}
                 />
                 <label htmlFor="username">{t("Username")}:</label>
               </div>

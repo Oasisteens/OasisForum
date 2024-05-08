@@ -1,18 +1,14 @@
 "use client";
 import { signOut } from "next-auth/react";
-import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import "../../../app/i18n.js";
 import Avatar from "../avatar.jsx";
 import { useTranslation } from "react-i18next";
 import "../../../app/src/userinfo.css";
 
-const UserInfo = ({ username, image, updateSession }) => {
-  const [avatarShow, setAvatarShow] = useState(false);
-
+const UserInfo = ({ username, image, updateSession, auth }) => {
   const handleSignOut = () => {
-    signOut();
-    redirect("/");
+    signOut({ redirect: true, callbackUrl: "/login" });
   };
   // Custom Color hasn't finished
 
@@ -61,27 +57,32 @@ const UserInfo = ({ username, image, updateSession }) => {
   }, []); //localStorage get color setting
 
   return (
-    <main className="background">
+    <main className="background" id="userBg">
       <Avatar
         username={username}
         avatar={image}
         updateSession={updateSession}
+        auth={auth}
       />
-      <div className="card">
+      <div className="card" style={{ height: auth ? "26vh" : "auto" }}>
         <br />
         <div>
           <p className="card-text">
             {t("Username: ")}
             <span className="blue-text">{username}</span>
           </p>
-          <a href="dashboard" className="redi">
+          <a href="/dashboard" className="redi">
             {t("Back to Dashboard")}
           </a>
         </div>
 
-        <button onClick={handleSignOut} className="logout-btn">
-          {t("Log Out")}
-        </button>
+        {!auth && <br />}
+
+        {auth && (
+          <button onClick={handleSignOut} className="logout-btn">
+            {t("Log Out")}
+          </button>
+        )}
       </div>
     </main>
   );

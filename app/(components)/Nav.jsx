@@ -6,7 +6,7 @@ import "../src/nav.css";
 import "../i18n";
 import { useTranslation } from "react-i18next";
 
-const Nav = () => {
+const Nav = ({ username }) => {
   const [activeIcon, setActiveIcon] = useState(null);
   const [lift, setLift] = useState(false);
   const { t } = useTranslation();
@@ -15,7 +15,7 @@ const Nav = () => {
     <nav className="dash">
       <div className="navContainer">
         <div className="navDblock">
-          <Link href="/profile" className="iconProfile icon">
+          <Link href={`/profile/${username}`} className="iconProfile icon">
             <Image
               src="/person-circle-outline.svg"
               width="60"

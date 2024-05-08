@@ -18,6 +18,7 @@ import Link from "next/link";
 import { truncate } from "lodash";
 import { useEffect } from "react";
 import GetCommentNum from "../getCommentNum.jsx";
+import path from "path";
 
 function Generalform({ username }) {
   const [loading, setLoading] = useState(true);
@@ -45,16 +46,14 @@ function Generalform({ username }) {
   const [commentOpen, setCommentOpen] = useState([].map(() => false));
   const [titleWords, setTitleWords] = useState(0);
   const [contentWords, setContentWords] = useState(0);
-  const [titlerows, setTitleRows] = useState(1);
-  const [contentrows, setContentRows] = useState(1);
   const [comments, setComments] = useState([]);
   const [isExpanded, setIsExpanded] = useState([]);
-  const [showAvatar, setShowAvatar] = useState([]);
   const [fileUrls, setFileUrls] = useState([]);
   // const [commentNumber, setCommentNumber] = useState([]);
   // The commentDisplay function is for showing the comment post button and the picturen upload button. If the content is focused, or in other words, the user is writing or editing the comment, it shows, else, we need to make space for showing other comments.
   const [addCommentDisplay, setAddCommentDisplay] = useState([]);
   const [admin, setAdmin] = useState(false);
+  const [loadedSrc, setLoadedSrc] = useState(null);
   const { t } = useTranslation();
   const { i18n } = useTranslation();
 
@@ -541,30 +540,41 @@ function Generalform({ username }) {
     }
   };
 
+  const getAvatar = async (username) => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_SOURCE_URL}/getAvatar/${username}`,
+      );
+      return res.data.avatarUrl;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const loadImages = async () => {
       try {
-        const loadResults = await Promise.all(
-          posts.map((post) =>
-            loadImage(
-              `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/avatar-${post.username}.jpg`,
-            ).then((result) => {
-              if (result === "Image loaded successfully") {
-                setShowAvatar((prevShowAvatar) => [
-                  ...prevShowAvatar,
-                  post._id,
-                ]);
-              }
-            }),
-          ),
+        const newLoadedSrc = {};
+        await Promise.all(
+          posts.map(async (post) => {
+            const avatarUrlProp = await getAvatar(post.username);
+            const avatarUrl = avatarUrlProp
+              ? `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatarUrlProp}`
+              : null;
+            if (avatarUrl && avatarUrl !== null) {
+              newLoadedSrc[post._id] = avatarUrl;
+            }
+          }),
         );
+
+        setLoadedSrc(newLoadedSrc);
       } catch (error) {
         console.log("One or more images failed to load", error);
       }
     };
 
     loadImages();
-  }, [posts]); //load images
+  }, [posts]);
   return (
     <section className="posts">
       <title>{t("General")}</title>
@@ -908,11 +918,8 @@ function Generalform({ username }) {
                       className="author"
                       style={{ display: "flex", alignItems: "center" }}
                     >
-                      {showAvatar.includes(post._id) && post.username ? (
-                        <img
-                          src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/avatar-${post.username}.jpg`}
-                          className="avatar"
-                        />
+                      {loadedSrc[post._id] ? (
+                        <img src={loadedSrc[post._id]} className="avatar" />
                       ) : (
                         <img
                           priority="true"
