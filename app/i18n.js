@@ -172,6 +172,7 @@ i18n
           "No Special Characters": "不允许特殊字符",
           Upload: "上传",
           "Loading...": "加载中...",
+          Users: "用户",
         },
       },
       es: {
