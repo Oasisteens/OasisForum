@@ -18,6 +18,7 @@ import Link from "next/link";
 import { truncate } from "lodash";
 import { useEffect } from "react";
 import GetCommentNum from "../getCommentNum.jsx";
+import TextareaAutosize from "react-textarea-autosize";
 
 function Generalform({ username }) {
   const [loading, setLoading] = useState(true);
@@ -159,6 +160,32 @@ function Generalform({ username }) {
     } catch (error) {
       needLoading && setLoading(false);
       type === "bottom" && setBottomLoad(false);
+      setIsFetching(false);
+      setError(true);
+      console.log("Error loading posts", error);
+    }
+  };
+
+  const initPosts = async () => {
+    if (isFetching) return;
+    try {
+      setIsFetching(true);
+      setLoading(true);
+      const res = await axios.get("/api/general", {
+        params: {
+          cursor: null,
+          limit: 9,
+        },
+      });
+      if (res.status !== 200) {
+        throw new Error("Failed to fetch posts");
+      }
+      setNoMore(res.data.posts.length === 0);
+      setPosts(res.data.posts);
+      setIsFetching(false);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
       setIsFetching(false);
       setError(true);
       console.log("Error loading posts", error);
@@ -423,7 +450,7 @@ function Generalform({ username }) {
         },
       );
       if (res.status === 201) {
-        await getPosts(true);
+        await initPosts();
         setLoad(false);
         handleCloseFormClick();
         setMsg("Post created successfully");
@@ -487,14 +514,14 @@ function Generalform({ username }) {
           id: e.target.id.value,
         },
       });
-      await getPosts(true);
+      await initPosts();
     } catch (error) {
       console.log(error);
     }
   }; //delete post
 
   const handleRefresh = async () => {
-    await getPosts(true);
+    await initPosts();
     await fetchLikes();
     setCommentOpen([].map(() => false));
   }; //refresh page
@@ -686,24 +713,19 @@ function Generalform({ username }) {
                   width: "60%",
                 }}
               >
-                <textarea
+                <TextareaAutosize
                   required
                   id="title"
                   name="title"
-                  rows={1}
                   placeholder={t("Enter title (20 words max)")}
                   onInput={(e) => {
                     const value = e.target.value;
                     const wordCount = count(value);
                     setTitleWords(wordCount);
                     setTitle(value); // Update title state
-                    e.target.style.height = "40px";
-                    e.target.style.height = e.target.scrollHeight + "px";
                   }}
                   onFocus={(e) => {
                     e.target.style.color = "black";
-                    e.target.style.height = "40px";
-                    e.target.style.height = e.target.scrollHeight + "px";
                   }}
                   onBlur={(e) => {
                     e.target.style.color = "gray";
@@ -725,24 +747,19 @@ function Generalform({ username }) {
               </div>
               <br />
               <br />
-              <textarea
+              <TextareaAutosize
                 required
                 id="content"
                 name="content"
-                rows={1}
                 placeholder={t("Write sth...")}
                 onInput={(e) => {
                   const value = e.target.value;
                   const wordCount = count(value);
                   setContentWords(wordCount);
                   setContent(value); // Update title state
-                  e.target.style.height = "40px";
-                  e.target.style.height = e.target.scrollHeight + "px";
                 }}
                 onFocus={(e) => {
                   e.target.style.color = "black";
-                  e.target.style.height = "40px";
-                  e.target.style.height = e.target.scrollHeight + "px";
                 }}
                 onBlur={(e) => {
                   e.target.style.color = "gray";
@@ -1363,7 +1380,11 @@ M125.025,99.15H25.02V85.51l22.73-22.724l11.363,11.36l36.365-36.361l29.547,29.547
                 </React.Fragment>
               </div>
             )}
-            {noMore && <div>This is the bottom.</div>}
+            {noMore && (
+              <div style={{ marginLeft: "3rem", marginTop: "2rem" }}>
+                {t("No more posts~")}
+              </div>
+            )}
             {/* posts mapping */}
           </div>
         </div>
