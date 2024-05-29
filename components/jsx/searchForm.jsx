@@ -3,22 +3,27 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import debounce from "../js/debounce.js";
 import search from "../../components/js/searchPost.js";
+import searchUser from "../../components/js/searchUser.js";
 import "../../app/i18n.js";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import "../../app/src/search.css";
 import Image from "next/image";
+import { useRef } from "react";
 
 const SearchForm = () => {
   const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]); // eslint-disable-line no-unused-vars
   const [searchResults, setSearchResults] = useState([]);
   const [color, setColor] = useState("blue");
-  const [filterNum, setFilterNum] = useState(0);
-
+  const [filterNum, setFilterNum] = useState(1);
+  const [curSearch, setCurSearch] = useState("posts");
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const language = i18n.language.substring(0, 2); // get language from i18n
   // Pull info(language) from localStorage
+
+  const searchRef = useRef();
 
   useEffect(() => {
     if (!localStorage.getItem("language")) {
@@ -72,25 +77,53 @@ const SearchForm = () => {
   };
 
   const getPosts = async () => {
-    const res = await axios.get("/api/general");
-    setPosts(res.data.posts);
+    try {
+      const res = await axios.get("/api/general");
+      setPosts(res.data.posts);
+    } catch (error) {
+      console.error("An error occurred while fetching posts:", error);
+      // Handle the error as needed
+    }
   }; //fetchPosts
+
+  const getUsers = async () => {
+    try {
+      const res = await axios.get("/api/users");
+      setUsers(res.data.users);
+    } catch (error) {
+      console.error("An error occurred while fetching users:", error);
+      // Handle the error as needed
+    }
+  };
 
   useEffect(() => {
     getPosts();
+    getUsers();
   }, []); //fetch posts
+
+  const searchAction = (pattern) => {
+    switch (curSearch) {
+      case "posts":
+        setSearchResults(search(posts, pattern));
+        break;
+      case "users":
+        setSearchResults(searchUser(users, pattern));
+        break;
+      default:
+        setSearchResults(search(posts, pattern));
+    }
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
     const pattern = e.target[0].value;
-    setSearchResults(search(posts, pattern));
+    searchAction(pattern);
   }; //Directly search by pressing the button
 
   const dySearchProp = (e) => {
     e.preventDefault();
     const pattern = e.target.value;
-    console.log(pattern);
-    setSearchResults(search(posts, pattern));
+    searchAction(pattern);
   }; //Prop for dynamic search
 
   const dySearch = debounce(dySearchProp, 400); //Dynamic search
@@ -131,6 +164,7 @@ const SearchForm = () => {
             placeholder={t("Search")}
             id="searchInput"
             onChange={dySearch}
+            ref={searchRef}
           />
           <button type="submit" id="submitBtn">
             <Image
@@ -184,6 +218,52 @@ const SearchForm = () => {
           <h2 className="title">
             {t("Filters")} ({filterNum && filterNum})
           </h2>
+          <div>
+            <div
+              style={{
+                display: "inline-flex",
+                flexDirection: "row",
+                marginLeft: "0",
+                alignItems: "center",
+                gap: "0.5rem",
+              }}
+            >
+              <label>{t("Posts")}</label>
+              <input
+                type="radio"
+                name="searchType"
+                value="posts"
+                onChange={(event) => {
+                  setCurSearch(event.target.value);
+                  searchRef.current.value = "";
+                  setSearchResults([]);
+                }}
+                checked={curSearch === "posts"}
+              />
+            </div>
+            <div
+              style={{
+                display: "inline-flex",
+                flexDirection: "row",
+                marginLeft: "0",
+                alignItems: "center",
+                gap: "0.5rem",
+              }}
+            >
+              <label>{t("Users")}</label>
+              <input
+                type="radio"
+                name="searchType"
+                value="users"
+                onChange={(event) => {
+                  setCurSearch(event.target.value);
+                  searchRef.current.value = "";
+                  setSearchResults([]);
+                }}
+                checked={curSearch === "users"}
+              />
+            </div>
+          </div>
         </div>
         <div className="searchResults">
           {searchResults.length === 0 && (
@@ -196,20 +276,36 @@ const SearchForm = () => {
                 {t(" Results")}
               </h2>
               <div className="searchGrid">
-                {searchResults.map((t) => (
-                  <Link
-                    href={`/posts/${t.item._id}`}
-                    target="_blank"
-                    className="boxBig"
-                    style={{ display: "flex" }}
-                  >
-                    <div key={t.item._id} className="indPost">
-                      <h3 className="indTitle">{t.item.title}</h3>
-                      <p>{t.item.username}</p>
-                      <br />
-                    </div>
-                  </Link>
-                ))}
+                {curSearch === "posts" &&
+                  searchResults.map((t) => (
+                    <Link
+                      href={`/posts/${t.item._id}`}
+                      target="_blank"
+                      className="boxBig"
+                      style={{ display: "flex" }}
+                    >
+                      <div key={t.item._id} className="indPost">
+                        <h3 className="indTitle">{t.item.title}</h3>
+                        <p>{t.item.username}</p>
+                        <br />
+                      </div>
+                    </Link>
+                  ))}
+                {curSearch === "users" &&
+                  searchResults.map((t) => (
+                    <Link
+                      href={`/profile/${t.item.username}`}
+                      target="_blank"
+                      className="boxBig"
+                      style={{ display: "flex" }}
+                    >
+                      <div key={t.item.username} className="indPost">
+                        <h3 className="indTitle">{t.item.username}</h3>
+                        <p>{t.item.email}</p>
+                        <br />
+                      </div>
+                    </Link>
+                  ))}
               </div>
             </div>
           )}

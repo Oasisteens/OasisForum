@@ -6,10 +6,25 @@ import Comment from "../../../models/comment";
 import Likestatus from "../../../models/likestatus";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req) {
   await DBconnect();
-  const posts = (await Post.find({ group: "general" })).reverse();
-  return NextResponse.json({ posts }, { status: 200 });
+
+  // Get the cursor from the request query parameters
+  const cursor = req.nextUrl.searchParams.get("cursor");
+  const limit = parseInt(req.nextUrl.searchParams.get("limit")) || 9;
+
+  let query = { group: "general" };
+
+  // If a cursor is provided, modify the query to fetch posts with _id less than the cursor
+  if (cursor) {
+    query._id = { $lt: cursor };
+  }
+
+  const posts = await Post.find(query)
+    .sort({ _id: -1 }) // Sort by _id in descending order to get the latest posts first
+    .limit(limit);
+
+  return NextResponse.json({ posts: posts }, { status: 200 });
 }
 
 export async function DELETE(req) {

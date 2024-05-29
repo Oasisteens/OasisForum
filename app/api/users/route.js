@@ -42,3 +42,21 @@ export async function POST(req) {
     return response;
   }
 }
+
+export async function GET(req) {
+  try {
+    await DBconnect();
+    const users = await User.find(
+      {},
+      { password: 0, originalPassword: 0, admin: 0 },
+    );
+    return NextResponse.json({ users: users }, { status: 200 });
+  } catch (error) {
+    console.error("Error getting users:", error);
+    const response = NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 },
+    );
+    return response;
+  }
+}

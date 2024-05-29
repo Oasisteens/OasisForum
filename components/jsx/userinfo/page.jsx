@@ -2,11 +2,14 @@
 import { signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import "../../../app/i18n.js";
+import { useRouter } from "next/navigation";
 import Avatar from "../avatar.jsx";
 import { useTranslation } from "react-i18next";
 import "../../../app/src/userinfo.css";
 
 const UserInfo = ({ username, image, updateSession, auth }) => {
+  const router = useRouter();
+
   const handleSignOut = () => {
     signOut({ redirect: true, callbackUrl: "/login" });
   };
@@ -71,8 +74,8 @@ const UserInfo = ({ username, image, updateSession, auth }) => {
             {t("Username: ")}
             <span className="blue-text">{username}</span>
           </p>
-          <a href="/dashboard" className="redi">
-            {t("Back to Dashboard")}
+          <a onClick={() => router.back()} className="redi">
+            {t("Back")}
           </a>
         </div>
 
