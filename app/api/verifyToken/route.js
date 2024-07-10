@@ -7,10 +7,7 @@ export async function GET(req) {
   try {
     await DBconnect();
     const resetToken = req.nextUrl.searchParams.get("resetToken");
-    const user = await Token.findOne(
-      { resetToken: resetToken },
-      { _id: 0, username: 1 },
-    );
+    const user = await Token.findOne({ resetToken }, { _id: 0, username: 1 });
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }

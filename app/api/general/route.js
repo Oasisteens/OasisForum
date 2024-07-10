@@ -13,7 +13,7 @@ export async function GET(req) {
   const cursor = req.nextUrl.searchParams.get("cursor");
   const limit = parseInt(req.nextUrl.searchParams.get("limit")) || 9;
 
-  let query = { group: "general" };
+  const query = { group: "general" };
 
   // If a cursor is provided, modify the query to fetch posts with _id less than the cursor
   if (cursor) {
@@ -24,7 +24,7 @@ export async function GET(req) {
     .sort({ _id: -1 }) // Sort by _id in descending order to get the latest posts first
     .limit(limit);
 
-  return NextResponse.json({ posts: posts }, { status: 200 });
+  return NextResponse.json({ posts }, { status: 200 });
 }
 
 export async function DELETE(req) {

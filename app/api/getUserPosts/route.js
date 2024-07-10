@@ -7,9 +7,9 @@ import Like from "../../../models/like";
 export async function POST(req, res) {
   try {
     const { username } = await req.json();
-    var likes = [];
+    const likes = [];
     await DBconnect();
-    const posts = await Post.find({ username: username });
+    const posts = await Post.find({ username });
     await Promise.all(
       posts.map(async (post) => {
         const like = await Like.findOne({ postId: post._id });

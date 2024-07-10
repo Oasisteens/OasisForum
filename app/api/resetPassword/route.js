@@ -10,7 +10,7 @@ export async function PATCH(req, res) {
     const { username, password } = await req.json();
     const hashedPassword = await bcrypt.hash(password, 10);
     await User.findOneAndUpdate(
-      { username: username },
+      { username },
       { originalPassword: password, password: hashedPassword },
     );
     return NextResponse.json({ message: "Password updated" }, { status: 200 });

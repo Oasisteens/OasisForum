@@ -14,8 +14,9 @@ export async function GET(req) {
     Like.findOne({ postId: id }),
     Likestatus.findOne({ postId: id }),
   ]);
-  if (!post)
+  if (!post) {
     return NextResponse.json({ message: "Post not found" }, { status: 404 });
+  }
   return NextResponse.json({ post, like, likestatus }, { status: 200 });
 }
 

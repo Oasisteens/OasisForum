@@ -1,4 +1,5 @@
 import "typeface-raleway";
+import React from "react";
 import "./globals.css";
 import { AuthProvider } from "./Providers";
 import "shepherd.js/dist/css/shepherd.css";
