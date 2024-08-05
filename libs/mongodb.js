@@ -13,13 +13,3 @@ export default async function DBconnect() {
     console.error("Error connecting to MongoDB:", error);
   }
 }
-
-// Disconnect from MongoDB
-const DBclose = async () => {
-  try {
-    await mongoose.disconnect();
-    console.log("Disconnected from MongoDB");
-  } catch (error) {
-    console.error("Error disconnecting from MongoDB:", error);
-  }
-};

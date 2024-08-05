@@ -686,43 +686,78 @@ function Generalform({ username }) {
           {t("Refresh")}
         </button>{" "}
         {/* refresh button */}
-        <button className="adp" id="GaddPostBtn" onClick={handleAddPostClick}>
-          <span>{t("Write a post")}</span>
-        </button>{" "}
-        {/* add post button */}
-        {!inputBoxHidden && (
-          <div id="inputBoxGeneral">
-            <form
-              onSubmit={(e) => {
-                handleSubmit(e);
-              }}
-              id="postForm"
-              encType="multipart/form-data"
-              onDragEnter={(e) => e.preventDefault()}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={(e) => {
-                e.preventDefault();
-                setFiles(e.dataTransfer.files);
-              }}
-            >
-              <div
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  flexDirection: "row",
-                  width: "60%",
+        <div className="flex flex-col justify-items-start w-[36vw] gap-5 relative ml-[45vw] t-[10rem]">
+          <button className="adp" id="GaddPostBtn" onClick={handleAddPostClick}>
+            <span>{t("Write a post")}</span>
+          </button>{" "}
+          {/* add post button */}
+          {!inputBoxHidden && (
+            <div id="inputBoxGeneral">
+              <form
+                onSubmit={(e) => {
+                  handleSubmit(e);
+                }}
+                id="postForm"
+                encType="multipart/form-data"
+                onDragEnter={(e) => e.preventDefault()}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  setFiles(e.dataTransfer.files);
                 }}
               >
+                <div
+                  style={{
+                    position: "relative",
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "60%",
+                  }}
+                >
+                  <TextareaAutosize
+                    required
+                    id="title"
+                    name="title"
+                    placeholder={t("Enter title (20 words max)")}
+                    onInput={(e) => {
+                      const value = e.target.value;
+                      const wordCount = count(value);
+                      setTitleWords(wordCount);
+                      setTitle(value); // Update title state
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.color = "black";
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.color = "gray";
+                    }}
+                    value={title}
+                  />
+                  <span
+                    style={{
+                      position: "absolute",
+                      fontSize: "0.85rem",
+                      right: "0.2vw",
+                      bottom: "-0.1rem",
+                      margin: 0,
+                      padding: 0,
+                    }}
+                  >
+                    {titleWords}
+                  </span>
+                </div>
+                <br />
+                <br />
                 <TextareaAutosize
                   required
-                  id="title"
-                  name="title"
-                  placeholder={t("Enter title (20 words max)")}
+                  id="content"
+                  name="content"
+                  placeholder={t("Write sth...")}
                   onInput={(e) => {
                     const value = e.target.value;
                     const wordCount = count(value);
-                    setTitleWords(wordCount);
-                    setTitle(value); // Update title state
+                    setContentWords(wordCount);
+                    setContent(value); // Update title state
                   }}
                   onFocus={(e) => {
                     e.target.style.color = "black";
@@ -730,143 +765,112 @@ function Generalform({ username }) {
                   onBlur={(e) => {
                     e.target.style.color = "gray";
                   }}
-                  value={title}
+                  value={content}
                 />
-                <span
-                  style={{
-                    position: "absolute",
-                    fontSize: "0.85rem",
-                    right: "0.2vw",
-                    bottom: "-0.1rem",
-                    margin: 0,
-                    padding: 0,
-                  }}
-                >
-                  {titleWords}
-                </span>
-              </div>
-              <br />
-              <br />
-              <TextareaAutosize
-                required
-                id="content"
-                name="content"
-                placeholder={t("Write sth...")}
-                onInput={(e) => {
-                  const value = e.target.value;
-                  const wordCount = count(value);
-                  setContentWords(wordCount);
-                  setContent(value); // Update title state
-                }}
-                onFocus={(e) => {
-                  e.target.style.color = "black";
-                }}
-                onBlur={(e) => {
-                  e.target.style.color = "gray";
-                }}
-                value={content}
-              />
-              <div style={{ position: "relative" }}>
-                <span
-                  style={{
-                    position: "absolute",
-                    fontSize: "0.85rem",
-                    right: "0.5vw",
-                    bottom: "0.5vh",
-                  }}
-                >
-                  {contentWords}
-                </span>
-              </div>
-              <br />
-              <br />
-              <label htmlFor="input-files" className="picUpload">
-                {files.length > 1 &&
-                  `${files.length}${t(" files has been uploaded")}`}
-                {files.length === 1 &&
-                  `${files.length}${t(" file has been uploaded")}`}
-                {!(files.length > 1) &&
-                  !(files.length === 1) &&
-                  t("Pictures or Videos (Drag and drop or Click)")}
-                <input
-                  type="file"
-                  id="input-files"
-                  className="form-control-file border"
-                  onChange={handleFileChange}
-                  multiple
-                />
-              </label>
-              <div className="formBottom">
-                <button
-                  type="submit"
-                  className="postBtn"
-                  disabled={load}
-                  onClick={() => {
-                    setContent(document.getElementById("content").textContent),
-                      setTitle(document.getElementById("title").textContent);
-                  }}
-                >
-                  {!load && <p className="ldd">{t("Post")}</p>}
-                  {load && (
-                    <div className="load">
-                      <TailSpin
-                        type="ThreeDots"
-                        color="white"
-                        height={20}
-                        width={40}
-                        style={{ marginRight: "5px" }}
+                <div style={{ position: "relative" }}>
+                  <span
+                    style={{
+                      position: "absolute",
+                      fontSize: "0.85rem",
+                      right: "0.5vw",
+                      bottom: "0.5vh",
+                    }}
+                  >
+                    {contentWords}
+                  </span>
+                </div>
+                <br />
+                <br />
+                <label htmlFor="input-files" className="picUpload">
+                  {files.length > 1 &&
+                    `${files.length}${t(" files has been uploaded")}`}
+                  {files.length === 1 &&
+                    `${files.length}${t(" file has been uploaded")}`}
+                  {!(files.length > 1) &&
+                    !(files.length === 1) &&
+                    t("Pictures or Videos (Drag and drop or Click)")}
+                  <input
+                    type="file"
+                    id="input-files"
+                    className="form-control-file border"
+                    onChange={handleFileChange}
+                    multiple
+                  />
+                </label>
+                <div className="formBottom">
+                  <button
+                    type="submit"
+                    className="postBtn"
+                    disabled={load}
+                    onClick={() => {
+                      setContent(
+                        document.getElementById("content").textContent,
+                      ),
+                        setTitle(document.getElementById("title").textContent);
+                    }}
+                  >
+                    {!load && <p className="ldd">{t("Post")}</p>}
+                    {load && (
+                      <div className="load">
+                        <TailSpin
+                          type="ThreeDots"
+                          color="white"
+                          height={20}
+                          width={40}
+                          style={{ marginRight: "5px" }}
+                        />
+                        <span className="ld">Loading...</span>
+                      </div>
+                    )}
+                  </button>
+                  <button className="closeForm" onClick={handleCloseFormClick}>
+                    <p>{t("Cancel")}</p>
+                  </button>
+                  <div className="switchForm">
+                    <label className="switch">
+                      <input
+                        type="checkbox"
+                        name="postAnonymous"
+                        checked={postAnonymous}
+                        onChange={() => setPostAnonymous(!postAnonymous)}
                       />
-                      <span className="ld">Loading...</span>
-                    </div>
-                  )}
-                </button>
-                <button className="closeForm" onClick={handleCloseFormClick}>
-                  <p>{t("Cancel")}</p>
-                </button>
-                <div className="switchForm">
-                  <label className="switch">
-                    <input
-                      type="checkbox"
-                      name="postAnonymous"
-                      checked={postAnonymous}
-                      onChange={() => setPostAnonymous(!postAnonymous)}
-                    />
-                    <span className="slider round">
-                      <h6 className="posta">
-                        {t("Anon")}
-                        <p />
-                      </h6>
-                    </span>
-                  </label>
+                      <span className="slider round">
+                        <h6 className="posta">
+                          {t("Anon")}
+                          <p />
+                        </h6>
+                      </span>
+                    </label>
+                  </div>
+                  <div className="preview-container">
+                    {fileUrls &&
+                      fileUrls.map((url, index) => {
+                        const file = files[index];
+                        const isVideo = file && file.type.startsWith("video");
+                        return (
+                          <div key={index}>
+                            {isVideo ? (
+                              <video src={url} width="140" controls />
+                            ) : (
+                              <img src={url} alt="Preview" width="140" />
+                            )}
+                            <button onClick={() => handleRemoveFile(index)}>
+                              Remove
+                            </button>
+                          </div>
+                        );
+                      })}
+                  </div>
                 </div>
-                <div className="preview-container">
-                  {fileUrls &&
-                    fileUrls.map((url, index) => {
-                      const file = files[index];
-                      const isVideo = file && file.type.startsWith("video");
-                      return (
-                        <div key={index}>
-                          {isVideo ? (
-                            <video src={url} width="140" controls />
-                          ) : (
-                            <img src={url} alt="Preview" width="140" />
-                          )}
-                          <button onClick={() => handleRemoveFile(index)}>
-                            Remove
-                          </button>
-                        </div>
-                      );
-                    })}
+              </form>
+              <div className="row">
+                <div className="col-sm-12">
+                  <div className="preview-images" />
                 </div>
-              </div>
-            </form>
-            <div className="row">
-              <div className="col-sm-12">
-                <div className="preview-images" />
               </div>
             </div>
-          </div>
-        )}{" "}
+          )}{" "}
+        </div>
         {/* input box for posting */}
         <div className="bg">
           <div id="posts" className="word-box">

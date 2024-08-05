@@ -56,10 +56,7 @@ a.titleg {
 }
 
 #inputBoxGeneral {
-  position: absolute;
-  top: 14rem;
-  left: 50vw;
-  width: 36vw;
+  position: relative;
   background-color: white;
   padding: 3rem;
   border-radius: 20px;
@@ -87,6 +84,7 @@ a.titleg {
 
 .adp {
   display: flex;
+  width: 10rem;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
   border: #e5e7eb solid 1px;
   position: relative;
@@ -94,8 +92,6 @@ a.titleg {
   justify-content: center;
   background-color: white;
   border: none;
-  left: 50vw;
-  top: 4rem;
   border-radius: 12px;
   padding: 0.7rem;
   color: var(--black-color);
@@ -566,4 +562,16 @@ div.postBody::-webkit-scrollbar-thumb {
 /* This is the handle on hover */
 div.postBody::-webkit-scrollbar-thumb:hover {
   background-color: var(--sec-color);
+}
+
+@media screen and (max-width: 1300px) {
+  div.likeContainer {
+    left: 25vw;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  div.likeContainer {
+    left: 22vw;
+  }
 }
