@@ -1,32 +1,32 @@
-const mongoose = require("mongoose");
-const moment = require("moment-timezone");
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const moment = require('moment-timezone')
+const Schema = mongoose.Schema
 
 const loveformSchema = new Schema({
   username: {
-    type: String,
+    type: String
   },
   nickname: {
-    type: String,
+    type: String
   },
   toWho: {
-    type: String,
+    type: String
   },
   content: {
-    type: String,
+    type: String
   },
   time: {
     type: String,
     default: () =>
       moment()
-        .tz("Asia/Shanghai")
-        .format("YYYY-MM-DD HH:mm:ss")
-        .replace("T", " ")
-        .replace("Z", ""),
-    immutable: true,
-  },
-});
+        .tz('Asia/Shanghai')
+        .format('YYYY-MM-DD HH:mm:ss')
+        .replace('T', ' ')
+        .replace('Z', ''),
+    immutable: true
+  }
+})
 
 const Loveform =
-  mongoose.models.Loveform || mongoose.model("Loveform", loveformSchema);
-module.exports = Loveform;
+  mongoose.models.Loveform || mongoose.model('Loveform', loveformSchema)
+module.exports = Loveform

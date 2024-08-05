@@ -1,33 +1,33 @@
-import mongoose from "mongoose";
-import moment from "moment-timezone";
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose'
+import moment from 'moment-timezone'
+const Schema = mongoose.Schema
 
 const likestatusSchema = new Schema({
   postId: {
-    type: String,
+    type: String
   },
   username: {
-    type: String,
+    type: String
   },
   status: {
     type: Boolean,
-    default: false,
+    default: false
   },
   category: {
-    type: String,
+    type: String
   },
   postingtime: {
     type: String,
     default: () =>
       moment()
-        .tz("Asia/Shanghai")
-        .format("YYYY-MM-DD HH:mm:ss")
-        .replace("T", " ")
-        .replace("Z", ""),
-    immutable: true,
-  },
-});
+        .tz('Asia/Shanghai')
+        .format('YYYY-MM-DD HH:mm:ss')
+        .replace('T', ' ')
+        .replace('Z', ''),
+    immutable: true
+  }
+})
 
 const Likestatus =
-  mongoose.models.Likestatus || mongoose.model("Likestatus", likestatusSchema);
-module.exports = Likestatus;
+  mongoose.models.Likestatus || mongoose.model('Likestatus', likestatusSchema)
+module.exports = Likestatus
