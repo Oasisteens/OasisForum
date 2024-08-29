@@ -1,5 +1,8 @@
 "use client";
-import "../../../app/src/channels.css";
+import styles from "../../../app/src/channels.module.css";
+import "../../../app/src/channels.color.css";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import React from "react";
 import axios from "axios";
 import "../../../app/i18n";
@@ -60,6 +63,11 @@ function Generalform({ username }) {
   const [noMore, setNoMore] = useState(false);
   const { t } = useTranslation();
   const { i18n } = useTranslation();
+
+  useEffect(() => {
+    document.title = "Login";
+    import("bootstrap");
+  }, []);
 
   useEffect(() => {
     const fetchAdmin = async () => {
@@ -669,35 +677,57 @@ function Generalform({ username }) {
     loadImages();
   }, [posts]);
   return (
-    <section className="posts">
+    <section className={styles.posts}>
       <title>{t("General")}</title>
-      <div id="topBar">
-        <a href="/" className="titleg">
+      <div className={styles.topBar}>
+        <Link href="/" className={styles.titleg}>
           {t("General")}
-        </a>{" "}
+        </Link>{" "}
         {/* to intro page */}
       </div>
-      <div className="postBody">
-        <a href="dashboard" id="backButton">
-          {t("Back to Dashboard")}
-        </a>{" "}
-        {/* back to dashboard button */}
-        <button className="refreshBtn" onClick={handleRefresh}>
-          {t("Refresh")}
-        </button>{" "}
-        {/* refresh button */}
-        <div className="flex flex-col justify-items-start w-[36vw] gap-5 relative ml-[45vw] t-[10rem]">
-          <button className="adp" id="GaddPostBtn" onClick={handleAddPostClick}>
+      <br />
+      <br />
+      <br />
+      <div className={styles.postBody}>
+        <div className={styles.topBtnContainer}>
+          <Link href="dashboard" className={styles.backButton}>
+            {t("Back to Dashboard")}
+          </Link>{" "}
+          {/* back to dashboard button */}
+          <button className={styles.refreshBtn} onClick={handleRefresh}>
+            {t("Refresh")}
+          </button>{" "}
+          <button
+            className={`${styles.adp} ${styles.GaddPostBtn}`}
+            onClick={handleAddPostClick}
+          >
             <span>{t("Write a post")}</span>
           </button>{" "}
+        </div>
+        {/* refresh button */}
+        <br />
+        <br />
+        <br />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyItems: "start",
+            width: "36vw",
+            gap: "5px",
+            position: "relative",
+            marginLeft: "45vw",
+            top: "10rem",
+          }}
+        >
           {/* add post button */}
           {!inputBoxHidden && (
-            <div id="inputBoxGeneral">
+            <div className={styles.inputBoxGeneral}>
               <form
                 onSubmit={(e) => {
                   handleSubmit(e);
                 }}
-                id="postForm"
+                className={styles.postForm}
                 encType="multipart/form-data"
                 onDragEnter={(e) => e.preventDefault()}
                 onDragOver={(e) => e.preventDefault()}
@@ -716,7 +746,7 @@ function Generalform({ username }) {
                 >
                   <TextareaAutosize
                     required
-                    id="title"
+                    className={styles.title}
                     name="title"
                     placeholder={t("Enter title (20 words max)")}
                     onInput={(e) => {
@@ -746,11 +776,11 @@ function Generalform({ username }) {
                     {titleWords}
                   </span>
                 </div>
-                <br />
-                <br />
+                <br className={styles.g} />
+                <br className={styles.g} />
                 <TextareaAutosize
                   required
-                  id="content"
+                  className={styles.content}
                   name="content"
                   placeholder={t("Write sth...")}
                   onInput={(e) => {
@@ -779,9 +809,9 @@ function Generalform({ username }) {
                     {contentWords}
                   </span>
                 </div>
-                <br />
-                <br />
-                <label htmlFor="input-files" className="picUpload">
+                <br className={styles.g} />
+                <br className={styles.g} />
+                <label htmlFor="input-files" className={styles.picUpload}>
                   {files.length > 1 &&
                     `${files.length}${t(" files has been uploaded")}`}
                   {files.length === 1 &&
@@ -792,15 +822,15 @@ function Generalform({ username }) {
                   <input
                     type="file"
                     id="input-files"
-                    className="form-control-file border"
+                    style={{ display: "none" }}
                     onChange={handleFileChange}
                     multiple
                   />
                 </label>
-                <div className="formBottom">
+                <div className={styles.formBottom}>
                   <button
                     type="submit"
-                    className="postBtn"
+                    className={styles.postBtn}
                     disabled={load}
                     onClick={() => {
                       setContent(
@@ -809,9 +839,9 @@ function Generalform({ username }) {
                         setTitle(document.getElementById("title").textContent);
                     }}
                   >
-                    {!load && <p className="ldd">{t("Post")}</p>}
+                    {!load && <p className={styles.ldd}>{t("Post")}</p>}
                     {load && (
-                      <div className="load">
+                      <div className={styles.load}>
                         <TailSpin
                           type="ThreeDots"
                           color="white"
@@ -819,30 +849,33 @@ function Generalform({ username }) {
                           width={40}
                           style={{ marginRight: "5px" }}
                         />
-                        <span className="ld">Loading...</span>
+                        <span className={styles.ld}>Loading...</span>
                       </div>
                     )}
                   </button>
-                  <button className="closeForm" onClick={handleCloseFormClick}>
+                  <button
+                    className={styles.closeForm}
+                    onClick={handleCloseFormClick}
+                  >
                     <p>{t("Cancel")}</p>
                   </button>
-                  <div className="switchForm">
-                    <label className="switch">
+                  <div className={styles.switchForm}>
+                    <label className={styles.switch}>
                       <input
                         type="checkbox"
                         name="postAnonymous"
                         checked={postAnonymous}
                         onChange={() => setPostAnonymous(!postAnonymous)}
                       />
-                      <span className="slider round">
-                        <h6 className="posta">
+                      <span className={`${styles.slider} ${styles.round}`}>
+                        <h6 className={styles.posta}>
                           {t("Anon")}
                           <p />
                         </h6>
                       </span>
                     </label>
                   </div>
-                  <div className="preview-container">
+                  <div className={styles.preview}>
                     {fileUrls &&
                       fileUrls.map((url, index) => {
                         const file = files[index];
@@ -863,20 +896,20 @@ function Generalform({ username }) {
                   </div>
                 </div>
               </form>
-              <div className="row">
-                <div className="col-sm-12">
-                  <div className="preview-images" />
+              <div className={styles.row}>
+                <div>
+                  <div className={styles.previewImages} />
                 </div>
               </div>
             </div>
           )}{" "}
         </div>
         {/* input box for posting */}
-        <div className="bg">
-          <div id="posts" className="word-box">
+        <div className={styles.bg}>
+          <div className={styles.postsContainer}>
             {loading
               ? Array.from({ length: 15 }).map((_, i) => (
-                  <div className="borderClass" key={`Skeletons${i}`}>
+                  <div className={styles.borderClass} key={`Skeletons${i}`}>
                     <React.Fragment>
                       <Skeleton classes="title width-40" />
                       <Skeleton classes="text width-70" />
@@ -894,17 +927,17 @@ function Generalform({ username }) {
                   </div>
                 )) //skeletons for loading
               : posts.map((post, postIndex) => (
-                  <div className="postsG" key={post._id} id={post._id}>
+                  <div className={styles.postsG} key={post._id} id={post._id}>
                     <Link
                       href={`/posts/${post._id}`}
                       target="_blank"
-                      className="ptitle"
+                      className={styles.ptitle}
                     >
                       {post.title}
                     </Link>
-                    <br />
+                    <br className={styles.g} />
                     <div
-                      className="contents"
+                      className={styles.contents}
                       style={{
                         cursor:
                           isExpanded.includes(post._id) ||
@@ -916,9 +949,9 @@ function Generalform({ username }) {
                     >
                       {displayContent(post.content, post._id)}
                     </div>
-                    <br />
-                    <br />
-                    <div className="imgs">
+                    <br className={styles.g} />
+                    <br className={styles.g} />
+                    <div className={styles.imgs}>
                       {post.pictureUrl.length > 1 &&
                         post.pictureUrl.map((image, index) => (
                           <section key={"multi" + image.filename}>
@@ -932,7 +965,7 @@ function Generalform({ username }) {
                                 alt={image.filename}
                                 width="300"
                                 height="300"
-                                className="Images"
+                                className={styles.Images}
                               />
                             </button>
                             {check[index] && imgCheck[postIndex] && (
@@ -942,13 +975,13 @@ function Generalform({ username }) {
                                 id={`${post._id}-${index}`}
                                 width={300 * scale}
                                 height={300 * scale}
-                                className="above"
+                                className={styles.above}
                                 onWheel={handleWheel}
                               />
                             )}
                             {check[index] && imgCheck[postIndex] && (
                               <button
-                                id="closePreview"
+                                className={styles.closePreview}
                                 onClick={() =>
                                   handleCheckClose(index, postIndex)
                                 }
@@ -956,7 +989,7 @@ function Generalform({ username }) {
                                 X
                               </button>
                             )}
-                            {backCheck && <div className="blocks" />}
+                            {backCheck && <div className={styles.blocks} />}
                           </section>
                         ))}
                       {post.pictureUrl.length === 1 &&
@@ -970,7 +1003,7 @@ function Generalform({ username }) {
                                 alt={image.filename}
                                 width="300"
                                 height="300"
-                                className="Image"
+                                className={styles.Image}
                               />
                             </button>
                             {ok && imgCheck[postIndex] && (
@@ -979,14 +1012,14 @@ function Generalform({ username }) {
                                 alt={image.filename}
                                 width={300 * scale}
                                 height={300 * scale}
-                                className="above"
+                                className={styles.above}
                                 onWheel={handleWheel}
                               />
                             )}
 
                             {ok && imgCheck[postIndex] && (
                               <button
-                                id="closePreview"
+                                className={styles.closePreview}
                                 onClick={() => handleClose(postIndex)}
                               >
                                 X
@@ -994,29 +1027,34 @@ function Generalform({ username }) {
                             )}
 
                             {ok && imgCheck[postIndex] && (
-                              <div className="blocks" />
+                              <div className={styles.blocks} />
                             )}
                           </section>
                         ))}
                     </div>
-                    <br />
-                    <br />
+                    <br className={styles.g} />
+                    <br className={styles.g} />
                     {(post.postAnonymous !== "true" || admin == true) && (
                       <Link
-                        className="author"
+                        className={styles.author}
                         href={`/profile/${post.username}`}
-                        style={{ display: "flex", alignItems: "center" }}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          textDecoration: "none",
+                          color: "black",
+                        }}
                       >
                         {loadedSrc[post._id] ? (
                           <img
                             src={loadedSrc[post._id]}
-                            className="avatarGeneral"
+                            className={styles.avatarGeneral}
                           />
                         ) : (
                           <img
                             priority="true"
                             src="./preview.svg"
-                            className="avatarGeneral"
+                            className={styles.avatarGeneral}
                             alt="avatar"
                             width={35}
                             height={35}
@@ -1026,12 +1064,12 @@ function Generalform({ username }) {
                         {post.username}
                       </Link>
                     )}
-                    <br />
-                    <p className="postT">
+                    <br className={styles.g} />
+                    <p className={styles.postT}>
                       {t("posted on")} {post.postingtime}
                     </p>
-                    <br />
-                    <div className="likeContainer">
+                    <br className={styles.g} />
+                    <div className={styles.likeContainer}>
                       {(() => {
                         let like = likes.find(
                           (like) => like.postId === post._id,
@@ -1062,7 +1100,13 @@ function Generalform({ username }) {
                     {/* Comment Section */}
                     <button
                       onClick={() => handleComment(post._id)}
-                      style={{ display: "flex", alignItems: "flex-end" }}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -1076,17 +1120,7 @@ function Generalform({ username }) {
                           d="M25.784 21.017A10.992 10.992 0 0 0 27 16c0-6.065-4.935-11-11-11S5 9.935 5 16s4.935 11 11 11c1.742 0 3.468-.419 5.018-1.215l4.74 1.185a.996.996 0 0 0 .949-.263 1 1 0 0 0 .263-.95l-1.186-4.74zm-2.033.11.874 3.498-3.498-.875a1.006 1.006 0 0 0-.731.098A8.99 8.99 0 0 1 16 25c-4.963 0-9-4.038-9-9s4.037-9 9-9 9 4.038 9 9a8.997 8.997 0 0 1-1.151 4.395.995.995 0 0 0-.098.732z"
                         ></path>
                       </svg>
-                      <div
-                        style={{
-                          position: "relative",
-                          marginBottom: "0.5vh",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <GetCommentNum postId={post._id} />{" "}
-                        <p>{t("Comments")}</p>
-                      </div>
+                      <GetCommentNum postId={post._id} />{" "}
                     </button>
                     {commentOpen.includes(post._id) && (
                       <>
@@ -1097,9 +1131,9 @@ function Generalform({ username }) {
                           commentOpen={commentOpen}
                           getComments={getComments}
                         />
-                        <br />
+                        <br className={styles.g} />
                         {commentOpen.includes(post._id) && (
-                          <div className="commentSection">
+                          <div className={styles.commentSection}>
                             <div style={{ display: "flex", padding: "8px" }}>
                               <p>
                                 {comments
@@ -1155,7 +1189,7 @@ function Generalform({ username }) {
                                             />
                                             <button
                                               type="submit"
-                                              className="deleteBtn"
+                                              className={styles.deleteBtn}
                                               style={{
                                                 position: "absolute",
                                                 right: "2.5vw",
@@ -1181,7 +1215,7 @@ function Generalform({ username }) {
                                               />
                                               <button
                                                 type="submit"
-                                                className="deleteBtn"
+                                                className={styles.deleteBtn}
                                                 style={{
                                                   position: "absolute",
                                                   right: "2.5vw",
@@ -1196,7 +1230,8 @@ function Generalform({ username }) {
                                       <div
                                         style={{
                                           whiteSpace: "pre-wrap",
-                                          overflowWrap: "break-word",
+                                          overflowWrap:
+                                            "br className={styles.g}eak-word",
                                         }}
                                       >
                                         {com.content}
@@ -1316,49 +1351,49 @@ M125.025,99.15H25.02V85.51l22.73-22.724l11.363,11.36l36.365-36.361l29.547,29.547
 
                     {/* loading state for comments (have not editted) */}
                     {/* Array.from({ length: 15 }).map((_, i) => (
-                <div className="borderClass" key={i}>
+                <div className={styles.borderClass} key={i}>
                   <React.Fragment>
                     <Skeleton classes="title width-40" />
                     <Skeleton classes="text width-70" />
                     <Skeleton classes="text width-70" />
                     <Skeleton classes="text width-70" />
-                    <br />
+                    <br className={styles.g} />
                     <Skeleton classes="text width-pic" />
-                    <br />
+                    <br className={styles.g} />
                     <Skeleton classes="text width-user" />
-                    <br />
+                    <br className={styles.g} />
                     <Skeleton classes="text width-40" />
                     <Skeleton classes="text width-delete" />
-                    <br />
+                    <br className={styles.g} />
                   </React.Fragment>
                 </div>
               )) */}
-                    <br />
+                    <br className={styles.g} />
                     {post.username === username && !admin && (
-                      <div className="deleteForm">
-                        <form onSubmit={handleSub} id="deleteForm">
+                      <div className={styles.deleteForm}>
+                        <form onSubmit={handleSub}>
                           <input
                             type="hidden"
                             name="id"
                             id="id"
                             value={post._id}
                           />
-                          <button type="submit" className="deleteBtn">
+                          <button type="submit" className={styles.deleteBtn}>
                             <span>{t("Delete")}</span>
                           </button>
                         </form>
                       </div>
                     )}
                     {admin && (
-                      <div className="deleteForm">
-                        <form onSubmit={handleSub} id="deleteForm">
+                      <div className={styles.deleteForm}>
+                        <form onSubmit={handleSub}>
                           <input
                             type="hidden"
                             name="id"
                             id="id"
                             value={post._id}
                           />
-                          <button type="submit" className="deleteBtn">
+                          <button type="submit" className={styles.deleteBtn}>
                             <span>{t("Admin Delete")}</span>
                           </button>
                         </form>
@@ -1367,7 +1402,7 @@ M125.025,99.15H25.02V85.51l22.73-22.724l11.363,11.36l36.365-36.361l29.547,29.547
                   </div>
                 ))}{" "}
             {bottomLoad && (
-              <div className="borderClass">
+              <div className={styles.borderClass}>
                 <React.Fragment>
                   <Skeleton classes="title width-40" />
                   <Skeleton classes="text width-70" />
@@ -1392,7 +1427,7 @@ M125.025,99.15H25.02V85.51l22.73-22.724l11.363,11.36l36.365-36.361l29.547,29.547
             {/* posts mapping */}
           </div>
         </div>
-        <div id="spacing" />
+        <div className={styles.spacing} />
       </div>
     </section>
   );

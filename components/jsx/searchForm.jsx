@@ -7,7 +7,8 @@ import searchUser from "../../components/js/searchUser.js";
 import "../../app/i18n.js";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
-import "../../app/src/search.css";
+import styles from "../../app/src/search.module.css";
+import styles from "../../app/src/search.color.css";
 import Image from "next/image";
 import { useRef } from "react";
 
@@ -130,11 +131,11 @@ const SearchForm = () => {
 
   return (
     <div>
-      <div className="searchTop">
-        <Link href="/" className="stoIntro">
+      <div className={styles.searchTop}>
+        <Link href="/" className={styles.stoIntro}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="ionicon"
+            className={styles.ionicon}
             width={60}
             height={60}
             viewBox="0 0 512 512"
@@ -156,9 +157,9 @@ const SearchForm = () => {
               strokeWidth="32"
             />
           </svg>
-          <span className="intro">{t("Oasis")}</span>
+          <span className={styles.intro}>{t("Oasis")}</span>
         </Link>
-        <form onSubmit={handleSearch} className="searchForm">
+        <form onSubmit={handleSearch} className={styles.searchForm}>
           <input
             type="text"
             placeholder={t("Search")}
@@ -175,7 +176,7 @@ const SearchForm = () => {
             />
           </button>
         </form>
-        <div className="language-selector">
+        <div className={styles.language - selector}>
           <select
             id="lang"
             name="lang"
@@ -190,7 +191,7 @@ const SearchForm = () => {
           </select>
         </div>
 
-        <div className="color-selector">
+        <div className={styles.color - selector}>
           <select id="color" name="color" onChange={changeColor} value={color}>
             <option value="pink">{t("Pink")}</option>
             <option value="blue">{t("Blue")}</option>
@@ -213,9 +214,9 @@ const SearchForm = () => {
       <br />
       <br />
       <br />
-      <section className="searchBottom">
-        <div className="searchOptions">
-          <h2 className="title">
+      <section className={styles.searchBottom}>
+        <div className={styles.searchOptions}>
+          <h2 className={styles.title}>
             {t("Filters")} ({filterNum && filterNum})
           </h2>
           <div>
@@ -265,27 +266,27 @@ const SearchForm = () => {
             </div>
           </div>
         </div>
-        <div className="searchResults">
+        <div className={styles.searchResults}>
           {searchResults.length === 0 && (
-            <h2 className="resultsNum">{t("No Matched Results")}</h2>
+            <h2 className={styles.resultsNum}>{t("No Matched Results")}</h2>
           )}
           {searchResults.length > 0 && (
             <div>
-              <h2 className="resultsNum">
+              <h2 className={styles.resultsNum}>
                 {searchResults.length}
                 {t(" Results")}
               </h2>
-              <div className="searchGrid">
+              <div className={styles.searchGrid}>
                 {curSearch === "posts" &&
                   searchResults.map((t) => (
                     <Link
                       href={`/posts/${t.item._id}`}
                       target="_blank"
-                      className="boxBig"
+                      className={styles.boxBig}
                       style={{ display: "flex" }}
                     >
-                      <div key={t.item._id} className="indPost">
-                        <h3 className="indTitle">{t.item.title}</h3>
+                      <div key={t.item._id} className={styles.indPost}>
+                        <h3 className={styles.indTitle}>{t.item.title}</h3>
                         <p>{t.item.username}</p>
                         <br />
                       </div>
@@ -296,11 +297,11 @@ const SearchForm = () => {
                     <Link
                       href={`/profile/${t.item.username}`}
                       target="_blank"
-                      className="boxBig"
+                      className={styles.boxBig}
                       style={{ display: "flex" }}
                     >
-                      <div key={t.item.username} className="indPost">
-                        <h3 className="indTitle">{t.item.username}</h3>
+                      <div key={t.item.username} className={styles.indPost}>
+                        <h3 className={styles.indTitle}>{t.item.username}</h3>
                         <p>{t.item.email}</p>
                         <br />
                       </div>

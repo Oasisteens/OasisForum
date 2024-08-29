@@ -1,46 +1,46 @@
-const mongoose = require('mongoose')
-const moment = require('moment-timezone')
+const mongoose = require("mongoose");
+const moment = require("moment-timezone");
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
   title: {
-    type: String
+    type: String,
   },
   content: {
-    type: String
+    type: String,
   },
   group: {
-    type: String
+    type: String,
   },
   username: {
-    type: String
+    type: String,
   },
   postingtime: {
     type: String,
     default: () =>
       moment()
-        .tz('Asia/Shanghai')
-        .format('YYYY-MM-DD HH:mm:ss')
-        .replace('T', ' ')
-        .replace('Z', ''),
-    immutable: true
+        .tz("Asia/Shanghai")
+        .format("YYYY-MM-DD HH:mm:ss")
+        .replace("T", " ")
+        .replace("Z", ""),
+    immutable: true,
   },
   postAnonymous: {
-    type: String
+    type: String,
   },
   pictures: {
-    type: Number
+    type: Number,
   },
   pictureUrl: [
     {
       filename: String,
       originalname: String,
       path: String,
-      size: Number
-    }
-  ]
-})
+      size: Number,
+    },
+  ],
+});
 
-const Post = mongoose.models.Post || mongoose.model('Post', postSchema)
-module.exports = Post
+const Post = mongoose.models.Post || mongoose.model("Post", postSchema);
+module.exports = Post;

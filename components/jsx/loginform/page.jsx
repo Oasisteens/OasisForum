@@ -7,7 +7,7 @@ import { TailSpin } from "react-loader-spinner";
 import "../../../app/i18n";
 import { useTranslation } from "react-i18next";
 import { mailOutline, lockClosedOutline } from "ionicons/icons";
-import "../../../app/src/login.css";
+import styles from "../../../app/src/login.module.css";
 import { signIn } from "next-auth/react";
 
 const LoginForm = () => {
@@ -66,23 +66,23 @@ const LoginForm = () => {
   return (
     <>
       <title>{t("Login")}</title>
-      <body className="loginbd">
-        <div className="box1" />
-        <div className="box2" />
-        <div className="box3" />
-        <div className="box4" />
-        <div className="box5" />
-        <div className="box6" />
-        <div className="box7" />
-        <div className="box8" />
-        <div className="box9" />
-        <div className="box10" />
-        <div className="box11" />
-        <div className="form-box">
-          <div className="form-value">
+      <body className={styles.loginbd}>
+        <div className={styles.box1} />
+        <div className={styles.box2} />
+        <div className={styles.box3} />
+        <div className={styles.box4} />
+        <div className={styles.box5} />
+        <div className={styles.box6} />
+        <div className={styles.box7} />
+        <div className={styles.box8} />
+        <div className={styles.box9} />
+        <div className={styles.box10} />
+        <div className={styles.box11} />
+        <div className={styles.formBox}>
+          <div>
             <form onSubmit={handleSubmit} id="loginForm">
-              <h2 className="LogTitle">{t("Login")}</h2>
-              <div className="inputbox">
+              <h2 className={styles.LogTitle}>{t("Login")}</h2>
+              <div className={styles.inputbox}>
                 <IonIcon icon={mailOutline} />
                 <input
                   type="username"
@@ -94,7 +94,7 @@ const LoginForm = () => {
                 />
                 <label htmlFor="username">{t("Username")}:</label>
               </div>
-              <div className="inputbox">
+              <div className={styles.inputbox}>
                 <IonIcon icon={lockClosedOutline} />
                 <input
                   type="password"
@@ -104,7 +104,11 @@ const LoginForm = () => {
                 />
                 <label htmlFor="password">{t("Password")}:</label>
               </div>
-              <button type="submit" className="reg1" disabled={loading && load}>
+              <button
+                type="submit"
+                className={styles.reg1}
+                disabled={loading && load}
+              >
                 {loading && (
                   <>
                     <TailSpin
@@ -117,17 +121,19 @@ const LoginForm = () => {
                     <span>{t("Loading")}...</span>
                   </>
                 )}
-                {load && <span className="lddd">{t("Loading")}...</span>}
+                {load && <span className={styles.lddd}>{t("Loading")}...</span>}
                 {!loading && !load && t("Login")}
               </button>
-              <div className="login">
-                {errorMessage && <div className="logerror">{errorMessage}</div>}
+              <div className={styles.login}>
+                {errorMessage && (
+                  <div className={styles.logerror}>{errorMessage}</div>
+                )}
                 {!errorMessage && (
                   <p>
                     {t("Do not have an account?")}{" "}
                     <Link
                       style={{ fontWeight: "700" }}
-                      className="regww"
+                      className={styles.regww}
                       href="/register"
                     >
                       {t("Register")}
@@ -135,7 +141,7 @@ const LoginForm = () => {
                   </p>
                 )}
                 <br />
-                <Link href="/forgotpassword" className="forgetPs">
+                <Link href="/forgotpassword" className={styles.forgetPs}>
                   {t("Forgot Password?")}
                 </Link>
               </div>

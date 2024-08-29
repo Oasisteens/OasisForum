@@ -4,7 +4,7 @@
 }
 
 /* Style the label */
-label[for="input-files"] {
+label.picUpload[for="input-files"] {
   padding: 10px;
   position: relative;
   background-color: var(--sec-color);
@@ -15,7 +15,7 @@ label[for="input-files"] {
 }
 
 /* Change the label style on hover */
-label[for="input-files"]:hover {
+label.picUpload[for="input-files"]:hover {
   transition: 0.3s;
   background-color: var(--sub-color);
 }
@@ -58,7 +58,7 @@ label.picUpload {
   margin-bottom: 5px;
 }
 
-#comment,
+.comment,
 #subComment {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;

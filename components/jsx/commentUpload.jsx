@@ -7,7 +7,7 @@ import { TailSpin } from "react-loader-spinner";
 import { useRef } from "react";
 import axios from "axios";
 import count from "word-count";
-import "../../app/src/commentsection.css";
+import styles from "../../app/src/commentsection.module.css";
 
 const commentUpload = ({
   getComments,
@@ -101,7 +101,7 @@ const commentUpload = ({
     }
   }, [commentOpen]);
   return (
-    <div className="commentForm">
+    <div className={styles.commentForm}>
       <form
         onSubmit={(e) => {
           handleCommentSubmit(e);
@@ -119,7 +119,7 @@ const commentUpload = ({
         <textarea
           ref={commentRef}
           required
-          id="comment"
+          className={styles.comment}
           name="comment"
           rows={1}
           placeholder={t("Comment on this post...")}
@@ -170,7 +170,7 @@ const commentUpload = ({
             onBlur={() => setTemp(false)}
           >
             <label
-              className="picUpload"
+              className={styles.picUpload}
               htmlFor="input-files"
               style={{
                 borderRadius: "0",
@@ -209,11 +209,11 @@ const commentUpload = ({
             </div>
             <button
               type="submit"
-              className="postCommentBtn"
+              className={styles.postCommentBtn}
               disabled={commentUploadLoad}
             >
               {commentUploadLoad ? (
-                <div className="load">
+                <div className={styles.load}>
                   <TailSpin
                     type="ThreeDots"
                     color="white"
@@ -221,10 +221,10 @@ const commentUpload = ({
                     width={40}
                     style={{ marginRight: "5px" }}
                   />
-                  <span className="ld">Loading...</span>
+                  <span className={styles.ld}>Loading...</span>
                 </div>
               ) : (
-                <p className="ldd">{t("Post")}</p>
+                <p className={styles.ldd}>{t("Post")}</p>
               )}
             </button>
           </div>

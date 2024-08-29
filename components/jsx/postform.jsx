@@ -1,5 +1,6 @@
 "use client";
-import "../../app/src/post.css";
+import styles from "../../app/src/post.module.css";
+import "../../app/src/post.color.css";
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -320,10 +321,10 @@ function Postform({ id, username }) {
     loadImages();
   }, [posts]); //load images
   return (
-    <body className="indPost">
+    <body className={styles.indPost}>
       <title>{post && post.title}</title>
       <div id="topBar">
-        <a href="/general" className="titleg">
+        <a href="/general" className={styles.titleg}>
           {t("General")}
         </a>{" "}
         {/* to intro page */}
@@ -334,7 +335,7 @@ function Postform({ id, username }) {
         {t("Back to Dashboard")}
       </a>{" "}
       {/* back to dashboard button */}
-      <button className="refreshBtn2" onClick={handleRefresh}>
+      <button className={styles.refreshBtn2} onClick={handleRefresh}>
         {t("Refresh")}
       </button>{" "}
       {/* refresh button */}
@@ -342,7 +343,7 @@ function Postform({ id, username }) {
         <br key={i} />
       ))}
       {loading && (
-        <div className="borderClassSkeleton">
+        <div className={styles.borderClassSkeleton}>
           <React.Fragment>
             <Skeleton classes="title width-70" />
             <Skeleton classes="text width-40" />
@@ -360,16 +361,16 @@ function Postform({ id, username }) {
         </div>
       )}
       {post && !loading && (
-        <div className="postBg">
-          <div id="posts" className="word-box">
+        <div className={styles.postBg}>
+          <div id="posts" className={styles.word - box}>
             <div key={post._id}>
-              <p className="postTitle">{post.title}</p>
+              <p className={styles.postTitle}>{post.title}</p>
               <br />
-              <div className="bottom">
-                <div className="postContents">{post.content}</div>
+              <div className={styles.bottom}>
+                <div className={styles.postContents}>{post.content}</div>
                 <br />
                 <br />
-                <div className="imgs">
+                <div className={styles.imgs}>
                   {post.pictureUrl.length > 1 &&
                     post.pictureUrl.map((image, index) => (
                       <section key={"multi" + image.filename}>
@@ -379,7 +380,7 @@ function Postform({ id, username }) {
                             alt={image.filename}
                             width="300"
                             height="300"
-                            className="Images"
+                            className={styles.Images}
                           />
                         </button>
                         {check[index] && (
@@ -389,7 +390,7 @@ function Postform({ id, username }) {
                             id={`${post._id}-${index}`}
                             width={300 * scale}
                             height={300 * scale}
-                            className="above"
+                            className={styles.above}
                             onWheel={handleWheel}
                           />
                         )}
@@ -401,7 +402,7 @@ function Postform({ id, username }) {
                             X
                           </button>
                         )}
-                        {backCheck && <div className="blocks" />}
+                        {backCheck && <div className={styles.blocks} />}
                       </section>
                     ))}
                   {post.pictureUrl.length === 1 &&
@@ -413,7 +414,7 @@ function Postform({ id, username }) {
                             alt={image.filename}
                             width="300"
                             height="300"
-                            className="Image"
+                            className={styles.Image}
                           />
                         </button>
                         {ok && imgCheck && (
@@ -422,7 +423,7 @@ function Postform({ id, username }) {
                             alt={image.filename}
                             width={300 * scale}
                             height={300 * scale}
-                            className="above"
+                            className={styles.above}
                             onWheel={handleWheel}
                           />
                         )}
@@ -436,19 +437,19 @@ function Postform({ id, username }) {
                           </button>
                         )}
 
-                        {ok && imgCheck && <div className="blocks" />}
+                        {ok && imgCheck && <div className={styles.blocks} />}
                       </section>
                     ))}
                 </div>
                 <br />
                 <br />
                 {post.postAnonymous !== "true" && (
-                  <p className="usr">
+                  <p className={styles.usr}>
                     {t("posted by")} {post.username}
                   </p>
                 )}
                 <br />
-                <p className="postT">
+                <p className={styles.postT}>
                   {t("posted on")} {post.postingtime}
                 </p>
                 <br />
@@ -504,7 +505,7 @@ function Postform({ id, username }) {
                     />
                     <br />
                     {commentOpen && (
-                      <div className="commentSection">
+                      <div className={styles.commentSection}>
                         <div style={{ display: "flex", padding: "8px" }}>
                           <p>
                             {comments
@@ -550,7 +551,7 @@ function Postform({ id, username }) {
                                         />
                                         <button
                                           type="submit"
-                                          className="dBtn"
+                                          className={styles.dBtn}
                                           style={{
                                             position: "absolute",
                                             right: "2.5vw",
@@ -668,10 +669,10 @@ function Postform({ id, username }) {
                 )}
                 <br />
                 {post.username === username && (
-                  <div className="deleteForm">
+                  <div className={styles.deleteForm}>
                     <form onSubmit={handleSub} id="deleteForm">
                       <input type="hidden" name="id" id="id" value={id} />
-                      <button type="submit" className="deleteBtn1">
+                      <button type="submit" className={styles.deleteBtn1}>
                         <span>{t("Delete")}</span>
                       </button>
                     </form>

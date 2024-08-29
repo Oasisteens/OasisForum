@@ -1,30 +1,30 @@
-import mongoose from 'mongoose'
-const Schema = mongoose.Schema
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
 const likeSchema = new Schema({
   postId: {
-    type: String
+    type: String,
   },
   username: {
-    type: String
+    type: String,
   },
   forum: {
-    type: String
+    type: String,
   },
   category: {
-    type: String
+    type: String,
   },
   number: {
     type: Number,
-    min: [0, 'Negative numbers are not allowed'],
+    min: [0, "Negative numbers are not allowed"],
     validate: {
       validator: Number.isInteger,
-      message: '{VALUE} is not an integer value'
-    }
+      message: "{VALUE} is not an integer value",
+    },
   },
   postingtime: {
-    type: String
-  }
-})
+    type: String,
+  },
+});
 
-module.exports = mongoose.models.Like || mongoose.model('Like', likeSchema)
+module.exports = mongoose.models.Like || mongoose.model("Like", likeSchema);

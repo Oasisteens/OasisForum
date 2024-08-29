@@ -1,26 +1,15 @@
-:root {
-  --width: 100vw;
-  --dash-color: #133153;
-  --scroll-color: var(--blue-lighter);
-  --dash-width: 17vw;
-}
-
 h1.h11 {
   font-size: 2rem;
   position: relative;
   font-weight: 600;
-}
-main.dash,
-h1,
-p {
-  margin: 0;
-  padding: 0;
 }
 main.dash {
   overflow: hidden;
   display: flex;
   flex-direction: row;
   height: 100vh;
+  margin: 0;
+  padding: 0;
   background-color: #f2f4f5;
 }
 li {

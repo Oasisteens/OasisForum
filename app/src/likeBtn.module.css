@@ -1,5 +1,8 @@
 button.likeBtn {
   position: relative;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
 }
 p.postlike {
   position: relative;

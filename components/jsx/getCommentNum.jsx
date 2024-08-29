@@ -1,9 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 export default function GetCommentNum({ postId }) {
   const [commentNum, setCommentNum] = useState(0);
+  const { t } = useTranslation();
+  const { i18n } = useTranslation();
 
   useEffect(() => {
     const getCommentNum = async () => {
@@ -22,12 +25,14 @@ export default function GetCommentNum({ postId }) {
     <p
       style={{
         fontFamily: "sans-serif poppins",
-        fontSize: "1.25rem",
+        fontSize: "1rem",
         position: "relative",
-        bottom: "2px",
+        margin: "0",
+        marginBottom: "0",
       }}
     >
       {commentNum}
+      {t("Comments")}
     </p>
   );
 }

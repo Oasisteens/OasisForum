@@ -1,6 +1,6 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   username: {
@@ -9,33 +9,33 @@ const userSchema = new Schema({
     unique: true,
     validate: {
       validator: function (v) {
-        return /^[^\W_]+$/.test(v)
+        return /^[^\W_]+$/.test(v);
       },
-      message: (props) => `${props.value} contains special characters`
-    }
+      message: (props) => `${props.value} contains special characters`,
+    },
   },
   originalPassword: {
     type: String,
-    required: true
+    required: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   admin: {
     type: Boolean,
-    required: true
+    required: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   image: {
     type: String,
-    default: null
-  }
-})
+    default: null,
+  },
+});
 
-const User = mongoose.models.User || mongoose.model('User', userSchema)
-export default User
+const User = mongoose.models.User || mongoose.model("User", userSchema);
+export default User;

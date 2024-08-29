@@ -1,0 +1,6 @@
+:root {
+  --width: 100vw;
+  --dash-color: #133153;
+  --scroll-color: var(--blue-lighter);
+  --dash-width: 17vw;
+}

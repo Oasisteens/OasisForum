@@ -1,5 +1,5 @@
 "use client";
-import "../../../app/src/register.css";
+import styles from "../../../app/src/register.module.css";
 import axios from "axios";
 import { IonIcon } from "@ionic/react";
 import "../../../app/i18n";
@@ -82,21 +82,24 @@ const Registerform = () => {
   return (
     <>
       <title>{t("Register")}</title>
-      <section className="Reg">
-        <div className="wave"></div>
-        <div className="wave"></div>
-        <div className="wave"></div>
-        <div className="form-boxR">
-          <div className="form-value">
+      <section className={styles.Reg}>
+        <div className={styles.wave}></div>
+        <div className={styles.wave}></div>
+        <div className={styles.wave}></div>
+        <div className={styles.formBoxR}>
+          <div>
             <form onSubmit={handleSubmit}>
-              <h2 className="regU">{t("Register")}</h2>
+              <h2 className={styles.regU}>{t("Register")}</h2>
               <div
-                className="inputboxR"
+                className={styles.inputboxR}
                 style={{
                   borderBottomColor: `${focus[0] ? "black" : "rgba(150, 150, 150, 0.6)"}`,
                 }}
               >
-                <IonIcon className="personIcon" icon={personCircleOutline} />
+                <IonIcon
+                  className={styles.personIcon}
+                  icon={personCircleOutline}
+                />
                 <input
                   type="username"
                   onFocus={() => handleFocus(0)}
@@ -126,7 +129,7 @@ const Registerform = () => {
                 <label htmlFor="username">{t("Username")}:</label>
               </div>
               <div
-                className="inputboxR"
+                className={styles.inputboxR}
                 style={{
                   borderBottomColor: `${focus[1] ? "black" : "rgba(150, 150, 150, 0.6)"}`,
                 }}
@@ -154,7 +157,7 @@ const Registerform = () => {
                 <label htmlFor="password">{t("Password")}:</label>
               </div>
               <div
-                className="inputboxR"
+                className={styles.inputboxR}
                 style={{
                   borderBottomColor: `${focus[2] ? "black" : "rgba(150, 150, 150, 0.6)"}`,
                 }}
@@ -178,7 +181,11 @@ const Registerform = () => {
                 />
                 <label htmlFor="email">{t("Email")}:</label>
               </div>
-              <button type="submit" className="reg1" disabled={loading && load}>
+              <button
+                type="submit"
+                className={styles.reg1}
+                disabled={loading && load}
+              >
                 {loading && (
                   <>
                     <TailSpin
@@ -194,8 +201,8 @@ const Registerform = () => {
                 {load && <span>{t("Loading")}...</span>}
                 {!loading && !load && t("Register")}
               </button>
-              <div className="register">
-                {error !== "" && <p className="error">{t(error)}</p>}
+              <div className={styles.register}>
+                {error !== "" && <p className={styles.error}>{t(error)}</p>}
                 {error === "" && (
                   <p>
                     {t("Already have an account?")}{" "}
@@ -205,7 +212,7 @@ const Registerform = () => {
                   </p>
                 )}
                 <br />
-                <Link href="/forgotpassword" className="forgetPs">
+                <Link href="/forgotpassword" className={styles.forgetPs}>
                   {t("Forgot Password?")}
                 </Link>
               </div>

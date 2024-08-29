@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import axios from "axios";
-import "../../app/src/avatar.css";
+import styles from "../../app/src/avatar.module.css";
 import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
@@ -156,7 +156,7 @@ export default function AvatarUpload({
   return (
     <div>
       {image && (
-        <div className="modal">
+        <div className={styles.modal}>
           <Cropper
             src={image}
             style={{
@@ -181,7 +181,11 @@ export default function AvatarUpload({
               setCropper(instance);
             }}
           />
-          <button className="uploadBtn" id="uploadBtn" onClick={uploadImage}>
+          <button
+            className={styles.uploadBtn}
+            id="uploadBtn"
+            onClick={uploadImage}
+          >
             {loading ? t("Loading...") : t("Upload")}
           </button>
         </div>
@@ -195,20 +199,20 @@ export default function AvatarUpload({
         style={{ display: "none" }}
       />
       {auth ? (
-        <div onClick={onImageClick} className="avatarContainer">
-          <div className="uploadIcon">
+        <div onClick={onImageClick} className={styles.avatarContainer}>
+          <div className={styles.uploadIcon}>
             <Image src="/camera.svg" alt="upload" width={40} height={40} />
           </div>
           {showAvatar ? (
             <img
               src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatar}`}
-              className="avatar"
+              className={styles.avatar}
             />
           ) : (
             <Image
               priority="true"
               src="/preview.svg"
-              className="avatar"
+              className={styles.avatar}
               alt="avatar"
               width={110}
               height={110}
@@ -218,14 +222,14 @@ export default function AvatarUpload({
       ) : showAvatar ? (
         <img
           src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatar}`}
-          className="avatar"
+          className={styles.avatar}
           style={{ cursor: "default" }}
         />
       ) : (
         <img
           priority="true"
           src="./preview.svg"
-          className="avatar"
+          className={styles.avatar}
           alt="avatar"
           width={110}
           height={110}
