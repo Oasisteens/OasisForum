@@ -22,6 +22,7 @@ import { truncate } from "lodash";
 import { useEffect } from "react";
 import GetCommentNum from "../getCommentNum.jsx";
 import TextareaAutosize from "react-textarea-autosize";
+import { useRef } from "react";
 
 function Generalform({ username }) {
   const [loading, setLoading] = useState(true);
@@ -41,9 +42,9 @@ function Generalform({ username }) {
   const [files, setFiles] = useState([]);
   const [likestatuses, setLikestatuses] = useState([]);
   const [postAnonymous, setPostAnonymous] = useState(false);
-  const [inputBoxHidden, setInputBoxHidden] = useState(true);
   const [likeloads, setLikeloads] = useState(true);
   const [likeload, setLikeload] = useState([]);
+  const [hide, setHide] = useState(false);
   const [commentLikeLoad, setCommentLikeLoad] = useState(null);
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [bottomLoad, setBottomLoad] = useState(false);
@@ -63,6 +64,7 @@ function Generalform({ username }) {
   const [noMore, setNoMore] = useState(false);
   const { t } = useTranslation();
   const { i18n } = useTranslation();
+  const modalRef = useRef();
 
   useEffect(() => {
     document.title = "Login";
@@ -126,6 +128,23 @@ function Generalform({ username }) {
       );
     }
   }, []); //localstorage get color setting
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      import("bootstrap").then(({ Modal }) => {
+        const handleHide = () => {
+          if (hide && modalRef.current) {
+            const modal = Modal.getInstance(modalRef.current);
+            if (modal) {
+              modal.hide();
+            }
+          }
+        };
+        handleHide();
+        setHide(false);
+      });
+    }
+  }, [hide]);
 
   const getPosts = async (needLoading, type = "top") => {
     if (isFetching) return;
@@ -400,6 +419,27 @@ function Generalform({ username }) {
     });
   };
 
+  const handleDropFile = (event) => {
+    event.preventDefault();
+    const uploadedFiles = Array.from(event.dataTransfer.files);
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.mp4|\.mov)$/i;
+
+    if (uploadedFiles.length + files.length > 9) {
+      alert("You can only upload up to 9 files.");
+      return;
+    }
+
+    uploadedFiles.forEach((file) => {
+      if (!allowedExtensions.exec(file.name)) {
+        alert("Invalid file type. Only images and videos are allowed.");
+      } else {
+        const url = URL.createObjectURL(file);
+        setFileUrls((prevUrls) => [...prevUrls, url]);
+        setFiles((prevFiles) => [...prevFiles, file]);
+      }
+    });
+  };
+
   const handleRemoveFile = (index) => {
     setFiles((prevFiles) => prevFiles.filter((file, i) => i !== index));
     setFileUrls((prevUrls) => prevUrls.filter((url, i) => i !== index));
@@ -460,8 +500,8 @@ function Generalform({ username }) {
       if (res.status === 201) {
         await initPosts();
         setLoad(false);
-        handleCloseFormClick();
         setMsg("Post created successfully");
+        setHide(true);
         setTitle("");
         setContent("");
         setContentWords(0);
@@ -482,11 +522,6 @@ function Generalform({ username }) {
       alert(t("Please sign in to write a post"));
       return;
     }
-    setInputBoxHidden(!inputBoxHidden);
-  };
-
-  const handleCloseFormClick = () => {
-    setInputBoxHidden(true);
   };
 
   const handleCheckClose = (index, postIndex) => {
@@ -500,7 +535,6 @@ function Generalform({ username }) {
     document.documentElement.style.setProperty("--1-color", "#f2f4f5");
     document.documentElement.style.setProperty("--2-color", "#f2f4f5");
     document.documentElement.style.setProperty("--3-color", "#f2f4f5");
-    document.body.style.overflowY = "scroll";
   }; //setting for image preview
 
   const handleClose = (index) => {
@@ -511,7 +545,6 @@ function Generalform({ username }) {
     document.documentElement.style.setProperty("--1-color", "#f2f4f5");
     document.documentElement.style.setProperty("--2-color", "#f2f4f5");
     document.documentElement.style.setProperty("--3-color", "#f2f4f5");
-    document.body.style.overflowY = "scroll";
   }; //setting for image preview1
 
   const handleSub = async (e) => {
@@ -700,6 +733,8 @@ function Generalform({ username }) {
           <button
             className={`${styles.adp} ${styles.GaddPostBtn}`}
             onClick={handleAddPostClick}
+            data-bs-toggle={username && "modal"}
+            data-bs-target={username && "#postModal"}
           >
             <span>{t("Write a post")}</span>
           </button>{" "}
@@ -721,188 +756,175 @@ function Generalform({ username }) {
           }}
         >
           {/* add post button */}
-          {!inputBoxHidden && (
-            <div className={styles.inputBoxGeneral}>
-              <form
-                onSubmit={(e) => {
-                  handleSubmit(e);
-                }}
-                className={styles.postForm}
-                encType="multipart/form-data"
-                onDragEnter={(e) => e.preventDefault()}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  setFiles(e.dataTransfer.files);
-                }}
-              >
-                <div
-                  style={{
-                    position: "relative",
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "60%",
-                  }}
-                >
-                  <TextareaAutosize
-                    required
-                    className={styles.title}
-                    name="title"
-                    placeholder={t("Enter title (20 words max)")}
-                    onInput={(e) => {
-                      const value = e.target.value;
-                      const wordCount = count(value);
-                      setTitleWords(wordCount);
-                      setTitle(value); // Update title state
+          <div
+            className="modal fade"
+            id="postModal"
+            tabIndex={-1}
+            aria-labelledby="postModalLabel"
+            aria-hidden="true"
+            ref={modalRef}
+          >
+            <div className="modal-dialog">
+              <div className="modal-content">
+                {/* <div className="modal-header">
+              <h5 className="modal-title" id="initiateTradeModalLabel">
+                Initiate Trade
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div> */}
+                <div className="modal-body">
+                  <form
+                    onSubmit={(e) => {
+                      handleSubmit(e);
                     }}
-                    onFocus={(e) => {
-                      e.target.style.color = "black";
-                    }}
-                    onBlur={(e) => {
-                      e.target.style.color = "gray";
-                    }}
-                    value={title}
-                  />
-                  <span
-                    style={{
-                      position: "absolute",
-                      fontSize: "0.85rem",
-                      right: "0.2vw",
-                      bottom: "-0.1rem",
-                      margin: 0,
-                      padding: 0,
-                    }}
+                    encType="multipart/form-data"
                   >
-                    {titleWords}
-                  </span>
-                </div>
-                <br className={styles.g} />
-                <br className={styles.g} />
-                <TextareaAutosize
-                  required
-                  className={styles.content}
-                  name="content"
-                  placeholder={t("Write sth...")}
-                  onInput={(e) => {
-                    const value = e.target.value;
-                    const wordCount = count(value);
-                    setContentWords(wordCount);
-                    setContent(value); // Update title state
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.color = "black";
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.color = "gray";
-                  }}
-                  value={content}
-                />
-                <div style={{ position: "relative" }}>
-                  <span
-                    style={{
-                      position: "absolute",
-                      fontSize: "0.85rem",
-                      right: "0.5vw",
-                      bottom: "0.5vh",
-                    }}
-                  >
-                    {contentWords}
-                  </span>
-                </div>
-                <br className={styles.g} />
-                <br className={styles.g} />
-                <label htmlFor="input-files" className={styles.picUpload}>
-                  {files.length > 1 &&
-                    `${files.length}${t(" files has been uploaded")}`}
-                  {files.length === 1 &&
-                    `${files.length}${t(" file has been uploaded")}`}
-                  {!(files.length > 1) &&
-                    !(files.length === 1) &&
-                    t("Pictures or Videos (Drag and drop or Click)")}
-                  <input
-                    type="file"
-                    id="input-files"
-                    style={{ display: "none" }}
-                    onChange={handleFileChange}
-                    multiple
-                  />
-                </label>
-                <div className={styles.formBottom}>
-                  <button
-                    type="submit"
-                    className={styles.postBtn}
-                    disabled={load}
-                    onClick={() => {
-                      setContent(
-                        document.getElementById("content").textContent,
-                      ),
-                        setTitle(document.getElementById("title").textContent);
-                    }}
-                  >
-                    {!load && <p className={styles.ldd}>{t("Post")}</p>}
-                    {load && (
-                      <div className={styles.load}>
-                        <TailSpin
-                          type="ThreeDots"
-                          color="white"
-                          height={20}
-                          width={40}
-                          style={{ marginRight: "5px" }}
-                        />
-                        <span className={styles.ld}>Loading...</span>
-                      </div>
-                    )}
-                  </button>
-                  <button
-                    className={styles.closeForm}
-                    onClick={handleCloseFormClick}
-                  >
-                    <p>{t("Cancel")}</p>
-                  </button>
-                  <div className={styles.switchForm}>
-                    <label className={styles.switch}>
+                    <div className="mb-3">
+                      <label htmlFor="title" className="form-label">
+                        {t("Enter title (20 words max)")}
+                      </label>
+                      <TextareaAutosize
+                        className="form-control"
+                        id="title"
+                        value={title}
+                        onInput={(e) => {
+                          const value = e.target.value;
+                          const wordCount = count(value);
+                          setTitleWords(wordCount);
+                          setTitle(value); // Update title state
+                        }}
+                        required
+                      />
+                      <span
+                        className="text-primary-emphasis"
+                        style={{ fontSize: "0.85rem" }}
+                      >
+                        {titleWords}
+                        {titleWords !== 0
+                          ? t(" words in total")
+                          : t(" word in total")}
+                      </span>
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="content" className="form-label">
+                        {t("Write sth...")}
+                      </label>
+                      <TextareaAutosize
+                        required
+                        className="form-control"
+                        name="content"
+                        onInput={(e) => {
+                          const value = e.target.value;
+                          const wordCount = count(value);
+                          setContentWords(wordCount);
+                          setContent(value); // Update title state
+                        }}
+                        value={content}
+                      />
+                      <span
+                        className="text-primary-emphasis"
+                        style={{ fontSize: "0.85rem" }}
+                      >
+                        {contentWords}
+                        {contentWords !== 0
+                          ? t(" words in total")
+                          : t(" word in total")}
+                      </span>
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="inputFiles" className="form-label">
+                        {files.length > 1 &&
+                          `${files.length}${t(" files has been uploaded")}`}
+                        {files.length === 1 &&
+                          `${files.length}${t(" file has been uploaded")}`}
+                        {!(files.length > 1) &&
+                          !(files.length === 1) &&
+                          t("Pictures or Videos (Drag and drop or Click)")}
+                      </label>
                       <input
+                        type="file"
+                        onChange={handleFileChange}
+                        className="form-control"
+                        id="inputFiles"
+                        multiple
+                      />
+                    </div>
+                    <div
+                      className="border border-primary rounded p-3 mb-3"
+                      style={{ borderStyle: "dashed" }}
+                      onDragEnter={(e) => e.preventDefault()}
+                      onDragOver={(e) => e.preventDefault()}
+                      onDrop={handleDropFile}
+                    >
+                      <p
+                        className="text-center"
+                        style={{ userSelect: "none", margin: "0" }}
+                      >
+                        {t("Drag and drop files here")}
+                      </p>
+                    </div>
+
+                    <div className="mt-2">
+                      <p>
+                        {t("Total files:")} {files.length}
+                      </p>
+                      {files.map((file, index) => (
+                        <div
+                          key={index}
+                          className="d-flex justify-content-between align-items-center mb-2"
+                        >
+                          <span>{file.name}</span>
+                          <button
+                            variant="danger"
+                            size="sm"
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={() => handleRemoveFile(index)}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="form-check form-switch mb-3">
+                      <input
+                        className="form-check-input"
                         type="checkbox"
+                        role="switch"
+                        style={{ cursor: "pointer" }}
+                        id="postAnonymous"
                         name="postAnonymous"
                         checked={postAnonymous}
                         onChange={() => setPostAnonymous(!postAnonymous)}
                       />
-                      <span className={`${styles.slider} ${styles.round}`}>
-                        <h6 className={styles.posta}>
-                          {t("Anon")}
-                          <p />
-                        </h6>
-                      </span>
-                    </label>
-                  </div>
-                  <div className={styles.preview}>
-                    {fileUrls &&
-                      fileUrls.map((url, index) => {
-                        const file = files[index];
-                        const isVideo = file && file.type.startsWith("video");
-                        return (
-                          <div key={index}>
-                            {isVideo ? (
-                              <video src={url} width="140" controls />
-                            ) : (
-                              <img src={url} alt="Preview" width="140" />
-                            )}
-                            <button onClick={() => handleRemoveFile(index)}>
-                              Remove
-                            </button>
-                          </div>
-                        );
-                      })}
-                  </div>
-                </div>
-              </form>
-              <div className={styles.row}>
-                <div>
-                  <div className={styles.previewImages} />
+                      <label
+                        className="form-check-label"
+                        htmlFor="postAnonymous"
+                      >
+                        {t("Anonymous")}
+                      </label>
+                    </div>
+                    <button type="submit" className="btn btn-primary">
+                      {loading ? (
+                        <span
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                      ) : (
+                        t("Post")
+                      )}
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>
-          )}{" "}
+          </div>
         </div>
         {/* input box for posting */}
         <div className={styles.bg}>
@@ -956,6 +978,10 @@ function Generalform({ username }) {
                         post.pictureUrl.map((image, index) => (
                           <section key={"multi" + image.filename}>
                             <button
+                              style={{
+                                border: "none",
+                                backgroundColor: "transparent",
+                              }}
                               onClick={() =>
                                 imagePreview(index, postIndex, image)
                               }
@@ -985,6 +1011,10 @@ function Generalform({ username }) {
                                 onClick={() =>
                                   handleCheckClose(index, postIndex)
                                 }
+                                style={{
+                                  border: "none",
+                                  backgroundColor: "transparent",
+                                }}
                               >
                                 X
                               </button>
@@ -997,6 +1027,10 @@ function Generalform({ username }) {
                           <section key={"1pic" + image.filename}>
                             <button
                               onClick={() => imagePreview1(postIndex, image)}
+                              style={{
+                                border: "none",
+                                backgroundColor: "transparent",
+                              }}
                             >
                               <img
                                 src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
@@ -1021,6 +1055,10 @@ function Generalform({ username }) {
                               <button
                                 className={styles.closePreview}
                                 onClick={() => handleClose(postIndex)}
+                                style={{
+                                  border: "none",
+                                  backgroundColor: "transparent",
+                                }}
                               >
                                 X
                               </button>
@@ -1087,9 +1125,6 @@ function Generalform({ username }) {
                               setLikestatuses={setLikestatuses}
                               setLikes={setLikes}
                               size={50}
-                              vershift="0.5vw"
-                              shift="0.2vw"
-                              height="76px"
                               type="all"
                             />
                           );
@@ -1289,9 +1324,6 @@ function Generalform({ username }) {
                                               setLikestatuses={setLikestatuses}
                                               setLikes={setLikes}
                                               size={30}
-                                              fontsize="1.2rem"
-                                              shift="1px"
-                                              height="37px"
                                               type="all"
                                             />
                                           ))}

@@ -7,11 +7,17 @@ button.likeBtn {
 p.postlike {
   position: relative;
   font-weight: 500;
+  margin: 0;
+  text-align: left;
   font-size: 1.5rem;
+  align-self: center;
 }
 svg.loadHeart {
   position: relative;
   animation: scaling 1s infinite ease-in-out;
+}
+.heart {
+  color: red;
 }
 @keyframes scaling {
   0% {
@@ -23,4 +29,9 @@ svg.loadHeart {
   100% {
     transform: scale(1.2);
   }
+}
+section.likeSection {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  position: relative;
 }

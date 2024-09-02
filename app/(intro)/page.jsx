@@ -11,6 +11,7 @@ import Megaphone from "../(icons)/ionIcons/Megaphone";
 import People from "../(icons)/ionIcons/People";
 import ShieldHalf from "../(icons)/ionIcons/ShieldHalf";
 import styles from "../src/intro.module.css";
+import Link from "next/link";
 
 const Intro = () => {
   // i18n setting
@@ -51,18 +52,18 @@ const Intro = () => {
           {t("Oasis")}
         </a>
         <div className={styles.gradientText}>
-          <a className={`${styles.channel} ${styles.c1}`} href="general">
+          <Link className={`${styles.channel} ${styles.c1}`} href="general">
             {t("Posts")}
-          </a>
-          <a className={`${styles.channel} ${styles.c2}`} href="register">
+          </Link>
+          <Link className={`${styles.channel} ${styles.c2}`} href="register">
             {t("Register")}
-          </a>
-          <a className={`${styles.channel} ${styles.c3}`} href="news">
+          </Link>
+          <Link className={`${styles.channel} ${styles.c3}`} href="news">
             {t("News")}
-          </a>
-          <a className={`${styles.channel} ${styles.c4}`} href="contact">
+          </Link>
+          <Link className={`${styles.channel} ${styles.c4}`} href="contact">
             {t("Contact")}
-          </a>
+          </Link>
         </div>
         <div className={styles.languageSelector}>
           <select name="lang" onChange={changeLanguage} value={language}>

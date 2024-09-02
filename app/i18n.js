@@ -175,6 +175,10 @@ i18n
 
           Users: "用户",
           "No more posts~": "没有新的帖子了~",
+          " words in total": " 个字",
+          " word in total": " 个字",
+          "Drag and drop files here": "拖拽文件到这里",
+          "Total files:": "文件总数: ",
         },
       },
       es: {
