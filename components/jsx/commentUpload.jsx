@@ -189,6 +189,7 @@ const commentUpload = ({
               <input
                 type="file"
                 id="input-files"
+                style={{ display: "none" }}
                 className="form-control-file border"
                 onChange={(e) => setCommentFiles(e.target.files)}
                 multiple

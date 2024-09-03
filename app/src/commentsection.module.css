@@ -34,6 +34,8 @@ button.postCommentBtn {
   padding: 10px;
   font-weight: 600;
   position: relative;
+  border-color: transparent;
+  border-width: 0;
   background-color: #ec3da0;
   color: white;
   border-top-left-radius: 0;
@@ -84,6 +86,7 @@ label.picUpload {
 
 .ldd {
   text-align: center;
+  margin: 0;
   color: white;
 }
 

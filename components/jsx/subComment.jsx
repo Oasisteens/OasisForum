@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { useState } from "react";
 import LikeButton from "./likeButton";
 
 const subComment = ({
@@ -13,18 +12,40 @@ const subComment = ({
   subComment,
 }) => {
   return (
-    <div style={{ padding: "8px", position: "relative", left: "2vw" }}>
-      <h2 style={{ fontWeight: "700" }}>{subComment.username}</h2>
+    <div
+      style={{
+        padding: "8px",
+        position: "relative",
+        left: "2rem",
+        display: "flex",
+        flexDirection: "column",
+        gap: "6px",
+      }}
+    >
+      <h2
+        className="fs-6"
+        style={{
+          alignSelf: "center",
+          display: "flex",
+          width: "100%",
+          fontWeight: "600",
+        }}
+      >
+        {subComment.username}
+      </h2>
       <div
         style={{
           whiteSpace: "pre-wrap",
           overflowWrap: "break-word",
+          fontSize: "0.9rem",
         }}
       >
         {subComment.content}
       </div>
       <div style={{ display: "flex" }}>
-        <h2 style={{}}>{subComment.postingtime}</h2>
+        <h2 className="fs-6" style={{ alignSelf: "center" }}>
+          {subComment.postingtime}
+        </h2>
         {/* Reply subComments function (haven't finished) */}
         {/* <button
           onClick={() => handleSubComment(subComment._id)}

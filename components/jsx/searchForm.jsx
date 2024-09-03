@@ -8,7 +8,7 @@ import "../../app/i18n.js";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import styles from "../../app/src/search.module.css";
-import styles from "../../app/src/search.color.css";
+import "../../app/src/search.color.css";
 import Image from "next/image";
 import { useRef } from "react";
 
