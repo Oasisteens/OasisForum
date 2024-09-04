@@ -7,6 +7,7 @@ import Avatar from "../avatar.jsx";
 import { useTranslation } from "react-i18next";
 import styles from "../../../app/src/userinfo.module.css";
 import "../../../app/src/userinfo.color.css";
+import Link from "next/link.js";
 
 const UserInfo = ({ username, image, updateSession, auth }) => {
   const router = useRouter();
@@ -70,14 +71,14 @@ const UserInfo = ({ username, image, updateSession, auth }) => {
       />
       <div className={styles.card} style={{ height: auth ? "26vh" : "auto" }}>
         <br />
-        <div>
+        <div className={styles.info}>
           <p className={styles.cardText}>
             {t("Username: ")}
             <span className={styles.blueText}>{username}</span>
           </p>
-          <a onClick={() => router.back()} className={styles.redi}>
+          <button onClick={() => router.back()} className={styles.redi}>
             {t("Back")}
-          </a>
+          </button>
         </div>
 
         {!auth && <br />}

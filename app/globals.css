@@ -88,3 +88,8 @@ div.wrapper {
     transform: rotate(360deg);
   }
 }
+
+html,
+body {
+  width: 100%;
+}

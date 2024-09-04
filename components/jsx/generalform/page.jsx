@@ -854,8 +854,7 @@ function Generalform({ username }) {
                       />
                     </div>
                     <div
-                      className="border border-primary rounded p-3 mb-3"
-                      style={{ borderStyle: "dashed" }}
+                      className={styles.dragArea}
                       onDragEnter={(e) => e.preventDefault()}
                       onDragOver={(e) => e.preventDefault()}
                       onDrop={handleDropFile}
@@ -908,7 +907,7 @@ function Generalform({ username }) {
                         {t("Anonymous")}
                       </label>
                     </div>
-                    <button type="submit" className="btn btn-primary">
+                    <button type="submit" className={`btn ${styles.submitBtn}`}>
                       {loading ? (
                         <span
                           className="spinner-border spinner-border-sm"

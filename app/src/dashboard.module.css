@@ -9,6 +9,7 @@ main.dash {
   flex-direction: row;
   height: 100vh;
   margin: 0;
+  min-width: 900px;
   padding: 0;
   background-color: #f2f4f5;
 }
@@ -85,6 +86,7 @@ div.myPost {
   white-space: pre-wrap;
   overflow-wrap: break-word;
   width: var(--dash-width);
+  min-width: 170px;
 }
 div.myPosts {
   display: flex;
@@ -139,26 +141,29 @@ p.dashp {
 }
 @media screen and (max-width: 1600px) {
 }
-div.dash {
+div.dashTop {
   position: fixed;
   z-index: 100;
   display: flex;
+  align-items: center;
+  justify-content: left;
   top: 0;
   left: 0;
+  min-width: 900px;
+  gap: 35px;
   text-align: center;
   background-color: var(--dash-color);
   height: 65px;
   width: var(--width);
 }
 button.menuBtn {
-  top: 12px;
-  left: 1.5vw;
   cursor: pointer;
   background-color: transparent;
   border: none;
   color: white;
   width: 40px;
   height: 40px;
+  margin-left: 1.5rem;
   transition: 0.3s;
   position: relative;
 }
@@ -170,9 +175,7 @@ button.menuBtn:hover {
 .toIntro {
   position: relative;
   display: flex;
-  top: 7px;
   text-decoration: none;
-  left: 3vw;
   color: white;
   font-size: 1.2rem;
 }
@@ -295,9 +298,7 @@ search.searchContainer {
 .toSearch {
   color: white;
   font-size: 2.2rem;
-  position: absolute;
-  top: 6px;
-  left: 13.5vw;
+  position: relative;
   transition: 0.3s;
 }
 

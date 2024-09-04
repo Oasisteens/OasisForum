@@ -303,7 +303,7 @@ export default function Dashboardform({ username, email }) {
       </title>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <div className={styles.dash}>
+      <div className={styles.dashTop}>
         <button className={styles.menuBtn} onClick={handleNav}>
           <svg
             fill="none"

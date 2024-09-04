@@ -47,6 +47,7 @@ section.posts {
   padding-left: 1.2rem;
   padding: 1rem;
   width: 40vw;
+  min-width: 360px;
   display: flex;
   flex-direction: column;
   margin: 1rem;
@@ -549,18 +550,6 @@ div.postBody::-webkit-scrollbar-thumb:hover {
   background-color: var(--sec-color);
 }
 
-@media screen and (max-width: 1300px) {
-  div.likeContainer {
-    left: 25vw;
-  }
-}
-
-@media screen and (max-width: 800px) {
-  div.likeContainer {
-    left: 22vw;
-  }
-}
-
 .topBtnContainer {
   display: flex;
   flex-direction: row;
@@ -579,4 +568,21 @@ div.postBody::-webkit-scrollbar-thumb:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+div.dragArea {
+  border-radius: 0.375rem;
+  border: 1px dashed var(--main-color);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+button.submitBtn {
+  background-color: var(--main-color);
+  color: white;
+}
+
+button.submitBtn:hover {
+  background-color: var(--sub-color);
+  color: white;
 }
