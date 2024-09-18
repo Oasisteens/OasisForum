@@ -127,8 +127,10 @@ export default function AvatarUpload({
           setLoading(false);
           changeWidth("8vw");
           console.log("Error: ", error);
-          if (error.response && error.response.status === 429)
-            alert("Too many requests, please try again in 1 minute.");
+          if (error.response && error.response.status === 429) {
+            alert(t("Too many requests. Please try again later."));
+            return;
+          }
         }
       });
     }

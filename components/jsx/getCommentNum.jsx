@@ -31,8 +31,11 @@ export default function GetCommentNum({ postId }) {
         marginBottom: "0",
       }}
     >
-      {commentNum}
-      {t("Comments")}
+      {commentNum === 0
+        ? t("No Comments")
+        : commentNum === 1
+          ? "1 " + t("Comment")
+          : `${commentNum} ${t("Comments")}`}
     </p>
   );
 }

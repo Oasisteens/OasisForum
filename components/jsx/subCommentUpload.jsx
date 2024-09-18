@@ -77,6 +77,10 @@ const subCommentUpload = ({
       fetchLikes();
     } catch (error) {
       console.log(error);
+      if (error.response && error.response.status === 429) {
+        alert(t("Too many requests. Please try again later."));
+        return;
+      }
       setCommentUploadLoad(false);
     }
   };

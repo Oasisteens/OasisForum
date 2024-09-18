@@ -48,11 +48,11 @@ const Intro = () => {
         <div className={styles.iconContainer}>
           <Chatbubbles />
         </div>
-        <a className={styles.webicon} href="/">
+        <Link className={styles.webicon} href="/">
           {t("Oasis")}
-        </a>
+        </Link>
         <div className={styles.gradientText}>
-          <Link className={`${styles.channel} ${styles.c1}`} href="general">
+          <Link className={`${styles.channel} ${styles.c1}`} href="/">
             {t("Posts")}
           </Link>
           <Link className={`${styles.channel} ${styles.c2}`} href="register">

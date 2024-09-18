@@ -17,7 +17,7 @@ export default function Dashboardform({ username, email }) {
   const [likes, setLikes] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   const [likesSec, setLikesSec] = useState([]);
-  const [navVisible, setNavVisible] = useState(false);
+  const [navVisible, setNavVisible] = useState(true);
   const [color, setColor] = useState("blue");
 
   // i18n setting

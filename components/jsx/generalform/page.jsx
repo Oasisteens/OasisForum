@@ -1,28 +1,25 @@
 "use client";
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { useTranslation } from "react-i18next";
+import Link from "next/link";
+import Image from "next/image";
+import TextareaAutosize from "react-textarea-autosize";
+// import { Picker } from "emoji-mart";
+import ColorThief from "colorthief";
+import count from "word-count";
+import { truncate } from "lodash";
 import styles from "../../../app/src/channels.module.css";
 import "../../../app/src/channels.color.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import React from "react";
-import axios from "axios";
 import "../../../app/i18n";
 import Skeleton from "../skeletons/Skeleton";
 import LikeButton from "../likeButton";
-import { useState } from "react";
-import { TailSpin } from "react-loader-spinner";
-import { Picker } from "emoji-mart";
-import { useTranslation } from "react-i18next";
 import SubCommentUpload from "../subCommentUpload";
-import ColorThief from "colorthief";
 import CommentUpload from "../commentUpload";
 import SubComment from "../subComment";
-import count from "word-count";
-import Link from "next/link";
-import { truncate } from "lodash";
-import { useEffect } from "react";
 import GetCommentNum from "../getCommentNum.jsx";
-import TextareaAutosize from "react-textarea-autosize";
-import { useRef } from "react";
 
 function Generalform({ username }) {
   const [loading, setLoading] = useState(true);
@@ -43,10 +40,10 @@ function Generalform({ username }) {
   const [likestatuses, setLikestatuses] = useState([]);
   const [postAnonymous, setPostAnonymous] = useState(false);
   const [likeloads, setLikeloads] = useState(true);
-  const [likeload, setLikeload] = useState([]);
+  // const [likeload, setLikeload] = useState([]);
   const [hide, setHide] = useState(false);
-  const [commentLikeLoad, setCommentLikeLoad] = useState(null);
-  const [selectedEmoji, setSelectedEmoji] = useState(null);
+  // const [commentLikeLoad, setCommentLikeLoad] = useState(null);
+  // const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [bottomLoad, setBottomLoad] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [lastPostId, setLastPostId] = useState(null);
@@ -56,33 +53,22 @@ function Generalform({ username }) {
   const [comments, setComments] = useState([]);
   const [isExpanded, setIsExpanded] = useState([]);
   const [fileUrls, setFileUrls] = useState([]);
+  const [commentUploadRefresh, setCommentUploadRefresh] = useState(
+    [].map(() => false),
+  );
   // const [commentNumber, setCommentNumber] = useState([]);
   // The commentDisplay function is for showing the comment post button and the picturen upload button. If the content is focused, or in other words, the user is writing or editing the comment, it shows, else, we need to make space for showing other comments.
   const [addCommentDisplay, setAddCommentDisplay] = useState([]);
-  const [admin, setAdmin] = useState(false);
   const [loadedSrc, setLoadedSrc] = useState(null);
   const [noMore, setNoMore] = useState(false);
+  const [globalRefresh, setGlobalRefresh] = useState(false);
   const { t } = useTranslation();
   const { i18n } = useTranslation();
-  const modalRef = useRef();
+  const modalRef = useRef(); //the ref for post submission modal (dialog)
 
   useEffect(() => {
     import("bootstrap");
-  }, []);
-
-  useEffect(() => {
-    const fetchAdmin = async () => {
-      try {
-        const res = await axios.post("http://localhost:3000/api/fetchAdmin", {
-          username,
-        });
-        setAdmin(res.data.admin);
-      } catch (error) {
-        console.log("Error loading admin", error);
-      }
-    };
-    fetchAdmin();
-  }, []); //fetch admin information
+  }, []); //bootstrap dynamic import
 
   useEffect(() => {
     if (!localStorage.getItem("language")) {
@@ -143,7 +129,16 @@ function Generalform({ username }) {
         setHide(false);
       });
     }
-  }, [hide]);
+  }, [hide]); //hide modal
+
+  useEffect(() => {
+    commentUploadRefresh.forEach(async (postId) => {
+      await getComments(postId);
+      setCommentUploadRefresh(
+        commentUploadRefresh.filter((id) => id !== postId),
+      );
+    });
+  }, [commentUploadRefresh]);
 
   const getPosts = async (needLoading, type = "top") => {
     if (isFetching) return;
@@ -190,7 +185,7 @@ function Generalform({ username }) {
       setError(true);
       console.log("Error loading posts", error);
     }
-  };
+  }; //get posts
 
   const initPosts = async () => {
     if (isFetching) return;
@@ -216,38 +211,35 @@ function Generalform({ username }) {
       setError(true);
       console.log("Error loading posts", error);
     }
-  };
+  }; //init posts
 
   useEffect(() => {
-    let lastIndex = posts?.[posts.length - 1]?._id;
+    const lastIndex = posts?.[posts.length - 1]?._id;
 
-    // 如果最后一个帖子的 ID 没有变化，直接返回
-    if (lastIndex === lastPostId) {
-      return;
-    }
+    if (lastIndex === lastPostId && !globalRefresh) return;
 
-    // 更新最后一个帖子的 ID
     setLastPostId(lastIndex);
 
     const lastPost = document.getElementById(lastIndex);
 
-    let observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(async (entry) => {
-          if (entry.isIntersecting) {
-            const post = entry.target;
-            await getPosts(false, "bottom");
-            observer.unobserve(post);
+    if (lastPost) {
+      const observer = new IntersectionObserver(
+        async (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              await getPosts(false, "bottom");
+              observer.unobserve(entry.target);
+            }
           }
-        });
-      },
-      {
-        threshold: 0,
-      },
-    );
+        },
+        { threshold: 0 },
+      );
 
-    lastPost && observer.observe(lastPost);
-  }, [posts, lastPostId]); // 添加 lastPostId 作为依赖
+      observer.observe(lastPost);
+    }
+
+    setGlobalRefresh(false);
+  }, [posts, lastPostId, globalRefresh]); //fetch posts when the last post is in the viewport
 
   const fetchLikes = async () => {
     try {
@@ -416,7 +408,7 @@ function Generalform({ username }) {
         setFiles((prevFiles) => [...prevFiles, file]);
       }
     });
-  };
+  }; //add file through file input in post submission
 
   const handleDropFile = (event) => {
     event.preventDefault();
@@ -437,12 +429,12 @@ function Generalform({ username }) {
         setFiles((prevFiles) => [...prevFiles, file]);
       }
     });
-  };
+  }; //add file through drag and drop in post submission
 
   const handleRemoveFile = (index) => {
     setFiles((prevFiles) => prevFiles.filter((file, i) => i !== index));
     setFileUrls((prevUrls) => prevUrls.filter((url, i) => i !== index));
-  };
+  }; //remove file in post submission
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -512,6 +504,10 @@ function Generalform({ username }) {
       fetchLikes();
     } catch (error) {
       console.log(error);
+      if (error.response && error.response.status === 429) {
+        alert(t("Too many requests. Please try again later."));
+        return;
+      }
       setLoad(false);
     }
   }; //submit post
@@ -546,7 +542,7 @@ function Generalform({ username }) {
     document.documentElement.style.setProperty("--3-color", "#f2f4f5");
   }; //setting for image preview1
 
-  const handleSub = async (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
     try {
       await axios.delete("/api/general", {
@@ -555,15 +551,23 @@ function Generalform({ username }) {
         },
       });
       await initPosts();
+      await fetchLikes();
     } catch (error) {
       console.log(error);
     }
   }; //delete post
 
-  const handleRefresh = async () => {
-    await initPosts();
-    await fetchLikes();
-    setCommentOpen([].map(() => false));
+  const handleRefresh = async (e) => {
+    e.preventDefault();
+    try {
+      setCommentOpen([]);
+      setCommentUploadRefresh([]);
+      await initPosts();
+      await fetchLikes();
+      setGlobalRefresh(true);
+    } catch (error) {
+      console.log(error);
+    }
   }; //refresh page
 
   const handleComment = async (postId) => {
@@ -707,39 +711,65 @@ function Generalform({ username }) {
     };
 
     loadImages();
-  }, [posts]);
+  }, [posts]); //load avatars
   return (
     <section className={styles.posts}>
       <title>{t("General")}</title>
       <div className={styles.topBar}>
-        <Link href="/" className={styles.titleg}>
-          {t("General")}
-        </Link>{" "}
-        {/* to intro page */}
+        <Link href="/" className={styles.iconContainer}>
+          <Image
+            src="/chatbubbles-outline.svg"
+            width="50"
+            height="50"
+            alt="chatbubbles"
+          />
+          <p className={styles.webicon} href="/">
+            {t("Oasis")}
+          </p>
+        </Link>
       </div>
       <br />
       <br />
       <br />
       <div className={styles.postBody}>
-        <div className={styles.topBtnContainer}>
-          <Link href="dashboard" className={styles.backButton}>
-            {t("Back to Dashboard")}
-          </Link>{" "}
-          {/* back to dashboard button */}
+        <div className={styles.generalNav}>
+          <ul className="nav flex-column">
+            <li className="nav-item">
+              <Link
+                className="nav-link active"
+                aria-current="page"
+                href="/dashboard"
+              >
+                {t("Back to Dashboard")}
+              </Link>
+            </li>
+            <li className="nav-item">
+              <button className="nav-link" onClick={handleRefresh}>
+                {t("Refresh")}
+              </button>
+            </li>
+            <li className="nav-item">
+              <button
+                className="nav-link"
+                onClick={handleAddPostClick}
+                data-bs-toggle={username && "modal"}
+                data-bs-target={username && "#postModal"}
+              >
+                {t("Write a post")}
+              </button>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link disabled" aria-disabled="true">
+                Disabled
+              </a>
+            </li>
+          </ul>
+        </div>
+        {/* <div className={styles.topBtnContainer}>
           <button className={styles.refreshBtn} onClick={handleRefresh}>
             {t("Refresh")}
           </button>{" "}
-          <button
-            className={`${styles.adp} ${styles.GaddPostBtn}`}
-            onClick={handleAddPostClick}
-            data-bs-toggle={username && "modal"}
-            data-bs-target={username && "#postModal"}
-          >
-            <span>{t("Write a post")}</span>
-          </button>{" "}
-        </div>
-        {/* refresh button */}
-        <br />
+        </div> */}
         <br />
         <br />
         <div
@@ -1070,7 +1100,7 @@ function Generalform({ username }) {
                     </div>
                     <br className={styles.g} />
                     <br className={styles.g} />
-                    {(post.postAnonymous !== "true" || admin == true) && (
+                    {post.postAnonymous !== "true" && (
                       <Link
                         className={styles.author}
                         href={`/profile/${post.username}`}
@@ -1130,7 +1160,7 @@ function Generalform({ username }) {
                       })()}
                     </div>
 
-                    {/* Comment Section */}
+                    {/* Comment Open Button */}
                     <button
                       onClick={() => handleComment(post._id)}
                       style={{
@@ -1155,34 +1185,41 @@ function Generalform({ username }) {
                       </svg>
                       <GetCommentNum postId={post._id} />{" "}
                     </button>
+
+                    {/* Comment List */}
                     {commentOpen.includes(post._id) && (
                       <>
                         <CommentUpload
                           fetchLikes={fetchLikes}
                           username={username}
                           postId={post._id}
+                          setCommentUploadRefresh={setCommentUploadRefresh}
+                          commentUploadRefresh={commentUploadRefresh}
                           commentOpen={commentOpen}
                           getComments={getComments}
                         />
                         <br className={styles.g} />
                         {commentOpen.includes(post._id) && (
                           <div className={styles.commentSection}>
-                            <div style={{ display: "flex", padding: "8px" }}>
-                              <p>
-                                {comments
-                                  ? comments.filter(
-                                      (comment) => comment.postId === post._id,
-                                    ).length
-                                  : 0}
-                              </p>{" "}
+                            <div
+                              style={{
+                                display: "flex",
+                                padding: "8px",
+                                alignItems: "center",
+                              }}
+                            >
                               <p
                                 style={{
                                   position: "relative",
-                                  top: "0.25vh",
-                                  marginLeft: "0.25vw",
+                                  margin: "0",
                                 }}
                               >
-                                {t("Comments")}
+                                {comments &&
+                                comments.filter(
+                                  (comment) => comment.postId === post._id,
+                                ).length > 0
+                                  ? `${comments.filter((comment) => comment.postId === post._id).length} ${comments.filter((comment) => comment.postId === post._id).length === 1 ? t("Comment") : t("Comments")}`
+                                  : t("No Comments")}
                               </p>
                             </div>
                             <hr
@@ -1211,7 +1248,7 @@ function Generalform({ username }) {
                                         >
                                           {com.username}
                                         </h2>
-                                        {admin && (
+                                        {/* {admin && (
                                           <form onSubmit={deleteComment}>
                                             <input
                                               type="hidden"
@@ -1235,33 +1272,32 @@ function Generalform({ username }) {
                                               <span>{t("Admin Delete")}</span>
                                             </button>
                                           </form>
+                                        )} */}
+                                        {com.username === username && (
+                                          <form onSubmit={deleteComment}>
+                                            <input
+                                              type="hidden"
+                                              name="commentId"
+                                              value={com._id}
+                                            />
+                                            <input
+                                              type="hidden"
+                                              name="postId"
+                                              value={post._id}
+                                            />
+                                            <button
+                                              type="submit"
+                                              className={styles.deleteBtn}
+                                              style={{
+                                                position: "absolute",
+                                                right: "2.5vw",
+                                                scale: "0.8",
+                                              }}
+                                            >
+                                              <span>{t("Delete")}</span>
+                                            </button>
+                                          </form>
                                         )}
-                                        {!admin &&
-                                          com.username === username && (
-                                            <form onSubmit={deleteComment}>
-                                              <input
-                                                type="hidden"
-                                                name="commentId"
-                                                value={com._id}
-                                              />
-                                              <input
-                                                type="hidden"
-                                                name="postId"
-                                                value={post._id}
-                                              />
-                                              <button
-                                                type="submit"
-                                                className={styles.deleteBtn}
-                                                style={{
-                                                  position: "absolute",
-                                                  right: "2.5vw",
-                                                  scale: "0.8",
-                                                }}
-                                              >
-                                                <span>{t("Delete")}</span>
-                                              </button>
-                                            </form>
-                                          )}
                                       </div>
                                       <div
                                         style={{
@@ -1425,9 +1461,9 @@ M125.025,99.15H25.02V85.51l22.73-22.724l11.363,11.36l36.365-36.361l29.547,29.547
                 </div>
               )) */}
                     <br className={styles.g} />
-                    {post.username === username && !admin && (
+                    {post.username === username && (
                       <div className={styles.deleteForm}>
-                        <form onSubmit={handleSub}>
+                        <form onSubmit={handleDelete}>
                           <input
                             type="hidden"
                             name="id"
@@ -1440,9 +1476,9 @@ M125.025,99.15H25.02V85.51l22.73-22.724l11.363,11.36l36.365-36.361l29.547,29.547
                         </form>
                       </div>
                     )}
-                    {admin && (
+                    {/* {admin && (
                       <div className={styles.deleteForm}>
-                        <form onSubmit={handleSub}>
+                        <form onSubmit={handleDelete}>
                           <input
                             type="hidden"
                             name="id"
@@ -1454,7 +1490,7 @@ M125.025,99.15H25.02V85.51l22.73-22.724l11.363,11.36l36.365-36.361l29.547,29.547
                           </button>
                         </form>
                       </div>
-                    )}
+                    )} */}
                   </div>
                 ))}{" "}
             {bottomLoad && (

@@ -404,7 +404,7 @@ function Newsform({ username }) {
         </div>
       )}
       <div className={styles.bg}>
-        <div id="posts" className={styles.word - box}>
+        <div id="posts" className={styles.wordBox}>
           <br />
           {loading
             ? Array.from({ length: 15 }).map((_, i) => (

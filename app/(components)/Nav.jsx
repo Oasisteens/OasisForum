@@ -36,7 +36,7 @@ const Nav = ({ username }) => {
             setActiveIcon(null);
             setLift(false);
           }}
-          href="/general"
+          href="/"
           className={styles.navDblock}
         >
           <div

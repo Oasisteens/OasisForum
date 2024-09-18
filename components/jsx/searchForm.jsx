@@ -164,10 +164,11 @@ const SearchForm = () => {
             type="text"
             placeholder={t("Search")}
             id="searchInput"
+            className={styles.searchInput}
             onChange={dySearch}
             ref={searchRef}
           />
-          <button type="submit" id="submitBtn">
+          <button type="submit" id="submitBtn" className={styles.submitBtn}>
             <Image
               src="./search.svg"
               width={30}
@@ -176,36 +177,43 @@ const SearchForm = () => {
             />
           </button>
         </form>
-        <div className={styles.language - selector}>
-          <select
-            id="lang"
-            name="lang"
-            onChange={changeLanguage}
-            value={language}
-          >
-            <option value="en">English</option>
-            <option value="zh">中文</option>
-            <option value="es">Español</option>
-            <option value="fr">Français</option>
-            <option value="ja">日本語</option>
-          </select>
-        </div>
+        <div className={styles.selectors}>
+          <div className={styles.languageSelector}>
+            <select
+              id="lang"
+              name="lang"
+              onChange={changeLanguage}
+              value={language}
+            >
+              <option value="en">English</option>
+              <option value="zh">中文</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="ja">日本語</option>
+            </select>
+          </div>
 
-        <div className={styles.color - selector}>
-          <select id="color" name="color" onChange={changeColor} value={color}>
-            <option value="pink">{t("Pink")}</option>
-            <option value="blue">{t("Blue")}</option>
-            <option value="purple">{t("Purple")}</option>
-            <option value="red">{t("Red")}</option>
-            {/* <option value="custom">{t('Custom')}</option> */}
-          </select>
-          {/* Custom Color hasn't finished */}
-          {/* {showColorPicker && (
+          <div className={styles.colorSelector}>
+            <select
+              id="color"
+              name="color"
+              onChange={changeColor}
+              value={color}
+            >
+              <option value="pink">{t("Pink")}</option>
+              <option value="blue">{t("Blue")}</option>
+              <option value="purple">{t("Purple")}</option>
+              <option value="red">{t("Red")}</option>
+              {/* <option value="custom">{t('Custom')}</option> */}
+            </select>
+            {/* Custom Color hasn't finished */}
+            {/* {showColorPicker && (
             <form onSubmit={changeCustomColor}>
               <input type="color" name="customColor" id="customColor" value={color} />
               <button type="submit">{t('Choose')}</button>
             </form>
       )} */}
+          </div>
         </div>
       </div>
       <br />
@@ -283,7 +291,7 @@ const SearchForm = () => {
                       href={`/posts/${t.item._id}`}
                       target="_blank"
                       className={styles.boxBig}
-                      style={{ display: "flex" }}
+                      style={{ display: "flex", textDecoration: "none" }}
                     >
                       <div key={t.item._id} className={styles.indPost}>
                         <h3 className={styles.indTitle}>{t.item.title}</h3>

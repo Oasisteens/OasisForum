@@ -27,7 +27,6 @@ div.formBottom {
 
 div.commentForm {
   position: relative;
-  padding: 1px;
 }
 
 button.postCommentBtn {
@@ -66,17 +65,22 @@ label.picUpload {
   border-top-right-radius: 5px;
   border: 0.5px solid gray;
   min-height: 34px;
-  padding: 10px 10px;
+  padding: 0;
   width: 100%;
+  position: relative;
   overflow: hidden;
   resize: none;
   outline: none;
+  padding: 10px;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  max-width: 100%;
   white-space: pre-wrap;
   overflow-wrap: break-word;
   color: gray; /* default color, replace with the actual color when comment is not empty */
 }
 
-#comment.empty,
+.comment.empty,
 #subComment.empty {
   color: gray; /* color when comment is empty */
 }

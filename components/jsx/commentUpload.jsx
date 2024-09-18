@@ -16,6 +16,8 @@ const commentUpload = ({
   username,
   fetchLikes,
   type,
+  setCommentUploadRefresh,
+  commentUploadRefresh,
 }) => {
   const [comment, setComment] = useState("");
   const [commentFiles, setCommentFiles] = useState([]);
@@ -69,6 +71,7 @@ const commentUpload = ({
       if (res.status === 201) {
         await getComments(e.target.id.value);
         setCommentUploadLoad(false);
+        setCommentUploadRefresh([...commentUploadRefresh, postId]);
         setCommentDisplay(false);
         setTemp(false);
         setComment("");
@@ -85,6 +88,9 @@ const commentUpload = ({
       }
     } catch (error) {
       console.log(error);
+      if (error.response && error.response.status === 429) {
+        alert(t("Too many requests. Please try again later."));
+      }
       setCommentUploadLoad(false);
     }
   };
@@ -153,8 +159,8 @@ const commentUpload = ({
             style={{
               position: "absolute",
               fontSize: "0.85rem",
-              right: "0.7vw",
-              bottom: "0.7vh",
+              right: "5px",
+              bottom: "5px",
             }}
           >
             {commentWords}
