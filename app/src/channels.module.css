@@ -613,6 +613,35 @@ button.submitBtn:hover {
   padding: 1rem;
   height: calc(100% - 4.5rem);
   left: 0;
+  padding-right: 2rem;
   overflow-y: auto;
   background-color: white;
+}
+
+.navItem:hover {
+  background-color: rgba(223, 223, 223, 0.445);
+  transition: 0.4s background-color;
+  border-radius: 0.5rem;
+}
+
+.navLink {
+  width: 18rem;
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  justify-content: left;
+}
+
+@media screen and (max-width: 1300px) {
+  .navLink {
+    width: 12rem;
+  }
+}
+
+.navLink:hover i.arrowRotate {
+  transform: rotate(180deg);
+}
+
+.arrowRotate {
+  transition: 0.3s transform;
 }

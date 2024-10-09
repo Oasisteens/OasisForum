@@ -178,7 +178,7 @@ function Postform({ id, username }) {
     const colorThief = new ColorThief();
     const image = new Image();
     image.crossOrigin = "Anonymous";
-    image.src = `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${img.filename}`;
+    image.src = `/${img.filename}`;
 
     image.onload = async function () {
       const colors = await colorThief.getPalette(image, 3);
@@ -198,7 +198,7 @@ function Postform({ id, username }) {
     const colorThief = new ColorThief();
     const image = new Image();
     image.crossOrigin = "Anonymous";
-    image.src = `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${img.filename}`;
+    image.src = `/${img.filename}`;
 
     image.onload = async function () {
       const colors = await colorThief.getPalette(image, 3);
@@ -307,11 +307,7 @@ function Postform({ id, username }) {
       try {
         await Promise.all(
           posts.map((post) =>
-            post.pictureUrl.map((image) =>
-              loadImage(
-                `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`,
-              ),
-            ),
+            post.pictureUrl.map((image) => loadImage(`/${image.filename}`)),
           ),
         );
       } catch (error) {
@@ -377,7 +373,7 @@ function Postform({ id, username }) {
                       <section key={"multi" + image.filename}>
                         <button onClick={() => imagePreview(index, image)}>
                           <img
-                            src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                            src={`/${image.filename}`}
                             alt={image.filename}
                             width="300"
                             height="300"
@@ -386,7 +382,7 @@ function Postform({ id, username }) {
                         </button>
                         {check[index] && (
                           <img
-                            src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                            src={`/${image.filename}`}
                             alt={image.filename}
                             id={`${post._id}-${index}`}
                             width={300 * scale}
@@ -412,7 +408,7 @@ function Postform({ id, username }) {
                       <section key={"1pic" + image.filename}>
                         <button onClick={() => imagePreview1(image)}>
                           <img
-                            src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                            src={`/${image.filename}`}
                             alt={image.filename}
                             width="300"
                             height="300"
@@ -421,7 +417,7 @@ function Postform({ id, username }) {
                         </button>
                         {ok && imgCheck && (
                           <img
-                            src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                            src={`/${image.filename}`}
                             alt={image.filename}
                             width={300 * scale}
                             height={300 * scale}

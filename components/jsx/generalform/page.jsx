@@ -336,45 +336,58 @@ function Generalform({ username }) {
   const imagePreview = (index, postIndex, img) => {
     document.body.style.overflowY = "hidden";
     const colorThief = new ColorThief();
-    const image = new Image();
-    image.crossOrigin = "Anonymous";
-    image.src = `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${img.filename}`;
 
-    image.onload = async function () {
-      const colors = await colorThief.getPalette(image, 3);
-      const rgbColors = colors.map((color) => `rgb(${color.join(", ")})`);
-      document.documentElement.style.setProperty("--1-color", rgbColors[0]);
-      document.documentElement.style.setProperty("--2-color", rgbColors[1]);
-      document.documentElement.style.setProperty("--3-color", rgbColors[2]);
-    };
+    // 确保在浏览器环境中使用 Image
+    if (typeof window !== "undefined") {
+      const image = new window.Image();
+      image.crossOrigin = "Anonymous";
+      image.src = img.filename ? `/uploads/${img.filename}` : "";
 
-    let Array = [...imgCheck]; // create a copy of the current state
-    Array[postIndex] = true; // set the first element to false
-    setImgCheck(Array); // update the state
-    setBackCheck(true);
-    let newArray = [...check]; // create a copy of the current state
-    newArray[index] = true; // set the first element to false
-    setCheck(newArray); // update the state
+      image.onload = async function () {
+        const colors = await colorThief.getPalette(image, 3);
+        const rgbColors = colors.map((color) => `rgb(${color.join(", ")})`);
+        document.documentElement.style.setProperty("--1-color", rgbColors[0]);
+        document.documentElement.style.setProperty("--2-color", rgbColors[1]);
+        document.documentElement.style.setProperty("--3-color", rgbColors[2]);
+      };
+
+      let Array = [...imgCheck]; // create a copy of the current state
+      Array[postIndex] = true; // set the first element to false
+      setImgCheck(Array); // update the state
+      setBackCheck(true);
+      let newArray = [...check]; // create a copy of the current state
+      newArray[index] = true; // set the first element to false
+      setCheck(newArray); // update the state
+    } else {
+      console.error("Image loading is not supported in this environment");
+    }
   }; //preview images (>=2)
 
   const imagePreview1 = (postIndex, img) => {
     document.body.style.overflowY = "hidden";
     const colorThief = new ColorThief();
-    const image = new Image();
-    image.crossOrigin = "Anonymous";
-    image.src = `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${img.filename}`;
 
-    image.onload = async function () {
-      const colors = await colorThief.getPalette(image, 3);
-      const rgbColors = colors.map((color) => `rgb(${color.join(", ")})`);
-      document.documentElement.style.setProperty("--1-color", rgbColors[0]);
-      document.documentElement.style.setProperty("--2-color", rgbColors[1]);
-      document.documentElement.style.setProperty("--3-color", rgbColors[2]);
-    };
-    let Array = [...imgCheck]; // create a copy of the current state
-    Array[postIndex] = true; // set the first element to false
-    setImgCheck(Array); // update the state
-    setOk(true);
+    // 确保在浏览器环境中使用 Image
+    if (typeof window !== "undefined") {
+      const image = new window.Image();
+      image.crossOrigin = "Anonymous";
+      image.src = img.filename ? `/uploads/${img.filename}` : "";
+
+      image.onload = async function () {
+        const colors = await colorThief.getPalette(image, 3);
+        const rgbColors = colors.map((color) => `rgb(${color.join(", ")})`);
+        document.documentElement.style.setProperty("--1-color", rgbColors[0]);
+        document.documentElement.style.setProperty("--2-color", rgbColors[1]);
+        document.documentElement.style.setProperty("--3-color", rgbColors[2]);
+      };
+
+      let Array = [...imgCheck]; // create a copy of the current state
+      Array[postIndex] = true; // set the first element to false
+      setImgCheck(Array); // update the state
+      setOk(true);
+    } else {
+      console.error("Image loading is not supported in this environment");
+    }
   }; //preview single image
 
   const handleWheel = (e) => {
@@ -480,7 +493,7 @@ function Generalform({ username }) {
     try {
       setLoad(true);
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_SOURCE_URL}/upload`,
+        `/api/upload`,
         formData,
         {
           headers: {
@@ -501,7 +514,7 @@ function Generalform({ username }) {
         setFileUrls([]);
         setPostAnonymous(false);
       }
-      fetchLikes();
+      // fetchLikes();
     } catch (error) {
       console.log(error);
       if (error.response && error.response.status === 429) {
@@ -601,21 +614,35 @@ function Generalform({ username }) {
   }, []); //initial setup
 
   const loadImage = (src, maxTries = 3) => {
+    // 增加空值检查
+    if (!src) {
+      console.error("Image source is required");
+      return Promise.reject("Image source is required");
+    }
+
     return new Promise((resolve, reject) => {
       let tries = 0;
-      const img = new Image();
 
-      img.onload = () => resolve("Image loaded successfully");
-      img.onerror = () => {
-        tries++;
-        if (tries < maxTries) {
-          img.src = src;
-        } else {
-          console.error(`Failed to load image after ${maxTries} attempts`);
-        }
-      };
+      // 确保在浏览器环境中使用 Image
+      if (typeof window !== "undefined") {
+        const img = new window.Image();
 
-      img.src = src;
+        img.onload = () => resolve("Image loaded successfully");
+        img.onerror = () => {
+          tries++;
+          if (tries < maxTries) {
+            img.src = src;
+          } else {
+            console.error(`Failed to load image after ${maxTries} attempts`);
+            reject(`Failed to load image after ${maxTries} attempts`);
+          }
+        };
+
+        img.src = src;
+      } else {
+        console.error("Image loading is not supported in this environment");
+        reject("Image loading is not supported in this environment");
+      }
     });
   }; //load image
 
@@ -624,11 +651,7 @@ function Generalform({ username }) {
       try {
         await Promise.all(
           posts.map((post) =>
-            post.pictureUrl.map((image) =>
-              loadImage(
-                `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`,
-              ),
-            ),
+            post.pictureUrl.map((image) => loadImage(`/${image.filename}`)),
           ),
         );
       } catch (error) {
@@ -679,9 +702,11 @@ function Generalform({ username }) {
 
   const getAvatar = async (username) => {
     try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_SOURCE_URL}/getAvatar/${username}`,
-      );
+      const res = await axios.get("/api/getAvatar", {
+        params: {
+          username: username,
+        },
+      });
       return res.data.avatarUrl;
     } catch (error) {
       console.error(error);
@@ -695,9 +720,7 @@ function Generalform({ username }) {
         await Promise.all(
           posts.map(async (post) => {
             const avatarUrlProp = await getAvatar(post.username);
-            const avatarUrl = avatarUrlProp
-              ? `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatarUrlProp}`
-              : null;
+            const avatarUrl = avatarUrlProp ? `/avatar/${avatarUrlProp}` : null;
             if (avatarUrl && avatarUrl !== null) {
               newLoadedSrc[post._id] = avatarUrl;
             }
@@ -718,7 +741,7 @@ function Generalform({ username }) {
       <div className={styles.topBar}>
         <Link href="/" className={styles.iconContainer}>
           <Image
-            src="/chatbubbles-outline.svg"
+            src="/icons/chatbubbles-outline.svg"
             width="50"
             height="50"
             alt="chatbubbles"
@@ -733,35 +756,47 @@ function Generalform({ username }) {
       <br />
       <div className={styles.postBody}>
         <div className={styles.generalNav}>
-          <ul className="nav flex-column">
-            <li className="nav-item">
+          <ul
+            className="nav flex-column nav-pills"
+            id="pills-tab"
+            role="tablist"
+          >
+            <li className={`${styles.navItem} nav-item`} role="presentation">
               <Link
-                className="nav-link active"
+                className={`${styles.navLink} nav-link`}
                 aria-current="page"
                 href="/dashboard"
               >
-                {t("Back to Dashboard")}
+                <i style={{ fontSize: "1.8rem" }} className="bi bi-house" />
+                <p style={{ margin: "0", fontSize: "1rem" }}>
+                  {t("Back to Dashboard")}
+                </p>
               </Link>
             </li>
-            <li className="nav-item">
-              <button className="nav-link" onClick={handleRefresh}>
-                {t("Refresh")}
+            <li className={`${styles.navItem} nav-item`} role="presentation">
+              <button
+                className={`${styles.navLink} nav-link`}
+                onClick={handleRefresh}
+              >
+                <i
+                  style={{ fontSize: "1.8rem" }}
+                  className={`${styles.arrowRotate} bi bi-arrow-repeat`}
+                />
+                <p style={{ margin: "0", fontSize: "1rem" }}>{t("Refresh")}</p>
               </button>
             </li>
-            <li className="nav-item">
+            <li className={`${styles.navItem} nav-item`} role="presentation">
               <button
-                className="nav-link"
+                className={`${styles.navLink} nav-link`}
                 onClick={handleAddPostClick}
                 data-bs-toggle={username && "modal"}
                 data-bs-target={username && "#postModal"}
               >
-                {t("Write a post")}
+                <i style={{ fontSize: "1.8rem" }} className="bi bi-pen" />
+                <p style={{ margin: "0", fontSize: "1rem" }}>
+                  {t("Write a post")}
+                </p>
               </button>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link disabled" aria-disabled="true">
-                Disabled
-              </a>
             </li>
           </ul>
         </div>
@@ -1015,7 +1050,7 @@ function Generalform({ username }) {
                               }
                             >
                               <img
-                                src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                                src={`/uploads/${image.filename}`}
                                 alt={image.filename}
                                 width="300"
                                 height="300"
@@ -1024,7 +1059,7 @@ function Generalform({ username }) {
                             </button>
                             {check[index] && imgCheck[postIndex] && (
                               <img
-                                src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                                src={`/uploads/${image.filename}`}
                                 alt={image.filename}
                                 id={`${post._id}-${index}`}
                                 width={300 * scale}
@@ -1035,7 +1070,7 @@ function Generalform({ username }) {
                             )}
                             {check[index] && imgCheck[postIndex] && (
                               <button
-                                className={styles.closePreview}
+                                className={`${styles.closePreview} btn-close`}
                                 onClick={() =>
                                   handleCheckClose(index, postIndex)
                                 }
@@ -1044,7 +1079,6 @@ function Generalform({ username }) {
                                   backgroundColor: "transparent",
                                 }}
                               >
-                                X
                               </button>
                             )}
                             {backCheck && <div className={styles.blocks} />}
@@ -1061,7 +1095,7 @@ function Generalform({ username }) {
                               }}
                             >
                               <img
-                                src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                                src={`/uploads/${image.filename}`}
                                 alt={image.filename}
                                 width="300"
                                 height="300"
@@ -1070,7 +1104,7 @@ function Generalform({ username }) {
                             </button>
                             {ok && imgCheck[postIndex] && (
                               <img
-                                src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                                src={`/uploads/${image.filename}`}
                                 alt={image.filename}
                                 width={300 * scale}
                                 height={300 * scale}
@@ -1081,14 +1115,13 @@ function Generalform({ username }) {
 
                             {ok && imgCheck[postIndex] && (
                               <button
-                                className={styles.closePreview}
+                              className={`${styles.closePreview} btn-close`}
                                 onClick={() => handleClose(postIndex)}
                                 style={{
                                   border: "none",
                                   backgroundColor: "transparent",
                                 }}
                               >
-                                X
                               </button>
                             )}
 

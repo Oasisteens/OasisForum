@@ -20,7 +20,7 @@ const Nav = ({ username }) => {
             className={`${styles.iconProfile} ${styles.icon}`}
           >
             <Image
-              src="/person-circle-outline.svg"
+              src="/icons/person-circle-outline.svg"
               width="60"
               height="60"
               alt="person"
@@ -43,7 +43,7 @@ const Nav = ({ username }) => {
             className={`${styles.icon} ${styles.icon2} ${activeIcon === "icon-2" && lift ? styles.lift : ""}`}
           >
             <Image
-              src="/earth-outline.svg"
+              src="/icons/earth-outline.svg"
               width="40"
               height="40"
               alt="earth"
@@ -69,7 +69,7 @@ const Nav = ({ username }) => {
             className={`${styles.icon} ${styles.icon3} ${activeIcon === "icon-3" && lift ? styles.lift : ""}`}
           >
             <Image
-              src="/chatbox-outline.svg"
+              src="/icons/chatbox-outline.svg"
               width="40"
               height="40"
               alt="chatbox"
@@ -94,7 +94,7 @@ const Nav = ({ username }) => {
           <div
             className={`${styles.icon} ${styles.icon4} ${activeIcon === "icon-4" && lift ? styles.lift : ""}`}
           >
-            <Image src="/heart.svg" width="40" height="40" alt="heart" />
+            <Image src="/icons/heart.svg" width="40" height="40" alt="heart" />
           </div>
           <li className={styles.nav}>
             <p className={styles.channel}>{t("Confession")}</p>
@@ -115,7 +115,12 @@ const Nav = ({ username }) => {
           <div
             className={`${styles.icon} ${styles.icon5} ${activeIcon === "icon-5" && lift ? styles.lift : ""}`}
           >
-            <Image src="/book-outline.svg" width="40" height="40" alt="book" />
+            <Image
+              src="/icons/book-outline.svg"
+              width="40"
+              height="40"
+              alt="book"
+            />
           </div>
           <li className={styles.nav}>
             <p className={styles.channel}>{t("Discussion")}</p>

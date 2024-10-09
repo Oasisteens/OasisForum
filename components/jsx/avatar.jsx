@@ -108,15 +108,11 @@ export default function AvatarUpload({
         formData.append("username", username);
         formData.append("avatar", croppedFile);
         try {
-          const res = await axios.post(
-            `${process.env.NEXT_PUBLIC_SOURCE_URL}/avatarUpload`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
+          const res = await axios.post("/api/avatarUpload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
             },
-          );
+          });
           setLoading(false);
           changeWidth("8vw");
           window.location.reload();
@@ -203,17 +199,19 @@ export default function AvatarUpload({
       {auth ? (
         <div onClick={onImageClick} className={styles.avatarContainer}>
           <div className={styles.uploadIcon}>
-            <Image src="/camera.svg" alt="upload" width={40} height={40} />
+            <Image
+              src="/icons/camera.svg"
+              alt="upload"
+              width={40}
+              height={40}
+            />
           </div>
           {showAvatar ? (
-            <img
-              src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatar}`}
-              className={styles.avatar}
-            />
+            <img src={`/avatar/${avatar}`} className={styles.avatar} />
           ) : (
             <Image
               priority="true"
-              src="/preview.svg"
+              src="/icons/preview.svg"
               className={styles.avatar}
               alt="avatar"
               width={110}
@@ -223,14 +221,14 @@ export default function AvatarUpload({
         </div>
       ) : showAvatar ? (
         <img
-          src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatar}`}
+          src={`/avatar/${avatar}`}
           className={styles.avatar}
           style={{ cursor: "default" }}
         />
       ) : (
         <img
           priority="true"
-          src="./preview.svg"
+          src="/icons/preview.svg"
           className={styles.avatar}
           alt="avatar"
           width={110}
