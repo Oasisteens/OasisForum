@@ -4,8 +4,24 @@ import User from '../../../models/user'
 import DBconnect from '../../../libs/mongodb'
 import path from 'path'
 import crypto from 'crypto'
+import { RateLimiterMemory } from 'rate-limiter-flexible'
+
+// 创建速率限制器，使用内存存储
+const rateLimiter = new RateLimiterMemory({
+  points: 5, // 每个 IP 每 60 秒最多 5 次请求
+  duration: 60 // 60 秒
+})
 
 export async function POST (req, res) {
+  const ip = req.ip ?? '127.0.0.1'
+
+  try {
+    // 尝试消耗一个点
+    await rateLimiter.consume(ip)
+  } catch (rejRes) {
+    // 超过限制时返回 429 状态
+    return NextResponse.json({ message: 'Rate limit exceeded' }, { status: 429 })
+  }
   await DBconnect()
   const formData = await req.formData()
 
