@@ -1,6 +1,6 @@
-# OasisForum Frontend
+# OasisForum
 
-This is the frontend repository for OasisForum, a forum website built with Next.js.
+This is the repository for OasisForum, a forum website built with Next.js.
 
 ## About OasisForum
 
