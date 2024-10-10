@@ -194,7 +194,7 @@ function Newsform({ username }) {
     try {
       setLoad(true);
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_SOURCE_URL}/upload`,
+        `/api/upload`,
         formData,
         {
           headers: {
