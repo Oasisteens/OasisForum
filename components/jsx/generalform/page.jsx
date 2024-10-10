@@ -559,7 +559,7 @@ function Generalform({ username }) {
     e.preventDefault();
     try {
       await axios.delete("/api/general", {
-        data: {
+        params: {
           id: e.target.id.value,
         },
       });

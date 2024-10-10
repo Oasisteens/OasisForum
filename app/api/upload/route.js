@@ -21,7 +21,6 @@ export async function POST (req) {
 
   const uploadDir = path.join(process.cwd(), 'public', 'oriUploads')
 
-  console.log('files', files)
   // 并行处理文件上传
   if (files && files.length > 0) { // 确保 files 存在且有文件
     await Promise.all(files.map(async (file) => { // 使用 file 参数
