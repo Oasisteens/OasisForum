@@ -16,6 +16,8 @@ button.uploadBtn {
   background-color: var(--third-color);
   font-size: 1.2rem;
   width: 8vw;
+  border: none;
+  cursor: pointer;
   padding: 0.4rem 1.5rem 0.4rem 1.5rem;
   transition: 0.3s;
 }

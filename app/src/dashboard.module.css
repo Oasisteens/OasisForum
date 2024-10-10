@@ -1,42 +1,17 @@
-:root {
-  --width: 100vw;
-  --dash-color: #133153;
-  --scroll-color: var(--blue-lighter);
-  --dash-width: 17vw;
-}
-
 h1.h11 {
   font-size: 2rem;
   position: relative;
   font-weight: 600;
-}
-main.dash,
-h1,
-p {
-  margin: 0;
-  padding: 0;
 }
 main.dash {
   overflow: hidden;
   display: flex;
   flex-direction: row;
   height: 100vh;
-  background-color: #f2f4f5;
-}
-li {
-  list-style: none;
-}
-ul {
-  list-style-type: none;
   margin: 0;
+  min-width: 900px;
   padding: 0;
-}
-ul li {
-  display: inline-block;
-  margin-right: 10px;
-}
-p {
-  text-align: left;
+  background-color: #f2f4f5;
 }
 
 .index {
@@ -111,17 +86,18 @@ div.myPost {
   white-space: pre-wrap;
   overflow-wrap: break-word;
   width: var(--dash-width);
+  min-width: 170px;
 }
 div.myPosts {
   display: flex;
   gap: 2vw;
 }
-.item-enter {
+.itemEnter {
   opacity: 0;
   transform: translateX(-100%);
 }
 
-.item-enter-active {
+.itemEnterActive {
   opacity: 1;
   transform: translateX(0);
   transition:
@@ -129,12 +105,12 @@ div.myPosts {
     transform 500ms;
 }
 
-.item-exit {
+.itemExit {
   opacity: 1;
   transform: translateX(0);
 }
 
-.item-exit-active {
+.itemExitActive {
   opacity: 0;
   transform: translateX(-100%);
   transition:
@@ -152,6 +128,9 @@ button.postBtns {
   top: 2.2vh;
   position: relative;
   width: 40px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
   height: 40px;
   margin: 1vw;
 }
@@ -165,23 +144,29 @@ p.dashp {
 }
 @media screen and (max-width: 1600px) {
 }
-div.dash {
+div.dashTop {
   position: fixed;
   z-index: 100;
   display: flex;
+  align-items: center;
+  justify-content: left;
   top: 0;
   left: 0;
+  min-width: 900px;
+  gap: 35px;
   text-align: center;
   background-color: var(--dash-color);
   height: 65px;
   width: var(--width);
 }
 button.menuBtn {
-  top: 12px;
-  left: 1.5vw;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
   color: white;
   width: 40px;
   height: 40px;
+  margin-left: 1.5rem;
   transition: 0.3s;
   position: relative;
 }
@@ -193,8 +178,7 @@ button.menuBtn:hover {
 .toIntro {
   position: relative;
   display: flex;
-  top: 7px;
-  left: 3vw;
+  text-decoration: none;
   color: white;
   font-size: 1.2rem;
 }
@@ -208,13 +192,13 @@ div.nav {
   margin-top: auto;
 }
 
-.language-selector {
+.languageSelector {
   position: absolute;
   top: 10px;
   right: 10px;
 }
 
-.language-selector select {
+.languageSelector select {
   padding: 5px;
   font-size: 14px;
   border: none;
@@ -223,24 +207,24 @@ div.nav {
   color: #3c4043;
 }
 
-.language-selector select:active,
-.language-selector select:focus {
+.languageSelector select:active,
+.languageSelector select:focus {
   outline: none;
   box-shadow: none;
 }
 
-div.color-selector {
+div.colorSelector {
   position: absolute;
   top: 10px;
   right: 120px;
 }
-.color-selector select:active,
-.color-selector select:focus {
+.colorSelector select:active,
+.colorSelector select:focus {
   outline: none;
   box-shadow: none;
 }
 
-div.color-selector select {
+div.colorSelector select {
   padding: 5px;
   font-size: 14px;
   border: none;
@@ -263,7 +247,9 @@ button.tour {
 p.dashTitle:hover {
   text-decoration: underline;
 }
-
+p.dashTitle {
+  text-decoration: none;
+}
 .dashBox {
   overflow: hidden;
   position: relative;
@@ -315,13 +301,14 @@ search.searchContainer {
 .toSearch {
   color: white;
   font-size: 2.2rem;
-  position: absolute;
-  top: 6px;
-  left: 13.5vw;
+  position: relative;
   transition: 0.3s;
 }
 
 .toSearch:hover {
   transition: 0.3s;
   color: rgb(183, 183, 183);
+}
+.scrollLink {
+  text-decoration: none;
 }

@@ -30,9 +30,9 @@ export async function POST(req) {
   const resetLink = `${process.env.NEXTAUTH_URL}/resetpasswordoasis/${resetToken}`;
 
   const emailProps = {
-    resetLink: resetLink,
-    lang: lang,
-    username: username,
+    resetLink,
+    lang,
+    username,
   };
 
   const emailHtml = await resetEmail(emailProps);
@@ -41,22 +41,19 @@ export async function POST(req) {
     // Send email using Nodemailer
     await transporter.sendMail({
       from: process.env.MAIL_USER, // Sender address
-      to: to, // List of recipients
+      to, // List of recipients
       subject: "Password Reset", // Subject
       html: emailHtml, // HTML body
     });
 
-    await Token.create({ username: username, resetToken: resetToken });
+    await Token.create({ username, resetToken });
 
     return NextResponse.json(
-      { message: "Email sent successfully.", lang: lang },
+      { message: "Email sent successfully.", lang },
       { status: 200 },
     );
   } catch (err) {
     console.log(err);
-    return NextResponse.json(
-      { error: err.message, lang: lang },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: err.message, lang }, { status: 500 });
   }
 }

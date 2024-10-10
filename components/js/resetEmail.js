@@ -1,15 +1,15 @@
-import i18n from "i18next";
+import i18n from 'i18next'
 
-async function initI18n() {
+async function initI18n () {
   await i18n.init({
-    resources: require("../json/locales.json"),
-    fallbackLng: "en",
-  });
+    resources: require('../json/locales.json'),
+    fallbackLng: 'en'
+  })
 }
 
-async function resetEmail({ resetLink, lang, username }) {
-  await initI18n();
-  const t = i18n.getFixedT(lang);
+async function resetEmail ({ resetLink, lang, username }) {
+  await initI18n()
+  const t = i18n.getFixedT(lang)
   return `<html>
   <head>
     <meta charset="UTF-8" />
@@ -53,32 +53,32 @@ async function resetEmail({ resetLink, lang, username }) {
       <tr>
         <td align="center" bgcolor="#ffffff" style="padding: 40px 0 30px 0">
           <img
-            src="https://finanalize.ltd/public/favicon.png"
+            src="https://oasisforum.cn/favicon.png"
             alt="Logo"
             width="150"
             style="display: block"
           />
           <hr style="border-color: #cccccc; margin: 20px 0" />
           <h1 style="font-size: 20px; color: #333333">
-            ${t("Dear user ")}${username}${t(",")}
+            ${t('Dear user ')}${username}${t(',')}
           </h1>
-          <p style="font-size: 16px; color: #333333; text-align: left">${t("Hello! You are receiving this email because we got your password reset request. Click the button below to reset your password:")}
+          <p style="font-size: 16px; color: #333333; text-align: left">${t('Hello! You are receiving this email because we got your password reset request. Click the button below to reset your password:')}
           </p>
-          <a class="btn" href="${resetLink}">${t("Reset Password")}</a>
-          <p style="font-size: 14px; color: #333333">${t("If you did not request a password reset, please ignore this email.")}
+          <a class="btn" href="${resetLink}">${t('Reset Password')}</a>
+          <p style="font-size: 14px; color: #333333">${t('If you did not request a password reset, please ignore this email.')}
           </p>
         </td>
       </tr>
       <tr>
         <td align="center" bgcolor="#f4f4f4" style="padding: 10px 0">
           <p style="font-size: 12px; color: #333333">
-            ${t("This email is automatically sent by the system, please do not reply. If you have any questions, please send email to help@oasisforum.cn to contact us.")}
+            ${t('This email is automatically sent by the system, please do not reply. If you have any questions, please send email to help@oasisforum.cn to contact us.')}
           </p>
         </td>
       </tr>
     </table>
   </body>
-</html>`;
+</html>`
 }
 
-export default resetEmail;
+export default resetEmail

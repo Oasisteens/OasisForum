@@ -1,10 +1,9 @@
-import Intro from "./(intro)/page.jsx";
+import General from "./(general)/page.jsx";
 
-// Path: app/intro/page.jsx
 export default async function Home() {
   return (
     <main>
-      <Intro />
+      <General />
     </main>
   );
 }

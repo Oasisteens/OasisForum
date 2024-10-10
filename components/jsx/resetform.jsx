@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import ReCAPTCHA from "react-google-recaptcha";
-import "../../app/src/resetform.css";
+import styles from "../../app/src/resetform.module.css";
 
 const Resetform = ({ id }) => {
   const [show, setShow] = useState(false);
@@ -109,10 +109,12 @@ const Resetform = ({ id }) => {
   };
 
   return show ? (
-    <main className="resetPs">
+    <main className={styles.resetPs}>
       <div>
-        <form className="resetPsForm" onSubmit={handleSubmit}>
-          <h1 className="resetTitle">{t("Hi") + " " + username + t("!")}</h1>
+        <form className={styles.resetPsForm} onSubmit={handleSubmit}>
+          <h1 className={styles.resetTitle}>
+            {t("Hi") + " " + username + t("!")}
+          </h1>
           <h2>{t("Please enter your new password")}</h2>
           <br />
           <br />
@@ -122,7 +124,7 @@ const Resetform = ({ id }) => {
             autoComplete="true"
             onChange={(e) => setInputUser(e.target.value)}
             placeholder={t("Username")}
-            className="psReset"
+            className={styles.psReset}
             required
           />
           <br />
@@ -132,7 +134,7 @@ const Resetform = ({ id }) => {
             autoComplete="new-password"
             onChange={handlePassword}
             placeholder={t("New Password")}
-            className="psReset"
+            className={styles.psReset}
             required
           />
           <br />
@@ -142,30 +144,30 @@ const Resetform = ({ id }) => {
             autoComplete="new-password"
             onChange={handleConfirm}
             placeholder={t("Confirm Password")}
-            className="psReset"
+            className={styles.psReset}
             required
           />
           <br />
           <ReCAPTCHA
-            className="recaptcha"
+            className={styles.recaptcha}
             size="normal"
             sitekey="6LeGyr4pAAAAALQNLTIknyzYqBi_D3Juk9LnsROZ"
             onChange={handleCaptchaChange}
           />
           <br />
-          {tip !== "" && <p className="tip">{tip}</p>}
+          {tip !== "" && <p className={styles.tip}>{tip}</p>}
           <button
-            className="resetpsBtn"
+            className={styles.resetpsBtn}
             type="submit"
             disabled={captchaValue === ""}
           >
             {loading ? (
-              <div class="dots-container">
-                <div class="dots"></div>
-                <div class="dots"></div>
-                <div class="dots"></div>
-                <div class="dots"></div>
-                <div class="dots"></div>
+              <div className={styles.dots - container}>
+                <div className={styles.dots}></div>
+                <div className={styles.dots}></div>
+                <div className={styles.dots}></div>
+                <div className={styles.dots}></div>
+                <div className={styles.dots}></div>
               </div>
             ) : (
               t("Reset Password")
@@ -175,8 +177,8 @@ const Resetform = ({ id }) => {
       </div>
     </main>
   ) : (
-    <div className="wrapper">
-      <div className="loader" />
+    <div className={styles.wrapper}>
+      <div className={styles.loader} />
     </div>
   );
 };

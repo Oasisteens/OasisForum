@@ -1,44 +1,45 @@
-import styles from "../src/admin.css";
+import styles from "../src/admin.module.css";
+
 const admin = () => {
   return (
     <>
       <title>Admin</title>
-      <nav className="index">
+      <nav className={styles.index}>
         <li>
-          <a className="webicon" href="/">
+          <a className={styles.webicon} href="/">
             Intro
           </a>
         </li>
-        <ul className="gradient-text">
+        <ul className={styles.gradientText}>
           <li>
-            <a className="channel" href="login">
+            <a className={styles.channel} href="login">
               Login
             </a>
           </li>
           <br />
           <li>
-            <a className="channel" href="register">
+            <a className={styles.channel} href="register">
               Register
             </a>
           </li>
           <br />
           <li>
-            <a className="channel" href="announcement">
+            <a className={styles.channel} href="announcement">
               Announcement
             </a>
           </li>
           <br />
           <li>
-            <a className="channel" href="contact">
+            <a className={styles.channel} href="contact">
               Contact
             </a>
           </li>
         </ul>
       </nav>
-      <div type="account">
+      <div className={styles.account}>
         <h1>Account Management:</h1>
         &lt;% users.forEach(function(user) {"{"} %&gt; &lt;% {"}"}) %&gt;
-        <table id="userTable">
+        <table className={styles.userTable}>
           <tbody>
             <tr>
               <th>Username</th>
@@ -55,7 +56,7 @@ const admin = () => {
                 <form
                   action="/deleteUser"
                   method="POST"
-                  id="deleteUsernameForm"
+                  className={styles.deleteUsernameForm}
                 >
                   <input
                     type="hidden"
@@ -66,7 +67,11 @@ const admin = () => {
                 </form>
               </td>
               <td>
-                <form action="/toggleAdmin" method="POST" id="toggleAdminForm">
+                <form
+                  action="/toggleAdmin"
+                  method="POST"
+                  className={styles.toggleAdminForm}
+                >
                   <input
                     type="hidden"
                     defaultValue="<%= user.username %>"
@@ -82,7 +87,7 @@ const admin = () => {
         <br />
         <h1>Post Management:</h1>
         &lt;% posts.forEach(function(post) {"{"} %&gt; &lt;% {"}"}) %&gt;
-        <table id="postTable">
+        <table className={styles.postTable}>
           <tbody>
             <tr>
               <th>Topic</th>
@@ -91,7 +96,11 @@ const admin = () => {
             <tr>
               <td>&lt;%= post.title %&gt;</td>
               <td>
-                <form action="/deletePost" method="POST" id="deletePostForm">
+                <form
+                  action="/deletePost"
+                  method="POST"
+                  className={styles.deletePostForm}
+                >
                   <input
                     type="hidden"
                     defaultValue="<%= post.id %>"
@@ -109,7 +118,6 @@ const admin = () => {
       <br />
       <br />
     </>
-    // test
   );
 };
 

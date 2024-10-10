@@ -4,6 +4,7 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import ReCAPTCHA from "react-google-recaptcha";
+import styles from "../../app/src/reset.module.scss";
 
 const ThroughUsername = () => {
   const { t } = useTranslation();
@@ -41,10 +42,10 @@ const ThroughUsername = () => {
       const res = await axios.post("/api/validateCaptcha", {
         response_key: captchaValue,
       });
-      if (res.data.success === false) {
-        alert(t("Please click <I'm not a robot> before sending the form"));
-        return;
-      }
+      // if (res.data.success === false) {
+      //   alert(t("Please click <I'm not a robot> before sending the form"));
+      //   return;
+      // }
     } catch (err) {
       if (err.response.status === 500) {
         alert(t("An error occurred. Please try again later."));
@@ -99,9 +100,9 @@ const ThroughUsername = () => {
   };
 
   return (
-    <div className="emailForm" id="emailForm">
+    <div className={styles.emailForm} id="emailForm">
       {final ? (
-        <div className="final">
+        <div className={styles.final}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={210}
@@ -114,7 +115,7 @@ const ThroughUsername = () => {
               stroke="currentColor"
               strokeMiterlimit="10"
               strokeWidth="26"
-              className="path1"
+              className={styles.path1}
             />
             <path
               fill="none"
@@ -123,7 +124,7 @@ const ThroughUsername = () => {
               strokeLinejoin="round"
               strokeWidth="26"
               d="M352 176L217.6 336 160 272"
-              className="path1"
+              className={styles.path1}
             />
           </svg>
           <br />
@@ -135,11 +136,13 @@ const ThroughUsername = () => {
               gap: "3px",
             }}
           >
-            <h1>
+            <h1 style={{ fontSize: "1.5rem" }}>
               {t("A verification email has been sent to your email address: ")}
             </h1>
-            <h1>{to}</h1>
-            <h1>{t("Please check your inbox (including the junk mails).")}</h1>
+            <h1 style={{ fontSize: "1.5rem" }}>{to}</h1>
+            <h1 style={{ fontSize: "1.5rem" }}>
+              {t("Please check your inbox (including the junk mails).")}
+            </h1>
           </div>
           <br />
           <br />
@@ -173,23 +176,23 @@ const ThroughUsername = () => {
               {t("Please enter your username")}
             </h2>
           </div>
-          <form className="emailForm" onSubmit={verifyUsername}>
+          <form className={styles.emailForm} onSubmit={verifyUsername}>
             <input
               type="text"
               value={username}
-              className="emailInput"
+              className={styles.emailInput}
               onChange={(e) => setUsername(e.target.value)}
               placeholder={t("Username")}
             />
             <ReCAPTCHA
-              className="recaptcha"
+              className={styles.recaptcha}
               size="normal"
               sitekey="6LeGyr4pAAAAALQNLTIknyzYqBi_D3Juk9LnsROZ"
               onChange={handleCaptchaChange}
             />
             <button
               id="searchEmail"
-              className="searchEmail"
+              className={styles.searchEmail}
               type="submit"
               disabled={sendMailDisabled || captchaValue === ""}
             >
@@ -202,10 +205,10 @@ const ThroughUsername = () => {
                   }}
                 >
                   {Array.from({ length: 6 }).map((_, index) => (
-                    <div className="stick" />
+                    <div className={styles.stick} />
                   ))}
                   {"\u00A0\u00A0\u00A0\u00A0\u00A0"}
-                  <p className="loading">{t("LOADING...")}</p>
+                  <p className={styles.loading}>{t("LOADING...")}</p>
                 </div>
               ) : (
                 t("Next")

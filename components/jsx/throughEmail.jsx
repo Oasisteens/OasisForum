@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
+import styles from "../../app/src/reset.module.scss";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const ThroughEmail = () => {
@@ -103,9 +104,9 @@ const ThroughEmail = () => {
   };
 
   return (
-    <div className="emailForm" id="emailForm">
+    <div className={styles.emailForm} id="emailForm">
       {final ? (
-        <div className="final">
+        <div className={styles.final}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width={210}
@@ -118,7 +119,7 @@ const ThroughEmail = () => {
               stroke="currentColor"
               strokeMiterlimit="10"
               strokeWidth="26"
-              className="path1"
+              className={styles.path1}
             />
             <path
               fill="none"
@@ -127,7 +128,7 @@ const ThroughEmail = () => {
               strokeLinejoin="round"
               strokeWidth="26"
               d="M352 176L217.6 336 160 272"
-              className="path1"
+              className={styles.path1}
             />
           </svg>
           <br />
@@ -172,23 +173,23 @@ const ThroughEmail = () => {
               {t("Please enter your email")}
             </h2>
           </div>
-          <form className="emailForm" onSubmit={verifyEmail}>
+          <form className={styles.emailForm} onSubmit={verifyEmail}>
             <input
               type="email"
               value={email}
-              className="emailInput"
+              className={styles.emailInput}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t("Email address")}
             />
             <ReCAPTCHA
-              className="recaptcha"
+              className={styles.recaptcha}
               size="normal"
               sitekey="6LeGyr4pAAAAALQNLTIknyzYqBi_D3Juk9LnsROZ"
               onChange={handleCaptchaChange}
             />
             <button
               id="searchEmail"
-              className="searchEmail"
+              className={styles.searchEmail}
               type="submit"
               disabled={sendMailDisabled || captchaValue === ""}
             >
@@ -201,10 +202,10 @@ const ThroughEmail = () => {
                   }}
                 >
                   {Array.from({ length: 6 }).map((_, index) => (
-                    <div className="stick" />
+                    <div className={styles.stick} />
                   ))}
                   {"\u00A0\u00A0\u00A0\u00A0\u00A0"}
-                  <p className="loading">{t("LOADING...")}</p>
+                  <p className={styles.loading}>{t("LOADING...")}</p>
                 </div>
               ) : (
                 t("Next")

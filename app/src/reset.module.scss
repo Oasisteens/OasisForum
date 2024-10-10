@@ -3,7 +3,7 @@ $stick_color: white; //Changes the colour of all sticks
 $stick_length: 30px; //Changes length of all sticks
 $stick_distance: -8px; //Changes distance between sticks (will need editing after 30px)
 
-#container {
+.container {
   width: $stick_length * 6;
   padding-top: 180px;
   margin: auto;
@@ -144,7 +144,9 @@ button.recoverBtn {
   margin: 1rem;
   border-radius: 15px;
   aspect-ratio: 1/1;
+  border: none;
   align-items: center;
+  cursor: pointer;
   justify-content: center;
   display: flex;
   flex-direction: column;
@@ -173,23 +175,24 @@ button.recover1:hover .path {
   }
 }
 
-button.recover2:hover .animated-fill {
+button.recover2:hover .animatedFill {
   transform: scale(0.8);
   transition: 0.7s;
 }
-.animated-fill {
+.animatedFill {
   transition: 0.7s;
 }
 div.emailForm {
   position: fixed;
+  width: 65vw;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 15px;
   background-color: white;
   padding: 2rem;
-  width: 65vw;
-  height: 24rem;
+  width: 65rem;
+  height: 20rem;
   display: grid;
   align-items: flex-start;
   grid-template-columns: repeat(2, 1fr);
@@ -204,7 +207,7 @@ form.emailForm {
 input.emailInput {
   border-radius: 8px;
   font-size: 1.1rem;
-  width: 30vw;
+  width: 90%;
   border: 1px solid black;
   padding: 1.1rem 0.5rem 1.1rem 0.5rem;
   margin: 1rem;
@@ -216,32 +219,30 @@ input.emailInput:focus {
 button.searchEmail {
   position: absolute;
   border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  width: 6rem;
+  transition: width 0.7s !important;
   background-color: #fec071;
   right: 1vw;
   color: white;
   padding: 0.5rem 1.3rem 0.5rem 1.3rem;
   top: 13rem;
-  transition: background-color 0.5s;
+  transition: background-color 0.5s !important;
 }
 button.searchEmail:hover {
   background-color: #e5995c;
-  transition: background-color 0.5s;
-}
-#searchEmail {
-  width: 6rem;
-  transition: width 0.7s;
+  transition: background-color 0.5s !important;
 }
 p.loading {
   letter-spacing: 2px;
   overflow: hidden;
+  margin: 0;
   white-space: nowrap;
   text-overflow: ellipsis;
   -webkit-animation: fade 2s infinite;
   -moz-animation: fade 2s infinite;
   animation: fade 2s infinite;
-}
-#emailForm {
-  width: 65vw;
 }
 div.final {
   display: flex;

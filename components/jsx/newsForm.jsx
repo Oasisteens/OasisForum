@@ -1,5 +1,6 @@
 "use client";
-import "../../app/src/channels.css";
+import styles from "../../app/src/channels.module.css";
+import "../../app/src/channels.color.css";
 import React from "react";
 import axios from "axios";
 import Skeleton from "./skeletons/Skeleton";
@@ -193,7 +194,7 @@ function Newsform({ username }) {
     try {
       setLoad(true);
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_SOURCE_URL}/upload`,
+        `/api/upload`,
         formData,
         {
           headers: {
@@ -295,10 +296,10 @@ function Newsform({ username }) {
     // fetchLikes();
   }, []);
   return (
-    <section className="posts">
+    <section className={styles.posts}>
       <title>{t("News")}</title>
       <div id="topBar">
-        <a href="/" className="titleg">
+        <a href="/" className={styles.titleg}>
           {t("News")}
         </a>
       </div>
@@ -307,11 +308,15 @@ function Newsform({ username }) {
       <a href="dashboard" id="backButton">
         {t("Back to Dashboard")}
       </a>
-      <button className="refreshBtn" onClick={handleRefresh}>
+      <button className={styles.refreshBtn} onClick={handleRefresh}>
         {t("Refresh")}
       </button>
       {admin && (
-        <button className="adp" id="GaddPostBtn" onClick={handleAddPostClick}>
+        <button
+          className={styles.adp}
+          id="GaddPostBtn"
+          onClick={handleAddPostClick}
+        >
           <span>{t("Write News")}</span>
         </button>
       )}
@@ -327,7 +332,7 @@ function Newsform({ username }) {
             <label htmlFor="title">Title:</label>
             <input
               type="text"
-              className="title"
+              className={styles.title}
               id="title"
               name="title"
               required
@@ -356,11 +361,11 @@ function Newsform({ username }) {
                 multiple
               />
             </label>
-            <div className="formBottom">
-              <button type="submit" className="postBtn" disabled={load}>
-                {!load && <p className="ldd">Post</p>}
+            <div className={styles.formBottom}>
+              <button type="submit" className={styles.postBtn} disabled={load}>
+                {!load && <p className={styles.ldd}>Post</p>}
                 {load && (
-                  <div className="load">
+                  <div className={styles.load}>
                     <TailSpin
                       type="ThreeDots"
                       color="white"
@@ -368,15 +373,18 @@ function Newsform({ username }) {
                       width={40}
                       style={{ marginRight: "5px" }}
                     />
-                    <span className="ld">Loading...</span>
+                    <span className={styles.ld}>Loading...</span>
                   </div>
                 )}
               </button>
-              <button className="closeForm" onClick={handleCloseFormClick}>
+              <button
+                className={styles.closeForm}
+                onClick={handleCloseFormClick}
+              >
                 Cancel
               </button>
-              <div className="switchForm">
-                <label className="switch">
+              <div className={styles.switchForm}>
+                <label className={styles.switch}>
                   <input
                     type="checkbox"
                     name="postAnonymous"
@@ -384,7 +392,7 @@ function Newsform({ username }) {
                     onChange={() => setPostAnonymous(!postAnonymous)}
                   />
                   <span className="slider round">
-                    <h6 className="posta">
+                    <h6 className={styles.posta}>
                       Anon?
                       <p />
                     </h6>
@@ -395,12 +403,12 @@ function Newsform({ username }) {
           </form>
         </div>
       )}
-      <div className="bg">
-        <div id="posts" className="word-box">
+      <div className={styles.bg}>
+        <div id="posts" className={styles.wordBox}>
           <br />
           {loading
             ? Array.from({ length: 15 }).map((_, i) => (
-                <div className="borderClass" key={i}>
+                <div className={styles.borderClass} key={i}>
                   <React.Fragment>
                     <Skeleton classes="title width-40" />
                     <Skeleton classes="text width-70" />
@@ -418,14 +426,14 @@ function Newsform({ username }) {
                 </div>
               ))
             : news.map((post, postIndex) => (
-                <div className="postsG" key={postIndex}>
+                <div className={styles.postsG} key={postIndex}>
                   <div>
                     <h3>{post.title}</h3>
                     <br />
-                    <div className="contents">{post.content}</div>
+                    <div className={styles.contents}>{post.content}</div>
                     <br />
                     <br />
-                    <div className="imgs">
+                    <div className={styles.imgs}>
                       {post.pictureUrl.length > 1 &&
                         post.pictureUrl.map((image, index) => (
                           <>
@@ -438,7 +446,7 @@ function Newsform({ username }) {
                                 alt={image.filename}
                                 width="300"
                                 height="300"
-                                className="Images"
+                                className={styles.Images}
                               />
                             </button>
                             {check[index] && imgCheck[postIndex] && (
@@ -449,7 +457,7 @@ function Newsform({ username }) {
                                 id={`${post._id}-${index}`}
                                 width={300 * scale}
                                 height={300 * scale}
-                                className="above"
+                                className={styles.above}
                                 onWheel={handleWheel}
                               />
                             )}
@@ -463,7 +471,7 @@ function Newsform({ username }) {
                                 X
                               </button>
                             )}
-                            {backCheck && <div className="blocks" />}
+                            {backCheck && <div className={styles.blocks} />}
                           </>
                         ))}
                       {post.pictureUrl.length === 1 &&
@@ -476,7 +484,7 @@ function Newsform({ username }) {
                                 alt={image.filename}
                                 width="300"
                                 height="300"
-                                className="Image"
+                                className={styles.Image}
                               />
                             </button>
                             {ok && imgCheck[postIndex] && (
@@ -486,7 +494,7 @@ function Newsform({ username }) {
                                 alt={image.filename}
                                 width={300 * scale}
                                 height={300 * scale}
-                                className="above"
+                                className={styles.above}
                                 onWheel={handleWheel}
                               />
                             )}
@@ -501,17 +509,17 @@ function Newsform({ username }) {
                             )}
 
                             {ok && imgCheck[postIndex] && (
-                              <div className="blocks" />
+                              <div className={styles.blocks} />
                             )}
                           </>
                         ))}
                     </div>
                     <br />
-                    <p className="postT">
+                    <p className={styles.postT}>
                       {t("posted on")} {post.postingtime}
                     </p>
                     <br />
-                    {/* <div className="likeContainer">
+                    {/* <div className={styles.likeContainer}>
                       {likes.map((like, likeIndex) => (
                         <>
                           {like.postId === post._id &&
@@ -531,7 +539,7 @@ function Newsform({ username }) {
                                     value={post._id}
                                   />
                                   <button
-                                    className="likeBtn"
+                                    className={styles.likeBtn}
                                     type="submit"
                                     id={`like${post._id}`}
                                   >
@@ -547,7 +555,7 @@ function Newsform({ username }) {
                                           fill="red"
                                           width={50}
                                           height={50}
-                                          className="heart"
+                                          className={styles.heart}
                                           viewBox="0 0 512 512"
                                         >
                                           <path d="M256 448a32 32 0 01-18-5.57c-78.59-53.35-112.62-89.93-131.39-112.8-40-48.75-59.15-98.8-58.61-153C48.63 114.52 98.46 64 159.08 64c44.08 0 74.61 24.83 92.39 45.51a6 6 0 009.06 0C278.31 88.81 308.84 64 352.92 64c60.62 0 110.45 50.52 111.08 112.64.54 54.21-18.63 104.26-58.61 153-18.77 22.87-52.8 59.45-131.39 112.8a32 32 0 01-18 5.56z" />
@@ -556,7 +564,7 @@ function Newsform({ username }) {
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
                                           width={50}
-                                          className="heart"
+                                          className={styles.heart}
                                           height={50}
                                           viewBox="0 0 512 512"
                                         >
@@ -573,7 +581,7 @@ function Newsform({ username }) {
                                     })()}
                                   </button>
                                 </form>
-                                <p key={like.number} className="postlike">
+                                <p key={like.number} className={styles.postlike}>
                                   {like.number}
                                 </p>
                               </>
@@ -581,13 +589,13 @@ function Newsform({ username }) {
 
                           {like.postId === post._id &&
                             (likeloads || likeload[likeIndex]) && (
-                              <div className="likeLoad" key={post._id}>
+                              <div className={styles.likeLoad} key={post._id}>
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="red"
                                   width={50}
                                   height={50}
-                                  className="loadHeart"
+                                  className={styles.loadHeart}
                                   viewBox="0 0 512 512"
                                 >
                                   <path d="M256 448a32 32 0 01-18-5.57c-78.59-53.35-112.62-89.93-131.39-112.8-40-48.75-59.15-98.8-58.61-153C48.63 114.52 98.46 64 159.08 64c44.08 0 74.61 24.83 92.39 45.51a6 6 0 009.06 0C278.31 88.81 308.84 64 352.92 64c60.62 0 110.45 50.52 111.08 112.64.54 54.21-18.63 104.26-58.61 153-18.77 22.87-52.8 59.45-131.39 112.8a32 32 0 01-18 5.56z" />
@@ -612,7 +620,7 @@ function Newsform({ username }) {
           </button>
           <input
             type="text"
-            className="title"
+            className={styles.title}
             id="title"
             name="title"
             placeholder="Title:/optional"
@@ -636,8 +644,8 @@ function Newsform({ username }) {
             onChange={handleFileChange}
             multiple
           />
-          <div className="switchForm">
-            <label className="switch">
+          <div className={styles.switchForm}>
+            <label className={styles.switch}>
               <input
                 type="checkbox"
                 name="postAnonymous"
@@ -645,17 +653,17 @@ function Newsform({ username }) {
                 onChange={() => setPostAnonymous(!postAnonymous)}
               />
               <span className="slider round">
-                <h6 className="posta">
+                <h6 className={styles.posta}>
                   Anonymously?
                   <p />
                 </h6>
               </span>
             </label>
           </div>
-          <button type="submit" className="postBtn" disabled={load}>
-            {!load && <p className="ldd">Post</p>}
+          <button type="submit" className={styles.postBtn} disabled={load}>
+            {!load && <p className={styles.ldd}>Post</p>}
             {load && (
-              <div className="load">
+              <div className={styles.load}>
                 <TailSpin
                   type="ThreeDots"
                   color="white"
@@ -663,14 +671,14 @@ function Newsform({ username }) {
                   width={40}
                   style={{ marginRight: "5px" }}
                 />
-                <span className="ld">Loading...</span>
+                <span className={styles.ld}>Loading...</span>
               </div>
             )}
           </button>
         </form> */}
                     <br />
                     {admin && (
-                      <div className="deleteForm">
+                      <div className={styles.deleteForm}>
                         <form onSubmit={handleSub} id="deleteForm">
                           <input
                             type="hidden"
@@ -678,7 +686,7 @@ function Newsform({ username }) {
                             id="id"
                             value={post._id}
                           />
-                          <button type="submit" className="deleteBtn">
+                          <button type="submit" className={styles.deleteBtn}>
                             <span>Admin Delete</span>
                           </button>
                         </form>

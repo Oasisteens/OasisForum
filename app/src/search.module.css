@@ -1,54 +1,53 @@
 @import url(https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap);
-
-:root {
-  --width: 100vw;
-  --dash-color: #133153;
-  --scroll-color: var(--blue-lighter);
-  --dash-width: 17vw;
-  background-color: #f2f4f5;
-}
 div.searchTop {
   width: 100%;
   z-index: 1000;
   height: 110px;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
   background-color: var(--dash-color);
   position: fixed;
 }
 .stoIntro {
   position: relative;
   display: flex;
-  top: 20px;
-  left: 4.5vw;
+  align-items: center;
+  text-decoration: none;
   color: white;
+  justify-content: center;
+  margin-left: 30px;
+  min-width: 118px;
   font-size: 1.8rem;
 }
 span.intro {
   position: relative;
-  top: 10px;
 }
 form.searchForm {
-  position: fixed;
-  left: 17vw;
+  position: relative;
   display: flex;
-  top: 20px;
   width: 60vw;
   height: 65px;
   border: 1px solid white;
   border-radius: 5px;
 }
-#submitBtn {
+.submitBtn {
   position: relative;
   flex-grow: 1;
   transition: 0.3s;
+  border-width: 0px;
+  cursor: pointer;
+  background-color: transparent;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
-#searchInput {
+.searchInput {
   flex-grow: 19;
   height: 40px;
   color: white;
+  border: none;
   background-color: transparent;
   outline: none;
   padding-left: 15px;
@@ -56,7 +55,7 @@ form.searchForm {
   position: relative;
   top: 12px;
 }
-#submitBtn:hover {
+.submitBtn:hover {
   background-color: rgba(128, 128, 128, 0.429);
   transition: 0.3s;
 }
@@ -101,10 +100,11 @@ div.indPost {
   background-color: white;
   color: var(--scroll-color);
   padding: 0.5rem;
+  min-width: 220px;
   margin: 3px;
   white-space: pre-wrap;
   overflow-wrap: break-word;
-  width: var(--dash-width);
+  width: 17vw;
   transition: transform 0.3s;
 }
 div.indPost:hover {
@@ -112,13 +112,11 @@ div.indPost:hover {
   transition: transform 0.4s;
 }
 
-.language-selector {
-  position: absolute;
-  top: 35px;
-  right: 5vw;
+.languageSelector {
+  position: relative;
 }
 
-.language-selector select {
+.languageSelector select {
   padding: 5px;
   font-size: 1.2rem;
   border: none;
@@ -127,24 +125,22 @@ div.indPost:hover {
   color: #3c4043;
 }
 
-.language-selector select:active,
-.language-selector select:focus {
+.languageSelector select:active,
+.languageSelector select:focus {
   outline: none;
   box-shadow: none;
 }
 
-div.color-selector {
-  position: absolute;
-  top: 35px;
-  right: 15vw;
+div.colorSelector {
+  position: relative;
 }
-.color-selector select:active,
-.color-selector select:focus {
+.colorSelector select:active,
+.colorSelector select:focus {
   outline: none;
   box-shadow: none;
 }
 
-div.color-selector select {
+div.colorSelector select {
   padding: 5px;
   font-size: 1.2rem;
   border: none;
@@ -162,5 +158,14 @@ h2.title {
   font-family: poppins, sans-serif;
   font-size: 1.5rem;
   position: relative;
-  margin-left: 2vw;
+  margin-left: 2rem !important;
+}
+
+.selectors {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin-right: 30px;
 }

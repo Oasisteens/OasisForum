@@ -1,5 +1,6 @@
 "use client";
-import "../../app/src/post.css";
+import styles from "../../app/src/post.module.css";
+import "../../app/src/post.color.css";
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -14,6 +15,7 @@ import SubCommentUpload from "./subCommentUpload";
 import ColorThief from "colorthief";
 import CommentUpload from "./commentUpload";
 import SubComment from "./subComment";
+import Link from "next/link";
 
 function Postform({ id, username }) {
   const [post, setPost] = useState(null);
@@ -176,7 +178,7 @@ function Postform({ id, username }) {
     const colorThief = new ColorThief();
     const image = new Image();
     image.crossOrigin = "Anonymous";
-    image.src = `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${img.filename}`;
+    image.src = `/${img.filename}`;
 
     image.onload = async function () {
       const colors = await colorThief.getPalette(image, 3);
@@ -196,7 +198,7 @@ function Postform({ id, username }) {
     const colorThief = new ColorThief();
     const image = new Image();
     image.crossOrigin = "Anonymous";
-    image.src = `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${img.filename}`;
+    image.src = `/${img.filename}`;
 
     image.onload = async function () {
       const colors = await colorThief.getPalette(image, 3);
@@ -249,7 +251,7 @@ function Postform({ id, username }) {
         },
       });
       alert(t("Post deleted, redirecting to General..."));
-      router.push("/general");
+      router.push("/");
     } catch (error) {
       console.log(error);
     }
@@ -305,11 +307,7 @@ function Postform({ id, username }) {
       try {
         await Promise.all(
           posts.map((post) =>
-            post.pictureUrl.map((image) =>
-              loadImage(
-                `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`,
-              ),
-            ),
+            post.pictureUrl.map((image) => loadImage(`/${image.filename}`)),
           ),
         );
       } catch (error) {
@@ -320,21 +318,21 @@ function Postform({ id, username }) {
     loadImages();
   }, [posts]); //load images
   return (
-    <body className="indPost">
+    <body className={styles.indPost}>
       <title>{post && post.title}</title>
-      <div id="topBar">
-        <a href="/general" className="titleg">
+      <div id="topBar" className={styles.topBar}>
+        <Link href="/" className={styles.titleg}>
           {t("General")}
-        </a>{" "}
+        </Link>{" "}
         {/* to intro page */}
       </div>
       <br />
       <br />
-      <a href="/dashboard" id="backButton2">
+      <a href="/dashboard" id="backButton2" className={styles.backButton2}>
         {t("Back to Dashboard")}
       </a>{" "}
       {/* back to dashboard button */}
-      <button className="refreshBtn2" onClick={handleRefresh}>
+      <button className={styles.refreshBtn2} onClick={handleRefresh}>
         {t("Refresh")}
       </button>{" "}
       {/* refresh button */}
@@ -342,7 +340,7 @@ function Postform({ id, username }) {
         <br key={i} />
       ))}
       {loading && (
-        <div className="borderClassSkeleton">
+        <div className={styles.borderClassSkeleton}>
           <React.Fragment>
             <Skeleton classes="title width-70" />
             <Skeleton classes="text width-40" />
@@ -360,48 +358,49 @@ function Postform({ id, username }) {
         </div>
       )}
       {post && !loading && (
-        <div className="postBg">
-          <div id="posts" className="word-box">
+        <div className={styles.postBg}>
+          <div id="posts" className={styles.wordBox}>
             <div key={post._id}>
-              <p className="postTitle">{post.title}</p>
+              <p className={styles.postTitle}>{post.title}</p>
               <br />
-              <div className="bottom">
-                <div className="postContents">{post.content}</div>
+              <div className={styles.bottom}>
+                <div className={styles.postContents}>{post.content}</div>
                 <br />
                 <br />
-                <div className="imgs">
+                <div className={styles.imgs}>
                   {post.pictureUrl.length > 1 &&
                     post.pictureUrl.map((image, index) => (
                       <section key={"multi" + image.filename}>
                         <button onClick={() => imagePreview(index, image)}>
                           <img
-                            src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                            src={`/${image.filename}`}
                             alt={image.filename}
                             width="300"
                             height="300"
-                            className="Images"
+                            className={styles.Images}
                           />
                         </button>
                         {check[index] && (
                           <img
-                            src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                            src={`/${image.filename}`}
                             alt={image.filename}
                             id={`${post._id}-${index}`}
                             width={300 * scale}
                             height={300 * scale}
-                            className="above"
+                            className={styles.above}
                             onWheel={handleWheel}
                           />
                         )}
                         {check[index] && (
                           <button
                             id="closePreview"
+                            className={styles.closePreview}
                             onClick={() => handleCheckClose(index)}
                           >
                             X
                           </button>
                         )}
-                        {backCheck && <div className="blocks" />}
+                        {backCheck && <div className={styles.blocks} />}
                       </section>
                     ))}
                   {post.pictureUrl.length === 1 &&
@@ -409,20 +408,20 @@ function Postform({ id, username }) {
                       <section key={"1pic" + image.filename}>
                         <button onClick={() => imagePreview1(image)}>
                           <img
-                            src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                            src={`/${image.filename}`}
                             alt={image.filename}
                             width="300"
                             height="300"
-                            className="Image"
+                            className={styles.Image}
                           />
                         </button>
                         {ok && imgCheck && (
                           <img
-                            src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                            src={`/${image.filename}`}
                             alt={image.filename}
                             width={300 * scale}
                             height={300 * scale}
-                            className="above"
+                            className={styles.above}
                             onWheel={handleWheel}
                           />
                         )}
@@ -430,29 +429,30 @@ function Postform({ id, username }) {
                         {ok && imgCheck && (
                           <button
                             id="closePreview"
+                            className={styles.closePreview}
                             onClick={() => handleClose()}
                           >
                             X
                           </button>
                         )}
 
-                        {ok && imgCheck && <div className="blocks" />}
+                        {ok && imgCheck && <div className={styles.blocks} />}
                       </section>
                     ))}
                 </div>
                 <br />
                 <br />
                 {post.postAnonymous !== "true" && (
-                  <p className="usr">
+                  <p className={styles.usr}>
                     {t("posted by")} {post.username}
                   </p>
                 )}
                 <br />
-                <p className="postT">
+                <p className={styles.postT}>
                   {t("posted on")} {post.postingtime}
                 </p>
                 <br />
-                <div>
+                <div className={styles.likeContainer}>
                   {
                     <LikeButton
                       key={like._id}
@@ -475,7 +475,15 @@ function Postform({ id, username }) {
                 {/* Comment Section */}
                 <button
                   onClick={() => handleComment()}
-                  style={{ display: "flex", alignItems: "flex-end" }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    border: "none",
+                    backgroundColor: "transparent",
+                    cursor: "pointer",
+                    padding: "0",
+                    paddingBottom: "0.7rem",
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -489,9 +497,9 @@ function Postform({ id, username }) {
                       d="M25.784 21.017A10.992 10.992 0 0 0 27 16c0-6.065-4.935-11-11-11S5 9.935 5 16s4.935 11 11 11c1.742 0 3.468-.419 5.018-1.215l4.74 1.185a.996.996 0 0 0 .949-.263 1 1 0 0 0 .263-.95l-1.186-4.74zm-2.033.11.874 3.498-3.498-.875a1.006 1.006 0 0 0-.731.098A8.99 8.99 0 0 1 16 25c-4.963 0-9-4.038-9-9s4.037-9 9-9 9 4.038 9 9a8.997 8.997 0 0 1-1.151 4.395.995.995 0 0 0-.098.732z"
                     ></path>
                   </svg>
-                  <p style={{ position: "relative", marginBottom: "0.5vh" }}>
+                  <h3 style={{ position: "relative", fontWeight: "500" }}>
                     {t("Comments")}
-                  </p>
+                  </h3>
                 </button>
                 {commentOpen && (
                   <>
@@ -504,7 +512,7 @@ function Postform({ id, username }) {
                     />
                     <br />
                     {commentOpen && (
-                      <div className="commentSection">
+                      <div className={styles.commentSection}>
                         <div style={{ display: "flex", padding: "8px" }}>
                           <p>
                             {comments
@@ -550,7 +558,7 @@ function Postform({ id, username }) {
                                         />
                                         <button
                                           type="submit"
-                                          className="dBtn"
+                                          className={styles.dBtn}
                                           style={{
                                             position: "absolute",
                                             right: "2.5vw",
@@ -668,10 +676,10 @@ function Postform({ id, username }) {
                 )}
                 <br />
                 {post.username === username && (
-                  <div className="deleteForm">
+                  <div className={styles.deleteForm}>
                     <form onSubmit={handleSub} id="deleteForm">
                       <input type="hidden" name="id" id="id" value={id} />
-                      <button type="submit" className="deleteBtn1">
+                      <button type="submit" className={styles.deleteBtn1}>
                         <span>{t("Delete")}</span>
                       </button>
                     </form>

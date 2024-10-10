@@ -8,7 +8,7 @@ export async function GET(req) {
     await DBconnect();
     const email = req.nextUrl.searchParams.get("email");
     const user = await User.findOne(
-      { email: email },
+      { email },
       { username: true, email: true, image: true, _id: false },
     );
 

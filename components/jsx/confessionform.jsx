@@ -2,7 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import React, { useEffect } from "react";
-import "../../app/src/confession.scss";
+import styles from "../../app/src/confession.module.scss";
 import { TailSpin } from "react-loader-spinner";
 import { useTranslation } from "react-i18next";
 import loveWords from "../../app/src/loveWords.json";
@@ -85,29 +85,29 @@ export default function Confessionform({ username }) {
   };
 
   return (
-    <body className="loveBg">
-      <div className="pyro">
-        <div className="before" />
-        <div className="after" />
-        <button className="openFormBtn" onClick={() => openForm()}>
+    <body className={styles.loveBg}>
+      <div className={styles.pyro}>
+        <div className={styles.before} />
+        <div className={styles.after} />
+        <button className={styles.openFormBtn} onClick={() => openForm()}>
           {t("Express your love")}
         </button>
-        <Link href="/dashboard" className="returnBtn">
+        <Link href="/dashboard" className={styles.returnBtn}>
           {t("Return to dashboard")}
         </Link>
         {hidden ? (
           false
         ) : (
-          <div className="formContainer">
+          <div className={styles.formContainer}>
             <form
-              className="loveForm"
+              className={styles.loveForm}
               onSubmit={handleSubmit}
               method="POST"
               encType="multipart/form-data"
             >
               <textarea
                 type="text"
-                className="IPT"
+                className={styles.IPT}
                 name="toWho"
                 required
                 placeholder={t("To who?")}
@@ -127,7 +127,7 @@ export default function Confessionform({ username }) {
               />
               <textarea
                 type="text"
-                className="IPT"
+                className={styles.IPT}
                 name="nickname"
                 placeholder={t("Your nickname? (optional)")}
                 onInput={(e) => {
@@ -147,7 +147,7 @@ export default function Confessionform({ username }) {
               <textarea
                 required
                 name="content"
-                className="IPT"
+                className={styles.IPT}
                 placeholder={t("Your confession?")}
                 rows={1}
                 onInput={(e) => {
@@ -175,13 +175,13 @@ export default function Confessionform({ username }) {
             </form>
           </div>
         )}
-        <div className="loveBody">
+        <div className={styles.loveBody}>
           {loveforms.map((loveform, index) => (
-            <div className="loveOne" key={index}>
-              <div className="Towho">To: {loveform.toWho}</div>
-              <div className="lvContent">{loveform.content}</div>
+            <div className={styles.loveOne} key={index}>
+              <div className={styles.Towho}>To: {loveform.toWho}</div>
+              <div className={styles.lvContent}>{loveform.content}</div>
               {loveform.nickname && (
-                <div className="lvNickname">
+                <div className={styles.lvNickname}>
                   {t("from: ")}
                   {loveform.nickname}
                 </div>
@@ -189,7 +189,7 @@ export default function Confessionform({ username }) {
             </div>
           ))}
         </div>
-        <footer className="loveSentence">
+        <footer className={styles.loveSentence}>
           {cn}
           <br />
           {en}

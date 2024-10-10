@@ -3,16 +3,16 @@ import fetch from "node-fetch";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const { response_key } = await req.json();
-  const secret_key = process.env.RECAPTCHA_SECRET;
+  const { responseKey } = await req.json();
+  const secretKey = process.env.RECAPTCHA_SECRET;
 
-  const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${response_key}`;
+  const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${responseKey}`;
 
   try {
     const response = await fetch(url, { method: "post" });
-    const google_response = await response.json();
+    const googleResponse = await response.json();
 
-    if (google_response.success == true) {
+    if (googleResponse.success === true) {
       return NextResponse.json({ success: true }, { status: 200 });
     } else {
       return NextResponse.json({ success: false }, { status: 200 });

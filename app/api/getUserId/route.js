@@ -6,7 +6,7 @@ export async function GET(req) {
   const username = req.nextUrl.searchParams.get("username");
   try {
     await DBconnect();
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne({ username });
     if (!user) {
       return NextResponse.json(
         { message: "User not found" },

@@ -11,7 +11,8 @@ import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import DiscNav from "../../app/(components)/DiscNav";
-import "../../app/src/discussion.css";
+import styles from "../../app/src/discussion.module.css";
+import "../../app/src/discussion.color.css";
 
 function DiscussionForm({ admin, username }) {
   const [mainTopics, setMainTopics] = useState([]);
@@ -300,10 +301,10 @@ function DiscussionForm({ admin, username }) {
   };
 
   return (
-    <main className="disc">
+    <main className={styles.disc}>
       <title>{mainTopic ? mainTopic.title : "Discussion"}</title>
-      <div className="discussionTopBar">
-        <button className="menuBtn" onClick={handleNav}>
+      <div className={styles.discussionTopBar}>
+        <button className={styles.menuBtn} onClick={handleNav}>
           <svg
             fill="none"
             width="100%"
@@ -318,10 +319,10 @@ function DiscussionForm({ admin, username }) {
             />
           </svg>
         </button>
-        <Link href="/" className="toIntro">
+        <Link href="/" className={styles.toIntro}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="ionicon"
+            className={styles.ionicon}
             width={50}
             height={50}
             viewBox="0 0 512 512"
@@ -343,15 +344,15 @@ function DiscussionForm({ admin, username }) {
               strokeWidth="32"
             />
           </svg>
-          <span className="intro">{t("Oasis")}</span>
+          <span className={styles.intro}>{t("Oasis")}</span>
         </Link>
-        <Link href="/search" target="_blank" className="toSearch">
+        <Link href="/search" target="_blank" className={styles.toSearch}>
           <FontAwesomeIcon icon={faSearch} />
         </Link>
-        <h1 className="discussion">
+        <h1 className={styles.discussion}>
           {mainTopic ? mainTopic.title : "Discussion"}
         </h1>
-        <div className="language-selector">
+        <div className={styles.language - selector}>
           <select
             id="lang"
             name="lang"
@@ -365,10 +366,10 @@ function DiscussionForm({ admin, username }) {
             <option value="ja">日本語</option>
           </select>
         </div>
-        <button className="tour" onClick={handleTour}>
+        <button className={styles.tour} onClick={handleTour}>
           {t("Guided Tour")}
         </button>
-        <div className="color-selector">
+        <div className={styles.color - selector}>
           <select id="color" name="color" onChange={changeColor} value={color}>
             <option value="pink">{t("Pink")}</option>
             <option value="blue">{t("Blue")}</option>
@@ -386,12 +387,12 @@ function DiscussionForm({ admin, username }) {
         </div>
       </div>
       {navVisible && (
-        <div className="nav">
+        <div className={styles.nav}>
           <DiscNav />
         </div>
       )}
-      <section className="sec">
-        <div className="options">
+      <section className={styles.sec}>
+        <div className={styles.options}>
           <button>
             <FaChartPie
               className={`icon ${pie && "underline"}`}
@@ -407,14 +408,14 @@ function DiscussionForm({ admin, username }) {
             />
           </button>
         </div>
-        <div className="preview">
+        <div className={styles.preview}>
           {pie ? (
-            <div className="pie">
+            <div className={styles.pie}>
               <h1>{t("Pie Chart")}</h1>
               <p>{t("Pie Chart Description")}</p>
             </div>
           ) : (
-            <div className="tree">
+            <div className={styles.tree}>
               <h1>{t("Tree Diagram")}</h1>
               <p>{t("Tree Diagram Description")}</p>
             </div>

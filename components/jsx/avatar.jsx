@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import axios from "axios";
-import "../../app/src/avatar.css";
+import styles from "../../app/src/avatar.module.css";
 import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
@@ -108,15 +108,11 @@ export default function AvatarUpload({
         formData.append("username", username);
         formData.append("avatar", croppedFile);
         try {
-          const res = await axios.post(
-            `${process.env.NEXT_PUBLIC_SOURCE_URL}/avatarUpload`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
+          const res = await axios.post("/api/avatarUpload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
             },
-          );
+          });
           setLoading(false);
           changeWidth("8vw");
           window.location.reload();
@@ -127,8 +123,10 @@ export default function AvatarUpload({
           setLoading(false);
           changeWidth("8vw");
           console.log("Error: ", error);
-          if (error.response && error.response.status === 429)
-            alert("Too many requests, please try again in 1 minute.");
+          if (error.response && error.response.status === 429) {
+            alert(t("Too many requests. Please try again later."));
+            return;
+          }
         }
       });
     }
@@ -156,7 +154,7 @@ export default function AvatarUpload({
   return (
     <div>
       {image && (
-        <div className="modal">
+        <div className={styles.modal}>
           <Cropper
             src={image}
             style={{
@@ -181,7 +179,11 @@ export default function AvatarUpload({
               setCropper(instance);
             }}
           />
-          <button className="uploadBtn" id="uploadBtn" onClick={uploadImage}>
+          <button
+            className={styles.uploadBtn}
+            id="uploadBtn"
+            onClick={uploadImage}
+          >
             {loading ? t("Loading...") : t("Upload")}
           </button>
         </div>
@@ -195,20 +197,22 @@ export default function AvatarUpload({
         style={{ display: "none" }}
       />
       {auth ? (
-        <div onClick={onImageClick} className="avatarContainer">
-          <div className="uploadIcon">
-            <Image src="/camera.svg" alt="upload" width={40} height={40} />
+        <div onClick={onImageClick} className={styles.avatarContainer}>
+          <div className={styles.uploadIcon}>
+            <Image
+              src="/icons/camera.svg"
+              alt="upload"
+              width={40}
+              height={40}
+            />
           </div>
           {showAvatar ? (
-            <img
-              src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatar}`}
-              className="avatar"
-            />
+            <img src={`/avatar/${avatar}`} className={styles.avatar} />
           ) : (
             <Image
               priority="true"
-              src="/preview.svg"
-              className="avatar"
+              src="/icons/preview.svg"
+              className={styles.avatar}
               alt="avatar"
               width={110}
               height={110}
@@ -217,15 +221,15 @@ export default function AvatarUpload({
         </div>
       ) : showAvatar ? (
         <img
-          src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatar}`}
-          className="avatar"
+          src={`/avatar/${avatar}`}
+          className={styles.avatar}
           style={{ cursor: "default" }}
         />
       ) : (
         <img
           priority="true"
-          src="./preview.svg"
-          className="avatar"
+          src="/icons/preview.svg"
+          className={styles.avatar}
           alt="avatar"
           width={110}
           height={110}

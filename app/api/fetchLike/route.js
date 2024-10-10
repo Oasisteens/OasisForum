@@ -11,19 +11,19 @@ export async function GET(req) {
     const username = req.nextUrl.searchParams.get("username");
     if (forum) {
       if (!username) {
-        const likes = await Like.find({ forum: forum });
+        const likes = await Like.find({ forum });
         return NextResponse.json({ likes }, { status: 200 });
       }
       const [likes, likestatuses] = await Promise.all([
-        Like.find({ forum: forum }),
-        Likestatus.find({ username: username }),
+        Like.find({ forum }),
+        Likestatus.find({ username }),
       ]);
       return NextResponse.json({ likes, likestatuses }, { status: 200 });
     } else {
       if (!username) {
         return NextResponse.json({ status: 200 });
       }
-      const likestatuses = await Likestatus.find({ username: username });
+      const likestatuses = await Likestatus.find({ username });
       return NextResponse.json({ likestatuses }, { status: 200 });
     }
   } catch (error) {
@@ -37,7 +37,7 @@ export async function POST(req) {
   await DBconnect();
   const { postId, sendUsername, status, category, number } = await req.json();
 
-  const like = await Like.findOne({ postId: postId });
+  const like = await Like.findOne({ postId });
   if (!like || like.number !== number || (number === 0 && status === false)) {
     return NextResponse.json(
       { message: "busy sending request" },
@@ -48,15 +48,15 @@ export async function POST(req) {
   status ? like.number++ : like.number--;
 
   const likestatus = await Likestatus.findOneAndUpdate(
-    { postId: postId, username: sendUsername, category },
-    { $set: { status: status } },
+    { postId, username: sendUsername, category },
+    { $set: { status } },
     { upsert: true, new: true },
   );
 
   await like
     .save()
     .then(() => {})
-    .catch((error) => {
+    .catch(() => {
       return NextResponse.json({ message: "Server error" }, { status: 500 });
     });
   return NextResponse.json(

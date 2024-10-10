@@ -7,7 +7,7 @@ import { TailSpin } from "react-loader-spinner";
 import { useRef } from "react";
 import axios from "axios";
 import count from "word-count";
-import "../../app/src/commentsection.css";
+import styles from "../../app/src/commentsection.module.css";
 
 const commentUpload = ({
   getComments,
@@ -16,6 +16,8 @@ const commentUpload = ({
   username,
   fetchLikes,
   type,
+  setCommentUploadRefresh,
+  commentUploadRefresh,
 }) => {
   const [comment, setComment] = useState("");
   const [commentFiles, setCommentFiles] = useState([]);
@@ -58,7 +60,7 @@ const commentUpload = ({
     try {
       setCommentUploadLoad(true);
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_SOURCE_URL}/uploadComment`,
+        `/api/uploadComment`,
         formData,
         {
           headers: {
@@ -69,6 +71,7 @@ const commentUpload = ({
       if (res.status === 201) {
         await getComments(e.target.id.value);
         setCommentUploadLoad(false);
+        setCommentUploadRefresh([...commentUploadRefresh, postId]);
         setCommentDisplay(false);
         setTemp(false);
         setComment("");
@@ -85,6 +88,9 @@ const commentUpload = ({
       }
     } catch (error) {
       console.log(error);
+      if (error.response && error.response.status === 429) {
+        alert(t("Too many requests. Please try again later."));
+      }
       setCommentUploadLoad(false);
     }
   };
@@ -101,7 +107,7 @@ const commentUpload = ({
     }
   }, [commentOpen]);
   return (
-    <div className="commentForm">
+    <div className={styles.commentForm}>
       <form
         onSubmit={(e) => {
           handleCommentSubmit(e);
@@ -119,7 +125,7 @@ const commentUpload = ({
         <textarea
           ref={commentRef}
           required
-          id="comment"
+          className={styles.comment}
           name="comment"
           rows={1}
           placeholder={t("Comment on this post...")}
@@ -153,8 +159,8 @@ const commentUpload = ({
             style={{
               position: "absolute",
               fontSize: "0.85rem",
-              right: "0.7vw",
-              bottom: "0.7vh",
+              right: "5px",
+              bottom: "5px",
             }}
           >
             {commentWords}
@@ -170,7 +176,7 @@ const commentUpload = ({
             onBlur={() => setTemp(false)}
           >
             <label
-              className="picUpload"
+              className={styles.picUpload}
               htmlFor="input-files"
               style={{
                 borderRadius: "0",
@@ -189,6 +195,7 @@ const commentUpload = ({
               <input
                 type="file"
                 id="input-files"
+                style={{ display: "none" }}
                 className="form-control-file border"
                 onChange={(e) => setCommentFiles(e.target.files)}
                 multiple
@@ -209,11 +216,11 @@ const commentUpload = ({
             </div>
             <button
               type="submit"
-              className="postCommentBtn"
+              className={styles.postCommentBtn}
               disabled={commentUploadLoad}
             >
               {commentUploadLoad ? (
-                <div className="load">
+                <div className={styles.load}>
                   <TailSpin
                     type="ThreeDots"
                     color="white"
@@ -221,10 +228,10 @@ const commentUpload = ({
                     width={40}
                     style={{ marginRight: "5px" }}
                   />
-                  <span className="ld">Loading...</span>
+                  <span className={styles.ld}>Loading...</span>
                 </div>
               ) : (
-                <p className="ldd">{t("Post")}</p>
+                <p className={styles.ldd}>{t("Post")}</p>
               )}
             </button>
           </div>

@@ -1,32 +1,9 @@
-:root {
-  --black-color: #374151;
-  --main-color: #1976d2;
-  --sub-color: #1a699e;
-  --sec-color: #2c9aff;
-  --1-color: #f2f4f5;
-  --2-color: #f2f4f5;
-  --3-color: #f2f4f5;
-  --border-color: #ebeced;
-}
-
-html {
-  width: 100%;
-}
-
-h1 {
-  font-size: 1rem;
-  position: relative;
-  left: 1rem;
-  color: aliceblue;
-}
-
 section.posts {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100vh;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow: hidden;
   position: relative;
   padding: 0;
   display: flex;
@@ -36,30 +13,29 @@ section.posts {
   background-attachment: fixed;
 }
 
-a.titleg {
+.titleg {
   font-size: 1.3rem;
   position: relative;
-  left: 2.5vw;
+  margin-left: 3rem !important;
+  margin: auto;
   font-weight: 600;
   color: white;
   text-decoration: none;
 }
 
-#topBar {
-  padding: 1rem 0; /* Adjust the padding */
+.topBar {
   width: 100%;
-  height: 4rem;
+  height: 4.5rem;
+  z-index: 1000;
+  display: flex;
   background-color: var(--main-color);
-  position: relative;
+  position: absolute;
   top: 0;
   left: 0;
 }
 
-#inputBoxGeneral {
+.inputBoxGeneral {
   position: absolute;
-  top: 14rem;
-  left: 50vw;
-  width: 36vw;
   background-color: white;
   padding: 3rem;
   border-radius: 20px;
@@ -71,6 +47,9 @@ a.titleg {
   padding-left: 1.2rem;
   padding: 1rem;
   width: 40vw;
+  min-width: 360px;
+  display: flex;
+  flex-direction: column;
   margin: 1rem;
   margin-bottom: 1.5rem;
   border-radius: 26px;
@@ -78,15 +57,15 @@ a.titleg {
   color: var(--black-color);
   opacity: 1;
   position: relative;
-  left: 1.7rem;
 }
 
-#spacing {
+.spacing {
   height: 5rem;
 }
 
 .adp {
   display: flex;
+  min-width: 9rem;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
   border: #e5e7eb solid 1px;
   position: relative;
@@ -94,8 +73,6 @@ a.titleg {
   justify-content: center;
   background-color: white;
   border: none;
-  left: 50vw;
-  top: 4rem;
   border-radius: 12px;
   padding: 0.7rem;
   color: var(--black-color);
@@ -104,7 +81,7 @@ a.titleg {
   transition: background-color 0.3s ease-in-out;
 }
 
-#GaddPostBtn:hover {
+.GaddPostBtn:hover {
   background-color: #ccc;
 }
 
@@ -117,16 +94,12 @@ a.titleg {
   bottom: 152px;
 }
 
-.heart {
-  color: red;
-}
-
-#backButton {
+.backButton {
   color: var(--black-color);
   position: relative;
+  min-width: 7rem;
   font-size: 20px;
-  top: 2rem;
-  left: 40px;
+  text-align: center;
   border: 2px solid transparent;
   text-decoration: none;
   font-weight: 600;
@@ -137,25 +110,25 @@ a.titleg {
     background-color 0.3s,
     color 0.3s;
 }
-#backButton:hover {
+.backButton:hover {
   background-color: #79bcf246;
   border-color: var(--main-color);
   color: black;
 }
 
-#backButton:active {
+.backButton:active {
   animation: click-effect 0.3s ease-in-out;
 }
 
 button.refreshBtn {
   color: var(--black-color);
-  position: relative;
   font-size: 20px;
-  top: 2rem;
-  left: 25vw;
+  background-color: transparent;
   text-decoration: none;
   font-weight: 600;
+  min-width: 6rem;
   padding: 5px 10px;
+  cursor: pointer;
   border: 2px solid transparent;
   border-radius: 5px;
   transition:
@@ -171,6 +144,22 @@ button.refreshBtn:hover {
 
 button.refreshBtn:active {
   animation: click-effect 0.3s ease-in-out;
+}
+
+label.picUpload[for="input-files"] {
+  padding: 10px;
+  position: relative;
+  background-color: var(--sec-color);
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+/* Change the label style on hover */
+label.picUpload[for="input-files"]:hover {
+  transition: 0.3s;
+  background-color: var(--sub-color);
 }
 
 @keyframes click-effect {
@@ -202,7 +191,7 @@ button.refreshBtn:active {
   color: red;
   font-size: 40px;
 }
-#inputBox {
+/* #inputBox {
   width: 28vw;
   padding: 3rem;
   height: 30rem;
@@ -211,13 +200,13 @@ button.refreshBtn:active {
   border-radius: 5px;
   background-color: white;
   position: absolute;
-}
-#closeForm:hover {
+} */
+.closeForm:hover {
   fill: var(--sub-color);
   transition: 0.3s;
 }
 
-#postForm {
+.postForm {
   margin-top: 20px;
   position: relative;
 }
@@ -226,14 +215,6 @@ label.picUpload {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
-}
-
-textarea {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  resize: vertical;
 }
 
 .Btn {
@@ -247,7 +228,7 @@ textarea {
   cursor: pointer;
 }
 
-br {
+br.g {
   line-height: 12px;
 }
 
@@ -329,7 +310,7 @@ div.switchForm {
   left: 20vw;
   top: 3.5rem;
 }
-div.preview-images > img {
+div.previewImages > img {
   width: 30%;
 }
 
@@ -338,9 +319,6 @@ div.preview-images > img {
   width: 800px;
 }
 
-img {
-  max-width: 16em;
-}
 .imageContainer {
   display: inline-block;
 }
@@ -362,7 +340,7 @@ img {
   position: relative;
   left: 1.7rem;
 }
-#title {
+.title {
   border: 1px solid rgb(148, 148, 148);
   border-radius: 2px;
   padding: 6px 12px;
@@ -374,13 +352,13 @@ img {
   overflow-wrap: break-word;
   color: gray; /* default color, replace with the actual color when title is not empty */
 }
-#title.empty {
+.title.empty {
   color: gray; /* color when title is empty */
 }
-#title:focus {
+.title:focus {
   border-color: var(--black-color);
 }
-#content {
+.content {
   border: 1px solid rgb(148, 148, 148);
   border-radius: 2px;
   padding: 6px 12px;
@@ -392,16 +370,16 @@ img {
   overflow-wrap: break-word;
   color: gray; /* default color, replace with the actual color when title is not empty */
 }
-#content.empty {
+.content.empty {
   color: gray; /* color when content is empty */
 }
 
-#content:focus {
+.content:focus {
   border-color: var(--black-color);
 }
 
-#comment,
-#subComment {
+.comment,
+.subComment {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border: 0.5px solid gray;
@@ -416,8 +394,8 @@ img {
   color: gray; /* default color, replace with the actual color when comment is not empty */
 }
 
-#comment.empty,
-#subComment.empty {
+.comment.empty,
+.subComment.empty {
   color: gray; /* color when comment is empty */
 }
 button.postBtn {
@@ -428,6 +406,7 @@ button.postBtn {
   padding-right: 1rem;
   background-color: var(--sec-color);
   transition: 0.3s;
+  cursor: pointer;
 }
 button.postBtn:hover {
   transition: 0.3s;
@@ -445,6 +424,7 @@ button.closeForm {
   padding-right: 1rem;
   background-color: var(--sec-color);
   transition: 0.3s;
+  cursor: pointer;
 }
 button.closeForm:hover {
   transition: 0.3s;
@@ -472,6 +452,7 @@ button.deleteBtn {
   padding-right: 1rem;
   color: white;
   position: relative;
+  cursor: pointer;
   background-color: var(--sec-color);
   transition: 0.3s;
 }
@@ -509,7 +490,7 @@ div.imgs {
   max-height: 100%;
   z-index: 9999; /* High value to ensure it's above all other elements */
 }
-#closePreview {
+.closePreview {
   position: fixed;
   top: 10rem;
   left: 70vw;
@@ -526,16 +507,17 @@ div.blocks {
 }
 div.likeContainer {
   position: relative;
-  width: 9vw;
-  left: 30vw;
-  height: 4rem;
   display: flex;
+  width: 100%;
+  justify-content: right;
 }
 .ptitle {
   font-weight: 600;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   font-size: 1.5rem;
+  color: black;
+  text-decoration: none;
 }
 .ptitle:hover {
   text-decoration: underline;
@@ -551,6 +533,7 @@ div.preview-container {
 }
 div.postBody {
   overflow-y: auto;
+  position: relative;
 }
 
 div.postBody::-webkit-scrollbar {
@@ -566,4 +549,99 @@ div.postBody::-webkit-scrollbar-thumb {
 /* This is the handle on hover */
 div.postBody::-webkit-scrollbar-thumb:hover {
   background-color: var(--sec-color);
+}
+
+.topBtnContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 5rem;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: 2rem;
+}
+
+.postsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+div.dragArea {
+  border-radius: 0.375rem;
+  border: 1px dashed var(--main-color);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+button.submitBtn {
+  background-color: var(--main-color);
+  color: white;
+}
+
+button.submitBtn:hover {
+  background-color: var(--sub-color);
+  color: white;
+}
+
+.webicon {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.iconContainer {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  margin-left: 20px;
+  justify-content: center;
+}
+
+.generalNav {
+  position: fixed;
+  top: 4.5rem;
+  padding: 1rem;
+  height: calc(100% - 4.5rem);
+  left: 0;
+  padding-right: 2rem;
+  overflow-y: auto;
+  background-color: white;
+}
+
+.navItem:hover {
+  background-color: rgba(223, 223, 223, 0.445);
+  transition: 0.4s background-color;
+  border-radius: 0.5rem;
+}
+
+.navLink {
+  width: 18rem;
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  justify-content: left;
+}
+
+@media screen and (max-width: 1300px) {
+  .navLink {
+    width: 12rem;
+  }
+}
+
+.navLink:hover i.arrowRotate {
+  transform: rotate(180deg);
+}
+
+.arrowRotate {
+  transition: 0.3s transform;
 }

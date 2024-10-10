@@ -5,7 +5,9 @@ import "../../../app/i18n.js";
 import { useRouter } from "next/navigation";
 import Avatar from "../avatar.jsx";
 import { useTranslation } from "react-i18next";
-import "../../../app/src/userinfo.css";
+import styles from "../../../app/src/userinfo.module.css";
+import "../../../app/src/userinfo.color.css";
+import Link from "next/link.js";
 
 const UserInfo = ({ username, image, updateSession, auth }) => {
   const router = useRouter();
@@ -60,29 +62,29 @@ const UserInfo = ({ username, image, updateSession, auth }) => {
   }, []); //localStorage get color setting
 
   return (
-    <main className="background" id="userBg">
+    <main className={styles.background} id="userBg">
       <Avatar
         username={username}
         avatar={image}
         updateSession={updateSession}
         auth={auth}
       />
-      <div className="card" style={{ height: auth ? "26vh" : "auto" }}>
+      <div className={styles.card} style={{ height: auth ? "26vh" : "auto" }}>
         <br />
-        <div>
-          <p className="card-text">
+        <div className={styles.info}>
+          <p className={styles.cardText}>
             {t("Username: ")}
-            <span className="blue-text">{username}</span>
+            <span className={styles.blueText}>{username}</span>
           </p>
-          <a onClick={() => router.back()} className="redi">
+          <button onClick={() => router.back()} className={styles.redi}>
             {t("Back")}
-          </a>
+          </button>
         </div>
 
         {!auth && <br />}
 
         {auth && (
-          <button onClick={handleSignOut} className="logout-btn">
+          <button onClick={handleSignOut} className={styles.logoutBtn}>
             {t("Log Out")}
           </button>
         )}

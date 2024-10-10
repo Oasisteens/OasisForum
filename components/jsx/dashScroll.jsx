@@ -3,6 +3,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
+import styles from "../../app/src/dashboard.module.css";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 const DashScroll = ({ posts, likes, ind, info }) => {
@@ -79,8 +80,8 @@ const DashScroll = ({ posts, likes, ind, info }) => {
     else document.documentElement.style.setProperty("--dash-width", "17vw");
   }, [ind]);
   return (
-    <div className="posts">
-      <h2 className="dashh2">
+    <div className={styles.posts}>
+      <h2 className={styles.dashh2}>
         {mapping[`${info}`] === 1
           ? t("My Posts")
           : mapping[`${info}`] === 2
@@ -92,9 +93,9 @@ const DashScroll = ({ posts, likes, ind, info }) => {
                 : ""}
       </h2>
       <br />
-      <div className="dashpost">
+      <div className={styles.dashpost}>
         {posts.length > 0 && lshow && (
-          <button className="postBtns" onClick={() => goBack()}>
+          <button className={styles.postBtns} onClick={() => goBack()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="ionicon"
@@ -111,9 +112,9 @@ const DashScroll = ({ posts, likes, ind, info }) => {
             </svg>
           </button>
         )}
-        {posts.length > 0 && !lshow && <div className="postBtns" />}
+        {posts.length > 0 && !lshow && <div className={styles.postBtns} />}
         {(posts.length === 0 || posts.length === undefined) && (
-          <p className="dashp" style={{ margin: "2vh 2vh" }}>
+          <p className={styles.dashp} style={{ margin: "2vh 2vh" }}>
             {mapping[`${info}`] === 1
               ? t("You have no posts yet")
               : mapping[`${info}`] === 2
@@ -125,22 +126,31 @@ const DashScroll = ({ posts, likes, ind, info }) => {
                     : ""}
           </p>
         )}
-        <TransitionGroup className="myPosts">
+        <TransitionGroup className={styles.myPosts}>
           {posts.length > 0 &&
             likes.length > 0 &&
             posts.slice(currentIndex, currentIndex + 5).map((post) => (
               <CSSTransition
                 key={post._id}
                 timeout={500}
-                classNames="item"
+                classNames={{
+                  enter: styles.itemEnter,
+                  enterActive: styles.itemEnterActive,
+                  exit: styles.itemExit,
+                  exitActive: styles.itemExitActive,
+                }}
                 style={{ display: "flex", alignItems: "stretch" }}
               >
-                <Link href={`/posts/${post?._id}`} target="_blank">
-                  <div className="boxBig" style={{ display: "flex" }}>
-                    <div className="myPost dashBox">
-                      <div className="dashBox1" />
+                <Link
+                  href={`/posts/${post?._id}`}
+                  target="_blank"
+                  className={styles.scrollLink}
+                >
+                  <div className={styles.boxBig} style={{ display: "flex" }}>
+                    <div className={`${styles.myPost} ${styles.dashBox}`}>
+                      <div className={styles.dashBox1} />
                       <p
-                        className="dashTitle"
+                        className={styles.dashTitle}
                         style={{ fontSize: "1.2rem", fontWeight: "600" }}
                       >
                         {post.title}
@@ -162,9 +172,9 @@ const DashScroll = ({ posts, likes, ind, info }) => {
               </CSSTransition>
             ))}
         </TransitionGroup>
-        {posts.length > 0 && !rshow && <div className="postBtns" />}
+        {posts.length > 0 && !rshow && <div className={styles.postBtns} />}
         {posts.length > 0 && rshow && (
-          <button className="postBtns" onClick={() => goNext()}>
+          <button className={styles.postBtns} onClick={() => goNext()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="ionicon"

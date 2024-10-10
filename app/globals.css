@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* Global Style */
 
 :root {
@@ -30,11 +26,29 @@
   --blue: #133153;
 
   --ring-color: #ff8fb3;
+
+  /* intro */
+  --main-title-color: white;
+  --main-text-color: wheat;
+  --title-color: rgb(220, 199, 159);
 }
 
 body {
   font-family: "Raleway", sans-serif;
   font-weight: 400;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h7,
+h8 p {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 /* Loader css */
@@ -73,4 +87,9 @@ div.wrapper {
   to {
     transform: rotate(360deg);
   }
+}
+
+html,
+body {
+  width: 100%;
 }

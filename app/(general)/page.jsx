@@ -1,8 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
 import Generalform from "../../components/jsx/generalform/page.jsx";
-import { redirect } from "next/navigation";
-import { useEffect } from "react";
 
 export default function Discussion() {
   const session = useSession();

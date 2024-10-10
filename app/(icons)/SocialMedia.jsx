@@ -4,14 +4,14 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../i18n";
 import { useTranslation } from "react-i18next";
-import "../src/socialMedia.css";
+import styles from "../src/socialMedia.module.css";
 library.add(fab);
 
 const SocialMedia = () => {
   const { t } = useTranslation();
   return (
-    <footer>
-      <div className="sm">
+    <footer className={styles.iconFooter}>
+      <div className={styles.sm}>
         <a href="#">
           <i>
             <FontAwesomeIcon icon={["fab", "facebook-f"]} />

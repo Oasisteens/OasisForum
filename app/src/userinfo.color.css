@@ -1,0 +1,5 @@
+:root {
+  --main-color: var(--blue);
+  --sub-color: var(--blue-lighter);
+  --third-color: var(--blue-lightest);
+}

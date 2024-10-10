@@ -25,10 +25,10 @@ export async function POST(req) {
 
     const oripw = password;
     await User.create({
-      username: username,
+      username,
       originalPassword: oripw,
       password: hashedPassword,
-      email: email,
+      email,
       admin: false,
     });
 
@@ -50,7 +50,7 @@ export async function GET(req) {
       {},
       { password: 0, originalPassword: 0, admin: 0 },
     );
-    return NextResponse.json({ users: users }, { status: 200 });
+    return NextResponse.json({ users }, { status: 200 });
   } catch (error) {
     console.error("Error getting users:", error);
     const response = NextResponse.json(

@@ -8,7 +8,7 @@ export async function GET(req) {
     await DBconnect();
     const username = req.nextUrl.searchParams.get("username");
     const user = await User.findOne(
-      { username: username },
+      { username },
       { username: true, email: true, image: true, _id: false },
     );
 
@@ -16,8 +16,9 @@ export async function GET(req) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    if (user.email === null)
+    if (user.email === null) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
 
     return NextResponse.json({ user, message: "User found" }, { status: 200 });
   } catch (err) {

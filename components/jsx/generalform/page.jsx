@@ -1,24 +1,25 @@
 "use client";
-import "../../../app/src/channels.css";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
+import Link from "next/link";
+import Image from "next/image";
+import TextareaAutosize from "react-textarea-autosize";
+// import { Picker } from "emoji-mart";
+import ColorThief from "colorthief";
+import count from "word-count";
+import { truncate } from "lodash";
+import styles from "../../../app/src/channels.module.css";
+import "../../../app/src/channels.color.css";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "../../../app/i18n";
 import Skeleton from "../skeletons/Skeleton";
 import LikeButton from "../likeButton";
-import { useState } from "react";
-import { TailSpin } from "react-loader-spinner";
-import { Picker } from "emoji-mart";
-import { useTranslation } from "react-i18next";
 import SubCommentUpload from "../subCommentUpload";
-import ColorThief from "colorthief";
 import CommentUpload from "../commentUpload";
 import SubComment from "../subComment";
-import count from "word-count";
-import Link from "next/link";
-import { truncate } from "lodash";
-import { useEffect } from "react";
 import GetCommentNum from "../getCommentNum.jsx";
-import TextareaAutosize from "react-textarea-autosize";
 
 function Generalform({ username }) {
   const [loading, setLoading] = useState(true);
@@ -38,11 +39,11 @@ function Generalform({ username }) {
   const [files, setFiles] = useState([]);
   const [likestatuses, setLikestatuses] = useState([]);
   const [postAnonymous, setPostAnonymous] = useState(false);
-  const [inputBoxHidden, setInputBoxHidden] = useState(true);
   const [likeloads, setLikeloads] = useState(true);
-  const [likeload, setLikeload] = useState([]);
-  const [commentLikeLoad, setCommentLikeLoad] = useState(null);
-  const [selectedEmoji, setSelectedEmoji] = useState(null);
+  // const [likeload, setLikeload] = useState([]);
+  const [hide, setHide] = useState(false);
+  // const [commentLikeLoad, setCommentLikeLoad] = useState(null);
+  // const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [bottomLoad, setBottomLoad] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [lastPostId, setLastPostId] = useState(null);
@@ -52,28 +53,22 @@ function Generalform({ username }) {
   const [comments, setComments] = useState([]);
   const [isExpanded, setIsExpanded] = useState([]);
   const [fileUrls, setFileUrls] = useState([]);
+  const [commentUploadRefresh, setCommentUploadRefresh] = useState(
+    [].map(() => false),
+  );
   // const [commentNumber, setCommentNumber] = useState([]);
   // The commentDisplay function is for showing the comment post button and the picturen upload button. If the content is focused, or in other words, the user is writing or editing the comment, it shows, else, we need to make space for showing other comments.
   const [addCommentDisplay, setAddCommentDisplay] = useState([]);
-  const [admin, setAdmin] = useState(false);
   const [loadedSrc, setLoadedSrc] = useState(null);
   const [noMore, setNoMore] = useState(false);
+  const [globalRefresh, setGlobalRefresh] = useState(false);
   const { t } = useTranslation();
   const { i18n } = useTranslation();
+  const modalRef = useRef(); //the ref for post submission modal (dialog)
 
   useEffect(() => {
-    const fetchAdmin = async () => {
-      try {
-        const res = await axios.post("http://localhost:3000/api/fetchAdmin", {
-          username,
-        });
-        setAdmin(res.data.admin);
-      } catch (error) {
-        console.log("Error loading admin", error);
-      }
-    };
-    fetchAdmin();
-  }, []); //fetch admin information
+    import("bootstrap");
+  }, []); //bootstrap dynamic import
 
   useEffect(() => {
     if (!localStorage.getItem("language")) {
@@ -118,6 +113,32 @@ function Generalform({ username }) {
       );
     }
   }, []); //localstorage get color setting
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      import("bootstrap").then(({ Modal }) => {
+        const handleHide = () => {
+          if (hide && modalRef.current) {
+            const modal = Modal.getInstance(modalRef.current);
+            if (modal) {
+              modal.hide();
+            }
+          }
+        };
+        handleHide();
+        setHide(false);
+      });
+    }
+  }, [hide]); //hide modal
+
+  useEffect(() => {
+    commentUploadRefresh.forEach(async (postId) => {
+      await getComments(postId);
+      setCommentUploadRefresh(
+        commentUploadRefresh.filter((id) => id !== postId),
+      );
+    });
+  }, [commentUploadRefresh]);
 
   const getPosts = async (needLoading, type = "top") => {
     if (isFetching) return;
@@ -164,7 +185,7 @@ function Generalform({ username }) {
       setError(true);
       console.log("Error loading posts", error);
     }
-  };
+  }; //get posts
 
   const initPosts = async () => {
     if (isFetching) return;
@@ -190,38 +211,35 @@ function Generalform({ username }) {
       setError(true);
       console.log("Error loading posts", error);
     }
-  };
+  }; //init posts
 
   useEffect(() => {
-    let lastIndex = posts?.[posts.length - 1]?._id;
+    const lastIndex = posts?.[posts.length - 1]?._id;
 
-    // 如果最后一个帖子的 ID 没有变化，直接返回
-    if (lastIndex === lastPostId) {
-      return;
-    }
+    if (lastIndex === lastPostId && !globalRefresh) return;
 
-    // 更新最后一个帖子的 ID
     setLastPostId(lastIndex);
 
     const lastPost = document.getElementById(lastIndex);
 
-    let observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(async (entry) => {
-          if (entry.isIntersecting) {
-            const post = entry.target;
-            await getPosts(false, "bottom");
-            observer.unobserve(post);
+    if (lastPost) {
+      const observer = new IntersectionObserver(
+        async (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              await getPosts(false, "bottom");
+              observer.unobserve(entry.target);
+            }
           }
-        });
-      },
-      {
-        threshold: 0,
-      },
-    );
+        },
+        { threshold: 0 },
+      );
 
-    lastPost && observer.observe(lastPost);
-  }, [posts, lastPostId]); // 添加 lastPostId 作为依赖
+      observer.observe(lastPost);
+    }
+
+    setGlobalRefresh(false);
+  }, [posts, lastPostId, globalRefresh]); //fetch posts when the last post is in the viewport
 
   const fetchLikes = async () => {
     try {
@@ -318,45 +336,58 @@ function Generalform({ username }) {
   const imagePreview = (index, postIndex, img) => {
     document.body.style.overflowY = "hidden";
     const colorThief = new ColorThief();
-    const image = new Image();
-    image.crossOrigin = "Anonymous";
-    image.src = `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${img.filename}`;
 
-    image.onload = async function () {
-      const colors = await colorThief.getPalette(image, 3);
-      const rgbColors = colors.map((color) => `rgb(${color.join(", ")})`);
-      document.documentElement.style.setProperty("--1-color", rgbColors[0]);
-      document.documentElement.style.setProperty("--2-color", rgbColors[1]);
-      document.documentElement.style.setProperty("--3-color", rgbColors[2]);
-    };
+    // 确保在浏览器环境中使用 Image
+    if (typeof window !== "undefined") {
+      const image = new window.Image();
+      image.crossOrigin = "Anonymous";
+      image.src = img.filename ? `/uploads/${img.filename}` : "";
 
-    let Array = [...imgCheck]; // create a copy of the current state
-    Array[postIndex] = true; // set the first element to false
-    setImgCheck(Array); // update the state
-    setBackCheck(true);
-    let newArray = [...check]; // create a copy of the current state
-    newArray[index] = true; // set the first element to false
-    setCheck(newArray); // update the state
+      image.onload = async function () {
+        const colors = await colorThief.getPalette(image, 3);
+        const rgbColors = colors.map((color) => `rgb(${color.join(", ")})`);
+        document.documentElement.style.setProperty("--1-color", rgbColors[0]);
+        document.documentElement.style.setProperty("--2-color", rgbColors[1]);
+        document.documentElement.style.setProperty("--3-color", rgbColors[2]);
+      };
+
+      let Array = [...imgCheck]; // create a copy of the current state
+      Array[postIndex] = true; // set the first element to false
+      setImgCheck(Array); // update the state
+      setBackCheck(true);
+      let newArray = [...check]; // create a copy of the current state
+      newArray[index] = true; // set the first element to false
+      setCheck(newArray); // update the state
+    } else {
+      console.error("Image loading is not supported in this environment");
+    }
   }; //preview images (>=2)
 
   const imagePreview1 = (postIndex, img) => {
     document.body.style.overflowY = "hidden";
     const colorThief = new ColorThief();
-    const image = new Image();
-    image.crossOrigin = "Anonymous";
-    image.src = `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${img.filename}`;
 
-    image.onload = async function () {
-      const colors = await colorThief.getPalette(image, 3);
-      const rgbColors = colors.map((color) => `rgb(${color.join(", ")})`);
-      document.documentElement.style.setProperty("--1-color", rgbColors[0]);
-      document.documentElement.style.setProperty("--2-color", rgbColors[1]);
-      document.documentElement.style.setProperty("--3-color", rgbColors[2]);
-    };
-    let Array = [...imgCheck]; // create a copy of the current state
-    Array[postIndex] = true; // set the first element to false
-    setImgCheck(Array); // update the state
-    setOk(true);
+    // 确保在浏览器环境中使用 Image
+    if (typeof window !== "undefined") {
+      const image = new window.Image();
+      image.crossOrigin = "Anonymous";
+      image.src = img.filename ? `/uploads/${img.filename}` : "";
+
+      image.onload = async function () {
+        const colors = await colorThief.getPalette(image, 3);
+        const rgbColors = colors.map((color) => `rgb(${color.join(", ")})`);
+        document.documentElement.style.setProperty("--1-color", rgbColors[0]);
+        document.documentElement.style.setProperty("--2-color", rgbColors[1]);
+        document.documentElement.style.setProperty("--3-color", rgbColors[2]);
+      };
+
+      let Array = [...imgCheck]; // create a copy of the current state
+      Array[postIndex] = true; // set the first element to false
+      setImgCheck(Array); // update the state
+      setOk(true);
+    } else {
+      console.error("Image loading is not supported in this environment");
+    }
   }; //preview single image
 
   const handleWheel = (e) => {
@@ -390,12 +421,33 @@ function Generalform({ username }) {
         setFiles((prevFiles) => [...prevFiles, file]);
       }
     });
-  };
+  }; //add file through file input in post submission
+
+  const handleDropFile = (event) => {
+    event.preventDefault();
+    const uploadedFiles = Array.from(event.dataTransfer.files);
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.mp4|\.mov)$/i;
+
+    if (uploadedFiles.length + files.length > 9) {
+      alert("You can only upload up to 9 files.");
+      return;
+    }
+
+    uploadedFiles.forEach((file) => {
+      if (!allowedExtensions.exec(file.name)) {
+        alert("Invalid file type. Only images and videos are allowed.");
+      } else {
+        const url = URL.createObjectURL(file);
+        setFileUrls((prevUrls) => [...prevUrls, url]);
+        setFiles((prevFiles) => [...prevFiles, file]);
+      }
+    });
+  }; //add file through drag and drop in post submission
 
   const handleRemoveFile = (index) => {
     setFiles((prevFiles) => prevFiles.filter((file, i) => i !== index));
     setFileUrls((prevUrls) => prevUrls.filter((url, i) => i !== index));
-  };
+  }; //remove file in post submission
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -441,7 +493,7 @@ function Generalform({ username }) {
     try {
       setLoad(true);
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_SOURCE_URL}/upload`,
+        `/api/upload`,
         formData,
         {
           headers: {
@@ -452,8 +504,8 @@ function Generalform({ username }) {
       if (res.status === 201) {
         await initPosts();
         setLoad(false);
-        handleCloseFormClick();
         setMsg("Post created successfully");
+        setHide(true);
         setTitle("");
         setContent("");
         setContentWords(0);
@@ -462,9 +514,13 @@ function Generalform({ username }) {
         setFileUrls([]);
         setPostAnonymous(false);
       }
-      fetchLikes();
+      // fetchLikes();
     } catch (error) {
       console.log(error);
+      if (error.response && error.response.status === 429) {
+        alert(t("Too many requests. Please try again later."));
+        return;
+      }
       setLoad(false);
     }
   }; //submit post
@@ -474,11 +530,6 @@ function Generalform({ username }) {
       alert(t("Please sign in to write a post"));
       return;
     }
-    setInputBoxHidden(!inputBoxHidden);
-  };
-
-  const handleCloseFormClick = () => {
-    setInputBoxHidden(true);
   };
 
   const handleCheckClose = (index, postIndex) => {
@@ -492,7 +543,6 @@ function Generalform({ username }) {
     document.documentElement.style.setProperty("--1-color", "#f2f4f5");
     document.documentElement.style.setProperty("--2-color", "#f2f4f5");
     document.documentElement.style.setProperty("--3-color", "#f2f4f5");
-    document.body.style.overflowY = "scroll";
   }; //setting for image preview
 
   const handleClose = (index) => {
@@ -503,27 +553,34 @@ function Generalform({ username }) {
     document.documentElement.style.setProperty("--1-color", "#f2f4f5");
     document.documentElement.style.setProperty("--2-color", "#f2f4f5");
     document.documentElement.style.setProperty("--3-color", "#f2f4f5");
-    document.body.style.overflowY = "scroll";
   }; //setting for image preview1
 
-  const handleSub = async (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
     try {
       await axios.delete("/api/general", {
-        data: {
+        params: {
           id: e.target.id.value,
         },
       });
       await initPosts();
+      await fetchLikes();
     } catch (error) {
       console.log(error);
     }
   }; //delete post
 
-  const handleRefresh = async () => {
-    await initPosts();
-    await fetchLikes();
-    setCommentOpen([].map(() => false));
+  const handleRefresh = async (e) => {
+    e.preventDefault();
+    try {
+      setCommentOpen([]);
+      setCommentUploadRefresh([]);
+      await initPosts();
+      await fetchLikes();
+      setGlobalRefresh(true);
+    } catch (error) {
+      console.log(error);
+    }
   }; //refresh page
 
   const handleComment = async (postId) => {
@@ -557,21 +614,35 @@ function Generalform({ username }) {
   }, []); //initial setup
 
   const loadImage = (src, maxTries = 3) => {
+    // 增加空值检查
+    if (!src) {
+      console.error("Image source is required");
+      return Promise.reject("Image source is required");
+    }
+
     return new Promise((resolve, reject) => {
       let tries = 0;
-      const img = new Image();
 
-      img.onload = () => resolve("Image loaded successfully");
-      img.onerror = () => {
-        tries++;
-        if (tries < maxTries) {
-          img.src = src;
-        } else {
-          console.error(`Failed to load image after ${maxTries} attempts`);
-        }
-      };
+      // 确保在浏览器环境中使用 Image
+      if (typeof window !== "undefined") {
+        const img = new window.Image();
 
-      img.src = src;
+        img.onload = () => resolve("Image loaded successfully");
+        img.onerror = () => {
+          tries++;
+          if (tries < maxTries) {
+            img.src = src;
+          } else {
+            console.error(`Failed to load image after ${maxTries} attempts`);
+            reject(`Failed to load image after ${maxTries} attempts`);
+          }
+        };
+
+        img.src = src;
+      } else {
+        console.error("Image loading is not supported in this environment");
+        reject("Image loading is not supported in this environment");
+      }
     });
   }; //load image
 
@@ -580,11 +651,7 @@ function Generalform({ username }) {
       try {
         await Promise.all(
           posts.map((post) =>
-            post.pictureUrl.map((image) =>
-              loadImage(
-                `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`,
-              ),
-            ),
+            post.pictureUrl.map((image) => loadImage(`/${image.filename}`)),
           ),
         );
       } catch (error) {
@@ -635,9 +702,11 @@ function Generalform({ username }) {
 
   const getAvatar = async (username) => {
     try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_SOURCE_URL}/getAvatar/${username}`,
-      );
+      const res = await axios.get("/api/getAvatar", {
+        params: {
+          username: username,
+        },
+      });
       return res.data.avatarUrl;
     } catch (error) {
       console.error(error);
@@ -651,9 +720,7 @@ function Generalform({ username }) {
         await Promise.all(
           posts.map(async (post) => {
             const avatarUrlProp = await getAvatar(post.username);
-            const avatarUrl = avatarUrlProp
-              ? `${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${avatarUrlProp}`
-              : null;
+            const avatarUrl = avatarUrlProp ? `/avatar/${avatarUrlProp}` : null;
             if (avatarUrl && avatarUrl !== null) {
               newLoadedSrc[post._id] = avatarUrl;
             }
@@ -667,212 +734,267 @@ function Generalform({ username }) {
     };
 
     loadImages();
-  }, [posts]);
+  }, [posts]); //load avatars
   return (
-    <section className="posts">
+    <section className={styles.posts}>
       <title>{t("General")}</title>
-      <div id="topBar">
-        <a href="/" className="titleg">
-          {t("General")}
-        </a>{" "}
-        {/* to intro page */}
+      <div className={styles.topBar}>
+        <Link href="/" className={styles.iconContainer}>
+          <Image
+            src="/icons/chatbubbles-outline.svg"
+            width="50"
+            height="50"
+            alt="chatbubbles"
+          />
+          <p className={styles.webicon} href="/">
+            {t("Oasis")}
+          </p>
+        </Link>
       </div>
-      <div className="postBody">
-        <a href="dashboard" id="backButton">
-          {t("Back to Dashboard")}
-        </a>{" "}
-        {/* back to dashboard button */}
-        <button className="refreshBtn" onClick={handleRefresh}>
-          {t("Refresh")}
-        </button>{" "}
-        {/* refresh button */}
-        <button className="adp" id="GaddPostBtn" onClick={handleAddPostClick}>
-          <span>{t("Write a post")}</span>
-        </button>{" "}
-        {/* add post button */}
-        {!inputBoxHidden && (
-          <div id="inputBoxGeneral">
-            <form
-              onSubmit={(e) => {
-                handleSubmit(e);
-              }}
-              id="postForm"
-              encType="multipart/form-data"
-              onDragEnter={(e) => e.preventDefault()}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={(e) => {
-                e.preventDefault();
-                setFiles(e.dataTransfer.files);
-              }}
-            >
-              <div
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  flexDirection: "row",
-                  width: "60%",
-                }}
+      <br />
+      <br />
+      <br />
+      <div className={styles.postBody}>
+        <div className={styles.generalNav}>
+          <ul
+            className="nav flex-column nav-pills"
+            id="pills-tab"
+            role="tablist"
+          >
+            <li className={`${styles.navItem} nav-item`} role="presentation">
+              <Link
+                className={`${styles.navLink} nav-link`}
+                aria-current="page"
+                href="/dashboard"
               >
-                <TextareaAutosize
-                  required
-                  id="title"
-                  name="title"
-                  placeholder={t("Enter title (20 words max)")}
-                  onInput={(e) => {
-                    const value = e.target.value;
-                    const wordCount = count(value);
-                    setTitleWords(wordCount);
-                    setTitle(value); // Update title state
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.color = "black";
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.color = "gray";
-                  }}
-                  value={title}
+                <i style={{ fontSize: "1.8rem" }} className="bi bi-house" />
+                <p style={{ margin: "0", fontSize: "1rem" }}>
+                  {t("Back to Dashboard")}
+                </p>
+              </Link>
+            </li>
+            <li className={`${styles.navItem} nav-item`} role="presentation">
+              <button
+                className={`${styles.navLink} nav-link`}
+                onClick={handleRefresh}
+              >
+                <i
+                  style={{ fontSize: "1.8rem" }}
+                  className={`${styles.arrowRotate} bi bi-arrow-repeat`}
                 />
-                <span
-                  style={{
-                    position: "absolute",
-                    fontSize: "0.85rem",
-                    right: "0.2vw",
-                    bottom: "-0.1rem",
-                    margin: 0,
-                    padding: 0,
-                  }}
-                >
-                  {titleWords}
-                </span>
-              </div>
-              <br />
-              <br />
-              <TextareaAutosize
-                required
-                id="content"
-                name="content"
-                placeholder={t("Write sth...")}
-                onInput={(e) => {
-                  const value = e.target.value;
-                  const wordCount = count(value);
-                  setContentWords(wordCount);
-                  setContent(value); // Update title state
-                }}
-                onFocus={(e) => {
-                  e.target.style.color = "black";
-                }}
-                onBlur={(e) => {
-                  e.target.style.color = "gray";
-                }}
-                value={content}
-              />
-              <div style={{ position: "relative" }}>
-                <span
-                  style={{
-                    position: "absolute",
-                    fontSize: "0.85rem",
-                    right: "0.5vw",
-                    bottom: "0.5vh",
-                  }}
-                >
-                  {contentWords}
-                </span>
-              </div>
-              <br />
-              <br />
-              <label htmlFor="input-files" className="picUpload">
-                {files.length > 1 &&
-                  `${files.length}${t(" files has been uploaded")}`}
-                {files.length === 1 &&
-                  `${files.length}${t(" file has been uploaded")}`}
-                {!(files.length > 1) &&
-                  !(files.length === 1) &&
-                  t("Pictures or Videos (Drag and drop or Click)")}
-                <input
-                  type="file"
-                  id="input-files"
-                  className="form-control-file border"
-                  onChange={handleFileChange}
-                  multiple
-                />
-              </label>
-              <div className="formBottom">
-                <button
-                  type="submit"
-                  className="postBtn"
-                  disabled={load}
-                  onClick={() => {
-                    setContent(document.getElementById("content").textContent),
-                      setTitle(document.getElementById("title").textContent);
-                  }}
-                >
-                  {!load && <p className="ldd">{t("Post")}</p>}
-                  {load && (
-                    <div className="load">
-                      <TailSpin
-                        type="ThreeDots"
-                        color="white"
-                        height={20}
-                        width={40}
-                        style={{ marginRight: "5px" }}
+                <p style={{ margin: "0", fontSize: "1rem" }}>{t("Refresh")}</p>
+              </button>
+            </li>
+            <li className={`${styles.navItem} nav-item`} role="presentation">
+              <button
+                className={`${styles.navLink} nav-link`}
+                onClick={handleAddPostClick}
+                data-bs-toggle={username && "modal"}
+                data-bs-target={username && "#postModal"}
+              >
+                <i style={{ fontSize: "1.8rem" }} className="bi bi-pen" />
+                <p style={{ margin: "0", fontSize: "1rem" }}>
+                  {t("Write a post")}
+                </p>
+              </button>
+            </li>
+          </ul>
+        </div>
+        {/* <div className={styles.topBtnContainer}>
+          <button className={styles.refreshBtn} onClick={handleRefresh}>
+            {t("Refresh")}
+          </button>{" "}
+        </div> */}
+        <br />
+        <br />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyItems: "start",
+            width: "36vw",
+            gap: "5px",
+            position: "relative",
+            marginLeft: "45vw",
+            top: "10rem",
+          }}
+        >
+          {/* add post button */}
+          <div
+            className="modal fade"
+            id="postModal"
+            tabIndex={-1}
+            aria-labelledby="postModalLabel"
+            aria-hidden="true"
+            ref={modalRef}
+          >
+            <div className="modal-dialog">
+              <div className="modal-content">
+                {/* <div className="modal-header">
+              <h5 className="modal-title" id="initiateTradeModalLabel">
+                Initiate Trade
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div> */}
+                <div className="modal-body">
+                  <form
+                    onSubmit={(e) => {
+                      handleSubmit(e);
+                    }}
+                    encType="multipart/form-data"
+                  >
+                    <div className="mb-3">
+                      <label htmlFor="title" className="form-label">
+                        {t("Enter title (20 words max)")}
+                      </label>
+                      <TextareaAutosize
+                        className="form-control"
+                        id="title"
+                        value={title}
+                        onInput={(e) => {
+                          const value = e.target.value;
+                          const wordCount = count(value);
+                          setTitleWords(wordCount);
+                          setTitle(value); // Update title state
+                        }}
+                        required
                       />
-                      <span className="ld">Loading...</span>
+                      <span
+                        className="text-primary-emphasis"
+                        style={{ fontSize: "0.85rem" }}
+                      >
+                        {titleWords}
+                        {titleWords !== 0
+                          ? t(" words in total")
+                          : t(" word in total")}
+                      </span>
                     </div>
-                  )}
-                </button>
-                <button className="closeForm" onClick={handleCloseFormClick}>
-                  <p>{t("Cancel")}</p>
-                </button>
-                <div className="switchForm">
-                  <label className="switch">
-                    <input
-                      type="checkbox"
-                      name="postAnonymous"
-                      checked={postAnonymous}
-                      onChange={() => setPostAnonymous(!postAnonymous)}
-                    />
-                    <span className="slider round">
-                      <h6 className="posta">
-                        {t("Anon")}
-                        <p />
-                      </h6>
-                    </span>
-                  </label>
-                </div>
-                <div className="preview-container">
-                  {fileUrls &&
-                    fileUrls.map((url, index) => {
-                      const file = files[index];
-                      const isVideo = file && file.type.startsWith("video");
-                      return (
-                        <div key={index}>
-                          {isVideo ? (
-                            <video src={url} width="140" controls />
-                          ) : (
-                            <img src={url} alt="Preview" width="140" />
-                          )}
-                          <button onClick={() => handleRemoveFile(index)}>
+                    <div className="mb-3">
+                      <label htmlFor="content" className="form-label">
+                        {t("Write sth...")}
+                      </label>
+                      <TextareaAutosize
+                        required
+                        className="form-control"
+                        name="content"
+                        onInput={(e) => {
+                          const value = e.target.value;
+                          const wordCount = count(value);
+                          setContentWords(wordCount);
+                          setContent(value); // Update title state
+                        }}
+                        value={content}
+                      />
+                      <span
+                        className="text-primary-emphasis"
+                        style={{ fontSize: "0.85rem" }}
+                      >
+                        {contentWords}
+                        {contentWords !== 0
+                          ? t(" words in total")
+                          : t(" word in total")}
+                      </span>
+                    </div>
+                    <div className="mb-3">
+                      <label htmlFor="inputFiles" className="form-label">
+                        {files.length > 1 &&
+                          `${files.length}${t(" files has been uploaded")}`}
+                        {files.length === 1 &&
+                          `${files.length}${t(" file has been uploaded")}`}
+                        {!(files.length > 1) &&
+                          !(files.length === 1) &&
+                          t("Pictures or Videos (Drag and drop or Click)")}
+                      </label>
+                      <input
+                        type="file"
+                        onChange={handleFileChange}
+                        className="form-control"
+                        id="inputFiles"
+                        multiple
+                      />
+                    </div>
+                    <div
+                      className={styles.dragArea}
+                      onDragEnter={(e) => e.preventDefault()}
+                      onDragOver={(e) => e.preventDefault()}
+                      onDrop={handleDropFile}
+                    >
+                      <p
+                        className="text-center"
+                        style={{ userSelect: "none", margin: "0" }}
+                      >
+                        {t("Drag and drop files here")}
+                      </p>
+                    </div>
+
+                    <div className="mt-2">
+                      <p>
+                        {t("Total files:")} {files.length}
+                      </p>
+                      {files.map((file, index) => (
+                        <div
+                          key={index}
+                          className="d-flex justify-content-between align-items-center mb-2"
+                        >
+                          <span>{file.name}</span>
+                          <button
+                            variant="danger"
+                            size="sm"
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={() => handleRemoveFile(index)}
+                          >
                             Remove
                           </button>
                         </div>
-                      );
-                    })}
+                      ))}
+                    </div>
+                    <div className="form-check form-switch mb-3">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        style={{ cursor: "pointer" }}
+                        id="postAnonymous"
+                        name="postAnonymous"
+                        checked={postAnonymous}
+                        onChange={() => setPostAnonymous(!postAnonymous)}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="postAnonymous"
+                      >
+                        {t("Anonymous")}
+                      </label>
+                    </div>
+                    <button type="submit" className={`btn ${styles.submitBtn}`}>
+                      {loading ? (
+                        <span
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                      ) : (
+                        t("Post")
+                      )}
+                    </button>
+                  </form>
                 </div>
-              </div>
-            </form>
-            <div className="row">
-              <div className="col-sm-12">
-                <div className="preview-images" />
               </div>
             </div>
           </div>
-        )}{" "}
+        </div>
         {/* input box for posting */}
-        <div className="bg">
-          <div id="posts" className="word-box">
+        <div className={styles.bg}>
+          <div className={styles.postsContainer}>
             {loading
               ? Array.from({ length: 15 }).map((_, i) => (
-                  <div className="borderClass" key={`Skeletons${i}`}>
+                  <div className={styles.borderClass} key={`Skeletons${i}`}>
                     <React.Fragment>
                       <Skeleton classes="title width-40" />
                       <Skeleton classes="text width-70" />
@@ -890,17 +1012,17 @@ function Generalform({ username }) {
                   </div>
                 )) //skeletons for loading
               : posts.map((post, postIndex) => (
-                  <div className="postsG" key={post._id} id={post._id}>
+                  <div className={styles.postsG} key={post._id} id={post._id}>
                     <Link
                       href={`/posts/${post._id}`}
                       target="_blank"
-                      className="ptitle"
+                      className={styles.ptitle}
                     >
                       {post.title}
                     </Link>
-                    <br />
+                    <br className={styles.g} />
                     <div
-                      className="contents"
+                      className={styles.contents}
                       style={{
                         cursor:
                           isExpanded.includes(post._id) ||
@@ -912,47 +1034,54 @@ function Generalform({ username }) {
                     >
                       {displayContent(post.content, post._id)}
                     </div>
-                    <br />
-                    <br />
-                    <div className="imgs">
+                    <br className={styles.g} />
+                    <br className={styles.g} />
+                    <div className={styles.imgs}>
                       {post.pictureUrl.length > 1 &&
                         post.pictureUrl.map((image, index) => (
                           <section key={"multi" + image.filename}>
                             <button
+                              style={{
+                                border: "none",
+                                backgroundColor: "transparent",
+                              }}
                               onClick={() =>
                                 imagePreview(index, postIndex, image)
                               }
                             >
                               <img
-                                src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                                src={`/uploads/${image.filename}`}
                                 alt={image.filename}
                                 width="300"
                                 height="300"
-                                className="Images"
+                                className={styles.Images}
                               />
                             </button>
                             {check[index] && imgCheck[postIndex] && (
                               <img
-                                src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                                src={`/uploads/${image.filename}`}
                                 alt={image.filename}
                                 id={`${post._id}-${index}`}
                                 width={300 * scale}
                                 height={300 * scale}
-                                className="above"
+                                className={styles.above}
                                 onWheel={handleWheel}
                               />
                             )}
                             {check[index] && imgCheck[postIndex] && (
                               <button
-                                id="closePreview"
+                                className={`${styles.closePreview} btn-close`}
                                 onClick={() =>
                                   handleCheckClose(index, postIndex)
                                 }
+                                style={{
+                                  border: "none",
+                                  backgroundColor: "transparent",
+                                }}
                               >
-                                X
                               </button>
                             )}
-                            {backCheck && <div className="blocks" />}
+                            {backCheck && <div className={styles.blocks} />}
                           </section>
                         ))}
                       {post.pictureUrl.length === 1 &&
@@ -960,59 +1089,71 @@ function Generalform({ username }) {
                           <section key={"1pic" + image.filename}>
                             <button
                               onClick={() => imagePreview1(postIndex, image)}
+                              style={{
+                                border: "none",
+                                backgroundColor: "transparent",
+                              }}
                             >
                               <img
-                                src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                                src={`/uploads/${image.filename}`}
                                 alt={image.filename}
                                 width="300"
                                 height="300"
-                                className="Image"
+                                className={styles.Image}
                               />
                             </button>
                             {ok && imgCheck[postIndex] && (
                               <img
-                                src={`${process.env.NEXT_PUBLIC_SOURCE_URL}/public/${image.filename}`}
+                                src={`/uploads/${image.filename}`}
                                 alt={image.filename}
                                 width={300 * scale}
                                 height={300 * scale}
-                                className="above"
+                                className={styles.above}
                                 onWheel={handleWheel}
                               />
                             )}
 
                             {ok && imgCheck[postIndex] && (
                               <button
-                                id="closePreview"
+                              className={`${styles.closePreview} btn-close`}
                                 onClick={() => handleClose(postIndex)}
+                                style={{
+                                  border: "none",
+                                  backgroundColor: "transparent",
+                                }}
                               >
-                                X
                               </button>
                             )}
 
                             {ok && imgCheck[postIndex] && (
-                              <div className="blocks" />
+                              <div className={styles.blocks} />
                             )}
                           </section>
                         ))}
                     </div>
-                    <br />
-                    <br />
-                    {(post.postAnonymous !== "true" || admin == true) && (
+                    <br className={styles.g} />
+                    <br className={styles.g} />
+                    {post.postAnonymous !== "true" && (
                       <Link
-                        className="author"
+                        className={styles.author}
                         href={`/profile/${post.username}`}
-                        style={{ display: "flex", alignItems: "center" }}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          textDecoration: "none",
+                          color: "black",
+                        }}
                       >
                         {loadedSrc[post._id] ? (
                           <img
                             src={loadedSrc[post._id]}
-                            className="avatarGeneral"
+                            className={styles.avatarGeneral}
                           />
                         ) : (
                           <img
                             priority="true"
                             src="./preview.svg"
-                            className="avatarGeneral"
+                            className={styles.avatarGeneral}
                             alt="avatar"
                             width={35}
                             height={35}
@@ -1022,12 +1163,12 @@ function Generalform({ username }) {
                         {post.username}
                       </Link>
                     )}
-                    <br />
-                    <p className="postT">
+                    <br className={styles.g} />
+                    <p className={styles.postT}>
                       {t("posted on")} {post.postingtime}
                     </p>
-                    <br />
-                    <div className="likeContainer">
+                    <br className={styles.g} />
+                    <div className={styles.likeContainer}>
                       {(() => {
                         let like = likes.find(
                           (like) => like.postId === post._id,
@@ -1045,9 +1186,6 @@ function Generalform({ username }) {
                               setLikestatuses={setLikestatuses}
                               setLikes={setLikes}
                               size={50}
-                              vershift="0.5vw"
-                              shift="0.2vw"
-                              height="76px"
                               type="all"
                             />
                           );
@@ -1055,10 +1193,16 @@ function Generalform({ username }) {
                       })()}
                     </div>
 
-                    {/* Comment Section */}
+                    {/* Comment Open Button */}
                     <button
                       onClick={() => handleComment(post._id)}
-                      style={{ display: "flex", alignItems: "flex-end" }}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: "transparent",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -1072,46 +1216,43 @@ function Generalform({ username }) {
                           d="M25.784 21.017A10.992 10.992 0 0 0 27 16c0-6.065-4.935-11-11-11S5 9.935 5 16s4.935 11 11 11c1.742 0 3.468-.419 5.018-1.215l4.74 1.185a.996.996 0 0 0 .949-.263 1 1 0 0 0 .263-.95l-1.186-4.74zm-2.033.11.874 3.498-3.498-.875a1.006 1.006 0 0 0-.731.098A8.99 8.99 0 0 1 16 25c-4.963 0-9-4.038-9-9s4.037-9 9-9 9 4.038 9 9a8.997 8.997 0 0 1-1.151 4.395.995.995 0 0 0-.098.732z"
                         ></path>
                       </svg>
-                      <div
-                        style={{
-                          position: "relative",
-                          marginBottom: "0.5vh",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <GetCommentNum postId={post._id} />{" "}
-                        <p>{t("Comments")}</p>
-                      </div>
+                      <GetCommentNum postId={post._id} />{" "}
                     </button>
+
+                    {/* Comment List */}
                     {commentOpen.includes(post._id) && (
                       <>
                         <CommentUpload
                           fetchLikes={fetchLikes}
                           username={username}
                           postId={post._id}
+                          setCommentUploadRefresh={setCommentUploadRefresh}
+                          commentUploadRefresh={commentUploadRefresh}
                           commentOpen={commentOpen}
                           getComments={getComments}
                         />
-                        <br />
+                        <br className={styles.g} />
                         {commentOpen.includes(post._id) && (
-                          <div className="commentSection">
-                            <div style={{ display: "flex", padding: "8px" }}>
-                              <p>
-                                {comments
-                                  ? comments.filter(
-                                      (comment) => comment.postId === post._id,
-                                    ).length
-                                  : 0}
-                              </p>{" "}
+                          <div className={styles.commentSection}>
+                            <div
+                              style={{
+                                display: "flex",
+                                padding: "8px",
+                                alignItems: "center",
+                              }}
+                            >
                               <p
                                 style={{
                                   position: "relative",
-                                  top: "0.25vh",
-                                  marginLeft: "0.25vw",
+                                  margin: "0",
                                 }}
                               >
-                                {t("Comments")}
+                                {comments &&
+                                comments.filter(
+                                  (comment) => comment.postId === post._id,
+                                ).length > 0
+                                  ? `${comments.filter((comment) => comment.postId === post._id).length} ${comments.filter((comment) => comment.postId === post._id).length === 1 ? t("Comment") : t("Comments")}`
+                                  : t("No Comments")}
                               </p>
                             </div>
                             <hr
@@ -1134,10 +1275,13 @@ function Generalform({ username }) {
                                       style={{ padding: "8px" }}
                                     >
                                       <div style={{ display: "flex" }}>
-                                        <h2 style={{ fontWeight: "700" }}>
+                                        <h2
+                                          className="fs-5"
+                                          style={{ fontWeight: "700" }}
+                                        >
                                           {com.username}
                                         </h2>
-                                        {admin && (
+                                        {/* {admin && (
                                           <form onSubmit={deleteComment}>
                                             <input
                                               type="hidden"
@@ -1151,7 +1295,7 @@ function Generalform({ username }) {
                                             />
                                             <button
                                               type="submit"
-                                              className="deleteBtn"
+                                              className={styles.deleteBtn}
                                               style={{
                                                 position: "absolute",
                                                 right: "2.5vw",
@@ -1161,33 +1305,32 @@ function Generalform({ username }) {
                                               <span>{t("Admin Delete")}</span>
                                             </button>
                                           </form>
+                                        )} */}
+                                        {com.username === username && (
+                                          <form onSubmit={deleteComment}>
+                                            <input
+                                              type="hidden"
+                                              name="commentId"
+                                              value={com._id}
+                                            />
+                                            <input
+                                              type="hidden"
+                                              name="postId"
+                                              value={post._id}
+                                            />
+                                            <button
+                                              type="submit"
+                                              className={styles.deleteBtn}
+                                              style={{
+                                                position: "absolute",
+                                                right: "2.5vw",
+                                                scale: "0.8",
+                                              }}
+                                            >
+                                              <span>{t("Delete")}</span>
+                                            </button>
+                                          </form>
                                         )}
-                                        {!admin &&
-                                          com.username === username && (
-                                            <form onSubmit={deleteComment}>
-                                              <input
-                                                type="hidden"
-                                                name="commentId"
-                                                value={com._id}
-                                              />
-                                              <input
-                                                type="hidden"
-                                                name="postId"
-                                                value={post._id}
-                                              />
-                                              <button
-                                                type="submit"
-                                                className="deleteBtn"
-                                                style={{
-                                                  position: "absolute",
-                                                  right: "2.5vw",
-                                                  scale: "0.8",
-                                                }}
-                                              >
-                                                <span>{t("Delete")}</span>
-                                              </button>
-                                            </form>
-                                          )}
                                       </div>
                                       <div
                                         style={{
@@ -1197,65 +1340,86 @@ function Generalform({ username }) {
                                       >
                                         {com.content}
                                       </div>
-                                      <div style={{ display: "flex" }}>
-                                        <h2 style={{}}>{com.postingtime}</h2>
-                                        <button
-                                          onClick={() =>
-                                            handleSubComment(com._id)
-                                          }
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "space-between",
+                                        }}
+                                      >
+                                        <h2
+                                          className="fs-6"
                                           style={{
+                                            alignSelf: "center",
                                             display: "flex",
-                                            left: "15vw",
-                                            position: "relative",
                                           }}
                                         >
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 32 32"
-                                            width={30}
-                                            height={30}
-                                          >
-                                            <path
-                                              fill="#374151"
-                                              strokeWidth={0.5}
-                                              d="M25.784 21.017A10.992 10.992 0 0 0 27 16c0-6.065-4.935-11-11-11S5 9.935 5 16s4.935 11 11 11c1.742 0 3.468-.419 5.018-1.215l4.74 1.185a.996.996 0 0 0 .949-.263 1 1 0 0 0 .263-.95l-1.186-4.74zm-2.033.11.874 3.498-3.498-.875a1.006 1.006 0 0 0-.731.098A8.99 8.99 0 0 1 16 25c-4.963 0-9-4.038-9-9s4.037-9 9-9 9 4.038 9 9a8.997 8.997 0 0 1-1.151 4.395.995.995 0 0 0-.098.732z"
-                                            ></path>
-                                          </svg>
-                                          <p
-                                            style={{
-                                              position: "relative",
-                                              marginTop: "0.5vh",
-                                            }}
-                                          >
-                                            {t("Reply")}
-                                          </p>
-                                        </button>
+                                          {com.postingtime}
+                                        </h2>
                                         <div
                                           style={{
-                                            position: "relative",
-                                            left: "16vw",
-                                            top: "0.3vh",
                                             display: "flex",
+                                            alignItems: "center",
+                                            position: "relative",
                                           }}
                                         >
-                                          {likes.map((like, likeIndex) => (
-                                            <LikeButton
-                                              key={like._id + likeIndex}
-                                              category="comment"
-                                              postId={com._id}
-                                              likeloads={likeloads}
-                                              like={like}
-                                              likestatuses={likestatuses}
-                                              username={username}
-                                              setLikestatuses={setLikestatuses}
-                                              setLikes={setLikes}
-                                              size={30}
-                                              fontsize="1.2rem"
-                                              shift="1px"
-                                              height="37px"
-                                              type="all"
-                                            />
-                                          ))}
+                                          <button
+                                            onClick={() =>
+                                              handleSubComment(com._id)
+                                            }
+                                            style={{
+                                              display: "flex",
+                                              alignItems: "center",
+                                              position: "relative",
+                                              border: "none",
+                                              backgroundColor: "transparent",
+                                            }}
+                                          >
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              viewBox="0 0 32 32"
+                                              width={30}
+                                              height={30}
+                                            >
+                                              <path
+                                                fill="#374151"
+                                                strokeWidth={0.5}
+                                                d="M25.784 21.017A10.992 10.992 0 0 0 27 16c0-6.065-4.935-11-11-11S5 9.935 5 16s4.935 11 11 11c1.742 0 3.468-.419 5.018-1.215l4.74 1.185a.996.996 0 0 0 .949-.263 1 1 0 0 0 .263-.95l-1.186-4.74zm-2.033.11.874 3.498-3.498-.875a1.006 1.006 0 0 0-.731.098A8.99 8.99 0 0 1 16 25c-4.963 0-9-4.038-9-9s4.037-9 9-9 9 4.038 9 9a8.997 8.997 0 0 1-1.151 4.395.995.995 0 0 0-.098.732z"
+                                              ></path>
+                                            </svg>
+                                            <p
+                                              style={{
+                                                position: "relative",
+                                                margin: "0",
+                                                alignSelf: "center",
+                                              }}
+                                            >
+                                              {t("Reply")}
+                                            </p>
+                                          </button>
+                                          <div
+                                            style={{
+                                              position: "relative",
+                                              display: "flex",
+                                            }}
+                                          >
+                                            {likes.map((like, likeIndex) => (
+                                              <LikeButton
+                                                key={like._id + likeIndex}
+                                                category="comment"
+                                                postId={com._id}
+                                                likeloads={likeloads}
+                                                like={like}
+                                                likestatuses={likestatuses}
+                                                username={username}
+                                                setLikestatuses={
+                                                  setLikestatuses
+                                                }
+                                                setLikes={setLikes}
+                                                size={30}
+                                                type="all"
+                                              />
+                                            ))}
+                                          </div>
                                         </div>
                                       </div>
                                       {addCommentDisplay.includes(com._id) && (
@@ -1312,58 +1476,58 @@ M125.025,99.15H25.02V85.51l22.73-22.724l11.363,11.36l36.365-36.361l29.547,29.547
 
                     {/* loading state for comments (have not editted) */}
                     {/* Array.from({ length: 15 }).map((_, i) => (
-                <div className="borderClass" key={i}>
+                <div className={styles.borderClass} key={i}>
                   <React.Fragment>
                     <Skeleton classes="title width-40" />
                     <Skeleton classes="text width-70" />
                     <Skeleton classes="text width-70" />
                     <Skeleton classes="text width-70" />
-                    <br />
+                    <br className={styles.g} />
                     <Skeleton classes="text width-pic" />
-                    <br />
+                    <br className={styles.g} />
                     <Skeleton classes="text width-user" />
-                    <br />
+                    <br className={styles.g} />
                     <Skeleton classes="text width-40" />
                     <Skeleton classes="text width-delete" />
-                    <br />
+                    <br className={styles.g} />
                   </React.Fragment>
                 </div>
               )) */}
-                    <br />
-                    {post.username === username && !admin && (
-                      <div className="deleteForm">
-                        <form onSubmit={handleSub} id="deleteForm">
+                    <br className={styles.g} />
+                    {post.username === username && (
+                      <div className={styles.deleteForm}>
+                        <form onSubmit={handleDelete}>
                           <input
                             type="hidden"
                             name="id"
                             id="id"
                             value={post._id}
                           />
-                          <button type="submit" className="deleteBtn">
+                          <button type="submit" className={styles.deleteBtn}>
                             <span>{t("Delete")}</span>
                           </button>
                         </form>
                       </div>
                     )}
-                    {admin && (
-                      <div className="deleteForm">
-                        <form onSubmit={handleSub} id="deleteForm">
+                    {/* {admin && (
+                      <div className={styles.deleteForm}>
+                        <form onSubmit={handleDelete}>
                           <input
                             type="hidden"
                             name="id"
                             id="id"
                             value={post._id}
                           />
-                          <button type="submit" className="deleteBtn">
+                          <button type="submit" className={styles.deleteBtn}>
                             <span>{t("Admin Delete")}</span>
                           </button>
                         </form>
                       </div>
-                    )}
+                    )} */}
                   </div>
                 ))}{" "}
             {bottomLoad && (
-              <div className="borderClass">
+              <div className={styles.borderClass}>
                 <React.Fragment>
                   <Skeleton classes="title width-40" />
                   <Skeleton classes="text width-70" />
@@ -1388,7 +1552,7 @@ M125.025,99.15H25.02V85.51l22.73-22.724l11.363,11.36l36.365-36.361l29.547,29.547
             {/* posts mapping */}
           </div>
         </div>
-        <div id="spacing" />
+        <div className={styles.spacing} />
       </div>
     </section>
   );

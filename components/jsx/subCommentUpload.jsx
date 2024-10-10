@@ -56,7 +56,7 @@ const subCommentUpload = ({
     try {
       setCommentUploadLoad(true);
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_SOURCE_URL}/uploadComment`,
+        `/api/uploadComment`,
         formData,
         {
           headers: {
@@ -77,6 +77,10 @@ const subCommentUpload = ({
       fetchLikes();
     } catch (error) {
       console.log(error);
+      if (error.response && error.response.status === 429) {
+        alert(t("Too many requests. Please try again later."));
+        return;
+      }
       setCommentUploadLoad(false);
     }
   };

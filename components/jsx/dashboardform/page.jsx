@@ -1,14 +1,14 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Nav from "../../../app/(components)/Nav";
 import DashScroll from "../dashScroll.jsx";
-import { useState } from "react";
 import axios from "axios";
 import "../../../app/i18n";
 import Shepherd from "shepherd.js";
 import { useTranslation } from "react-i18next";
-import "../../../app/src/dashboard.css";
+import styles from "../../../app/src/dashboard.module.css";
+import "../../../app/src/dashboard.color.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
@@ -17,24 +17,13 @@ export default function Dashboardform({ username, email }) {
   const [likes, setLikes] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   const [likesSec, setLikesSec] = useState([]);
-  const [navVisible, setNavVisible] = useState(false);
+  const [navVisible, setNavVisible] = useState(true);
   const [color, setColor] = useState("blue");
-
-  // Custom Color hasn't finished
-
-  // const changeCustomColor = (event) => {
-  //   const value = event.target.customColor.value;
-  //   setColor(value);
-  //   document.documentElement.style.setProperty("--main-color", value);
-  //   localStorage.setItem("dashColor", value);
-  //   setShowColorPicker(false);
-  // }
 
   // i18n setting
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const language = i18n.language.substring(0, 2); // get language from i18n
-  // Pull info(language) from localStorage
 
   const tourInit = () => {
     if (!localStorage.getItem("tour")) {
@@ -56,7 +45,7 @@ export default function Dashboardform({ username, email }) {
       {
         id: "step1",
         text: t("Click here to open the navigator menu"),
-        attachTo: { element: ".menuBtn", on: "bottom" },
+        attachTo: { element: `.${styles.menuBtn}`, on: "bottom" },
         buttons: [
           {
             text: t("Back"),
@@ -86,7 +75,7 @@ export default function Dashboardform({ username, email }) {
       {
         id: "step2",
         text: t("Go back to the intro page"),
-        attachTo: { element: ".toIntro", on: "bottom" },
+        attachTo: { element: `.${styles.toIntro}`, on: "bottom" },
         buttons: [
           {
             text: t("Back"),
@@ -116,7 +105,7 @@ export default function Dashboardform({ username, email }) {
       {
         id: "step3",
         text: t("Click here to go to the search page"),
-        attachTo: { element: ".toSearch", on: "bottom" },
+        attachTo: { element: `.${styles.toSearch}`, on: "bottom" },
         buttons: [
           {
             text: t("Back"),
@@ -146,7 +135,7 @@ export default function Dashboardform({ username, email }) {
       {
         id: "step4",
         text: t("Click here to change the color theme"),
-        attachTo: { element: ".color-selector", on: "bottom" },
+        attachTo: { element: `.${styles.colorSelector}`, on: "bottom" },
         buttons: [
           {
             text: t("Back"),
@@ -176,7 +165,7 @@ export default function Dashboardform({ username, email }) {
       {
         id: "step5",
         text: t("Click here to change the language"),
-        attachTo: { element: ".language-selector", on: "bottom" },
+        attachTo: { element: `.${styles.languageSelector}`, on: "bottom" },
         buttons: [
           {
             text: t("Back"),
@@ -308,14 +297,14 @@ export default function Dashboardform({ username, email }) {
   }; //handle navigator menu
 
   return (
-    <main className="dash">
+    <main className={styles.dash}>
       <title>
         {username ? `${username}${t("'s Dashboard")}` : t("Dashboard")}
       </title>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <div className="dash">
-        <button className="menuBtn" onClick={handleNav}>
+      <div className={styles.dashTop}>
+        <button className={styles.menuBtn} onClick={handleNav}>
           <svg
             fill="none"
             width="100%"
@@ -330,10 +319,10 @@ export default function Dashboardform({ username, email }) {
             />
           </svg>
         </button>
-        <Link href="/" className="toIntro">
+        <Link href="/" className={styles.toIntro}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="ionicon"
+            className={styles.ionicon}
             width={50}
             height={50}
             viewBox="0 0 512 512"
@@ -355,15 +344,15 @@ export default function Dashboardform({ username, email }) {
               strokeWidth="32"
             />
           </svg>
-          <span className="intro">{t("Oasis")}</span>
+          <span className={styles.intro}>{t("Oasis")}</span>
         </Link>
-        <Link href="/search" target="_blank" className="toSearch">
+        <Link href="/search" target="_blank" className={styles.toSearch}>
           <FontAwesomeIcon icon={faSearch} />
         </Link>
-        <h1 className="dashh1">
+        <h1 className={styles.dashh1}>
           {username ? `${username}${t("'s Dashboard")}` : t("Dashboard")}
         </h1>
-        <div className="language-selector">
+        <div className={styles.languageSelector}>
           <select
             id="lang"
             name="lang"
@@ -377,10 +366,10 @@ export default function Dashboardform({ username, email }) {
             <option value="ja">日本語</option>
           </select>
         </div>
-        <button className="tour" onClick={handleTour}>
+        <button className={styles.tour} onClick={handleTour}>
           {t("Guided Tour")}
         </button>
-        <div className="color-selector">
+        <div className={styles.colorSelector}>
           <select id="color" name="color" onChange={changeColor} value={color}>
             <option value="pink">{t("Pink")}</option>
             <option value="blue">{t("Blue")}</option>
@@ -390,27 +379,27 @@ export default function Dashboardform({ username, email }) {
           </select>
           {/* Custom Color hasn't finished */}
           {/* {showColorPicker && (
-            <form onSubmit={changeCustomColor}>
-              <input type="color" name="customColor" id="customColor" value={color} />
-              <button type="submit">{t('Choose')}</button>
-            </form>
-      )} */}
+    <form onSubmit={changeCustomColor}>
+      <input type="color" name="customColor" id="customColor" value={color} />
+      <button type="submit">{t('Choose')}</button>
+    </form>
+  )} */}
         </div>
       </div>
       {navVisible && (
-        <div className="nav">
+        <div className={styles.nav}>
           <Nav username={username} />
         </div>
       )}
-      <section className="secd">
+      <section className={styles.secd}>
         <br />
         {/* <div className="comments">
-          <h2 className="dashh2">{t("My Comments")}</h2>
-          <br />
-          <div className="dashcomment">
-            <p className="dashp">{t("You have no comments yet")}</p>
-          </div>
-        </div> */}
+    <h2 className="dashh2">{t("My Comments")}</h2>
+    <br />
+    <div className="dashcomment">
+      <p className="dashp">{t("You have no comments yet")}</p>
+    </div>
+  </div> */}
         <DashScroll
           posts={posts}
           likes={likes}
@@ -426,12 +415,12 @@ export default function Dashboardform({ username, email }) {
         <DashScroll posts={""} likes={""} ind={navVisible} info={"comment"} />
         <DashScroll posts={""} likes={""} ind={navVisible} info={"like"} />
         {/* <div className="like">
-          <h2 className="dashh2">{t("Liked Comments")}</h2>
-          <br />
-          <div className="dashlike">
-            <p className="dashp">{t("You have no liked comments yet")}</p>
-          </div>
-        </div> */}
+    <h2 className="dashh2">{t("Liked Comments")}</h2>
+    <br />
+    <div className="dashlike">
+      <p className="dashp">{t("You have no liked comments yet")}</p>
+    </div>
+  </div> */}
       </section>
     </main>
   );
