@@ -5,7 +5,7 @@ import DBconnect from '../../../libs/mongodb'
 import path from 'path'
 import crypto from 'crypto'
 
-export async function POST (req) {
+export async function POST (req, res) {
   await DBconnect()
   const formData = await req.formData()
 

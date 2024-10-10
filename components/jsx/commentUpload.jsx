@@ -60,7 +60,7 @@ const commentUpload = ({
     try {
       setCommentUploadLoad(true);
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_SOURCE_URL}/uploadComment`,
+        `/api/uploadComment`,
         formData,
         {
           headers: {

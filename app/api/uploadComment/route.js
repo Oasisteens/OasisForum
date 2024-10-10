@@ -3,7 +3,7 @@ import { writeFile } from 'fs/promises'
 import DBconnect from '../../../libs/mongodb'
 import path from 'path'
 import { compressImages } from '../../../components/js/imageCompressor'
-import Post from '../../../models/post'
+import Comment from '../../../models/comment'
 import Like from '../../../models/like'
 import crypto from 'crypto'
 import { RateLimiterMemory } from 'rate-limiter-flexible'
@@ -28,12 +28,12 @@ export async function POST (req, res) {
   await DBconnect()
   const formData = await req.formData()
 
-  const fields = ['title', 'content', 'postAnonymous', 'group', 'username', 'files']
+  const fields = ['postId', 'content', 'anonymous', 'group', 'username', 'files']
   const filenames = []
   const data = Object.fromEntries(
     fields.map((field) => [field, formData.get(field) || '']) // 提供默认值
   )
-  const { title, content, postAnonymous, group, username } = data
+  const { postId, content, anonymous, group, username } = data
   const files = formData.getAll('files')
 
   const uploadDir = path.join(process.cwd(), 'public', 'oriUploads')
@@ -43,7 +43,7 @@ export async function POST (req, res) {
     await Promise.all(files.map(async (file) => { // 使用 file 参数
       const fileBuffer = await file.arrayBuffer() // 直接使用 file
       const indBufferData = Buffer.from(fileBuffer)
-      const filename = `${title}-${crypto.randomBytes(16).toString('hex').slice(0, 16)}${path.extname(file.name)}`
+      const filename = `${postId}-${crypto.randomBytes(16).toString('hex').slice(0, 16)}${path.extname(file.name)}`
       const filePath = path.join(uploadDir, filename) // 使用 file
       filenames.push(filename)
       try {
@@ -59,19 +59,19 @@ export async function POST (req, res) {
 
   const fileNumbers = files ? files.length : 0
   const inputFiles = []
-  const post = new Post({
-    title,
+  const comment = new Comment({
+    postId,
     content,
     group,
     username,
-    postAnonymous: postAnonymous === 'true',
+    anonymous: anonymous === 'true',
     pictures: fileNumbers,
     pictureUrl: []
   })
 
   if (files && files.length >= 1) {
     files.forEach(function (file, i) {
-      post.pictureUrl.push({
+      comment.pictureUrl.push({
         filename: filenames[i],
         originalname: file.name,
         size: file.size
@@ -81,16 +81,16 @@ export async function POST (req, res) {
   }
   compressImages(inputFiles, compressPath)
 
-  await post.save().then(() => {
+  await comment.save().then(() => {
     Like.create({
-      postId: post._id,
+      postId: comment._id,
       username,
       forum: group,
-      category: 'post',
+      category: 'comment',
       number: 0,
-      postingtime: post.postingtime
+      postingtime: comment.postingtime
     })
   })
 
-  return NextResponse.json({ message: 'Post saved' }, { status: 201 })
+  return NextResponse.json({ message: 'Comment saved' }, { status: 201 })
 }
