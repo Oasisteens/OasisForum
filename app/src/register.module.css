@@ -64,7 +64,7 @@ h2.regU {
   pointer-events: none;
   transition: 0.5s;
 }
-input:focus ~ label,
+input.inputFocus:focus ~ label,
 input.float ~ label {
   top: -5px;
 }
