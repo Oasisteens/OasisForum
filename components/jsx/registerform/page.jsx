@@ -124,7 +124,7 @@ const Registerform = () => {
                     }
                   }}
                   disabled={load}
-                  className={`${usernameFloat ? "float" : ""}`}
+                  className={`${usernameFloat ? styles.float : ""} ${styles.inputFocus}`}
                 />
                 <label htmlFor="username">{t("Username")}:</label>
               </div>
@@ -152,7 +152,7 @@ const Registerform = () => {
                   maxLength={20}
                   minLength={6}
                   disabled={load}
-                  className={`${passwordFloat ? "float" : ""}`}
+                  className={`${passwordFloat ? styles.float : ""} ${styles.inputFocus}`}
                 />
                 <label htmlFor="password">{t("Password")}:</label>
               </div>
@@ -176,7 +176,7 @@ const Registerform = () => {
                     }
                   }}
                   required
-                  className={`${emailFloat ? "float" : ""}`}
+                  className={`${emailFloat ? styles.float : ""} ${styles.inputFocus}`}
                   disabled={load}
                 />
                 <label htmlFor="email">{t("Email")}:</label>
